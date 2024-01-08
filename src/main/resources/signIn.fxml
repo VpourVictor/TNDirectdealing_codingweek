@@ -6,6 +6,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -45,11 +47,9 @@
                      </font>
                   </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <VBox prefHeight="100.0" prefWidth="200.0">
+                  <VBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="128.0" />
                         <TextArea fx:id="mailTextArea" prefHeight="38.0" prefWidth="183.0" promptText="Entrez votre adresse mail" />
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                   <Pane prefHeight="100.0" prefWidth="122.0" HBox.hgrow="ALWAYS" />
@@ -64,13 +64,20 @@
                      </font>
                   </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                  <VBox prefHeight="100.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="128.0" />
-                        <PasswordField fx:id="passwordPasswordField" promptText="Entrez votre mot de passe ici" />
-                        <CheckBox fx:id="pass_toggle" mnemonicParsing="false" onAction="#toggleVisiblePassword" text="Voir mon mot de passe" />
+                        <PasswordField fx:id="passwordHidden" layoutX="2.0" layoutY="28.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" />
+                        <TextField fx:id="passwordText" cache="true" layoutX="3.0" layoutY="28.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" />
+                        <CheckBox fx:id="passToggle" layoutX="24.0" layoutY="59.0" mnemonicParsing="false" onAction="#toggleVisiblePassword" text="Voir mon mot de passe">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
+                        </CheckBox>
                      </children>
-                  </VBox>
+                  </AnchorPane>
                   <Pane prefHeight="100.0" prefWidth="122.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
