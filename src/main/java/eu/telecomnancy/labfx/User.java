@@ -21,6 +21,16 @@ public class User extends Person {
     // TODO ArrayList<Post> postedPosts
     // TODO ArrayList<Post> appliedToPosts
 
+    public int getNumberOfEvaluations(){
+        return this.evaluationList.size();
+    }
+    private float getEvaluation(){
+        float finalNote = 0;
+        for(Float note: this.evaluationList) {
+            finalNote = finalNote + note;
+        }
+        return finalNote/getNumberOfEvaluations();
+    }
 
 
 }
