@@ -23,7 +23,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("JavaFx Demo");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Hexa.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         MainController mainController = loader.getController();
@@ -36,13 +36,17 @@ public class Main extends Application {
         primaryStage.setHeight(height); // 864  + 36 = 900
         System.out.println(width);
         System.out.println(height);
-        int offX = -1632;
-        int offY = -918;
+
+
+        mainController.setRoot(root);
+        double[] coord = mainController.getLayout();
+        int offX =(int) -coord[0];
+        int offY =(int) -coord[1];
         root.translateXProperty().set(offX);
         root.translateYProperty().set(offY);
-        mainController.setRoot(root);
         mainController.setOffX(offX);
         mainController.setOffY(offY);
+        primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

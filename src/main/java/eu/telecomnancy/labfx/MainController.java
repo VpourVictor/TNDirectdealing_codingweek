@@ -8,6 +8,8 @@ import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -22,6 +24,9 @@ public class MainController implements Initializable {
     private int offY;
 
     private boolean moving;
+
+    @FXML
+    Pane centerHexagon;
 
 
 
@@ -118,4 +123,15 @@ public class MainController implements Initializable {
             }
 
     }
+
+    public double[] getLayout() {
+        double x = centerHexagon.getLayoutX();
+        double y = centerHexagon.getLayoutY();
+        double[] tab = new double[2];
+        tab[0] = x;
+        tab[1] = y;
+        return tab;
+    }
+
+
 }
