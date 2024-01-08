@@ -119,12 +119,16 @@ public class SceneController {
         stage.show();
     }
 
-    public void goToEditPost(ActionEvent event, Post post) {
+    public void goToEditPost(ActionEvent event, Post post, boolean isModif) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
         try {
+            // todo vérifier le petit bug
+            System.out.println("isModif = " + isModif);
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.initData(post);
+            controller.setModify(isModif);
+            System.out.println("controller.isModify() = " + controller.isModify());
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);

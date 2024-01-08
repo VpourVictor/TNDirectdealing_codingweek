@@ -19,14 +19,17 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
+
+@Getter
+@Setter
 public class PostEditController {
     private Post post;
-    @Getter
-    @Setter
     private boolean part2 = false;
+    private boolean modify;
     @FXML
     public ToggleGroup type_post;
 
+    public Label name_page;
 
     public TextField title;
 
@@ -91,6 +94,14 @@ public class PostEditController {
             firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         }
+
+        if (name_page != null) {
+            System.out.println(modify);
+            if(!isModify())
+                name_page.setText("Création d'un nouveau post");
+            else
+                name_page.setText("Modification d'un post");
+        }
     }
 
     public void initData(Post post) {
@@ -133,7 +144,7 @@ public class PostEditController {
         else if (image.getImage() == null) {
             new Alert(Alert.AlertType.ERROR, "L'image ne peut pas être vide").showAndWait();
         }
-        else if (dateStart.getValue().isAfter(dateEnd.getValue())){
+        else if (dateStart.getValue() != null && dateEnd.getValue() != null && dateStart.getValue().isAfter(dateEnd.getValue())){
             new Alert(Alert.AlertType.ERROR, "La date de début ne peut pas être après la date de fin").showAndWait();
         }
         else if (streetNumber.getText().isEmpty()){
@@ -161,11 +172,6 @@ public class PostEditController {
             new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
         }
         else {
-            if (dateStart.getValue() == null)
-                start = LocalDate.now();
-            else
-                start = dateStart.getValue();
-
             // todo créer le user en fonction de la personne connectée
             User user = new User("test", "test");
             user.getPostedPosts().add(post);
@@ -177,13 +183,30 @@ public class PostEditController {
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(),
                     Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
 
-            // todo comparer date pour affecter en cours ou terminé
+            if (dateStart.getValue() == null)
+                start = LocalDate.now();
+            else
+                start = dateStart.getValue();
+
+            State state = null;
+            if (dateEnd.getValue() != null) {
+                end = dateEnd.getValue();
+                if (start.isAfter(LocalDate.now()))
+                    state = State.FUTUR;
+
+                if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
+                    state = State.EN_COURS;
+
+                if (end.isBefore(LocalDate.now()))
+                    state = State.TERMINE;
+            }
+
             if (selected.getText().equals("Service")){
-                post = new Service(description.getText(), title.getText(), user, start, end, address, image.getImage(), null, null);
+                post = new Service(description.getText(), title.getText(), user, start, end, address, image.getImage(), state, null);
                 sceneController.goToEditService(event, post);
             }
             else {
-                post = new Tool(description.getText(), title.getText(), user, start, end, address, image.getImage(), null, null);
+                post = new Tool(description.getText(), title.getText(), user, start, end, address, image.getImage(), state, null);
                 sceneController.goToEditTool(event, post);
             }
         }
@@ -227,6 +250,6 @@ public class PostEditController {
 
     public void back(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post);
+        sceneController.goToEditPost(event, post, false);
     }
 }
