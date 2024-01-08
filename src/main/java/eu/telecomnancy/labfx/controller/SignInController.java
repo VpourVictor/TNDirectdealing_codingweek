@@ -1,4 +1,5 @@
 package eu.telecomnancy.labfx.controller;
 
-public class AuthController {
+public class SignInController {
+
 }
