@@ -82,18 +82,18 @@ public class SignUpController implements Initializable {
     void createAccount(ActionEvent event) throws IOException {
 
         //TODO verif que tous les champs sont remplis
-        User user = new User();
+        User user = new User(firstnameTextField.getText(), nameTextField.getText());
 
-        Address address = new Address();
-        address.setStreetNumber(Integer.parseInt(streetNumberTF.getText()));
-        address.setStreetName(streetNameTF.getText());
-        address.setCity(cityTF.getText());
-        address.setCountry(countryTF.getText());
-        address.setPostalCode(Integer.parseInt(postalCodeTF.getText()));
+        Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
+                streetNameTF.getText(),
+                Integer.parseInt(postalCodeTF.getText()),
+                cityTF.getText(),
+                null, //TODO add region
+                countryTF.getText());
+
+
         user.setAddress(address);
 
-        user.setName(nameTextField.getText());
-        user.setFirstName(firstnameTextField.getText());
         user.setPseudo(pseudoTextField.getText());
 
         //TODO sauvegarder l'image
