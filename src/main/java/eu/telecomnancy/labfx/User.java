@@ -15,11 +15,12 @@ public class User extends Person {
     private String pseudo;
     private String password;
     private Address address;
-    private ArrayList<Float> evaluation;
+    private ArrayList<Float> evaluationList;
     private int coins;
     private Image profilePicture;
     // TODO ArrayList<Post> postedPosts
     // TODO ArrayList<Post> appliedToPosts
+
 
 
 }
