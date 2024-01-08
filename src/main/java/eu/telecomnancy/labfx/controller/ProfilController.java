@@ -46,7 +46,7 @@ public class ProfilController {
     @FXML
     private TextField cheminPhoto;
     @FXML
-    private Circle photoProfil;
+    private Circle photoprofil;
     @FXML
     private QuadCurve fig2;
     @FXML
@@ -85,10 +85,9 @@ public class ProfilController {
             if (!cheminPhoto.getText().isEmpty()){
                 try {
                     Image image = new Image(cheminPhoto.getText());
-                    photoProfil.setFill(new ImagePattern(image));
+                    photoprofil.setFill(new ImagePattern(image));
                     fig1.setVisible(false);
                     fig2.setVisible(false);
-                    cheminPhoto.textProperty().set("");
                 }
                 catch (Exception e){e.printStackTrace();}
 
