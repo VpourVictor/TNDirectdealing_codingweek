@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="eu.telecomnancy.labfx.controller.posts.PostEditController"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Label layoutX="286.0" layoutY="40.0" text="MATERIEL" />
+        <Label layoutX="40.0" layoutY="95.0" text="Etat" />
+        <TextArea fx:id="stateTool" layoutX="118.0" layoutY="92.0" prefHeight="94.0" prefWidth="449.0" />
+        <Button layoutX="503.0" layoutY="345.0" mnemonicParsing="false" onAction="#validateToolPost" text="Valider (2)" />
+        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" text="Retour" />
+    </children>
+</AnchorPane>
