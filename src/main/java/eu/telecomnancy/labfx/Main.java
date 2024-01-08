@@ -21,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/posts/create.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/homepage.fxml")));
             Scene scene = new Scene(root,1280,800);
             primaryStage.setScene(scene);
             primaryStage.show();

@@ -18,7 +18,7 @@ public class SceneController {
     private Parent root;
 
     public void goToAccueil(ActionEvent event)  {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/homepage.fxml"));
         load(event, loader);
     }
 
