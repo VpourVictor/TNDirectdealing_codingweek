@@ -11,6 +11,7 @@ import java.util.ArrayList;
 @Setter
 public class User extends Person {
 
+    @Setter
     private boolean isConnected;
     private String email;
     private String pseudo;
@@ -21,6 +22,7 @@ public class User extends Person {
     private Image profilePicture;
     // TODO ArrayList<Post> postedPosts
     // TODO ArrayList<Post> appliedToPosts
+
 
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();

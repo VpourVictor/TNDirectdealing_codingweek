@@ -1,30 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.SignInController">
    <top>
-      <Label text="This is SignInPage" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="40.0" />
-         </font>
-         <opaqueInsets>
-            <Insets top="40.0" />
-         </opaqueInsets>
-      </Label>
+      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Bienvenue ! ">
+               <font>
+                  <Font size="40.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets top="40.0" />
+               </opaqueInsets>
+            </Label>
+            <Label text="Bon retour parmi nous !">
+               <font>
+                  <Font size="29.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
    </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="BOTTOM_CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0" />
-            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Label prefHeight="37.0" prefWidth="103.0" text="Mail :">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <VBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="200.0" prefWidth="128.0" />
+                        <TextArea fx:id="mailTextArea" prefHeight="38.0" prefWidth="183.0" promptText="Entrez votre adresse mail" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <Pane prefHeight="100.0" prefWidth="122.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <Label prefHeight="37.0" prefWidth="103.0" text="Mot de passe :">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                  <VBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Pane prefHeight="200.0" prefWidth="128.0" />
+                        <PasswordField fx:id="passwordPasswordField" promptText="Entrez votre mot de passe ici" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <Pane prefHeight="100.0" prefWidth="122.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Button fx:id="validateSignInButton" mnemonicParsing="false" onAction="#connexion" text="Valider">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
    </center>
