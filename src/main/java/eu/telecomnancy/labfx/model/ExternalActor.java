@@ -1,4 +1,4 @@
-package eu.telecomnancy.labfx;
+package eu.telecomnancy.labfx.model;
 
 
 import lombok.Getter;

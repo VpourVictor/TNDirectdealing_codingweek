@@ -1,22 +1,37 @@
 package eu.telecomnancy.labfx.model;
 
+
+import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
-public class User {
-    private String username;
-    private String password;
-    private String email;
-    private String firstname;
-    private String lastname;
+public class User extends Person {
 
-    public User(String username, String password, String email, String firstname, String lastname) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.firstname = firstname;
-        this.lastname = lastname;
+    private boolean isConnected;
+    private String email;
+    private String pseudo;
+    private String password;
+    private Address address;
+    private ArrayList<Float> evaluationList;
+    private int coins;
+    private Image profilePicture;
+    // TODO ArrayList<Post> postedPosts
+    // TODO ArrayList<Post> appliedToPosts
+
+    public int getNumberOfEvaluations(){
+        return this.evaluationList.size();
     }
+    private float getEvaluation(){
+        float finalNote = 0;
+        for(Float note: this.evaluationList) {
+            finalNote = finalNote + note;
+        }
+        return finalNote/getNumberOfEvaluations();
+    }
+
+
 }
