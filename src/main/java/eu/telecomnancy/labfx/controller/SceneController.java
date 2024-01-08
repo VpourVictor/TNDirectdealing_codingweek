@@ -3,6 +3,7 @@ package eu.telecomnancy.labfx.controller;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
 import eu.telecomnancy.labfx.model.Post;
+import eu.telecomnancy.labfx.model.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +27,23 @@ public class SceneController {
         load(event, loader);
     }
 
-    public void goToOverviewPost(ActionEvent event, Post post) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/overview.fxml"));
+    public void goToOverviewToolPost(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/overview_tool_post.fxml"));
+        try {
+            root = loader.load();
+            PostOverviewController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToOverviewServicePost(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/overview_service_post.fxml"));
         try {
             root = loader.load();
             PostOverviewController controller = loader.getController();
@@ -58,6 +74,7 @@ public class SceneController {
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
+            controller.setPart2(true);
             controller.initData(post);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -73,6 +90,7 @@ public class SceneController {
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
+            controller.setPart2(true);
             controller.initData(post);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -99,5 +117,20 @@ public class SceneController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void goToEditPost(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
+        try {
+            root = loader.load();
+            PostEditController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

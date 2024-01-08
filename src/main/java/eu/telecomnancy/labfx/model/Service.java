@@ -11,9 +11,17 @@ import java.util.List;
 @Setter
 public class Service extends Post{
     private String descriptionService;
-    // todo ajouter une liste de personnes qui vont exécuter le service
-    public Service(String description, String title, User author, LocalDate start, LocalDate end, String adress, Image image, State state, String descriptionService){
+
+    private List<Person> providers;
+
+    public Service(String description, String title, User author, LocalDate start, LocalDate end, Address adress, Image image, State state, String descriptionService){
         super(description, title, author, start, end, adress, image, state);
         this.descriptionService = descriptionService;
+    }
+
+    public Service(Post post, String descriptionService, List<Person> providers){
+        super(post.getDescription(), post.getTitle(), post.getAuthor(), post.getDateCouple().getDateStart(), post.getDateCouple().getDateEnd(), post.getAdress(), post.getImage(), post.getState());
+        this.descriptionService = descriptionService;
+        this.providers = providers;
     }
 }

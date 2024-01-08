@@ -19,8 +19,21 @@ public class User extends Person {
     private ArrayList<Float> evaluationList;
     private int coins;
     private Image profilePicture;
-    // TODO ArrayList<Post> postedPosts
-    // TODO ArrayList<Post> appliedToPosts
+    private ArrayList<Post> postedPosts;
+    private ArrayList<Post> appliedToPosts;
+
+    public User(String prenom, String nom) {
+        super(prenom, nom);
+    }
+
+    public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
+        super(prenom, nom);
+        this.email = email;
+        this.pseudo = pseudo;
+        this.password = password;
+        this.address = address;
+        this.profilePicture = profilePicture;
+    }
 
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();

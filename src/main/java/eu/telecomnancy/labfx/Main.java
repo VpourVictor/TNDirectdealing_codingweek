@@ -1,6 +1,8 @@
 package eu.telecomnancy.labfx;
 
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,8 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         try {
-
-            Parent root = FXMLLoader.load(getClass().getResource("/homepage.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/posts/create.fxml")));
             Scene scene = new Scene(root,1280,800);
             primaryStage.setScene(scene);
             primaryStage.show();

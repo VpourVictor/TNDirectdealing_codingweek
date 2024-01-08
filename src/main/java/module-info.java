@@ -10,4 +10,6 @@ module eu.telecomnancy.labfx {
     exports eu.telecomnancy.labfx.controller;
     opens eu.telecomnancy.labfx.model to javafx.fxml;
     exports eu.telecomnancy.labfx.model;
+    opens eu.telecomnancy.labfx.controller.posts to javafx.fxml;
+    exports eu.telecomnancy.labfx.controller.posts;
 }

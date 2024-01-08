@@ -19,12 +19,11 @@ public abstract class Post {
 
     private List<DateCouple> occupiedDates;
 
-    // todo changer par Adress au lieu de String
-    private String adress;
+    private Address adress;
     private Image image;
     private State state;
 
-    public Post(String description, String title, User author, LocalDate start, LocalDate end, String adress, Image image, State state) {
+    public Post(String description, String title, User author, LocalDate start, LocalDate end, Address adress, Image image, State state) {
         id++;
         this.description = description;
         this.title = title;
