@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
@@ -67,7 +68,7 @@
                      <children>
                         <Pane prefHeight="200.0" prefWidth="128.0" />
                         <PasswordField fx:id="passwordPasswordField" promptText="Entrez votre mot de passe ici" />
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <CheckBox fx:id="pass_toggle" mnemonicParsing="false" onAction="#toggleVisiblePassword" text="Voir mon mot de passe" />
                      </children>
                   </VBox>
                   <Pane prefHeight="100.0" prefWidth="122.0" HBox.hgrow="ALWAYS" />
