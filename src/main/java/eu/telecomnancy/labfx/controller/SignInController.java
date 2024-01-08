@@ -35,7 +35,7 @@ public class SignInController implements Initializable{
         String password = passwordValue();
         // TODO vérifier si le mail et le mdp sont bon
         // TODO si c'est bon changement de scene vers le menu
-        // TODO sinon retour à l'acceuil
+        // TODO sinon gérer l'erreur
         SceneController sceneController = new SceneController();
         sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
         // TODO user.setConnected(true);

@@ -11,7 +11,7 @@
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="34.0" prefWidth="102.0" text="Je m'inscrits" />
+            <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="34.0" prefWidth="102.0" text="Je m'inscris" />
             <Button fx:id="signInButton" mnemonicParsing="false" onAction="#signIn" prefHeight="34.0" prefWidth="102.0" text="Je me connecte" />
          </children>
       </HBox>
