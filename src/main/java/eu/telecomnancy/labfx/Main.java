@@ -1,16 +1,17 @@
 package eu.telecomnancy.labfx;
 
 import java.io.IOException;
+
+import eu.telecomnancy.labfx.controller.MainController;
+import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.application.Platform;
+import javafx.util.Duration;
 
 public class Main extends Application {
 
@@ -23,17 +24,27 @@ public class Main extends Application {
 
         primaryStage.setTitle("JavaFx Demo");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Hexa.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
+
         Parent root = loader.load();
         Scene scene = new Scene(root);
         MainController mainController = loader.getController();
+        ScaleTransition s = new ScaleTransition();
+        s.setNode(mainController.getPaneCenter());
+        s.setFromX(1.0);
+        s.setFromY(1.0);
+        s.setToX(1.1);
+        s.setToY(1.1);
+        s.setDuration(Duration.millis(1000));
+        s.play();
+        mainController.getHexagonCenter().setStroke(Color.web("#F08A26"));
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true); // Prevent the window from being maximized
+        primaryStage.setMaximized(true);
         Screen screen = Screen.getPrimary();
         int width = (int) screen.getBounds().getWidth();
         int height = (int) screen.getBounds().getHeight();
-        primaryStage.setWidth(width); // 1536   + 64 = 1600
-        primaryStage.setHeight(height); // 864  + 36 = 900
+        primaryStage.setWidth(width);
+        primaryStage.setHeight(height);
         System.out.println(width);
         System.out.println(height);
 
