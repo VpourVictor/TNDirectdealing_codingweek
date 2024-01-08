@@ -1,5 +1,8 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.posts.PostEditController;
+import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
+import eu.telecomnancy.labfx.model.Post;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,12 +16,70 @@ public class SceneController {
     private Scene scene;
     private Parent root;
 
-    public void goToAccueil(ActionEvent event) throws IOException {
+    public void goToAccueil(ActionEvent event)  {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("accueil.fxml"));
-        root = loader.load();
-        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        load(event, loader);
+    }
+
+    public void goToAllPosts(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
+        load(event, loader);
+    }
+
+    public void goToOverviewPost(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/overview.fxml"));
+        try {
+            root = loader.load();
+            PostOverviewController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void load(ActionEvent event, FXMLLoader loader) {
+        try {
+            root = loader.load();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToEditService(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/edit_service.fxml"));
+        try {
+            root = loader.load();
+            PostEditController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToEditTool(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/edit_tool.fxml"));
+        try {
+            root = loader.load();
+            PostEditController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
