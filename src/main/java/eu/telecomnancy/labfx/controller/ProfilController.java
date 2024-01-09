@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,11 +12,13 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.QuadCurve;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
-
+@Setter
 public class ProfilController {
+    private User user;
     final FileChooser fc = new FileChooser();
     @FXML
     private Text pseudoText;
@@ -52,11 +55,15 @@ public class ProfilController {
     @FXML
     private Circle fig1;
 
+    public ProfilController(){
+    }
+
     public void switchToRecompense(){};
 
     public void goToAccueil(){};
 
     public void switchThemeMode(){};
+    //TODO theme mode pour toute les pages?
 
     public void switchEditMode(){
         String current = boutonEdit.textProperty().get();
@@ -104,7 +111,6 @@ public class ProfilController {
             nomEdit.setVisible(false);
             prenomEdit.setVisible(false);
             panePhoto.setVisible(false);
-
         }
     };
 
