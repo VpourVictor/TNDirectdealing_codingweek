@@ -7,7 +7,11 @@ import eu.telecomnancy.labfx.controller.MainController;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import eu.telecomnancy.labfx.controller.MessagerieController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
+import eu.telecomnancy.labfx.model.Conversation;
+import eu.telecomnancy.labfx.model.Message;
+import eu.telecomnancy.labfx.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,6 +31,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+/*        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
+        Parent root2 = loader2.load();
+        Scene scene2 = new Scene(root2);
+        MessagerieController messagerieController = loader2.getController();
+        messagerieController.setAndLoad(user);
+        User user = new User("test", "test","test@gmail.com");
+        User user2 = new User("test2", "test2","test@gmail.com");
+        Message message = new Message(user,user2,"Salut");
+        Conversation conversation = new Conversation(user,user2);
+        conversation.addMessage(message);
+        user.getConvs().add(conversation);*/
 
         primaryStage.setTitle("JavaFx Demo");
 
