@@ -41,16 +41,12 @@ public class ProfileController {
     private TextField prenomEdit;
     @FXML
     private Button boutonEdit;
-    @FXML
-    private Button boutonAccueil;
-    @FXML
-    private Button boutonRec;
+
     @FXML
     private Pane panePhoto;
     @FXML
     private Button boutonParcours;
-    @FXML
-    private TextField cheminPhoto;
+
     @FXML
     private Circle photoprofil;
     @FXML
@@ -68,8 +64,6 @@ public class ProfileController {
         String current = boutonEdit.textProperty().get();
         if (current.intern() == "Editer"){
             boutonEdit.textProperty().set("Sauvegarder");
-            boutonRec.setVisible(false);
-            boutonAccueil.setVisible(false);
             pseudoText.setVisible(false);
             mdpText.setVisible(false);
             nomText.setVisible(false);
@@ -88,19 +82,7 @@ public class ProfileController {
             nomText.textProperty().set(nomEdit.getText());
             prenomText.textProperty().set(prenomEdit.getText());
 
-            if (!cheminPhoto.getText().isEmpty()){
-                try {
-                    Image image = new Image(cheminPhoto.getText());
-                    photoprofil.setFill(new ImagePattern(image));
-                    fig1.setVisible(false);
-                    fig2.setVisible(false);
-                }
-                catch (Exception e){e.printStackTrace();}
-
-            }
             boutonEdit.textProperty().set("Editer");
-            boutonRec.setVisible(true);
-            boutonAccueil.setVisible(true);
             pseudoText.setVisible(true);
             mdpText.setVisible(true);
             prenomText.setVisible(true);
@@ -114,15 +96,6 @@ public class ProfileController {
         }
     };
 
-    public void uploadPhoto(ActionEvent event) throws IOException {
-        fc.setTitle("My file chooser");
-        fc.setInitialDirectory(new File(System.getProperty("user.home")));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-        File file = fc.showOpenDialog(null);
-        if(file != null){
-            cheminPhoto.setText(file.toURI().toString());
-        }
-    }
 
     public void updateBorder(){
         hexagon.setStroke(Color.web("#F08A26"));
