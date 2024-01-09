@@ -8,9 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SceneController {
     private Stage stage;
@@ -22,9 +25,31 @@ public class SceneController {
         load(event, loader);
     }
 
-    public void goToAllPosts(ActionEvent event) {
+    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
-        load(event, loader);
+        try {
+            /*for (Post post : posts) {
+                root = loader.load();
+                PostOverviewController controller = loader.getController();
+                controller.initData(post);
+                stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }*/
+
+            root = loader.load();
+            PostEditController controller = loader.getController();
+            controller.initData(null);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     public void goToOverviewToolPost(ActionEvent event, Post post) {
@@ -69,12 +94,13 @@ public class SceneController {
         }
     }
 
-    public void goToEditService(ActionEvent event, Post post) {
+    public void goToEditService(ActionEvent event, Post post, boolean modify) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/edit_service.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setPart2(true);
+            controller.setModify(modify);
             controller.initData(post);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -85,11 +111,12 @@ public class SceneController {
         }
     }
 
-    public void goToEditTool(ActionEvent event, Post post) {
+    public void goToEditTool(ActionEvent event, Post post, boolean modify) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/edit_tool.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
+            controller.setModify(modify);
             controller.setPart2(true);
             controller.initData(post);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -119,11 +146,12 @@ public class SceneController {
         stage.show();
     }
 
-    public void goToEditPost(ActionEvent event, Post post) {
+    public void goToEditPost(ActionEvent event, Post post, boolean modify) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
+            controller.setModify(modify);
             controller.initData(post);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -145,6 +173,18 @@ public class SceneController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToRowPost(GridPane grid, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/post_row_overview.fxml"));
+        try {
+            root = loader.load();
+            PostOverviewController controller = loader.getController();
+            controller.initData(post);
+            grid.getChildren().add(root);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

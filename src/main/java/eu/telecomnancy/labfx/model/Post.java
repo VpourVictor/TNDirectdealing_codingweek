@@ -15,7 +15,7 @@ public abstract class Post {
     private int idPost;
     private String description;
     private String title;
-    private User author;
+    private String authorEmail;
     private DateCouple dateCouple;
 
     private List<DateCouple> occupiedDates;
@@ -24,10 +24,10 @@ public abstract class Post {
     private Image image;
     private State state;
 
-    public Post(String description, String title, User author, LocalDate start, LocalDate end, Address adress, Image image, State state) {
+    public Post(String description, String title, String authorEmail, LocalDate start, LocalDate end, Address adress, Image image, State state) {
         this.description = description;
         this.title = title;
-        this.author = author;
+        this.authorEmail = authorEmail;
         if (start != null && end != null) {
             this.dateCouple = new DateCouple(start, end);
         } else if (start == null && end != null) {

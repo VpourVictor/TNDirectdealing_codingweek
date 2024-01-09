@@ -2,19 +2,20 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.SceneController;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
-import eu.telecomnancy.labfx.model.Person;
-import eu.telecomnancy.labfx.model.Post;
-import eu.telecomnancy.labfx.model.Service;
-import eu.telecomnancy.labfx.model.Tool;
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
+import eu.telecomnancy.labfx.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 public class PostOverviewController {
     private Post post;
@@ -68,7 +69,14 @@ public class PostOverviewController {
     @FXML
     private Label title;
 
+    private ArrayList<Post> posts;
+
     public void initData(Post post) {
+        System.out.println(Post.getNbPosts());
+        posts = JsonUtil.jsonToPosts();
+        if (posts == null) {
+            posts = new ArrayList<>();
+        }
         this.post = post;
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
@@ -79,8 +87,12 @@ public class PostOverviewController {
             stateTool.setText(post.getStateTool());
         }
         description.setText(post.getDescription());
-        firstName.setText(post.getAuthor().getFirstName());
-        lastName.setText(post.getAuthor().getLastName());
+
+        // todo changer en fonction de la base
+        User author = new User("test", "test");
+
+        firstName.setText(author.getFirstName());
+        lastName.setText(author.getLastName());
         dateStart.setText(DateUtil.format(post.getDateCouple().getDateStart()));
         dateEnd.setText(DateUtil.format(post.getDateCouple().getDateEnd()));
         title.setText(post.getTitle());
@@ -101,16 +113,20 @@ public class PostOverviewController {
 
     public void modify(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post);
-    }
-
-    public void newPost(ActionEvent event) {
-        SceneController sceneController = new SceneController();
-        sceneController.goToCreatePost(event);
+        sceneController.goToEditPost(event, post, true);
     }
 
     public void viewAll(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event);
+        sceneController.goToAllPosts(event, posts);
+    }
+
+    public void delete(ActionEvent event) {
+        posts.remove(post);
+        Post.setNbPosts(Post.getNbPosts() - 1);
+        JsonUtil.postsToJson(posts);
+
+        SceneController sceneController = new SceneController();
+        sceneController.goToAllPosts(event, posts);
     }
 }

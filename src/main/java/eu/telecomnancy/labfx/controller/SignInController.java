@@ -64,7 +64,7 @@ public class SignInController implements Initializable{
         else {
              // TODO user.setConnected(true);
              SceneController sceneController = new SceneController();
-             sceneController.goToEditPost(event, null); //TODO ne pas renvoyer vers l'acceuil
+             sceneController.goToEditPost(event, null, false); //TODO ne pas renvoyer vers l'acceuil
          }
 
     }

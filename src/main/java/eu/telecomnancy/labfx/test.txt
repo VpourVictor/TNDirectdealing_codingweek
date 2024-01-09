@@ -1,13 +1,21 @@
 
 Tests pour listDoubleToJson et jsonToListDouble :
             ArrayList<Double> listOfDoubles = new ArrayList<>();
-            listOfDoubles.add(3.14);
-            listOfDoubles.add(2.5);
-            listOfDoubles.add(1.0);
+                        listOfDoubles.add(3.14);
+                        listOfDoubles.add(2.5);
+                        listOfDoubles.add(1.0);
 
-            JSONObject jsonFromList = JsonUtil.listDoubleToJson(listOfDoubles);
-            System.out.println("JSON from ArrayList<Double>: " + jsonFromList);
+                        JSONObject jsonFromList = JsonUtil.listDoubleToJson(listOfDoubles);
+                        System.out.println("JSON from ArrayList<Double>: " + jsonFromList);
 
 
-            ArrayList<Double> newListFromJson = JsonUtil.jsonToListDouble(jsonFromList);
-            System.out.println("ArrayList<Double> from JSON: " + newListFromJson);
+                        ArrayList<Double> newListFromJson = JsonUtil.jsonToListDouble(jsonFromList);
+                        System.out.println("ArrayList<Double> from JSON: " + newListFromJson);
+                        JsonUtil.writeJsonInJsonFile("src/main/resources/json/test.json",jsonFromList);
+
+                        ArrayList<Double> listOfDoubles2 = new ArrayList<>();
+                        listOfDoubles.add(10.3);
+                        listOfDoubles.add(3.78);
+                        listOfDoubles.add(2.95);
+                        JSONObject jsonFromList2 = JsonUtil.listDoubleToJson(listOfDoubles);
+                        JsonUtil.writeJsonInJsonFile("src/main/resources/json/test.json",jsonFromList2);

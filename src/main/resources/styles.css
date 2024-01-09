@@ -1,0 +1,19 @@
+.profile-layout{
+    -fx-background-color: #556;
+    -fx-background-radius: 0 0 50 50;
+}
+
+.background{
+    -fx-background-color: #D7E2F3;
+}
+
+.button-style{
+    -fx-background-color: #556;
+    -fx-background-radius: 50;
+    -fx-text-fill: #ffffff;
+}
+
+.msg-style{
+    -fx-background-color: #71a4cd;
+    -fx-background-radius: 15;
+}

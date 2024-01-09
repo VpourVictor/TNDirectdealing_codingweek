@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,6 @@ public class PostEditController {
 
     private boolean part2 = false;
     private boolean modify;
-    private boolean serviceToTool;
 
     @FXML
     public ToggleGroup type_post;
@@ -96,6 +96,10 @@ public class PostEditController {
     @FXML
     public Label mode;
 
+    private ArrayList<Post> posts;
+
+    @FXML private GridPane grid;
+
     @FXML
     void initialize() {
         if (countryList != null){
@@ -110,21 +114,9 @@ public class PostEditController {
     }
 
     public void initData(Post post) {
-        // todo récupérer les données du JSON, get la dernière annonce enregistrée
-        ArrayList<Post> posts = JsonUtil.jsonToPost();
-        for (Post postBoucle : posts){
-            if (postBoucle.getIdPost() == post.getIdPost()){
-                if (postBoucle instanceof Service && post instanceof Tool)
-                    serviceToTool = true;
-                else if (postBoucle instanceof Tool && post instanceof Service)
-                    serviceToTool = false;
-
-                System.out.println(serviceToTool);
-            }
-
-            if (postBoucle.getIdPost() == post.getIdPost())
-                modify = true;
-        }
+        posts = JsonUtil.jsonToPosts();
+        if (posts == null)
+            posts = new ArrayList<>();
 
         if (name_page != null) {
             if(!modify)
@@ -253,22 +245,21 @@ public class PostEditController {
 
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), user, start, end, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), user.getEmail(), start, end, address, image.getImage(), state, null);
                 }
                 else {
                     modifierPost(start, end, user, address, state);
                 }
-                sceneController.goToEditService(event, post);
+                sceneController.goToEditService(event, post, modify);
             }
             else {
-                System.out.println("on doit âsser ic");
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), user, start, end, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), user.getEmail(), start, end, address, image.getImage(), state, null);
                 }
                 else {
                     modifierPost(start, end, user, address, state);
                 }
-                sceneController.goToEditTool(event, post);
+                sceneController.goToEditTool(event, post, modify);
             }
         }
     }
@@ -276,7 +267,7 @@ public class PostEditController {
     private void modifierPost(LocalDate start, LocalDate end, User user, Address address, State state) {
         post.setDescription(description.getText());
         post.setTitle(title.getText());
-        post.setAuthor(user);
+        post.setAuthorEmail(user.getEmail());
         post.setDateCouple(new DateCouple(start, end));
         post.setAddress(address);
         post.setImage(image.getImage());
@@ -287,7 +278,6 @@ public class PostEditController {
         // todo récupérer la liste des personnes inscrites dans le JSON
         // si personne dont nom et prénom sont ceux rentrés dans les champs
         // personData.add(new User(firstNamePrest.getText(), lastNamePrest.getText()));
-        // sinon
         personData.add(new ExternalActor(firstNamePrest.getText(), lastNamePrest.getText()));
         listPrest.setItems(personData);
         lastNamePrest.clear();
@@ -307,15 +297,18 @@ public class PostEditController {
                 post = new Service(post, descriptionService.getText(), personData);
             }
             else{
-                if (!serviceToTool){
+                if (post.getClass().equals(Tool.class)){
                     post = new Service(post, descriptionService.getText(), personData);
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
                 }
                 else {
                     post.setDescriptionService(descriptionService.getText());
                     post.setProviders(personData);
                 }
             }
-            JsonUtil.postToJson(post);
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
             sceneController.goToOverviewServicePost(event, post);
         }
     }
@@ -329,23 +322,24 @@ public class PostEditController {
             if (!modify)
                 post = new Tool(post, stateTool.getText());
             else{
-                if (serviceToTool){
-                    System.out.println("on est bien passé de service à tool");
+                if (post.getClass().equals(Service.class)){
                     post = new Tool(post, stateTool.getText());
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
                 }
                 else {
                     post.setStateTool(stateTool.getText());
                 }
             }
-            System.out.println(post.getIdPost());
-            JsonUtil.postToJson(post);
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
             sceneController.goToOverviewToolPost(event, post);
         }
     }
 
     public void back(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post);
+        sceneController.goToEditPost(event, post, modify);
     }
 
     public void back_to_view(ActionEvent event) {
@@ -353,6 +347,12 @@ public class PostEditController {
         if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null))
             sceneController.goToOverviewServicePost(event, post);
         else
-            sceneController.goToAllPosts(event);
+            sceneController.goToAllPosts(event, posts);
+    }
+
+    public void newPost(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        // Post.setNbPosts(Post.getNbPosts() + 1);
+        sceneController.goToCreatePost(event);
     }
 }
