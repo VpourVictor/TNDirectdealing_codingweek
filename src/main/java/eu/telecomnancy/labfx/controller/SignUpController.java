@@ -12,6 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -87,6 +90,23 @@ public class SignUpController {
 
     final FileChooser fileChooser = new FileChooser();
     private final ObservableList<String> countries = FXCollections.observableArrayList();
+
+    @FXML
+    Polygon hexagon;
+    @FXML
+    public void mouseEnter(MouseEvent event) {
+
+        hexagon.setStroke(Color.web("#F08A26"));
+
+    }
+    public void mouseExit(MouseEvent event) {
+
+        hexagon.setStroke(Color.web("#6C2466"));
+
+    }
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
 
 

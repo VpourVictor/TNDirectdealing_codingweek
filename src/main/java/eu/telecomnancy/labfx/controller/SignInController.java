@@ -6,6 +6,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +32,22 @@ public class SignInController implements Initializable{
 
     @FXML
     private CheckBox passToggle;
+    @FXML
+    Polygon hexagon;
+    @FXML
+    public void mouseEnter(MouseEvent event) {
+
+        hexagon.setStroke(Color.web("#F08A26"));
+
+    }
+    public void mouseExit(MouseEvent event) {
+
+        hexagon.setStroke(Color.web("#6C2466"));
+
+    }
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     @FXML
     void connexion(ActionEvent event) throws IOException {

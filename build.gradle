@@ -34,13 +34,14 @@ javafx {
 }
 
 dependencies {
-	testImplementation(platform('org.junit:junit-bom:${junitVersion}'))
-	testImplementation('org.junit.jupiter:junit-jupiter')
+    testImplementation(platform('org.junit:junit-bom:${junitVersion}'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
 
     implementation 'org.json:json:20231013'
 }

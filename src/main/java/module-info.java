@@ -2,6 +2,7 @@ module eu.telecomnancy.labfx {
     requires javafx.controls;
     requires javafx.fxml;
     requires static lombok;
+
     requires org.json;
 
     opens eu.telecomnancy.labfx to javafx.fxml;
