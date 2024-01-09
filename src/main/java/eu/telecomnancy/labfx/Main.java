@@ -71,7 +71,7 @@ public class Main extends Application {
         root.translateYProperty().set(offY);
         mainController.setOffX(offX);
         mainController.setOffY(offY);
-        primaryStage.setFullScreen(true);
+        // primaryStage.setFullScreen(true);
         primaryStage.show();
     }
 }

@@ -77,6 +77,9 @@ public class JsonUtil {
                     postsJson.put("post" + post.getIdPost(), json);
                 }
             }
+            else {
+                postsJson.put("post0", "");
+            }
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -107,9 +110,11 @@ public class JsonUtil {
 
             JSONObject json = new JSONObject(builder.toString());
 
+            if (Post.getNbPosts() == 0)
+                return posts;
+
             for (int i = 1; i <= Post.getNbPosts() ; i++){
                 JSONObject jsonObject = json.getJSONObject("post" + i);
-                System.out.println(jsonObject.toString());
                 String type = jsonObject.getString("type");
                 LocalDate startDate = LocalDate.parse(jsonObject.getString("startDate"));
                 LocalDate endDate;
