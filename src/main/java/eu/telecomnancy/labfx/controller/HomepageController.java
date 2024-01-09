@@ -39,18 +39,16 @@ public class HomepageController {
 
     @FXML
     void signIn(ActionEvent event) throws IOException {
-/*
         SceneController sceneController = new SceneController();
         sceneController.goToSignIn(event);
-*/
 
 
     }
 
     @FXML
-    void signUp(MouseEvent event) throws IOException, InterruptedException {
-/*        SceneController sceneController = new SceneController();
-        sceneController.goToSignUp(event);*/
+    void signUp(ActionEvent event) throws IOException, InterruptedException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToSignUp(event);
 /*        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
         Node pane = loader.load();
         MainController controller = loader.getController();
