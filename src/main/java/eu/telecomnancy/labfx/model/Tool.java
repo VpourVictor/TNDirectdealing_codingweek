@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,6 +20,27 @@ public class Tool extends Post {
     public Tool (Post post, String stateTool) {
         super(post.getDescription(), post.getTitle(), post.getAuthor(), post.getDateCouple().getDateStart(), post.getDateCouple().getDateEnd(), post.getAdress(), post.getImage(), post.getState());
         this.stateTool = stateTool;
+        Post.id++;
+    }
+
+    @Override
+    public String getDescriptionService() {
+        return null;
+    }
+
+    @Override
+    public List<Person> getProviders() {
+        return null;
+    }
+
+    @Override
+    public void setDescriptionService(String text) {
+
+    }
+
+    @Override
+    public void setProviders(List<Person> providers) {
+
     }
 }
 

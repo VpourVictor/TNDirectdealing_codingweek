@@ -5,6 +5,7 @@ import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.model.Person;
 import eu.telecomnancy.labfx.model.Post;
 import eu.telecomnancy.labfx.model.Service;
+import eu.telecomnancy.labfx.model.Tool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -69,13 +70,13 @@ public class PostOverviewController {
 
     public void initData(Post post) {
         this.post = post;
-        if (post instanceof eu.telecomnancy.labfx.model.Service) {
-            descriptionService.setText(((Service) post).getDescriptionService());
-            personData.addAll(((Service) post).getProviders());
+        if (post instanceof Service) {
+            descriptionService.setText(post.getDescriptionService());
+            personData.addAll(post.getProviders());
             personTable.setItems(personData);
 
-        } else if (post instanceof eu.telecomnancy.labfx.model.Tool) {
-            stateTool.setText(((eu.telecomnancy.labfx.model.Tool) post).getStateTool());
+        } else if (post instanceof Tool) {
+            stateTool.setText(post.getStateTool());
         }
         description.setText(post.getDescription());
         firstName.setText(post.getAuthor().getFirstName());
@@ -100,6 +101,6 @@ public class PostOverviewController {
 
     public void modify(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post, true);
+        sceneController.goToEditPost(event, post);
     }
 }

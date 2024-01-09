@@ -37,7 +37,7 @@ public class SignInController implements Initializable{
         // TODO si c'est bon changement de scene vers le menu
         // TODO sinon gérer l'erreur
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, null, false); //TODO ne pas renvoyer vers l'acceuil
+        sceneController.goToEditPost(event, null); //TODO ne pas renvoyer vers l'acceuil
         // TODO user.setConnected(true);
     }
 

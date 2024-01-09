@@ -11,7 +11,7 @@ import java.util.Objects;
 @Setter
 @Getter
 public abstract class Post {
-    private static int id;
+    protected static int id;
     private String description;
     private String title;
     private User author;
@@ -24,7 +24,6 @@ public abstract class Post {
     private State state;
 
     public Post(String description, String title, User author, LocalDate start, LocalDate end, Address adress, Image image, State state) {
-        id++;
         this.description = description;
         this.title = title;
         this.author = author;
@@ -37,4 +36,22 @@ public abstract class Post {
         this.image = image;
         this.state = state;
     }
+
+    public abstract String getDescriptionService();
+    public abstract String getStateTool();
+    public abstract List<Person> getProviders();
+
+    public static int getNbPosts() {
+        return id;
+    }
+
+    public static void setNbPosts(int nbPosts) {
+        Post.id = nbPosts;
+    }
+
+    public abstract void setDescriptionService(String text);
+
+    public abstract void setStateTool(String text);
+
+    public abstract void setProviders(List<Person> providers);
 }
