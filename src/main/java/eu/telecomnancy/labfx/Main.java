@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.json.JSONObject;
 
+import static java.lang.String.valueOf;
+
 public class Main extends Application {
 
     public static void main(String[] args) {

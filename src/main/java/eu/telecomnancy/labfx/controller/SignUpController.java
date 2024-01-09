@@ -177,7 +177,8 @@ public class SignUpController {
             //TODO c'eest bon la lign au dessus ou pas ?
             user.setPassword(passwordValue());
             user.setConnected(true);
-            JsonUtil.userToJsonVoid(user);
+            //TODO enregistrer le user en Json
+            //JsonUtil.userToJsonVoid(user);
             SceneController sceneController = new SceneController();
             sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
 
