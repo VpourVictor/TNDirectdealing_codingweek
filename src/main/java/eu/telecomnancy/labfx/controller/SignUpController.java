@@ -1,18 +1,25 @@
 package eu.telecomnancy.labfx.controller;
 
 import eu.telecomnancy.labfx.model.Address;
+import eu.telecomnancy.labfx.model.RegexUtils;
 import eu.telecomnancy.labfx.model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class SignUpController implements Initializable {
+public class SignUpController {
 
     private User user;
 
@@ -22,8 +29,6 @@ public class SignUpController implements Initializable {
     @FXML
     private TextField cityTF;
 
-    @FXML
-    private TextField countryTF;
 
     @FXML
     private Label firstnameSignUp;
@@ -74,46 +79,110 @@ public class SignUpController implements Initializable {
     private TextField streetNumberTF;
 
     @FXML
-    void browse(ActionEvent event) {
+    private TextField regionTF;
 
+    @FXML
+    private ComboBox countryList;
+
+    final FileChooser fileChooser = new FileChooser();
+    private final ObservableList<String> countries = FXCollections.observableArrayList();
+
+
+
+    @FXML
+    void initialize() {
+        if (countryList != null) {
+            countries.addAll("France", "Allemagne", "Espagne", "Italie", "Royaume-Uni");
+        }
+        this.toggleVisiblePassword(null);
+        countryList.setItems(countries);
     }
+
+    @FXML
+    void browse(ActionEvent event) {
+        fileChooser.setTitle("Choisir une image");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+        File file = fileChooser.showOpenDialog(((Button) event.getSource()).getScene().getWindow());
+        if (file != null) {
+            imageProfile.setImage(new Image(file.toURI().toString()));
+        }
+    }
+
 
     @FXML
     void createAccount(ActionEvent event) throws IOException {
 
-        //TODO verif que tous les champs sont remplis
-        User user = new User(firstnameTextField.getText(), nameTextField.getText());
+        if (firstnameTextField.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
+        }
+        else if (nameTextField.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
+        }
+        else if ( pseudoTextField.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le pseudo ne peut pas être vide").showAndWait();
+        }
+        else if (!RegexUtils.isValidMail(mailTextField.getText())){
+            new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
+        }
+        else if ( !RegexUtils.isNumeric(streetNumberTF.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Le numéro de la rue ne peut pas être vide et doit être un entier").showAndWait();
+        }
+        else if ( streetNameTF.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le nom de rue ne peut pas être vide").showAndWait();
+        }
+        else if ( !RegexUtils.isNumeric(postalCodeTF.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Le code postal ne peut pas être vide et doit être un entier").showAndWait();
+        }
+        else if ( cityTF.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le nom de la ville ne peut pas être vide").showAndWait();
+        }
+        else if (countryList.getValue() == null){
+            new Alert(Alert.AlertType.ERROR, "Veuillez sélectionner un pays").showAndWait();
+        }
+        else if ( regionTF.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le nom de la région ne peut pas être vide").showAndWait();
+        }
+        else if ( passwordValue() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le mot de passe ne peut pas être vide").showAndWait();
+        }
+        else if ( passwordHiddenConfirmation.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Vérifiez votre mot de passe").showAndWait();
+        }
+        else if (imageProfile.getImage() == null) {
+            new Alert(Alert.AlertType.ERROR, "Veuillez sélectionner une image").showAndWait();
+        }
+        else if (!( passwordHiddenConfirmation.getText()).equals(passwordValue())){
+            new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
+        }
+        else {
 
-        Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
-                streetNameTF.getText(),
-                Integer.parseInt(postalCodeTF.getText()),
-                cityTF.getText(),
-                null, //TODO add region
-                countryTF.getText());
+            User user = new User(firstnameTextField.getText(), nameTextField.getText());
 
+            Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
+                    streetNameTF.getText(),
+                    Integer.parseInt(postalCodeTF.getText()),
+                    cityTF.getText(),
+                    regionTF.getText(),
+                    countryList.getValue().toString());
+            user.setAddress(address);
 
-        user.setAddress(address);
-
-        user.setPseudo(pseudoTextField.getText());
-
-        //TODO sauvegarder l'image
-
-        // TODO traiter le cas où le mdp n'est pas le même lors de la confirmation
-        if (passwordValue() == passwordHidden.getText()){
+            user.setPseudo(pseudoTextField.getText());
+            //TODO sauvegarder l'image
             user.setPassword(passwordValue());
+            user.setConnected(true);
+            // TODO ajouter le user à la BD
+            SceneController sceneController = new SceneController();
+            sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
+
         }
 
-        user.setConnected(true);
-        // TODO ajouter le user à la BD
-        SceneController sceneController = new SceneController();
-        sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
-        user.setConnected(true);
+
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.toggleVisiblePassword(null);
-    }
+
 
     //method to get the password
     private String passwordValue() {
