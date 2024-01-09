@@ -33,6 +33,7 @@ public class SignInController implements Initializable{
     @FXML
     void connexion(ActionEvent event) throws IOException {
 
+
          if (!RegexUtils.isValidMail(mailTextArea.getText())){
             new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
         }
@@ -44,9 +45,19 @@ public class SignInController implements Initializable{
         else {
              // TODO user.setConnected(true);
              SceneController sceneController = new SceneController();
-             sceneController.goToEditPost(event, null, false); //TODO ne pas renvoyer vers l'acceuil
+             sceneController.goToEditPost(event, null); //TODO ne pas renvoyer vers l'acceuil
 
          }
+
+
+        String emailEntered = mailTextArea.getText();
+        String password = passwordValue();
+        // TODO vérifier si le mail et le mdp sont bon
+        // TODO si c'est bon changement de scene vers le menu
+        // TODO sinon gérer l'erreur
+        SceneController sceneController = new SceneController();
+        sceneController.goToEditPost(event, null); //TODO ne pas renvoyer vers l'acceuil
+        // TODO user.setConnected(true);
 
     }
 

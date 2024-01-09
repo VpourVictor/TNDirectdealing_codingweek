@@ -31,5 +31,6 @@
       <ImageView fx:id="image" fitHeight="179.0" fitWidth="356.0" layoutX="103.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
       <Text fx:id="stateTool" layoutX="101.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="356.0000000000001" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
+      <Button layoutX="88.0" layoutY="14.0" mnemonicParsing="false" onAction="#viewAll" text="Voir tous" />
    </children>
 </AnchorPane>
