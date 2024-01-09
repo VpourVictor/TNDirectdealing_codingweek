@@ -15,14 +15,20 @@ public class Service extends Post{
 
     private List<Person> providers = new ArrayList<>();
 
-    public Service(String description, String title, User author, LocalDate start, LocalDate end, Address adress, Image image, State state, String descriptionService){
-        super(description, title, author, start, end, adress, image, state);
+    public Service(String description, String title, String authorEmail, LocalDate start, LocalDate end, Address adress, Image image, State state, String descriptionService){
+        super(description, title, authorEmail, start, end, adress, image, state);
         this.descriptionService = descriptionService;
         this.setIdPost(Post.id);
     }
 
+    public Service(int id, String description, String title, String authorEmail, LocalDate start, LocalDate end, Address adress, Image image, State state, String descriptionService){
+        super(description, title, authorEmail, start, end, adress, image, state);
+        this.descriptionService = descriptionService;
+        this.setIdPost(id);
+    }
+
     public Service(Post post, String descriptionService, List<Person> providers){
-        super(post.getDescription(), post.getTitle(), post.getAuthor(), post.getDateCouple().getDateStart(), post.getDateCouple().getDateEnd(), post.getAddress(), post.getImage(), post.getState());
+        super(post.getDescription(), post.getTitle(), post.getAuthorEmail(), post.getDateCouple().getDateStart(), post.getDateCouple().getDateEnd(), post.getAddress(), post.getImage(), post.getState());
         this.descriptionService = descriptionService;
         this.providers = providers;
         Post.id++;
