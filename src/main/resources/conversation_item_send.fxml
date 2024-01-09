@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="940.0" styleClass="msg-style" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
+    <children>
+        <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut, je dis des trucs au pif pour voir si la taille et le message fonctionne bien,anticonstitutionnelement, je sais plus quoi dire" wrappingWidth="750.0">
+            <HBox.margin>
+                <Insets right="5.0" />
+            </HBox.margin>
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Text>
+        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="50.0" prefWidth="180.0" spacing="7.0">
+            <children>
+                <Label text="Date d'envoi :" />
+                <Label text="14/05, 14h35" />
+            </children>
+        </HBox>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+</HBox>

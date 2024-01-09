@@ -7,8 +7,13 @@
     -fx-background-color: #D7E2F3;
 }
 
-.button{
+.button-style{
     -fx-background-color: #556;
     -fx-background-radius: 50;
-    -fx-font-style: #695;
+    -fx-text-fill: #ffffff;
+}
+
+.msg-style{
+    -fx-background-color: #71a4cd;
+    -fx-background-radius: 15;
 }
