@@ -1,15 +1,12 @@
 package eu.telecomnancy.labfx.controller.utils;
 
 import eu.telecomnancy.labfx.model.*;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class JsonUtil {
     public static JSONObject adressToJson(Address address) {
@@ -28,36 +25,14 @@ public class JsonUtil {
         return json;
     }
 
-    public static JSONObject userToJson(User user) {
+    public static JSONObject postToJson(Post post) {
         JSONObject json = new JSONObject();
-        try {
-            json.put("firstName", user.getFirstName());
-            json.put("lastName", user.getLastName());
-            json.put("email", user.getEmail());
-            json.put("pseudo", user.getPseudo());
-            json.put("password", user.getPassword());
-            json.put("address", adressToJson(user.getAddress()));
-            if (user.getProfilePicture() != null)
-                json.put("path", user.getProfilePicture().getUrl());
-            else
-                json.put("path", "");
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return json;
-    }
-    public static void postToJson(Post post) {
-        String path = "src/main/resources/json/posts.json";
-        System.out.println(post.getClass());
 
-        JSONObject postJson = new JSONObject();
         try {
-            JSONObject json = new JSONObject();
             json.put("id", post.getIdPost());
             json.put("title", post.getTitle());
             json.put("description", post.getDescription());
-            json.put("author", userToJson(post.getAuthor()));
+            json.put("author_email", post.getAuthorEmail());
             json.put("startDate", post.getDateCouple().getDateStart());
             if (post.getDateCouple().getDateEnd() != null)
                 json.put("endDate", post.getDateCouple().getDateEnd());
@@ -78,20 +53,37 @@ public class JsonUtil {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
             }
-            postJson.put("post " + post.getIdPost(), json);
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void postsToJson(ArrayList<Post> posts) {
+        String path = "src/main/resources/json/posts.json";
+
+        JSONObject postsJson = new JSONObject();
+        try {
+            if (!posts.isEmpty()){
+                for (Post post : posts) {
+                    JSONObject json = postToJson(post);
+                    postsJson.put("post" + post.getIdPost(), json);
+                }
+            }
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(postJson.toString());
+            out.write(postsJson.toString());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static ArrayList<Post> jsonToPost(){
+    public static ArrayList<Post> jsonToPosts(){
         try {
             InputStream is = new FileInputStream("src/main/resources/json/posts.json");
             InputStreamReader isr = new InputStreamReader(is);
@@ -106,59 +98,43 @@ public class JsonUtil {
             }
 
             ArrayList<Post> posts = new ArrayList<>();
+
             JSONObject json = new JSONObject(builder.toString());
 
-            for (int i = 1; i <= Post.getNbPosts(); i++){
-                System.out.println("post " + i);
-                if (json.get("post " + i) != null) {
-                    json = json.getJSONObject("post " + i);
-                    String type = json.getString("type");
-                    System.out.println(type);
-                    LocalDate startDate = LocalDate.parse(json.getString("startDate"));
-                    LocalDate endDate;
-                    if (json.getString("endDate").isEmpty())
-                        endDate = null;
-                    else
-                        endDate = LocalDate.parse(json.getString("endDate"));
+            for (int i = 1; i <= Post.getNbPosts() ; i++){
+                JSONObject jsonObject = json.getJSONObject("post" + i);
+                System.out.println(jsonObject.toString());
+                String type = jsonObject.getString("type");
+                LocalDate startDate = LocalDate.parse(jsonObject.getString("startDate"));
+                LocalDate endDate;
+                if (jsonObject.getString("endDate").isEmpty())
+                    endDate = null;
+                else
+                    endDate = LocalDate.parse(jsonObject.getString("endDate"));
 
-                    State state = State.valueOf(json.getString("state"));
+                State state = State.valueOf(jsonObject.getString("state"));
 
-                    Image image;
-                    if (json.getString("path").isEmpty())
-                        image = null;
-                    else
-                        image = new Image(json.getString("path"));
+                Image image;
+                if (jsonObject.getString("path").isEmpty())
+                    image = null;
+                else
+                    image = new Image(jsonObject.getString("path"));
 
-                    if (type.equals("service")) {
-                        System.out.println("add service");
-                        posts.add(new Service(json.getString("description"), json.getString("title"), jsonToUser(json.getJSONObject("author")), startDate, endDate, jsonToAdress(json.getJSONObject("address")), image, state, json.getString("descriptionService")));
-                    }
-                    else if (type.equals("tool")) {
-                        System.out.println("add tool");
-                        posts.add(new Tool(json.getString("description"), json.getString("title"), jsonToUser(json.getJSONObject("author")), startDate, endDate, jsonToAdress(json.getJSONObject("address")), image, state, json.getString("stateTool")));
-                    }
+                if (type.equals("service")) {
+                    posts.add(new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate, jsonToAdress(jsonObject.getJSONObject("address")),
+                            image, state, jsonObject.getString("descriptionService")));
+                }
+                else if (type.equals("tool")) {
+                    posts.add(new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool")));
                 }
             }
-
-            for (Post post : posts)
-                System.out.println(post.getIdPost());
-
             return posts;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            return null;
         }
-    }
-
-    private static User jsonToUser(JSONObject author) {
-        Image image;
-        if (author.getString("path").isEmpty())
-            image = null;
-        else
-            image = new Image(author.getString("path"));
-        return new User(author.getString("firstName"), author.getString("lastName"),
-                author.getString("email"), author.getString("pseudo"),
-                author.getString("password"), jsonToAdress(author.getJSONObject("address")),
-                image);
     }
 
     private static Address jsonToAdress(JSONObject address) {

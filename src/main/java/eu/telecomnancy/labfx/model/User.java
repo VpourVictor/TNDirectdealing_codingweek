@@ -22,6 +22,7 @@ public class User extends Person {
     private Image profilePicture;
     private ArrayList<Post> postedPosts = new ArrayList<>();
     private ArrayList<Post> appliedToPosts = new ArrayList<>();
+    private int fhkds = 0;
 
     public User(String prenom, String nom) {
         super(prenom, nom);
