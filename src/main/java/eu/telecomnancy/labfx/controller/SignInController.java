@@ -46,18 +46,7 @@ public class SignInController implements Initializable{
              // TODO user.setConnected(true);
              SceneController sceneController = new SceneController();
              sceneController.goToEditPost(event, null); //TODO ne pas renvoyer vers l'acceuil
-
          }
-
-
-        String emailEntered = mailTextArea.getText();
-        String password = passwordValue();
-        // TODO vérifier si le mail et le mdp sont bon
-        // TODO si c'est bon changement de scene vers le menu
-        // TODO sinon gérer l'erreur
-        SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, null); //TODO ne pas renvoyer vers l'acceuil
-        // TODO user.setConnected(true);
 
     }
 

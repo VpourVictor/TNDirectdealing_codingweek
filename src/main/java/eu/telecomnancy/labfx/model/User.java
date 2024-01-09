@@ -17,7 +17,7 @@ public class User extends Person {
     private String pseudo;
     private String password;
     private Address address;
-    private ArrayList<Float> evaluationList = new ArrayList<>();
+    private ArrayList<Double> evaluationList = new ArrayList<>();
     private int coins;
     private Image profilePicture;
     private ArrayList<Post> postedPosts = new ArrayList<>();
@@ -40,9 +40,9 @@ public class User extends Person {
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();
     }
-    private float getEvaluation(){
-        float finalNote = 0;
-        for(Float note: this.evaluationList) {
+    private double getEvaluation(){
+        double finalNote = 0;
+        for(Double note: this.evaluationList) {
             finalNote = finalNote + note;
         }
         return finalNote/getNumberOfEvaluations();

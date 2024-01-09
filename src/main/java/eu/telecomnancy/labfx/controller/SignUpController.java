@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.Address;
 import eu.telecomnancy.labfx.model.RegexUtils;
 import eu.telecomnancy.labfx.model.User;
@@ -170,10 +171,13 @@ public class SignUpController {
             user.setAddress(address);
 
             user.setPseudo(pseudoTextField.getText());
+            user.setCoins(50);
             //TODO sauvegarder l'image
+            user.setProfilePicture(imageProfile.getImage());
+            //TODO c'eest bon la lign au dessus ou pas ?
             user.setPassword(passwordValue());
             user.setConnected(true);
-            // TODO ajouter le user à la BD
+            JsonUtil.userToJsonVoid(user);
             SceneController sceneController = new SceneController();
             sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
 

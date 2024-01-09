@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static java.lang.String.valueOf;
+
 public class JsonUtil {
     public static JSONObject adressToJson(Address address) {
         JSONObject json = new JSONObject();
@@ -166,4 +168,62 @@ public class JsonUtil {
                 Integer.parseInt(address.get("postalCode").toString()), address.getString("city"), address.getString("region"),
                 address.getString("country"));
     }
+
+    public static void userToJsonVoid(User user) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("firstName", user.getFirstName());
+            json.put("lastName", user.getLastName());
+            json.put("email", user.getEmail());
+            json.put("pseudo", user.getPseudo());
+            json.put("password", user.getPassword());
+            json.put("address", adressToJson(user.getAddress()));
+            if (user.getProfilePicture() != null)
+                json.put("path", user.getProfilePicture().getUrl());
+            else
+                json.put("path", "");
+            json.put("coins", user.getCoins() );
+            json.put("isConnected", valueOf(user.isConnected()) );
+            json.put("evaluationList", listDoubleToJson(user.getEvaluationList()));
+
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static JSONObject listDoubleToJson(ArrayList<Double> listOfDouble){
+        JSONObject json = new JSONObject();
+        try {
+            int index = 0;
+            for (Double note : listOfDouble) {
+                json.put("Note" + String.valueOf(index), String.valueOf(note));
+                index++;
+            }
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ArrayList<Double> jsonToListDouble(JSONObject json) {
+        ArrayList<Double> listOfDouble = new ArrayList<>();
+        try {
+            for (String key : json.keySet()) {
+                String valueAsString = json.getString(key);
+                double doubleValue = Double.parseDouble(valueAsString);
+                listOfDouble.add(doubleValue);
+            }
+        } catch (Exception e) {
+            // Handle the exception or log it
+            throw new RuntimeException("Error converting JSON to list of doubles", e);
+        }
+        return listOfDouble;
+    }
 }
+
+
+
+
+
