@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,9 +41,17 @@ public class User extends Person {
         this.evaluationList.add(note);
         this.nbOfEvaluation = getNbOfEvaluation()+1;
     }
+    private List<Conversation> convs;
 
     public User(String prenom, String nom) {
         super(prenom, nom);
+    }
+
+    public User(String prenom, String nom, String mail) {
+        super(prenom, nom);
+        this.email = mail;
+        this.convs = new ArrayList<Conversation>();
+        this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
     }
 
     public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
@@ -52,6 +61,7 @@ public class User extends Person {
         this.password = password;
         this.address = address;
         this.profilePicture = profilePicture;
+        this.convs = new ArrayList<Conversation>();
     }
 
 
@@ -66,5 +76,8 @@ public class User extends Person {
         return finalNote/getNumberOfEvaluations();
     }
 
+    public void delConv(Conversation conv){
+        convs.remove(conv);
+    }
 
 }
