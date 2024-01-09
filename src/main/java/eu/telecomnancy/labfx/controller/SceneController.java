@@ -27,6 +27,7 @@ public class SceneController {
 
     public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
+        // todo
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
