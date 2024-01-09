@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.model.RegexUtils;
 import eu.telecomnancy.labfx.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,14 +32,22 @@ public class SignInController implements Initializable{
 
     @FXML
     void connexion(ActionEvent event) throws IOException {
-        String emailEntered = mailTextArea.getText();
-        String password = passwordValue();
-        // TODO vérifier si le mail et le mdp sont bon
-        // TODO si c'est bon changement de scene vers le menu
-        // TODO sinon gérer l'erreur
-        SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, null, false); //TODO ne pas renvoyer vers l'acceuil
-        // TODO user.setConnected(true);
+
+         if (!RegexUtils.isValidMail(mailTextArea.getText())){
+            new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
+        }
+        else if ( passwordValue() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le mot de passe ne peut pas être vide").showAndWait();
+        }
+         // TODO vérifier si le mail est dans la BD
+         // TODO vérifier dans la BD si le mail et le mdp sont bon (se correspondent)
+        else {
+             // TODO user.setConnected(true);
+             SceneController sceneController = new SceneController();
+             sceneController.goToEditPost(event, null, false); //TODO ne pas renvoyer vers l'acceuil
+
+         }
+
     }
 
     @Override
