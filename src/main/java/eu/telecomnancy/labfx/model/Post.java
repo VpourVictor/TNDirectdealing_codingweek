@@ -12,6 +12,7 @@ import java.util.Objects;
 @Getter
 public abstract class Post {
     protected static int id;
+    private int idPost;
     private String description;
     private String title;
     private User author;
@@ -19,7 +20,7 @@ public abstract class Post {
 
     private List<DateCouple> occupiedDates;
 
-    private Address adress;
+    private Address address;
     private Image image;
     private State state;
 
@@ -32,7 +33,7 @@ public abstract class Post {
         } else if (start == null && end != null) {
             this.dateCouple = new DateCouple(LocalDate.now(), end);
         } else this.dateCouple = new DateCouple(Objects.requireNonNullElseGet(start, LocalDate::now), null);
-        this.adress = adress;
+        this.address = adress;
         this.image = image;
         this.state = state;
     }

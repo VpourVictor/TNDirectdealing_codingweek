@@ -2,6 +2,7 @@ package eu.telecomnancy.labfx.controller.posts;
 
 
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +16,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 @Getter
@@ -108,12 +111,19 @@ public class PostEditController {
 
     public void initData(Post post) {
         // todo récupérer les données du JSON, get la dernière annonce enregistrée
-        int last_id = 0;
-        int current_id = Post.getNbPosts();
-        modify = last_id != current_id;
-        if (modify && part2) {
-            // todo en fonction du type de l'annonce dans le JSON, on switch le booleen
-            // serviceToTool = ..;
+        ArrayList<Post> posts = JsonUtil.jsonToPost();
+        for (Post postBoucle : posts){
+            if (postBoucle.getIdPost() == post.getIdPost()){
+                if (postBoucle instanceof Service && post instanceof Tool)
+                    serviceToTool = true;
+                else if (postBoucle instanceof Tool && post instanceof Service)
+                    serviceToTool = false;
+
+                System.out.println(serviceToTool);
+            }
+
+            if (postBoucle.getIdPost() == post.getIdPost())
+                modify = true;
         }
 
         if (name_page != null) {
@@ -130,12 +140,12 @@ public class PostEditController {
             image.setImage(post.getImage());
             dateStart.setValue(post.getDateCouple().getDateStart());
             dateEnd.setValue(post.getDateCouple().getDateEnd());
-            streetNumber.setText(String.valueOf(post.getAdress().getStreetNumber()));
-            street.setText(post.getAdress().getStreetName());
-            postalCode.setText(String.valueOf(post.getAdress().getPostalCode()));
-            city.setText(post.getAdress().getCity());
-            region.setText(post.getAdress().getRegion());
-            countryList.setValue(post.getAdress().getCountry());
+            streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
+            street.setText(post.getAddress().getStreetName());
+            postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
+            city.setText(post.getAddress().getCity());
+            region.setText(post.getAddress().getRegion());
+            countryList.setValue(post.getAddress().getCountry());
             type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
         }
 
@@ -210,21 +220,25 @@ public class PostEditController {
         else {
             // todo créer le user en fonction de la personne connectée
             User user = new User("test", "test");
+            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             user.getPostedPosts().add(post);
+            user.setAddress(address);
+            user.setPseudo("test");
+            user.setPassword("test");
+            user.setEmail("dsldmlsk@dksjfslk.fr");
+
 
             SceneController sceneController = new SceneController();
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
 
-            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(),
-                    Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
 
             if (dateStart.getValue() == null)
                 start = LocalDate.now();
             else
                 start = dateStart.getValue();
 
-            State state = null;
+            State state = State.EN_COURS;
             if (dateEnd.getValue() != null) {
                 end = dateEnd.getValue();
                 if (start.isAfter(LocalDate.now()))
@@ -247,6 +261,7 @@ public class PostEditController {
                 sceneController.goToEditService(event, post);
             }
             else {
+                System.out.println("on doit âsser ic");
                 if (!modify){
                     post = new Tool(description.getText(), title.getText(), user, start, end, address, image.getImage(), state, null);
                 }
@@ -263,7 +278,7 @@ public class PostEditController {
         post.setTitle(title.getText());
         post.setAuthor(user);
         post.setDateCouple(new DateCouple(start, end));
-        post.setAdress(address);
+        post.setAddress(address);
         post.setImage(image.getImage());
         post.setState(state);
     }
@@ -279,7 +294,7 @@ public class PostEditController {
         firstNamePrest.clear();
     }
 
-    public void validateServicePost(ActionEvent event) {
+    public void validateServicePost(ActionEvent event) throws IOException {
         if (personData.isEmpty()){
             new Alert(Alert.AlertType.ERROR, "Vous devez ajouter au moins un prestataire").showAndWait();
         }
@@ -288,23 +303,24 @@ public class PostEditController {
         }
         else {
             SceneController sceneController = new SceneController();
-            if (!modify)
+            if (!modify){
                 post = new Service(post, descriptionService.getText(), personData);
+            }
             else{
                 if (!serviceToTool){
                     post = new Service(post, descriptionService.getText(), personData);
-                    Post.setNbPosts(Post.getNbPosts() - 1);
                 }
                 else {
                     post.setDescriptionService(descriptionService.getText());
                     post.setProviders(personData);
                 }
             }
+            JsonUtil.postToJson(post);
             sceneController.goToOverviewServicePost(event, post);
         }
     }
 
-    public void validateToolPost(ActionEvent event) {
+    public void validateToolPost(ActionEvent event) throws IOException {
         if (stateTool.getText().isEmpty()){
             new Alert(Alert.AlertType.ERROR, "L'état ne peut pas être vide").showAndWait();
         }
@@ -314,13 +330,15 @@ public class PostEditController {
                 post = new Tool(post, stateTool.getText());
             else{
                 if (serviceToTool){
+                    System.out.println("on est bien passé de service à tool");
                     post = new Tool(post, stateTool.getText());
-                    Post.setNbPosts(Post.getNbPosts() - 1);
                 }
                 else {
                     post.setStateTool(stateTool.getText());
                 }
             }
+            System.out.println(post.getIdPost());
+            JsonUtil.postToJson(post);
             sceneController.goToOverviewToolPost(event, post);
         }
     }
@@ -332,7 +350,6 @@ public class PostEditController {
 
     public void back_to_view(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        System.out.println(post.getClass());
         if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null))
             sceneController.goToOverviewServicePost(event, post);
         else

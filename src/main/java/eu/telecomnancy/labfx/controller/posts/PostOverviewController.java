@@ -84,10 +84,10 @@ public class PostOverviewController {
         dateStart.setText(DateUtil.format(post.getDateCouple().getDateStart()));
         dateEnd.setText(DateUtil.format(post.getDateCouple().getDateEnd()));
         title.setText(post.getTitle());
-        country.setText(post.getAdress().getCountry());
-        postalCode.setText(String.valueOf(post.getAdress().getPostalCode()));
-        region.setText(post.getAdress().getRegion());
-        streetName.setText(post.getAdress().getStreetName());
+        country.setText(post.getAddress().getCountry());
+        postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
+        region.setText(post.getAddress().getRegion());
+        streetName.setText(post.getAddress().getStreetName());
         image.setImage(post.getImage());
     }
 
@@ -102,5 +102,15 @@ public class PostOverviewController {
     public void modify(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToEditPost(event, post);
+    }
+
+    public void newPost(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToCreatePost(event);
+    }
+
+    public void viewAll(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToAllPosts(event);
     }
 }

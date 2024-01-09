@@ -17,7 +17,7 @@ public class User extends Person {
     private String pseudo;
     private String password;
     private Address address;
-    private ArrayList<Float> evaluationList;
+    private ArrayList<Float> evaluationList = new ArrayList<>();
     private int coins;
     private Image profilePicture;
     private ArrayList<Post> postedPosts = new ArrayList<>();

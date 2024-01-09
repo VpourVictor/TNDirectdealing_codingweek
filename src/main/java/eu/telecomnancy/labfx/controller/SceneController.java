@@ -133,4 +133,20 @@ public class SceneController {
             throw new RuntimeException(e);
         }
     }
+
+    public void goToCreatePost(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
+        try {
+            root = loader.load();
+            PostEditController controller = loader.getController();
+            controller.setPart2(false);
+            controller.initData(null);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
