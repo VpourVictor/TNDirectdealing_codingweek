@@ -17,4 +17,8 @@ public class Conversation {
         user2 = usr2;
         messages = new ArrayList<Message>();
     }
+
+    public void addMessage(Message msg){
+        messages.add(msg);
+    }
 }

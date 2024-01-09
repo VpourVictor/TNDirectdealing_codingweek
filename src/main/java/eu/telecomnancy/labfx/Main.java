@@ -2,8 +2,10 @@ package eu.telecomnancy.labfx;
 
 import java.io.IOException;
 
+import eu.telecomnancy.labfx.controller.ConversationController;
 import eu.telecomnancy.labfx.controller.MessagerieController;
 import eu.telecomnancy.labfx.model.Conversation;
+import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -53,10 +55,16 @@ public class Main extends Application {
             user1.addConv(c4);
 
             user4.addConv(c2);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
+
+            Message message1 = new Message(user1, user2, "Salut");
+            Message message2 = new Message(user2, user1, "Ca va?");
+            c1.addMessage(message1);
+            c1.addMessage(message2);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/conversation.fxml"));
             Parent root = fxmlLoader.load();
-            MessagerieController mc = fxmlLoader.getController();
-            mc.setAndLoad(user1);
+            ConversationController cc = fxmlLoader.getController();
+            cc.setConv(c1);
+            cc.setAndLoad(user1);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();

@@ -60,7 +60,11 @@
       </VBox>
       <ScrollPane layoutX="329.0" layoutY="57.0" prefHeight="743.0" prefWidth="952.0">
          <content>
-            <VBox prefHeight="745.0" prefWidth="952.0" />
+            <VBox fx:id="listMessages" prefHeight="745.0" prefWidth="952.0" spacing="20.0">
+               <padding>
+                  <Insets top="40.0" />
+               </padding>
+            </VBox>
          </content>
       </ScrollPane>
    </children>
