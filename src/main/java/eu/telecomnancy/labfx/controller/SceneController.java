@@ -28,16 +28,6 @@ public class SceneController {
     public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
         try {
-            /*for (Post post : posts) {
-                root = loader.load();
-                PostOverviewController controller = loader.getController();
-                controller.initData(post);
-                stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }*/
-
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.initData(null);

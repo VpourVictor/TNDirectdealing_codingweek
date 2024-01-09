@@ -17,12 +17,29 @@ public class User extends Person {
     private String pseudo;
     private String password;
     private Address address;
-    private ArrayList<Float> evaluationList = new ArrayList<>();
+    private ArrayList<Double> evaluationList = new ArrayList<>();
     private int coins;
     private Image profilePicture;
     private ArrayList<Post> postedPosts = new ArrayList<>();
-    private ArrayList<Post> appliedToPosts = new ArrayList<>();
-    private int fhkds = 0;
+    private ArrayList<Post> appliedToPosts = new ArrayList<>() ;
+    protected int nbOfEvaluation = 0;
+    protected int nbOfPostedPosts = 0;
+    protected int nbOfAppliedToPosts = 0;
+
+    public void addPostedPosts( Post post ) {
+        this.postedPosts.add(post);
+        this.nbOfPostedPosts = getNbOfPostedPosts()+1;
+    }
+
+    public void addAppliedToPosts( Post post ) {
+        this.appliedToPosts.add(post);
+        this.nbOfAppliedToPosts = getNbOfAppliedToPosts()+1;
+    }
+
+    public void addEvaluation( Double note ) {
+        this.evaluationList.add(note);
+        this.nbOfEvaluation = getNbOfEvaluation()+1;
+    }
 
     public User(String prenom, String nom) {
         super(prenom, nom);
@@ -41,9 +58,9 @@ public class User extends Person {
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();
     }
-    private float getEvaluation(){
-        float finalNote = 0;
-        for(Float note: this.evaluationList) {
+    private double getEvaluation(){
+        double finalNote = 0;
+        for(Double note: this.evaluationList) {
             finalNote = finalNote + note;
         }
         return finalNote/getNumberOfEvaluations();
