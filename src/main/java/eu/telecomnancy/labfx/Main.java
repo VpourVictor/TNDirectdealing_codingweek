@@ -67,6 +67,7 @@ public class Main extends Application {
             cc.setAndLoad(user1);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
+            cc.setPrimaryStage(primaryStage);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

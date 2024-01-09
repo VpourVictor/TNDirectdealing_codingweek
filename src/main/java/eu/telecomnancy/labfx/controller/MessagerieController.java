@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ import java.util.ResourceBundle;
 @Getter
 @Setter
 public class MessagerieController implements Initializable {
+    private Stage primaryStage;
     private User user;
     @FXML
     private VBox listcontacts;
@@ -50,6 +52,7 @@ public class MessagerieController implements Initializable {
                     Button button = fxmlLoader.load();
                     MessageItemController mic = fxmlLoader.getController();
                     mic.setUser(user);
+                    mic.setPrimaryStage(primaryStage);
                     mic.setData(convs.get(i));
                     listcontacts.getChildren().add(button);
                 } catch (IOException e) {
