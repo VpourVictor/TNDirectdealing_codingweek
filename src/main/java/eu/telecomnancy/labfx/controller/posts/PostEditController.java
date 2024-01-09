@@ -281,7 +281,7 @@ public class PostEditController {
         post.setAddress(address);
         post.setImage(image.getImage());
         post.setState(state);
-    }
+    }git
 
     public void add() {
         // todo récupérer la liste des personnes inscrites dans le JSON
