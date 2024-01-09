@@ -22,6 +22,24 @@ public class User extends Person {
     private Image profilePicture;
     private ArrayList<Post> postedPosts = new ArrayList<>();
     private ArrayList<Post> appliedToPosts = new ArrayList<>() ;
+    protected int nbOfEvaluation = 0;
+    protected int nbOfPostedPosts = 0;
+    protected int nbOfAppliedToPosts = 0;
+
+    public void addPostedPosts( Post post ) {
+        this.postedPosts.add(post);
+        this.nbOfPostedPosts = getNbOfPostedPosts()+1;
+    }
+
+    public void addAppliedToPosts( Post post ) {
+        this.appliedToPosts.add(post);
+        this.nbOfAppliedToPosts = getNbOfAppliedToPosts()+1;
+    }
+
+    public void addEvaluation( Double note ) {
+        this.evaluationList.add(note);
+        this.nbOfEvaluation = getNbOfEvaluation()+1;
+    }
 
     public User(String prenom, String nom) {
         super(prenom, nom);

@@ -188,6 +188,9 @@ public class JsonUtil {
             json.put("evaluationList", listDoubleToJson(user.getEvaluationList()));
             json.put("postedPosts", listPostToJson(user.getPostedPosts()));
             json.put("appliedToPosts", listPostToJson(user.getAppliedToPosts()));
+            json.put("nbOfPostedPosts", user.getNbOfPostedPosts());
+            json.put("nbOfAppliedToPosts", user.getNbOfAppliedToPosts());
+            json.put("nbOfEvaluation", user.getNbOfEvaluation());
 
             return json;
 
@@ -209,6 +212,9 @@ public class JsonUtil {
                 image);
         user.setCoins(author.getInt("coins"));
         user.setConnected("true".equals(author.getString("isConnected")));
+        user.setNbOfPostedPosts(author.getInt("nbOfPostedPosts"));
+        user.setNbOfEvaluation(author.getInt("nbOfEvaluation"));
+        user.setNbOfAppliedToPosts(author.getInt("nbOfAppliedToPosts"));
         //TODO il manque des champs là user.setPostedPosts(jsonToListPost(author.getString("postedPosts")))
         //user.setAppliedToPosts(jsonToListPost(author.getString("appliedToPosts")))
         //user.setEvaluationList(jsonToListDouble(author.getString("evaluationList")));
