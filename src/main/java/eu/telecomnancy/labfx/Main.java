@@ -4,16 +4,13 @@ import java.io.IOException;
 
 import eu.telecomnancy.labfx.controller.HexagonBoardController;
 import eu.telecomnancy.labfx.controller.MainController;
-import javafx.animation.ScaleTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Main extends Application {
 
@@ -31,14 +28,7 @@ public class Main extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         MainController mainController = loader.getController();
-/*        ScaleTransition s = new ScaleTransition();
-        s.setNode(mainController.getPaneCenter());
-        s.setFromX(1.0);
-        s.setFromY(1.0);
-        s.setToX(1.1);
-        s.setToY(1.1);
-        s.setDuration(Duration.millis(1000));
-        s.play();*/
+
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         Screen screen = Screen.getPrimary();
@@ -52,7 +42,6 @@ public class Main extends Application {
         Pane paneBoard = loader2.load();
         HexagonBoardController c = loader2.getController();
         mainController.setRoot(root);
-        //mainController.updateNewHexa(mainController.getPaneCenter());
         double[] coord = mainController.getLayout();
         int offX =(int) -coord[0];
         int offY =(int) -coord[1];
