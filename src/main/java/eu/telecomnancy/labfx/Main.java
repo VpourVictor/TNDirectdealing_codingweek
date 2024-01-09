@@ -4,6 +4,10 @@ import java.io.IOException;
 
 import eu.telecomnancy.labfx.controller.HexagonBoardController;
 import eu.telecomnancy.labfx.controller.MainController;
+import java.util.ArrayList;
+import java.util.Objects;
+
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.json.JSONObject;
 
 public class Main extends Application {
 
@@ -43,8 +48,8 @@ public class Main extends Application {
         HexagonBoardController c = loader2.getController();
         mainController.setRoot(root);
         double[] coord = mainController.getLayout();
-        int offX =(int) -coord[0];
-        int offY =(int) -coord[1];
+        int offX = (int) -coord[0];
+        int offY = (int) -coord[1];
         root.translateXProperty().set(offX);
         root.translateYProperty().set(offY);
         mainController.setOffX(offX);
@@ -53,3 +58,4 @@ public class Main extends Application {
         primaryStage.show();
     }
 }
+

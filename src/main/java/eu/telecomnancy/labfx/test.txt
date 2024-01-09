@@ -1,0 +1,13 @@
+
+Tests pour listDoubleToJson et jsonToListDouble :
+            ArrayList<Double> listOfDoubles = new ArrayList<>();
+            listOfDoubles.add(3.14);
+            listOfDoubles.add(2.5);
+            listOfDoubles.add(1.0);
+
+            JSONObject jsonFromList = JsonUtil.listDoubleToJson(listOfDoubles);
+            System.out.println("JSON from ArrayList<Double>: " + jsonFromList);
+
+
+            ArrayList<Double> newListFromJson = JsonUtil.jsonToListDouble(jsonFromList);
+            System.out.println("ArrayList<Double> from JSON: " + newListFromJson);

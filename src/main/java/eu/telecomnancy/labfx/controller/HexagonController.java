@@ -17,8 +17,7 @@ import java.io.IOException;
 public class HexagonController {
     @FXML
     Pane hexagonPane;
-    @FXML
-    Polygon hexagon;
+
     @FXML
     Label labelDownLeft;
     @FXML
@@ -32,6 +31,8 @@ public class HexagonController {
     @FXML
     Label labelRight;
     @FXML
+    Polygon hexagon;
+    @FXML
     public void mouseEnter(MouseEvent event) {
 
         hexagon.setStroke(Color.web("#F08A26"));
@@ -43,11 +44,60 @@ public class HexagonController {
 
     }
 
+
     public void updateLabel(int pos, String loaderPos) {
         if (pos == 0 && loaderPos =="UR") {
-            labelDownLeft.setText("Profil");
+            labelDownLeft.setText("Tableau de Bord");
             labelDownLeft.setVisible(true);
         }
+        if (pos == 0 && loaderPos =="UL") {
+            labelDownRight.setText("Profil");
+            labelDownRight.setVisible(true);
+        }
+
+        if (pos == 0 && loaderPos =="DR") {
+            labelUpLeft.setText("Se connecter");
+            labelUpLeft.setVisible(true);
+        }
+        if (pos == 0 && loaderPos =="DL") {
+            labelUpRight.setText("S'inscrire");
+            labelUpRight.setVisible(true);
+        }
+        if(pos == 1 && loaderPos == "R"){
+            labelLeft.setText("Tableau de Bord");
+            labelLeft.setVisible(true);
+        }
+        if(pos == 1 && loaderPos == "DR"){
+            labelUpLeft.setText("Home");
+            labelUpLeft.setVisible(true);
+        }
+        if(pos == 2 && loaderPos == "L"){
+            labelRight.setText("Profil");
+            labelRight.setVisible(true);
+        }
+        if(pos == 2 && loaderPos == "DL"){
+            labelUpRight.setText("Home");
+            labelUpRight.setVisible(true);
+        }
+
+
+        if(pos == 4 && loaderPos == "L"){
+            labelRight.setText("S'inscrire");
+            labelRight.setVisible(true);
+        }
+        if(pos == 4 && loaderPos == "UL"){
+            labelDownRight.setText("Home");
+            labelDownRight.setVisible(true);
+        }
+        if(pos == 5 && loaderPos == "R"){
+            labelLeft.setText("Se connecter");
+            labelLeft.setVisible(true);
+        }
+        if(pos == 5 && loaderPos == "UR"){
+            labelDownLeft.setText("Home");
+            labelDownLeft.setVisible(true);
+        }
+
     }
 
 }

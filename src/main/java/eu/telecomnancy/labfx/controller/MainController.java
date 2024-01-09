@@ -93,7 +93,6 @@ public class MainController implements Initializable {
     @FXML
     public void moveUpLeft(MouseEvent event) throws IOException {
         if (!moving) {
-            loadPosition();
             root.translateXProperty().set(offX-435);
             root.translateYProperty().set(offY-693);
             moving = true;
@@ -107,7 +106,20 @@ public class MainController implements Initializable {
 
             updateNewHexa(paneCenter);
             updateOldHexa(paneDownRight);
+            if(position == 0){
+                position = 1;
+            }
+            else if(position == 3){
+                position = 2;
+            }
+            else if(position == 5){
+                position = 6;
+            }
+            else{
+                position = 0;
+            }
             updateHexagon();
+            loadPosition();
 
             transition.setOnFinished(event1 -> {
                 moving = false;
@@ -119,7 +131,6 @@ public class MainController implements Initializable {
     @FXML
     private void moveUpRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
-            loadPosition();
             root.translateXProperty().set(offX+435);
             root.translateYProperty().set(offY-693);
 
@@ -134,7 +145,21 @@ public class MainController implements Initializable {
 
             updateNewHexa(paneCenter);
             updateOldHexa(paneDownLeft);
+            if(position == 0){
+                position = 2;
+            }
+            else if(position == 6){
+                position = 1;
+            }
+            else if(position == 4){
+                position = 3;
+            }
+            else{
+                position = 0;
+            }
             updateHexagon();
+            loadPosition();
+
             transition.setOnFinished(event1 -> {
                 moving = false;
             });
@@ -144,9 +169,8 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveDownLeft(MouseEvent event) throws InterruptedException, IOException {
+    public void moveDownLeft(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
-            loadPosition();
             root.translateXProperty().set(offX-435);
             root.translateYProperty().set(offY+693);
 
@@ -161,8 +185,20 @@ public class MainController implements Initializable {
 
             updateNewHexa(paneCenter);
             updateOldHexa(paneUpRight);
+            if(position == 0){
+                position = 5;
+            }
+            else if(position == 3){
+                position = 4;
+            }
+            else if(position == 1){
+                position = 6;
+            }
+            else{
+                position = 0;
+            }
             updateHexagon();
-
+            loadPosition();
             transition.setOnFinished(event1 -> {
                 moving = false;
             });
@@ -178,7 +214,6 @@ public class MainController implements Initializable {
     private void moveDownRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
-            loadPosition();
             root.translateXProperty().set(offX+435);
             root.translateYProperty().set(offY+693);
             updateOldHexa(paneUpLeft);
@@ -193,8 +228,20 @@ public class MainController implements Initializable {
 
             updateNewHexa(paneCenter);
             updateOldHexa(paneUpLeft);
+            if(position == 0){
+                position = 4;
+            }
+            else if(position == 2){
+                position = 3;
+            }
+            else if(position == 6){
+                position = 5;
+            }
+            else{
+                position = 0;
+            }
             updateHexagon();
-
+            loadPosition();
             transition.setOnFinished(event1 -> {
                 moving = false;
             });
@@ -206,7 +253,6 @@ public class MainController implements Initializable {
     private void moveLeft(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
-            loadPosition();
             root.translateXProperty().set(offX-870);
             updateOldHexa(paneRight);
 
@@ -219,8 +265,21 @@ public class MainController implements Initializable {
 
             updateNewHexa(paneCenter);
             updateOldHexa(paneRight);
-            updateHexagon();
 
+            if(position == 0){
+                position = 6;
+            }
+            else if(position == 2){
+                position = 1;
+            }
+            else if(position == 4){
+                position = 5;
+            }
+            else{
+                position = 0;
+            }
+            updateHexagon();
+            loadPosition();
             transition.setOnFinished(event1 -> {
                 moving = false;
             });
@@ -234,7 +293,6 @@ public class MainController implements Initializable {
     private void moveRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
-            loadPosition();
             root.translateXProperty().set(offX+870);
             updateOldHexa(paneLeft);
 
@@ -247,8 +305,20 @@ public class MainController implements Initializable {
 
             updateNewHexa(paneCenter);
             updateOldHexa(paneLeft);
+            if(position == 0){
+                position = 3;
+            }
+            else if(position == 1){
+                position = 2;
+            }
+            else if(position == 5){
+                position = 4;
+            }
+            else{
+                position = 0;
+            }
             updateHexagon();
-
+            loadPosition();
             transition.setOnFinished(event1 -> {
                 moving = false;
             });
@@ -293,20 +363,20 @@ public class MainController implements Initializable {
         controllerDL.updateLabel(position,"DL");
         controllerR.updateLabel(position,"R");
         controllerL.updateLabel(position,"L");
-        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
-        Pane paneBoard = loader2.load();
-        boardController = loader2.getController();
-        colorizeHexagon(boardController.getHexagonCenter(), true);
+        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonHomepage.fxml"));
+        Pane paneC = loader2.load();
+        HomepageController controller = loader2.getController();
+        colorizeHexagon(controller.getHexagon(), true);
         updateNewHexa(paneCenter);
 
-        paneCenter.getChildren().add(paneBoard);
+        paneCenter.getChildren().add(paneC);
         paneLeft.getChildren().setAll(paneL);
         paneRight.getChildren().setAll(paneR);
         paneUpLeft.getChildren().setAll(paneUL);
         paneUpRight.getChildren().setAll(paneUR);
         paneDownLeft.getChildren().setAll(paneDL);
         paneDownRight.getChildren().setAll(paneDR);
-
+        updateHexagon();
         /*updateBorder(paneUpRight);
         updateBorder(paneUpLeft);
         updateBorder(paneDownRight);
@@ -328,8 +398,8 @@ public class MainController implements Initializable {
         Pane paneR = loaderR.load();
         Pane paneUL = loaderUL.load();
         Pane paneUR = loaderUR.load();
-        Pane paneDL = loaderDL.load();
         Pane paneDR = loaderDR.load();
+        Pane paneDL = loaderDL.load();
 
         HexagonController controllerUR = loaderUR.getController();
         HexagonController controllerUL = loaderUL.getController();
@@ -349,35 +419,53 @@ public class MainController implements Initializable {
         paneRight.getChildren().setAll(paneR);
         paneUpLeft.getChildren().setAll(paneUL);
         paneUpRight.getChildren().setAll(paneUR);
-        paneDownLeft.getChildren().setAll(paneDL);
         paneDownRight.getChildren().setAll(paneDR);
+        paneDownLeft.getChildren().setAll(paneDL);
+
     }
 
     public void loadPosition() throws IOException {
+        System.out.println(position);
         Pane paneUR = FXMLLoader.load(getClass().getResource("/Hexagon.fxml"));
 
-        if(position == 0){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaProfile.fxml"));
-            Pane paneProfile = loader.load();
-            ProfileController controllerP = loader.getController();
-            controllerP.updateBorder();
-            paneCenter.getChildren().setAll(paneProfile);
-
-            /*FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-            Pane pane = loader2.load();
-            HexagonController hexagonController = loader.getController();
-            hexagonController.updateLabel(position);*/
-
-            position = 1;
+        if (position == 0){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonHomepage.fxml"));
+            Pane pane = loader.load();
+            HomepageController controller = loader.getController();
+            colorizeHexagon(controller.getHexagon(),true);
+            paneCenter.getChildren().setAll(pane);
         }
         else if (position == 1){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaProfile.fxml"));
+            Pane paneProfile = loader.load();
+            ProfileController controller = loader.getController();
+            colorizeHexagon(controller.getHexagon(),true);
+            paneCenter.getChildren().setAll(paneProfile);
+        }
+        else if(position == 2){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
             Pane pane = loader.load();
             HexagonBoardController controller = loader.getController();
             colorizeHexagon(controller.getHexagonCenter(),true);
             paneCenter.getChildren().setAll(pane);
-            position = 0;
+
+
         }
+        if (position == 4){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonSignIn.fxml"));
+            Pane pane = loader.load();
+            SignInController controller = loader.getController();
+            colorizeHexagon(controller.getHexagon(),true);
+            paneCenter.getChildren().setAll(pane);
+        }
+        else if (position == 5){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonSignUp.fxml"));
+            Pane pane = loader.load();
+            SignUpController controller = loader.getController();
+            colorizeHexagon(controller.getHexagon(),true);
+            paneCenter.getChildren().setAll(pane);
+        }
+
     }
 
     public void updateOldHexa(Node node){

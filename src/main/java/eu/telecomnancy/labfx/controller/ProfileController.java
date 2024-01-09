@@ -97,7 +97,7 @@ public class ProfileController {
     };
 
 
-    public void updateBorder(){
-        hexagon.setStroke(Color.web("#F08A26"));
+    public Polygon getHexagon() {
+        return hexagon;
     }
 }
