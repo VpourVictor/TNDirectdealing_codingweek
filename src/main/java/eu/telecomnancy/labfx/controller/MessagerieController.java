@@ -52,7 +52,6 @@ public class MessagerieController implements Initializable {
                     Button button = fxmlLoader.load();
                     MessageItemController mic = fxmlLoader.getController();
                     mic.setUser(user);
-                    mic.setPrimaryStage(primaryStage);
                     mic.setData(convs.get(i));
                     listcontacts.getChildren().add(button);
                 } catch (IOException e) {
