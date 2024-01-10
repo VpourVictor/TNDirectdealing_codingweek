@@ -17,17 +17,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+@Getter
+@Setter
 public class SignUpController extends HexaSuper{
 
 
+
+
     private User user;
+
+    private ArrayList<User> users = new ArrayList<>();
 
     @FXML
     private Button browseButton;
@@ -90,27 +97,23 @@ public class SignUpController extends HexaSuper{
     @FXML
     private ComboBox countryList;
 
+    @FXML
+    private Button validateButton;
+
     final FileChooser fileChooser = new FileChooser();
     private final ObservableList<String> countries = FXCollections.observableArrayList();
 
+    @Getter
     @FXML
     Polygon hexagon;
+
     @FXML
     public void mouseEnter(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#F08A26"));
-
     }
     public void mouseExit(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#6C2466"));
-
     }
-    public Polygon getHexagon() {
-        return hexagon;
-    }
-
-
 
     @FXML
     void initialize() {
@@ -133,7 +136,6 @@ public class SignUpController extends HexaSuper{
             imageProfile.setImage(new Image(file.toURI().toString()));
         }
     }
-
 
     @FXML
     void createAccount(ActionEvent event) throws IOException {
@@ -174,42 +176,49 @@ public class SignUpController extends HexaSuper{
         else if ( passwordHiddenConfirmation.getText() == null) {
             new Alert(Alert.AlertType.ERROR, "Vérifiez votre mot de passe").showAndWait();
         }
-        else if (imageProfile.getImage() == null) {
-            new Alert(Alert.AlertType.ERROR, "Veuillez sélectionner une image").showAndWait();
-        }
         else if (!( passwordHiddenConfirmation.getText()).equals(passwordValue())){
             new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
         }
         else {
 
-            User user = new User(firstnameTextField.getText(), nameTextField.getText());
+            users = JsonUtil.jsonToUsers();
 
-            Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
-                    streetNameTF.getText(),
-                    Integer.parseInt(postalCodeTF.getText()),
-                    cityTF.getText(),
-                    regionTF.getText(),
-                    countryList.getValue().toString());
-            user.setAddress(address);
+            if (emailAlreadyUsed(mailTextField.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Cet email est déjà associé à un compte existant").showAndWait();
+            } else {
+                User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
 
-            user.setPseudo(pseudoTextField.getText());
-            user.setCoins(50);
-            //TODO sauvegarder l'image
-            user.setProfilePicture(imageProfile.getImage());
-            //TODO c'eest bon la lign au dessus ou pas ?
-            user.setPassword(passwordValue());
-            user.setConnected(true);
-            //TODO enregistrer le user en Json
-            //JsonUtil.userToJsonVoid(user);
-            SceneController sceneController = new SceneController();
-            sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
+                Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
+                        streetNameTF.getText(),
+                        Integer.parseInt(postalCodeTF.getText()),
+                        cityTF.getText(),
+                        regionTF.getText(),
+                        countryList.getValue().toString());
+                user.setAddress(address);
 
+                user.setPseudo(pseudoTextField.getText());
+                user.setCoins(50);
+                user.setProfilePicture(imageProfile.getImage());
+                user.setPassword(passwordValue());
+                user.setConnected(true);
+                users.add(user);
+                JsonUtil.usersToJson(users);
+                SceneController sceneController = new SceneController();
+                sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
+            }
         }
-
-
     }
 
-
+    //method to know if someone in an ArrayList<User> has already the mail you are trying to add
+    private Boolean emailAlreadyUsed(String mail){
+        //supposed that the mail is already to the good format
+        for (User user : users) {
+            if (user.getEmail().equals(mail)){
+                return true;
+            }
+        }
+        return false   ;
+    }
 
     //method to get the password
     private String passwordValue() {
@@ -229,8 +238,6 @@ public class SignUpController extends HexaSuper{
             passwordHidden.setVisible(true);
             passwordText.setVisible(false);
         }
-
-
     }
     @FXML
     public void validate(ActionEvent event) throws IOException {

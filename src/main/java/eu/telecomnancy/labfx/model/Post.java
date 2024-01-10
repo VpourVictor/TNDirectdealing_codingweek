@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,23 +17,18 @@ public abstract class Post {
     private String description;
     private String title;
     private String authorEmail;
-    private DateCouple dateCouple;
-
-    private List<DateCouple> occupiedDates;
-
+    private List<LocalDate> dates;
     private Address address;
     private Image image;
     private State state;
+    private Type_Date type_date;
 
-    public Post(String description, String title, String authorEmail, LocalDate start, LocalDate end, Address adress, Image image, State state) {
+    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, Type_Date type_date, Address adress, Image image, State state) {
         this.description = description;
         this.title = title;
         this.authorEmail = authorEmail;
-        if (start != null && end != null) {
-            this.dateCouple = new DateCouple(start, end);
-        } else if (start == null && end != null) {
-            this.dateCouple = new DateCouple(LocalDate.now(), end);
-        } else this.dateCouple = new DateCouple(Objects.requireNonNullElseGet(start, LocalDate::now), null);
+        this.dates = dates;
+        this.type_date = type_date;
         this.address = adress;
         this.image = image;
         this.state = state;

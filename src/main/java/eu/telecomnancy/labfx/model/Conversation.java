@@ -21,4 +21,13 @@ public class Conversation {
     public void addMessage(Message msg){
         messages.add(msg);
     }
+
+    public User getOther(User user){
+        if (user == user1){
+            return user2;
+        }
+        else{
+            return user1;
+        }
+    }
 }

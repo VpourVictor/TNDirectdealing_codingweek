@@ -9,3 +9,11 @@ déménagement, etc.).
 - Gabin Granjon
 - Aymeric Roussel 
 - Lili Schmidlin
+
+# Fonctionnalités opérationnelles : 
+- Annonces (Création, modification)
+- Inscription/Connexion
+- Page de profil
+- Début Messagerie
+- Animation Interface
+- Gestion de projet : Dossier GP -> roadmap + todo list

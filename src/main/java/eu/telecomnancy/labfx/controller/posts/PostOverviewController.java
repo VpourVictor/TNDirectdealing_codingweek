@@ -11,16 +11,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import lombok.Getter;
 
+import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PostOverviewController extends HexaSuper {
+    private Post post;
     @FXML
     public Text descriptionService;
     @FXML
@@ -34,15 +40,11 @@ public class PostOverviewController extends HexaSuper {
     private TableColumn<Person, String> firstNameColumn;
     @FXML
     private TableColumn<Person, String> lastNameColumn;
+    @FXML
+    private TableColumn<Person, String> emailColumn;
 
     @FXML
     private Label country;
-
-    @FXML
-    private Label dateEnd;
-
-    @FXML
-    private Label dateStart;
 
     @FXML
     private Text description;
@@ -55,6 +57,8 @@ public class PostOverviewController extends HexaSuper {
 
     @FXML
     private Label lastName;
+
+    @FXML Label email;
 
     @FXML
     private Label postalCode;
@@ -71,57 +75,61 @@ public class PostOverviewController extends HexaSuper {
     @FXML
     private Label title;
 
-    private Post post;
     private ArrayList<Post> posts;
 
+    public ListView<LocalDate> listDate;
+
+    @FXML private  Label type_date;
+    private final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
     @FXML
     Pane hexagonPane;
+    @Getter
     @FXML
     Polygon hexagon;
 
-
-    public Polygon getHexagon() {
-        return hexagon;
+    @FXML
+    void initialize() {
+        posts = JsonUtil.jsonToPosts();
+        if (firstNameColumn != null && lastNameColumn != null && emailColumn != null) {
+            firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+            lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+            emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
+        }
     }
 
     public void initData(Post post) {
-        System.out.println(Post.getNbPosts());
         posts = JsonUtil.jsonToPosts();
-/*        if (posts == null) {
-            posts = new ArrayList<>();
-        }*/
         this.post = post;
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
             personTable.setItems(personData);
-
         } else if (post instanceof Tool) {
             stateTool.setText(post.getStateTool());
         }
         description.setText(post.getDescription());
 
         // todo changer en fonction de la base
-        User author = new User("test", "test");
+        User author = new User("test", "test", "test@test.com");
 
         firstName.setText(author.getFirstName());
         lastName.setText(author.getLastName());
-        dateStart.setText(DateUtil.format(post.getDateCouple().getDateStart()));
-        dateEnd.setText(DateUtil.format(post.getDateCouple().getDateEnd()));
+        email.setText(author.getEmail());
+        dates.addAll(post.getDates());
+        listDate.setItems(dates);
+        if (post.getType_date() == Type_Date.PONCTUELLES) {
+            type_date.setText("Ponctuelle");
+        } else if (post.getType_date() == Type_Date.PLAGE) {
+            type_date.setText("Plage");
+        } else if (post.getType_date() == Type_Date.PONCTUELLE_REC) {
+            type_date.setText("Ponctuelle récurrente");
+        }
         title.setText(post.getTitle());
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
         region.setText(post.getAddress().getRegion());
         streetName.setText(post.getAddress().getStreetName());
         image.setImage(post.getImage());
-    }
-
-    @FXML
-    void initialize() {
-        if (firstNameColumn != null && lastNameColumn != null) {
-            firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-            lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
-        }
     }
 
     public void modify(ActionEvent event) {
@@ -135,11 +143,22 @@ public class PostOverviewController extends HexaSuper {
     }
 
     public void delete(ActionEvent event) {
-/*        posts.remove(post);
+        posts = JsonUtil.jsonToPosts();
+        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
         Post.setNbPosts(Post.getNbPosts() - 1);
-        JsonUtil.postsToJson(posts);*/
+        JsonUtil.postsToJson(posts);
 
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, posts);
+    }
+
+    public void viewService(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToOverviewServicePost(event, post);
+    }
+
+    public void viewTool(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToOverviewToolPost(event, post);
     }
 }

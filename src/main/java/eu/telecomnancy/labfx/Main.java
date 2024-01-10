@@ -11,6 +11,7 @@ import eu.telecomnancy.labfx.controller.MessagerieController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
+import eu.telecomnancy.labfx.model.Post;
 import eu.telecomnancy.labfx.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -45,8 +46,6 @@ public class Main extends Application {
         int height = (int) screen.getBounds().getHeight();
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
-        System.out.println(width);
-        System.out.println(height);
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
         Pane paneBoard = loader2.load();
         HexagonBoardController c = loader2.getController();

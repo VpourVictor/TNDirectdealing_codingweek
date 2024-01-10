@@ -3,18 +3,25 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 @Getter
@@ -79,10 +87,7 @@ public class PostEditController extends HexaSuper {
     final FileChooser fileChooser = new FileChooser();
 
     @FXML
-    public DatePicker dateStart;
-
-    @FXML
-    public DatePicker dateEnd;
+    public DatePicker datesPicker;
 
     @FXML
     private TextArea descriptionService;
@@ -94,6 +99,9 @@ public class PostEditController extends HexaSuper {
     private TextField lastNamePrest;
 
     @FXML
+    private TextField emailPrest;
+
+    @FXML
     private TableView<Person> listPrest;
 
     private ObservableList<Person> personData = FXCollections.observableArrayList();
@@ -102,6 +110,8 @@ public class PostEditController extends HexaSuper {
     private TableColumn<Person, String> firstNameColumn;
     @FXML
     private TableColumn<Person, String> lastNameColumn;
+    @FXML
+    private TableColumn<Person, String> emailColumn;
 
     @FXML
     public TextArea stateTool;
@@ -111,10 +121,25 @@ public class PostEditController extends HexaSuper {
 
     private ArrayList<Post> posts;
 
-    @FXML private GridPane grid;
+    @FXML private VBox listPost;
+
+    @FXML private ToggleGroup type_date;
+
+    private MyDatePicker myDatePicker;
+
+    @FXML private RadioButton plage;
+    @FXML private RadioButton ponctuelles;
+
+    public final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
+    public ListView<LocalDate> listDate;
+    private ArrayList<LocalDate> datesList = new ArrayList<>();
+
+    // todo voir tous -> problème
+    private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     @FXML
     void initialize() {
+        posts = JsonUtil.jsonToPosts();
         if (countryList != null){
             countries.addAll("France", "Allemagne", "Espagne", "Italie", "Royaume-Uni");
             countryList.setItems(countries);
@@ -123,6 +148,13 @@ public class PostEditController extends HexaSuper {
         if (firstNameColumn != null && lastNameColumn != null) {
             firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+            emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
+        }
+
+        if (listPost != null){
+            posts = JsonUtil.jsonToPosts();
+            SceneController sceneController = new SceneController();
+            sceneController.goToRowPost(posts, listPost);
         }
     }
 
@@ -130,6 +162,13 @@ public class PostEditController extends HexaSuper {
         posts = JsonUtil.jsonToPosts();
         if (posts == null)
             posts = new ArrayList<>();
+
+        if (type_date != null){
+            if (post != null){
+                dates.addAll(post.getDates());
+            }
+            myDatePicker = new MyDatePicker(datesPicker, this);
+        }
 
         if (name_page != null) {
             if(!modify)
@@ -143,8 +182,6 @@ public class PostEditController extends HexaSuper {
             title.setText(post.getTitle());
             description.setText(post.getDescription());
             image.setImage(post.getImage());
-            dateStart.setValue(post.getDateCouple().getDateStart());
-            dateEnd.setValue(post.getDateCouple().getDateEnd());
             streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
             street.setText(post.getAddress().getStreetName());
             postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
@@ -152,6 +189,7 @@ public class PostEditController extends HexaSuper {
             region.setText(post.getAddress().getRegion());
             countryList.setValue(post.getAddress().getCountry());
             type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
+            listDate.setItems(dates);
         }
 
         if (post != null && part2) {
@@ -172,7 +210,6 @@ public class PostEditController extends HexaSuper {
             else
                 mode.setText("Modification d'un post");
         }
-
     }
 
     public void browse(ActionEvent event) {
@@ -188,15 +225,14 @@ public class PostEditController extends HexaSuper {
     }
 
     public void validatePart1(ActionEvent event) {
-        LocalDate start, end = null;
         if (title.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Le titre ne peut pas être vide").showAndWait();
         }
         else if (description.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
         }
-        else if (dateStart.getValue() != null && dateEnd.getValue() != null && dateStart.getValue().isAfter(dateEnd.getValue())){
-            new Alert(Alert.AlertType.ERROR, "La date de début ne peut pas être après la date de fin").showAndWait();
+        else if (dates.size() != 2 && !ponctuelles.isSelected()){
+            new Alert(Alert.AlertType.ERROR, "Pour une plage, il faut 2 dates").showAndWait();
         }
         else if (streetNumber.getText().isEmpty()){
             new Alert(Alert.AlertType.ERROR, "Le numéro de rue ne peut pas être vide").showAndWait();
@@ -224,77 +260,108 @@ public class PostEditController extends HexaSuper {
         }
         else {
             // todo créer le user en fonction de la personne connectée
-            User user = new User("test", "test");
-            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
-            user.getPostedPosts().add(post);
-            user.setAddress(address);
-            user.setPseudo("test");
-            user.setPassword("test");
-            user.setEmail("dsldmlsk@dksjfslk.fr");
-
-
-            SceneController sceneController = new SceneController();
-
-            RadioButton selected = (RadioButton) type_post.getSelectedToggle();
-
-
-            if (dateStart.getValue() == null)
-                start = LocalDate.now();
-            else
-                start = dateStart.getValue();
-
-            State state = State.EN_COURS;
-            if (dateEnd.getValue() != null) {
-                end = dateEnd.getValue();
-                if (start.isAfter(LocalDate.now()))
-                    state = State.FUTUR;
-
-                if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
-                    state = State.EN_COURS;
-
-                if (end.isBefore(LocalDate.now()))
-                    state = State.TERMINE;
+            User author = null;
+            for (User user : users){
+                if (user.isConnected()){
+                    author = user;
+                    break;
+                }
             }
 
+            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
+            SceneController sceneController = new SceneController();
+
+            State state = State.EN_COURS;
+            if (myDatePicker.getStart().isAfter(LocalDate.now()))
+                state = State.FUTUR;
+
+            if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+                state = State.EN_COURS;
+
+            RadioButton date = (RadioButton) type_date.getSelectedToggle();
+
+            Type_Date type_date;
+
+            if (date.getId().equals("plage")){
+                type_date = Type_Date.PLAGE;
+                LocalDate boucle = myDatePicker.getStart();
+                dates.add(boucle);
+                datesList.add(boucle);
+                while (boucle.isBefore(myDatePicker.getEnd())){
+                    boucle = boucle.plusDays(1);
+                    dates.add(boucle);
+                    datesList.add(boucle);
+                }
+            } else if (date.getId().equals("ponctuelles")){
+                type_date = Type_Date.PONCTUELLES;
+                dates.addAll(myDatePicker.getSelectedDates());
+                datesList.addAll(myDatePicker.getSelectedDates());
+            }
+            else {
+                type_date = Type_Date.PONCTUELLE_REC;
+            }
+
+            RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), user.getEmail(), start, end, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
-                    modifierPost(start, end, user, address, state);
+                    modifierPost(datesList, author, address, state);
                 }
                 sceneController.goToEditService(event, post, modify);
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), user.getEmail(), start, end, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
-                    modifierPost(start, end, user, address, state);
+                    modifierPost(datesList, author, address, state);
                 }
                 sceneController.goToEditTool(event, post, modify);
             }
         }
     }
 
-    private void modifierPost(LocalDate start, LocalDate end, User user, Address address, State state) {
+    private void modifierPost(ArrayList<LocalDate> dates, User user, Address address, State state) {
         post.setDescription(description.getText());
         post.setTitle(title.getText());
         post.setAuthorEmail(user.getEmail());
-        post.setDateCouple(new DateCouple(start, end));
+        post.setDates(dates);
         post.setAddress(address);
         post.setImage(image.getImage());
         post.setState(state);
     }
 
     public void add() {
-        // todo récupérer la liste des personnes inscrites dans le JSON
-        // si personne dont nom et prénom sont ceux rentrés dans les champs
-        // personData.add(new User(firstNamePrest.getText(), lastNamePrest.getText()));
-        personData.add(new ExternalActor(firstNamePrest.getText(), lastNamePrest.getText()));
-        listPrest.setItems(personData);
-        lastNamePrest.clear();
-        firstNamePrest.clear();
+        if (lastNamePrest.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
+        }
+        else if (firstNamePrest.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le prénom ne peut pas être vide").showAndWait();
+        }
+        else if (emailPrest.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le mail ne peut pas être vide").showAndWait();
+        }
+        else {
+            for (User user : users){
+                if (user.getEmail().equals(emailPrest.getText())){
+                    personData.add(user);
+                    listPrest.setItems(personData);
+                    lastNamePrest.clear();
+                    firstNamePrest.clear();
+                    emailPrest.clear();
+                    return;
+                }
+            }
+            personData.add(new ExternalActor(firstNamePrest.getText(), lastNamePrest.getText(), emailPrest.getText()));
+            listPrest.setItems(personData);
+            lastNamePrest.clear();
+            firstNamePrest.clear();
+            emailPrest.clear();
+        }
     }
 
     public void validateServicePost(ActionEvent event) throws IOException {
@@ -365,7 +432,6 @@ public class PostEditController extends HexaSuper {
 
     public void newPost(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        // Post.setNbPosts(Post.getNbPosts() + 1);
         sceneController.goToCreatePost(event);
     }
 }

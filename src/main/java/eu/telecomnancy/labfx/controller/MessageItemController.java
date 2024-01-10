@@ -3,11 +3,13 @@ package eu.telecomnancy.labfx.controller;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,7 +24,7 @@ import java.util.ResourceBundle;
 @Getter
 @Setter
 public class MessageItemController implements Initializable {
-    private Stage primaryStage;
+    private boolean delete;
     private User user;
     private Conversation conversation;
     @FXML
@@ -48,14 +50,15 @@ public class MessageItemController implements Initializable {
         }
     }
 
-    public void openConvo() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/conversation.fxml"));
-        Parent root = fxmlLoader.load();
-        ConversationController cc = fxmlLoader.getController();
-        cc.setConv(conversation);
-        cc.setPrimaryStage(primaryStage);
-        cc.setAndLoad(user);
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-    }   //TODO ouvrir une conversation existante.
+    public void openConvo(ActionEvent event) throws IOException {
+        if (!delete) {
+            SceneController sc = new SceneController();
+            sc.openConv(user, conversation, event);
+        }
+        else{
+            user.delConv(conversation);
+            SceneController sc = new SceneController();
+            sc.goBackMessagerie(user, event);
+        }
+    }
 }

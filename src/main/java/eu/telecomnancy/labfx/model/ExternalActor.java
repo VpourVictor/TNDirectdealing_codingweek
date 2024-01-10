@@ -9,7 +9,7 @@ import lombok.Setter;
 public class ExternalActor extends Person{
     private String job;
 
-    public ExternalActor(String prenom, String nom) {
-        super(prenom, nom);
+    public ExternalActor(String prenom, String nom, String email) {
+        super(prenom, nom, email);
     }
 }

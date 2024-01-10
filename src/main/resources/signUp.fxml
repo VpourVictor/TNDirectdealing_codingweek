@@ -34,7 +34,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="nameTextField" promptText="Entrez votre nom" />
+                        <TextField fx:id="nameTextField" promptText="Entrez votre nom" text="Nom Default" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="309.0">
@@ -44,7 +44,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="firstnameTextField" promptText="Entrez votre prénom" />
+                        <TextField fx:id="firstnameTextField" promptText="Entrez votre prénom" text="Prénom Default" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="392.0">
@@ -54,7 +54,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="pseudoTextField" prefHeight="26.0" prefWidth="199.0" promptText="Choississez un pseudo" />
+                        <TextField fx:id="pseudoTextField" prefHeight="26.0" prefWidth="199.0" promptText="Choississez un pseudo" text="Pseudo Default" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="392.0">
@@ -64,7 +64,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="mailTextField" prefHeight="26.0" prefWidth="239.0" promptText="Entrez votre email" />
+                        <TextField fx:id="mailTextField" prefHeight="26.0" prefWidth="239.0" promptText="Entrez votre email" text="test@test.com" />
                      </children>
                   </HBox>
                </children>
@@ -83,7 +83,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="streetNumberTF" prefHeight="26.0" prefWidth="182.0" promptText="Entrez votre numéro de rue" />
+                              <TextField fx:id="streetNumberTF" prefHeight="26.0" prefWidth="182.0" promptText="Entrez votre numéro de rue" text="71" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="475.0">
@@ -96,7 +96,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="streetNameTF" prefHeight="26.0" prefWidth="295.0" promptText="Entrez le nom de votre rue/boulevard/impasse..." />
+                              <TextField fx:id="streetNameTF" prefHeight="26.0" prefWidth="295.0" promptText="Entrez le nom de votre rue/boulevard/impasse..." text="Rue Default" />
                            </children>
                         </HBox>
                      </children>
@@ -116,7 +116,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="cityTF" prefHeight="26.0" prefWidth="160.0" promptText="Entrez le nom de votre ville" />
+                              <TextField fx:id="cityTF" prefHeight="26.0" prefWidth="160.0" promptText="Entrez le nom de votre ville" text="Ville Default" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="188.0">
@@ -129,7 +129,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="postalCodeTF" prefHeight="26.0" prefWidth="75.0" promptText="ex : 13510" />
+                              <TextField fx:id="postalCodeTF" prefHeight="26.0" prefWidth="75.0" promptText="ex : 13510" text="54600" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="55.0" prefWidth="255.0">
@@ -155,7 +155,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="regionTF" prefHeight="26.0" prefWidth="199.0" promptText="Entrez le nom de votre région" />
+                              <TextField fx:id="regionTF" prefHeight="26.0" prefWidth="199.0" promptText="Entrez le nom de votre région" text="Région Default" />
                            </children>
                         </HBox>
                      </children>
@@ -208,7 +208,6 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="164.0" prefWidth="1280.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#createAccount" prefHeight="23.0" prefWidth="191.0" text="Valider et créer mon compte" />
                   <Label prefHeight="18.0" prefWidth="146.0" text="Ajoutez une image :" />
                   <Button fx:id="browseButton" mnemonicParsing="false" onAction="#browse" text="Parcourir...">
                      <padding>
@@ -220,9 +219,17 @@
                         <Insets left="50.0" right="50.0" />
                      </HBox.margin>
                   </ImageView>
+                  <Button fx:id="validateButton" mnemonicParsing="false" onAction="#createAccount" prefHeight="23.0" prefWidth="225.0" text="Valider et créer mon compte">
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </Button>
                </children>
             </HBox>
          </children>
       </VBox>
    </center>
+   <bottom>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>
