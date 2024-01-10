@@ -42,12 +42,13 @@ public class Main extends Application {
         Conversation conversation = new Conversation(user,user2);
         conversation.addMessage(message);
         user.getConvs().add(conversation);*/
-        System.out.println("YAYA");
 //        ArrayList<User> users =JsonUtil.jsonToUserList("src/main/resources/json/users.json");
 //        System.out.println("Taille users :" + users.size());
 //        for (User user : users ){
 //            System.out.println("Prénom : " + user.getFirstName() + ", Nom : " + user.getLastName());
+//            user.setPseudo("WAKANDA");
 //        }
+//        JsonUtil.userListToJson( users, "src/main/resources/json/users.json");
 
         primaryStage.setTitle("JavaFx Demo");
 

@@ -196,9 +196,11 @@ public class JsonUtil {
                 address.getString("country"));
     }
 
-
+    //Attention la fonction retourne le contenu sous la forme {email : "...", firstname : "...", ...}
+    //Et non le {userX : {email : "...", firstname : "...", ...} sinon meme fonction mais deux lignes
+    // à uncomment
     public static JSONObject userToJsonNotVoid(User user) {
-        JSONObject userJson = new JSONObject();
+        //JSONObject userJson = new JSONObject();
         JSONObject json = new JSONObject();
         try {
             json.put("firstName", user.getFirstName());
@@ -214,14 +216,14 @@ public class JsonUtil {
             json.put("coins", user.getCoins() );
             json.put("isConnected", valueOf(user.isConnected()) );
             json.put("evaluationList", listDoubleToJson(user.getEvaluationList()));
-            json.put("postedPosts", listPostToJson(user.getPostedPosts()));
-            json.put("appliedToPosts", listPostToJson(user.getAppliedToPosts()));
+            //json.put("postedPosts", listPostToJson(user.getPostedPosts()));
+            //json.put("appliedToPosts", listPostToJson(user.getAppliedToPosts()));
             json.put("nbOfPostedPosts", user.getNbOfPostedPosts());
             json.put("nbOfAppliedToPosts", user.getNbOfAppliedToPosts());
             json.put("nbOfEvaluation", user.getNbOfEvaluation());
-            userJson.put("user" + user.getNbUsers(), json);
-            return userJson;
-            //return json;
+            //userJson.put("user" + user.getNbUsers(), json);
+            //return userJson;
+            return json;
 
         }
         catch (Exception e) {
@@ -258,7 +260,6 @@ public class JsonUtil {
         return user;
     }
 
-    //TODO a tester
     public static void userListToJson(ArrayList<User> users, String path) {
 
         JSONObject usersJson = new JSONObject();
@@ -268,6 +269,7 @@ public class JsonUtil {
                 for (User user : users) {
                     JSONObject jsonUser = userToJsonNotVoid(user);
                     usersJson.put("user" + index, jsonUser);
+                    index++;
                 }
             }
             else {
@@ -289,6 +291,7 @@ public class JsonUtil {
             if (User.getNbUsers() == 0){
                 return users;
             }
+            //for (int i = 1; i <= 2 ; i++){
 
             for (int i = 1; i <= User.getNbUsers() ; i++){
                 JSONObject jsonUser = json.getJSONObject("user" + i);
@@ -326,7 +329,6 @@ public class JsonUtil {
 
     }
 
-    //TODO a tester
     public static ArrayList<Post> jsonToPostsWithParameter(JSONObject jsonPostsList){
         try {
             ArrayList<Post> posts = new ArrayList<>();
@@ -371,7 +373,6 @@ public class JsonUtil {
         }
     }
 
-    //TODO a tester
     public static JSONObject listPostToJson(ArrayList<Post> listOfPost){
         JSONObject json = new JSONObject();
         try {
@@ -464,6 +465,33 @@ public class JsonUtil {
             throw new RuntimeException("Error converting JSON to list of doubles", e);
         }
         return listOfDouble;
+    }
+
+    public static ArrayList<Integer> jsonToListInteger(JSONObject json) {
+        ArrayList<Integer> listOfInt = new ArrayList<>();
+        try {
+            for (String key : json.keySet()) {
+                int idPost = json.getInt(key);
+                listOfInt.add(idPost);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting JSON to list of integers", e);
+        }
+        return listOfInt;
+    }
+
+    public static JSONObject listIntegerToJson(ArrayList<Integer> listOfIntegers) {
+        JSONObject json = new JSONObject();
+        try {
+            int index = 0;
+            for (Integer val : listOfIntegers) {
+                json.put("Post" + index, val);
+                index++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error converting list of integers to JSON", e);
+        }
+        return json;
     }
 
 //    public static JSONObject readJsonFromFile(String fileName) {

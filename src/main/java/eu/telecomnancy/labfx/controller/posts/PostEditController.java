@@ -235,7 +235,9 @@ public class PostEditController {
             // todo créer le user en fonction de la personne connectée
             User user = new User("test", "test");
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
-            user.getPostedPosts().add(post);
+            //TODO changer ligne du dessous : user.getPostedPosts().add(post);
+            //user.getPostedPosts().add(post);
+
             user.setAddress(address);
             user.setPseudo("test");
             user.setPassword("test");
