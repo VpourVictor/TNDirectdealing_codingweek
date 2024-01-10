@@ -198,8 +198,8 @@ public class SignUpController {
             user.setProfilePicture(imageProfile.getImage());
             user.setPassword(passwordValue());
             user.setConnected(true);
-            //JsonUtil.registerNewUser(user);
-            JsonUtil.betterRegisterNewUser(user);
+            JsonUtil.registerNewUser(user);
+            //JsonUtil.betterRegisterNewUser(user);
             SceneController sceneController = new SceneController();
             sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
 

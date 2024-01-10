@@ -219,9 +219,9 @@ public class JsonUtil {
             json.put("nbOfPostedPosts", user.getNbOfPostedPosts());
             json.put("nbOfAppliedToPosts", user.getNbOfAppliedToPosts());
             json.put("nbOfEvaluation", user.getNbOfEvaluation());
-            //userJson.put("user" + user.getNbUsers(), json);
-            //return userJson;
-            return json;
+            userJson.put("user" + user.getNbUsers(), json);
+            return userJson;
+            //return json;
 
         }
         catch (Exception e) {
@@ -351,41 +351,41 @@ public class JsonUtil {
         }
     }
 
-    public static JSONObject readJsonFromFile(String fileName) {
-        try (FileReader fileReader = new FileReader(fileName)) {
-            int data;
-            StringBuilder jsonString = new StringBuilder();
-
-            while ((data = fileReader.read()) != -1) {
-                jsonString.append((char) data);
-            }
-
-            return new JSONObject(jsonString.toString());
-        } catch (Exception e) {
-            throw new RuntimeException("Error reading the JSONFile", e);
-        }
-    }
-
-    public static void writeJsonToFile(JSONObject json, String path) {
-        try (FileWriter fileWriter = new FileWriter(path)) {
-            fileWriter.write(json.toString());
-        } catch (Exception e) {
-            throw new RuntimeException("Error writing the JSONFile", e);
-        }
-    }
-
-    public static void addJsonUserInFile (JSONObject userJson, String path, int nbOfUsers){
-        JSONObject existingData = readJsonFromFile(path);
-
-        existingData.put("user" + nbOfUsers, userJson);
-        writeJsonToFile(existingData, path);
-    }
-
-    public static void betterRegisterNewUser(User newUser){
-        JSONObject json = userToJsonNotVoid(newUser);
-        addJsonUserInFile(json, "src/main/resources/json/users.json", newUser.getNbUsers() );
-
-    }
+//    public static JSONObject readJsonFromFile(String fileName) {
+//        try (FileReader fileReader = new FileReader(fileName)) {
+//            int data;
+//            StringBuilder jsonString = new StringBuilder();
+//
+//            while ((data = fileReader.read()) != -1) {
+//                jsonString.append((char) data);
+//            }
+//
+//            return new JSONObject(jsonString.toString());
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error reading the JSONFile", e);
+//        }
+//    }
+//
+//    public static void writeJsonToFile(JSONObject json, String path) {
+//        try (FileWriter fileWriter = new FileWriter(path)) {
+//            fileWriter.write(json.toString());
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error writing the JSONFile", e);
+//        }
+//    }
+//
+//    public static void addJsonUserInFile (JSONObject userJson, String path, int nbOfUsers){
+//        JSONObject existingData = readJsonFromFile(path);
+//
+//        existingData.put("user" + nbOfUsers, userJson);
+//        writeJsonToFile(existingData, path);
+//    }
+//
+//    public static void betterRegisterNewUser(User newUser){
+//        JSONObject json = userToJsonNotVoid(newUser);
+//        addJsonUserInFile(json, "src/main/resources/json/users.json", newUser.getNbUsers() );
+//
+//    }
 }
 
 
