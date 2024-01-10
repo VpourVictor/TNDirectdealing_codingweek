@@ -33,6 +33,8 @@ public class PostOverviewController {
     private TableColumn<Person, String> firstNameColumn;
     @FXML
     private TableColumn<Person, String> lastNameColumn;
+    @FXML
+    private TableColumn<Person, String> emailColumn;
 
     @FXML
     private Label country;
@@ -55,6 +57,8 @@ public class PostOverviewController {
     @FXML
     private Label lastName;
 
+    @FXML Label email;
+
     @FXML
     private Label postalCode;
 
@@ -75,31 +79,32 @@ public class PostOverviewController {
     @FXML
     void initialize() {
         posts = JsonUtil.jsonToPosts();
-        if (firstNameColumn != null && lastNameColumn != null) {
+        if (firstNameColumn != null && lastNameColumn != null && emailColumn != null) {
             firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+            emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         }
     }
 
     public void initData(Post post) {
         posts = JsonUtil.jsonToPosts();
         this.post = post;
-        System.out.println(post.getClass());
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
             personTable.setItems(personData);
-
         } else if (post instanceof Tool) {
             stateTool.setText(post.getStateTool());
         }
         description.setText(post.getDescription());
 
         // todo changer en fonction de la base
-        User author = new User("test", "test");
+        User author = new User("test", "test", "test@test.com");
 
         firstName.setText(author.getFirstName());
         lastName.setText(author.getLastName());
+        email.setText(author.getEmail());
+
         dateStart.setText(DateUtil.format(post.getDateCouple().getDateStart()));
         dateEnd.setText(DateUtil.format(post.getDateCouple().getDateEnd()));
         title.setText(post.getTitle());

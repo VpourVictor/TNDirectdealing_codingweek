@@ -183,7 +183,7 @@ public class SignUpController {
         }
         else {
 
-            User user = new User(firstnameTextField.getText(), nameTextField.getText());
+            User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
 
             Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
                     streetNameTF.getText(),
@@ -198,7 +198,6 @@ public class SignUpController {
             user.setProfilePicture(imageProfile.getImage());
             user.setPassword(passwordValue());
             user.setConnected(true);
-            user.setEmail(mailTextField.getText());
             JsonUtil.registerNewUser(user);
             //JsonUtil.betterRegisterNewUser(user);
             SceneController sceneController = new SceneController();

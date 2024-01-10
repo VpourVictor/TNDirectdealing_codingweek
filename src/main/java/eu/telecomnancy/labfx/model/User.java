@@ -15,7 +15,6 @@ public class User extends Person {
 
     @Setter
     private boolean isConnected;
-    private String email;
     private String pseudo;
     private String password;
     private Address address;
@@ -28,6 +27,7 @@ public class User extends Person {
     protected int nbOfPostedPosts = 0;
     protected int nbOfAppliedToPosts = 0;
     @Getter
+    @Setter
     private static int nbUsers = 0;
 
     public void addPostedPosts( Integer idPost ) {
@@ -51,25 +51,22 @@ public class User extends Person {
         nbUsers++;
     }
 
-    public User(String prenom, String nom, String mail) {
-        super(prenom, nom);
-        this.email = mail;
+    public User(String prenom, String nom, String email) {
+        super(prenom, nom, email);
         this.convs = new ArrayList<Conversation>();
         this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
         nbUsers++;
     }
 
     public User(String prenom, String nom, String mail, String pseudo) {
-        super(prenom, nom);
-        this.email = mail;
+        super(prenom, nom, mail);
         this.pseudo = pseudo;
         this.convs = new ArrayList<Conversation>();
         this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
     }
 
     public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
-        super(prenom, nom);
-        this.email = email;
+        super(prenom, nom, email);
         this.pseudo = pseudo;
         this.password = password;
         this.address = address;

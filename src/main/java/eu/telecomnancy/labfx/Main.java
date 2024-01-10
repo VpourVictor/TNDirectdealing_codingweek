@@ -11,6 +11,7 @@ import eu.telecomnancy.labfx.controller.MessagerieController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
+import eu.telecomnancy.labfx.model.Post;
 import eu.telecomnancy.labfx.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        ArrayList<Post> posts = JsonUtil.jsonToPosts();
+        System.out.println(posts.size());
 /*        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
         Parent root2 = loader2.load();
         Scene scene2 = new Scene(root2);
@@ -65,8 +68,6 @@ public class Main extends Application {
         int height = (int) screen.getBounds().getHeight();
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
-        System.out.println(width);
-        System.out.println(height);
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
         Pane paneBoard = loader2.load();
         HexagonBoardController c = loader2.getController();

@@ -1,15 +1,13 @@
 package eu.telecomnancy.labfx.controller.utils;
 
 import eu.telecomnancy.labfx.model.*;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 import static java.lang.String.valueOf;
 
@@ -31,13 +29,14 @@ public class JsonUtil {
         return json;
     }
 
-    public static JSONObject providersToJson(ArrayList<User> users) {
+    public static JSONObject providersToJson(List<Person> providers) {
         JSONObject usersJson = new JSONObject();
         try {
-            if (!users.isEmpty()){
-                for (User user : users) {
-                    JSONObject json = providerToJson(user);
-                    usersJson.put("provider" + user.getEmail(), json);
+            if (!providers.isEmpty()){
+                int i = 1;
+                for (Person person : providers) {
+                    JSONObject json = providerToJson(person);
+                    usersJson.put("provider" + i++, json);
                 }
             }
             else {
@@ -51,22 +50,37 @@ public class JsonUtil {
         }
     }
 
-    // todo finir enregistrement des personnes prestataires
-    private static JSONObject providerToJson(Person user) {
+    private static JSONObject providerToJson(Person provider) {
         JSONObject json = new JSONObject();
         try {
-            json.put("firstName", user.getFirstName());
-            json.put("lastName", user.getLastName());
-
-            if (user instanceof User) {
-                json.put("email", ((User) user).getEmail());
-            }
+            json.put("firstName", provider.getFirstName());
+            json.put("lastName", provider.getLastName());
+            json.put("email", provider.getEmail());
 
             return json;
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static ArrayList<Person> jsonToProviders(int nbProviders, JSONObject json){
+        ArrayList<Person> providers = new ArrayList<>();
+
+        for (int i = 1; i <= nbProviders ; i++){
+            JSONObject jsonObject = json.getJSONObject("provider" + i);
+            System.out.println(jsonObject);
+            providers.add(jsonToProvider(jsonObject));
+        }
+        return providers;
+    }
+
+    private static ExternalActor jsonToProvider(JSONObject provider) {
+        String firstName = provider.getString("firstName");
+        String lastName = provider.getString("lastName");
+        String email = provider.getString("email");
+
+        return new ExternalActor(firstName, lastName, email);
     }
 
 
@@ -93,13 +107,12 @@ public class JsonUtil {
             if (post instanceof eu.telecomnancy.labfx.model.Service) {
                 json.put("type", "service");
                 json.put("descriptionService", post.getDescriptionService());
+                json.put("providers", providersToJson(post.getProviders()));
             }
             else if (post instanceof eu.telecomnancy.labfx.model.Tool) {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
             }
-
-
 
             return json;
         }
@@ -167,6 +180,10 @@ public class JsonUtil {
 
                 State state = State.valueOf(jsonObject.getString("state"));
 
+                int nbProviders = jsonObject.getJSONObject("providers").length();
+
+                List<Person> providers = jsonToProviders(nbProviders, jsonObject.getJSONObject("providers"));
+
                 Image image;
                 if (jsonObject.getString("path").isEmpty())
                     image = null;
@@ -175,12 +192,12 @@ public class JsonUtil {
 
                 if (type.equals("service")) {
                     posts.add(new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate, jsonToAdress(jsonObject.getJSONObject("address")),
-                            image, state, jsonObject.getString("descriptionService")));
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate, null,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers));
                 }
                 else if (type.equals("tool")) {
                     posts.add(new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate,
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate, null,
                             jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool")));
                 }
             }
@@ -327,50 +344,6 @@ public class JsonUtil {
             throw new RuntimeException("Error in readJsonFileFromPath", e);
         }
 
-    }
-
-    public static ArrayList<Post> jsonToPostsWithParameter(JSONObject jsonPostsList){
-        try {
-            ArrayList<Post> posts = new ArrayList<>();
-
-            //JSONObject json = new JSONObject(builder.toString());
-
-            if (Post.getNbPosts() == 0)
-                return posts;
-
-            for (int i = 1; i <= Post.getNbPosts() ; i++){
-                JSONObject jsonOnePost = jsonPostsList.getJSONObject("post" + i);
-                String type = jsonOnePost.getString("type");
-                LocalDate startDate = LocalDate.parse(jsonOnePost.getString("startDate"));
-                LocalDate endDate;
-                if (jsonOnePost.getString("endDate").isEmpty())
-                    endDate = null;
-                else
-                    endDate = LocalDate.parse(jsonOnePost.getString("endDate"));
-
-                State state = State.valueOf(jsonOnePost.getString("state"));
-
-                Image image;
-                if (jsonOnePost.getString("path").isEmpty())
-                    image = null;
-                else
-                    image = new Image(jsonOnePost.getString("path"));
-
-                if (type.equals("service")) {
-                    posts.add(new Service(Integer.parseInt(jsonOnePost.get("id").toString()), jsonOnePost.getString("description"),
-                            jsonOnePost.getString("title"), jsonOnePost.getString("author_email"), startDate, endDate, jsonToAdress(jsonOnePost.getJSONObject("address")),
-                            image, state, jsonOnePost.getString("descriptionService")));
-                }
-                else if (type.equals("tool")) {
-                    posts.add(new Tool(Integer.parseInt(jsonOnePost.get("id").toString()), jsonOnePost.getString("description"),
-                            jsonOnePost.getString("title"), jsonOnePost.getString("author_email"), startDate, endDate,
-                            jsonToAdress(jsonOnePost.getJSONObject("address")), image, state, jsonOnePost.getString("stateTool")));
-                }
-            }
-            return posts;
-        } catch (Exception e) {
-            throw new RuntimeException("Error in jsonToPostsWithParameter the JSONFile", e);
-        }
     }
 
     public static JSONObject listPostToJson(ArrayList<Post> listOfPost){

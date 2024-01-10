@@ -4,13 +4,15 @@ import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Post;
-import eu.telecomnancy.labfx.model.Service;
 import eu.telecomnancy.labfx.model.User;
+import eu.telecomnancy.labfx.model.Service;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,16 +32,6 @@ public class SceneController {
     public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
         try {
-            /*for (Post post : posts) {
-                root = loader.load();
-                PostOverviewController controller = loader.getController();
-                controller.initData(post);
-                stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }*/
-
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.initData(null);
@@ -149,7 +141,7 @@ public class SceneController {
     }
 
     public void goToEditPost(ActionEvent event, Post post, boolean modify) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/new.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
@@ -181,7 +173,7 @@ public class SceneController {
     }
 
     public void goToCreatePost(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/new.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
@@ -196,15 +188,21 @@ public class SceneController {
         }
     }
 
-    public void goToRowPost(GridPane grid, Post post) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/postService_row_overview.fxml"));
-        try {
-            root = loader.load();
-            PostOverviewController controller = loader.getController();
-            controller.initData(post);
-            grid.getChildren().add(root);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void goToRowPost(ArrayList<Post> posts, VBox listPost) {
+        for (Post post1 : posts){
+            FXMLLoader loader = new FXMLLoader();
+            if (post1 instanceof Service)
+                loader.setLocation(getClass().getResource("/posts/postService_row_overview.fxml"));
+            else
+                loader.setLocation(getClass().getResource("/posts/postTool_row_overview.fxml"));
+            try {
+                AnchorPane pane = loader.load();
+                PostOverviewController controller = loader.getController();
+                controller.initData(post1);
+                listPost.getChildren().add(pane);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
