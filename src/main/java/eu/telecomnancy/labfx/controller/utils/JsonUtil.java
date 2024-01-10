@@ -229,13 +229,15 @@ public class JsonUtil {
         }
     }
 
+
     public static void registerNewUser(User newUser){
         JSONObject json = userToJsonNotVoid(newUser);
         writeJsonInJsonFile("src/main/resources/json/users.json",json);
 
     }
 
-    private static User jsonToUserNotVoid(JSONObject author) {
+    //Marche bien sans les listes de posts pour le moment
+    private static User jsonToUser(JSONObject author) {
         Image image;
         if (author.getString("path").isEmpty())
             image = null;
@@ -256,7 +258,120 @@ public class JsonUtil {
         return user;
     }
 
-//TODO a tester
+    //TODO a tester
+    public static void userListToJson(ArrayList<User> users, String path) {
+
+        JSONObject usersJson = new JSONObject();
+        try {
+            if (!users.isEmpty()){
+                int index = 1;
+                for (User user : users) {
+                    JSONObject jsonUser = userToJsonNotVoid(user);
+                    usersJson.put("user" + index, jsonUser);
+                }
+            }
+            else {
+                usersJson.put("user0", "");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        writeJsonInJsonFile(path, usersJson );
+    }
+
+    //Marche bien sans les listes de posts pour le moment
+    public static ArrayList<User> jsonToUserList(String path){
+        try {
+            JSONObject json = readJsonFileFromPath (path);
+            ArrayList<User> users = new ArrayList<>();
+
+            if (User.getNbUsers() == 0){
+                return users;
+            }
+
+            for (int i = 1; i <= User.getNbUsers() ; i++){
+                JSONObject jsonUser = json.getJSONObject("user" + i);
+                User user = jsonToUser(jsonUser);
+                users.add(user);
+            }
+
+            return users;
+        } catch (Exception e) {
+            throw new RuntimeException("Error in jsonToUserList the JSONFile", e);
+        }
+    }
+
+    public static JSONObject readJsonFileFromPath (String path){
+        try {
+            InputStream is = new FileInputStream(path);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while (line != null) {
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            return json;
+        }
+
+        catch (Exception e) {
+            throw new RuntimeException("Error in readJsonFileFromPath", e);
+        }
+
+    }
+
+    //TODO a tester
+    public static ArrayList<Post> jsonToPostsWithParameter(JSONObject jsonPostsList){
+        try {
+            ArrayList<Post> posts = new ArrayList<>();
+
+            //JSONObject json = new JSONObject(builder.toString());
+
+            if (Post.getNbPosts() == 0)
+                return posts;
+
+            for (int i = 1; i <= Post.getNbPosts() ; i++){
+                JSONObject jsonOnePost = jsonPostsList.getJSONObject("post" + i);
+                String type = jsonOnePost.getString("type");
+                LocalDate startDate = LocalDate.parse(jsonOnePost.getString("startDate"));
+                LocalDate endDate;
+                if (jsonOnePost.getString("endDate").isEmpty())
+                    endDate = null;
+                else
+                    endDate = LocalDate.parse(jsonOnePost.getString("endDate"));
+
+                State state = State.valueOf(jsonOnePost.getString("state"));
+
+                Image image;
+                if (jsonOnePost.getString("path").isEmpty())
+                    image = null;
+                else
+                    image = new Image(jsonOnePost.getString("path"));
+
+                if (type.equals("service")) {
+                    posts.add(new Service(Integer.parseInt(jsonOnePost.get("id").toString()), jsonOnePost.getString("description"),
+                            jsonOnePost.getString("title"), jsonOnePost.getString("author_email"), startDate, endDate, jsonToAdress(jsonOnePost.getJSONObject("address")),
+                            image, state, jsonOnePost.getString("descriptionService")));
+                }
+                else if (type.equals("tool")) {
+                    posts.add(new Tool(Integer.parseInt(jsonOnePost.get("id").toString()), jsonOnePost.getString("description"),
+                            jsonOnePost.getString("title"), jsonOnePost.getString("author_email"), startDate, endDate,
+                            jsonToAdress(jsonOnePost.getJSONObject("address")), image, state, jsonOnePost.getString("stateTool")));
+                }
+            }
+            return posts;
+        } catch (Exception e) {
+            throw new RuntimeException("Error in jsonToPostsWithParameter the JSONFile", e);
+        }
+    }
+
+    //TODO a tester
     public static JSONObject listPostToJson(ArrayList<Post> listOfPost){
         JSONObject json = new JSONObject();
         try {
@@ -314,6 +429,14 @@ public class JsonUtil {
         }
     }
 
+    public static void writeJsonInJsonFile(String path, JSONObject json ){
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(json.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static JSONObject listDoubleToJson(ArrayList<Double> listOfDouble){
         JSONObject json = new JSONObject();
         try {
@@ -341,14 +464,6 @@ public class JsonUtil {
             throw new RuntimeException("Error converting JSON to list of doubles", e);
         }
         return listOfDouble;
-    }
-
-    public static void writeJsonInJsonFile(String path, JSONObject json ){
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 //    public static JSONObject readJsonFromFile(String fileName) {
@@ -386,6 +501,7 @@ public class JsonUtil {
 //        addJsonUserInFile(json, "src/main/resources/json/users.json", newUser.getNbUsers() );
 //
 //    }
+
 }
 
 

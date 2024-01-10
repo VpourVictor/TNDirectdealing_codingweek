@@ -198,6 +198,7 @@ public class SignUpController {
             user.setProfilePicture(imageProfile.getImage());
             user.setPassword(passwordValue());
             user.setConnected(true);
+            user.setEmail(mailTextField.getText());
             JsonUtil.registerNewUser(user);
             //JsonUtil.betterRegisterNewUser(user);
             SceneController sceneController = new SceneController();
