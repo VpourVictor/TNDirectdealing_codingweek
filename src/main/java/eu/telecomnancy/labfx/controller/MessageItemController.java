@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,7 @@ import java.util.ResourceBundle;
 @Getter
 @Setter
 public class MessageItemController implements Initializable {
+    private boolean delete;
     private User user;
     private Conversation conversation;
     @FXML
@@ -49,7 +51,14 @@ public class MessageItemController implements Initializable {
     }
 
     public void openConvo(ActionEvent event) throws IOException {
-        SceneController sc = new SceneController();
-        sc.openConv(user, conversation, event);
+        if (!delete) {
+            SceneController sc = new SceneController();
+            sc.openConv(user, conversation, event);
+        }
+        else{
+            user.delConv(conversation);
+            SceneController sc = new SceneController();
+            sc.goBackMessagerie(user, event);
+        }
     }
 }

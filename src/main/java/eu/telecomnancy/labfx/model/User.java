@@ -55,6 +55,14 @@ public class User extends Person {
         this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
     }
 
+    public User(String prenom, String nom, String mail, String pseudo) {
+        super(prenom, nom);
+        this.email = mail;
+        this.pseudo = pseudo;
+        this.convs = new ArrayList<Conversation>();
+        this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+    }
+
     public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
         super(prenom, nom);
         this.email = email;
@@ -79,6 +87,10 @@ public class User extends Person {
 
     public void delConv(Conversation conv){
         convs.remove(conv);
+    }
+
+    public void addConv(Conversation conv){
+        convs.add(conv);
     }
 
 }

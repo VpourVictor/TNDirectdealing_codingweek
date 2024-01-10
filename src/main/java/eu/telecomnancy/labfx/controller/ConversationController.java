@@ -3,19 +3,26 @@ package eu.telecomnancy.labfx.controller;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,6 +33,16 @@ public class ConversationController implements Initializable {
     private Conversation conv;
     @FXML
     private VBox listMessages;
+    @FXML
+    private TextArea msgText;
+    @FXML
+    private Label pseudoText;
+    @FXML
+    private Label mailText;
+    @FXML
+    private Label ratingText;
+    @FXML
+    private ScrollPane scroll;
 
     @Override
     public void initialize(URL Location, ResourceBundle resources){
@@ -34,6 +51,8 @@ public class ConversationController implements Initializable {
 
     private void load(){
         if (user != null) {
+            pseudoText.setText(conv.getOther(user).getPseudo());
+            mailText.setText(conv.getOther(user).getEmail());
             List<Message> messages = conv.getMessages();
             for (int i = 0; i < messages.size(); i++) {
                 if (messages.get(i).getSender() == user){
@@ -71,13 +90,35 @@ public class ConversationController implements Initializable {
 
     }
 
-    public void goBackMenu() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
-        Parent root = fxmlLoader.load();
-        MessagerieController mc = fxmlLoader.getController();
-        mc.setPrimaryStage(primaryStage);
-        mc.setAndLoad(user);
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
+    public void goMenu(ActionEvent event) throws IOException {
+        SceneController sc = new SceneController();
+        sc.goBackMessagerie(user, event);
+    }
+
+    public void delConv(ActionEvent event) throws IOException {
+        user.delConv(conv);
+        SceneController sc = new SceneController();
+        sc.goBackMessagerie(user, event);
+    }
+
+    public void sendMsg(ActionEvent event) throws IOException {
+        if (!msgText.getText().isEmpty()) {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            String msg = msgText.getText();
+            String date = dtf.format(now);
+            msgText.setText("");
+            Message message = new Message(user, conv.getOther(user), msg, date);
+            conv.addMessage(message);
+            //SceneController sc = new SceneController();
+            //sc.openConv(user, conv, event);
+            reload();
+        }
+    }
+
+    public void reload(){
+        listMessages.getChildren().clear();
+        load();
+        scroll.setVvalue(scroll.getVmax());
     }
 }

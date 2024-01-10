@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SceneController {
     private Stage stage;
@@ -206,5 +207,15 @@ public class SceneController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void goBackMessagerie(User user, ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
+        root = fxmlLoader.load();
+        MessagerieController mc = fxmlLoader.getController();
+        mc.setAndLoad(user);
+        stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
     }
 }

@@ -54,12 +54,20 @@ public class HomepageController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        User user = new User("test", "test","test@gmail.com");
-        User user2 = new User("test2", "test2","test@gmail.com");
-        Message message = new Message(user,user2,"Salut");
+        User user = new User("test", "test","test@gmail.com", "Rezko");
+        User user2 = new User("test2", "test2","test@gmail.com", "Rezko2");
+        Message message = new Message(user,user2,"Salut", "now");
         Conversation conversation = new Conversation(user,user2);
+        Conversation conversation2 = new Conversation(user,user2);
+        Conversation conversation3 = new Conversation(user,user2);
+
+
         conversation.addMessage(message);
+        conversation2.addMessage(message);
+        conversation3.addMessage(message);
         user.getConvs().add(conversation);
+        user.getConvs().add(conversation2);
+        user.getConvs().add(conversation3);
         MessagerieController messagerieController = loader.getController();
         messagerieController.setAndLoad(user);
 
