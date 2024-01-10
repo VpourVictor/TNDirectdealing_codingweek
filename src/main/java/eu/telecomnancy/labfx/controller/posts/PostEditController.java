@@ -1,6 +1,7 @@
 package eu.telecomnancy.labfx.controller.posts;
 
 
+import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
@@ -12,6 +13,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +27,21 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
-public class PostEditController {
+public class PostEditController extends HexaSuper {
     private Post post;
 
     private boolean part2 = false;
     private boolean modify;
+
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+
+
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     @FXML
     public ToggleGroup type_post;

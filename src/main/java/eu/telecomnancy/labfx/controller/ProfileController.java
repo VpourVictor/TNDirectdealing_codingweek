@@ -17,7 +17,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
-public class ProfileController {
+public class ProfileController extends HexaSuper{
     @FXML
     Pane hexagonPane;
     @FXML

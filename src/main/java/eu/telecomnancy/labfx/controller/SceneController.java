@@ -8,8 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -188,5 +191,38 @@ public class SceneController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void goToMain(ActionEvent event, int position) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
+        try {
+            root = loader.load();
+            Screen screen = Screen.getPrimary();
+            int width = (int) screen.getBounds().getWidth();
+            int height = (int) screen.getBounds().getHeight();
+            MainController mainController = loader.getController();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            double[] coord = mainController.getLayout();
+            int offX = (int) -coord[0];
+            int offY = (int) -coord[1];
+            root.translateXProperty().set(offX);
+            root.translateYProperty().set(offY);
+            mainController.setOffX(offX);
+            mainController.setOffY(offY);
+            mainController.setPosition(position);
+            mainController.setRoot(root);
+            //mainController.getPaneTest().setVisible(false);
+            mainController.teleportation(position);
+            mainController.updateHexagon();
+            stage.setWidth(width);
+            stage.setHeight(height);
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e){
+            throw  new RuntimeException(e);
+        }
+
     }
 }

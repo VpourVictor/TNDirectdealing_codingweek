@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SignInController implements Initializable{
+public class SignInController extends HexaSuper implements Initializable {
 
     private User user;
 
@@ -93,5 +93,11 @@ public class SignInController implements Initializable{
             passwordHidden.setVisible(true);
             passwordText.setVisible(false);
         }
+    }
+
+    @FXML
+    public void validate(ActionEvent event) throws IOException {
+        SceneController sc = new SceneController();
+        sc.goToMain(event,14);
     }
 }

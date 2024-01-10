@@ -6,8 +6,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Polygon?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="2700.0" prefWidth="4800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.MainController">
+<AnchorPane fx:id="parentPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="2700.0" prefWidth="4800.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.MainController">
    <children>
+      <Pane fx:id="paneCenter" layoutX="2159.0" layoutY="1422.0" prefHeight="840.0" prefWidth="730.0" />
       <Pane fx:id="centerHexagon" layoutX="1757.0" layoutY="1408.0" prefHeight="864.0" prefWidth="1536.0" style="-fx-background-color: gray;" visible="false">
          <children>
             <ImageView fitHeight="1041.0" fitWidth="1011.0" layoutX="236.0" layoutY="-74.0" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -17,11 +18,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="paneUpLeft" layoutX="1725.0" layoutY="713.0" onMouseClicked="#moveUpLeft" prefHeight="840.0" prefWidth="730.0" />
-      <Pane fx:id="paneUpRight" layoutX="2596.0" layoutY="713.0" onMouseClicked="#moveUpRight" prefHeight="840.0" prefWidth="730.0" />
       <Pane fx:id="paneRight" layoutX="3031.0" layoutY="1420.0" onMouseClicked="#moveRight" prefHeight="840.0" prefWidth="730.0" />
-      <Pane fx:id="paneDownRight" layoutX="2596.0" layoutY="2119.0" onMouseClicked="#moveDownRight" prefHeight="840.0" prefWidth="730.0" />
-      <Pane fx:id="paneDownLeft" layoutX="1726.0" layoutY="2119.0" onMouseClicked="#moveDownLeft" prefHeight="840.0" prefWidth="730.0" />
       <Pane fx:id="paneLeft" layoutX="1291.0" layoutY="1422.0" onMouseClicked="#moveLeft" prefHeight="840.0" prefWidth="730.0" />
       <Pane layoutX="423.0" layoutY="1416.0" prefHeight="840.0" prefWidth="730.0">
          <children>
@@ -48,6 +45,12 @@
       <Polygon fill="WHITE" layoutX="5115.0" layoutY="1456.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
       <Polygon fill="WHITE" layoutX="1158.0" layoutY="2159.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
       <Polygon fill="WHITE" layoutX="3810.0" layoutY="2159.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-      <Pane fx:id="paneCenter" layoutX="2159.0" layoutY="1422.0" prefHeight="840.0" prefWidth="730.0" />
+      <Pane fx:id="paneUpLeft" layoutX="1722.0" layoutY="712.0" onMouseClicked="#moveUpLeft" prefHeight="840.0" prefWidth="730.0" />
+      <Pane fx:id="paneUpRight" layoutX="2596.0" layoutY="713.0" onMouseClicked="#moveUpRight" prefHeight="840.0" prefWidth="730.0">
+         <children>
+            <Polygon fx:id="invisibleHexagonUR" fill="WHITE" layoutX="341.0" layoutY="39.0" onMouseClicked="#moveUpRight" opacity="0.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="0.0" visible="false" />
+         </children></Pane>
+      <Pane fx:id="paneDownRight" layoutX="2596.0" layoutY="2119.0" onMouseClicked="#moveDownRight" prefHeight="840.0" prefWidth="730.0" />
+      <Pane fx:id="paneDownLeft" layoutX="1726.0" layoutY="2119.0" onMouseClicked="#moveDownLeft" prefHeight="840.0" prefWidth="730.0" />
    </children>
 </AnchorPane>

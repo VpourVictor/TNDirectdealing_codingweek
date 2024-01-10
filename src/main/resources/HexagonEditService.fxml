@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Polygon?>
+
+<Pane fx:id="hexagonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.posts.PostEditController">
+   <children>
+      <Group layoutX="57.0" layoutY="163.0">
+         <children>
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+            <Label layoutX="285.0" layoutY="-70.0" text="SERVICE" />
+            <Label layoutX="21.0" layoutY="136.0" text="Description" />
+            <Label layoutX="24.0" layoutY="257.0" text="Prestataires" />
+            <TextArea fx:id="descriptionService" layoutX="139.0" layoutY="136.0" prefHeight="94.0" prefWidth="449.0" text="desc service default" />
+            <TableView fx:id="listPrest" layoutX="139.0" layoutY="257.0" prefHeight="103.0" prefWidth="374.0">
+               <columns>
+                  <TableColumn fx:id="lastNameColumn" prefWidth="179.20001220703125" text="Nom" />
+                  <TableColumn fx:id="firstNameColumn" prefWidth="192.0" text="Prénom" />
+               </columns>
+            </TableView>
+            <Label layoutX="41.0" layoutY="374.0" text="Nom" />
+            <Label layoutX="149.0" layoutY="374.0" text="Prénom" />
+            <TextField fx:id="lastNamePrest" layoutX="-20.0" layoutY="411.0" text="last name default" />
+            <TextField fx:id="firstNamePrest" layoutX="139.0" layoutY="411.0" text="first name default" />
+            <Button layoutX="307.0" layoutY="411.0" mnemonicParsing="false" onAction="#add" text="Ajouter" />
+            <Button layoutX="443.0" layoutY="467.0" mnemonicParsing="false" onAction="#validateServicePost" text="Valider (2)" />
+            <Label fx:id="mode" layoutX="307.0" layoutY="33.0" prefHeight="18.0" prefWidth="189.0" />
+            <Button layoutX="113.0" layoutY="-2.0" mnemonicParsing="false" onAction="#back" text="Retour" />
+         </children>
+      </Group>
+   </children>
+</Pane>

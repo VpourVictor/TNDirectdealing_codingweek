@@ -16,10 +16,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
-import java.io.FileReader;
 import java.io.IOException;
 
-public class HomepageController {
+public class HomepageController extends HexaSuper{
+
 
     @FXML
     private Button signInButton;
@@ -28,6 +28,10 @@ public class HomepageController {
     private Button signUpButton;
     @FXML
     Polygon hexagon;
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Pane paneTest;
     @FXML
     public void mouseEnter(MouseEvent event) {
 
@@ -39,6 +43,12 @@ public class HomepageController {
         hexagon.setStroke(Color.web("#6C2466"));
 
     }
+    @FXML
+    public void runApp(ActionEvent event) throws IOException {
+        SceneController sc = new SceneController();
+        sc.goToMain(event,7);
+    }
+
 
     public Polygon getHexagon() {
         return hexagon;
@@ -92,5 +102,9 @@ public class HomepageController {
         Node pane = loader.load();
         MainController controller = loader.getController();
         controller.moveDownLeft(event);*/
+    }
+
+    public Pane getPaneTest() {
+        return paneTest;
     }
 }

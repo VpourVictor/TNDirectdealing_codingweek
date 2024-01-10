@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
@@ -23,7 +24,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class SignUpController {
+public class SignUpController extends HexaSuper{
+
 
     private User user;
 
@@ -229,6 +231,11 @@ public class SignUpController {
         }
 
 
+    }
+    @FXML
+    public void validate(ActionEvent event) throws IOException {
+        SceneController sc = new SceneController();
+        sc.goToMain(event,14);
     }
 }
 

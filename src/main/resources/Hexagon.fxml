@@ -10,7 +10,7 @@
    <children>
       <Group layoutX="57.0" layoutY="163.0">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" onMouseEntered="#mouseEnter" onMouseExited="#mouseExit" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
             <Label fx:id="labelUpLeft" alignment="CENTER" layoutX="97.0" layoutY="-109.0" prefHeight="39.0" prefWidth="225.0" rotate="-29.5" text="Label" textFill="WHITE" visible="false">
                <font>
                   <Font size="27.0" />

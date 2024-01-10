@@ -7,7 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 @Getter
 @Setter
-public class MessagerieController implements Initializable {
+public class MessagerieController extends HexaSuper implements Initializable {
     private Stage primaryStage;
     private User user;
     @FXML
@@ -27,6 +29,15 @@ public class MessagerieController implements Initializable {
     private Label pseudoText;
     @FXML
     private Label mailText;
+
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+
+    public Polygon getHexagon() {
+        return hexagon;
+    }
     @Override
     public void initialize(URL Location, ResourceBundle resources){
         load();

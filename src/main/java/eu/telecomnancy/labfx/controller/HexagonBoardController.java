@@ -16,15 +16,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HexagonBoardController{
+public class HexagonBoardController extends HexaSuper{
     @FXML
     Pane hexagonPane;
 
     @FXML
-    Polygon hexagonCenter;
+    Polygon hexagon;
 
-    public Polygon getHexagonCenter() {
-        return hexagonCenter;
+    public Polygon getHexagon() {
+        return hexagon;
     }
 
     public Pane getHexagonPane() {

@@ -31,18 +31,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-/*        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
-        Parent root2 = loader2.load();
-        Scene scene2 = new Scene(root2);
-        MessagerieController messagerieController = loader2.getController();
-        messagerieController.setAndLoad(user);
-        User user = new User("test", "test","test@gmail.com");
-        User user2 = new User("test2", "test2","test@gmail.com");
-        Message message = new Message(user,user2,"Salut");
-        Conversation conversation = new Conversation(user,user2);
-        conversation.addMessage(message);
-        user.getConvs().add(conversation);*/
-
         primaryStage.setTitle("JavaFx Demo");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
@@ -50,7 +38,6 @@ public class Main extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         MainController mainController = loader.getController();
-
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         Screen screen = Screen.getPrimary();
@@ -63,7 +50,6 @@ public class Main extends Application {
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
         Pane paneBoard = loader2.load();
         HexagonBoardController c = loader2.getController();
-        mainController.setRoot(root);
         double[] coord = mainController.getLayout();
         int offX = (int) -coord[0];
         int offY = (int) -coord[1];
@@ -71,7 +57,10 @@ public class Main extends Application {
         root.translateYProperty().set(offY);
         mainController.setOffX(offX);
         mainController.setOffY(offY);
-        primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreen(true);
+        MainController.setRoot(root);
+        mainController.setPosition(0);
+
         primaryStage.show();
     }
 }
