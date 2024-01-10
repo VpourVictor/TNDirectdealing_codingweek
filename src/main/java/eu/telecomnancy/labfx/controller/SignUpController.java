@@ -88,6 +88,9 @@ public class SignUpController {
     @FXML
     private ComboBox countryList;
 
+    @FXML
+    private Button validateButton;
+
     final FileChooser fileChooser = new FileChooser();
     private final ObservableList<String> countries = FXCollections.observableArrayList();
 
@@ -192,13 +195,12 @@ public class SignUpController {
 
             user.setPseudo(pseudoTextField.getText());
             user.setCoins(50);
-            //TODO sauvegarder l'image
             user.setProfilePicture(imageProfile.getImage());
-            //TODO c'eest bon la lign au dessus ou pas ?
             user.setPassword(passwordValue());
             user.setConnected(true);
-            //TODO enregistrer le user en Json
-            //JsonUtil.userToJsonVoid(user);
+            user.setEmail(mailTextField.getText());
+            JsonUtil.registerNewUser(user);
+            //JsonUtil.betterRegisterNewUser(user);
             SceneController sceneController = new SceneController();
             sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
 

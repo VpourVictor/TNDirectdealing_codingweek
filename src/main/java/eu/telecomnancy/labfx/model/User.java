@@ -22,19 +22,21 @@ public class User extends Person {
     private ArrayList<Double> evaluationList = new ArrayList<>();
     private int coins;
     private Image profilePicture;
-    private ArrayList<Post> postedPosts = new ArrayList<>();
-    private ArrayList<Post> appliedToPosts = new ArrayList<>() ;
+    private ArrayList<Integer> postedPosts = new ArrayList<>();
+    private ArrayList<Integer> appliedToPosts = new ArrayList<>() ;
     protected int nbOfEvaluation = 0;
     protected int nbOfPostedPosts = 0;
     protected int nbOfAppliedToPosts = 0;
+    @Getter
+    private static int nbUsers = 0;
 
-    public void addPostedPosts( Post post ) {
-        this.postedPosts.add(post);
+    public void addPostedPosts( Integer idPost ) {
+        this.postedPosts.add(idPost);
         this.nbOfPostedPosts = getNbOfPostedPosts()+1;
     }
 
-    public void addAppliedToPosts( Post post ) {
-        this.appliedToPosts.add(post);
+    public void addAppliedToPosts( Integer idPost ) {
+        this.appliedToPosts.add(idPost);
         this.nbOfAppliedToPosts = getNbOfAppliedToPosts()+1;
     }
 
@@ -46,6 +48,7 @@ public class User extends Person {
 
     public User(String prenom, String nom) {
         super(prenom, nom);
+        nbUsers++;
     }
 
     public User(String prenom, String nom, String mail) {
@@ -53,6 +56,7 @@ public class User extends Person {
         this.email = mail;
         this.convs = new ArrayList<Conversation>();
         this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+        nbUsers++;
     }
 
     public User(String prenom, String nom, String mail, String pseudo) {
@@ -71,6 +75,7 @@ public class User extends Person {
         this.address = address;
         this.profilePicture = profilePicture;
         this.convs = new ArrayList<Conversation>();
+        nbUsers++;
     }
 
 

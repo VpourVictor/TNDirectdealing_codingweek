@@ -11,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -198,7 +197,7 @@ public class SceneController {
     }
 
     public void goToRowPost(GridPane grid, Post post) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/post_row_overview.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/postService_row_overview.fxml"));
         try {
             root = loader.load();
             PostOverviewController controller = loader.getController();

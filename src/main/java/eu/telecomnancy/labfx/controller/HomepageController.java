@@ -96,9 +96,5 @@ public class HomepageController {
     void signUp(ActionEvent event) throws IOException, InterruptedException {
         SceneController sceneController = new SceneController();
         sceneController.goToSignUp(event);
-/*        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
-        Node pane = loader.load();
-        MainController controller = loader.getController();
-        controller.moveDownLeft(event);*/
     }
 }
