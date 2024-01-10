@@ -138,7 +138,7 @@ public class SceneController {
     }
 
     public void goToEditPost(ActionEvent event, Post post, boolean modify) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/new.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
@@ -154,7 +154,7 @@ public class SceneController {
     }
 
     public void goToCreatePost(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/create.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/new.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();

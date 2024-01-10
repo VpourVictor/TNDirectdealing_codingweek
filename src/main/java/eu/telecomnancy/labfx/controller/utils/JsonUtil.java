@@ -193,12 +193,12 @@ public class JsonUtil {
 
                 if (type.equals("service")) {
                     posts.add(new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate,
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate, null,
                             jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers));
                 }
                 else if (type.equals("tool")) {
                     posts.add(new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate,
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), startDate, endDate, null,
                             jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool")));
                 }
             }

@@ -2,11 +2,15 @@ package eu.telecomnancy.labfx.controller.posts;
 
 
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -23,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 @Getter
@@ -108,8 +113,17 @@ public class PostEditController {
 
     @FXML private VBox listPost;
 
+    @FXML private ToggleGroup type_date;
+
+    private MyDatePicker myDatePickerStart;
+    private MyDatePicker myDatePickerEnd;
+
+    @FXML private RadioButton plage;
+    @FXML private RadioButton ponctuelles;
+
     @FXML
     void initialize() {
+        posts = JsonUtil.jsonToPosts();
         if (countryList != null){
             countries.addAll("France", "Allemagne", "Espagne", "Italie", "Royaume-Uni");
             countryList.setItems(countries);
@@ -125,6 +139,25 @@ public class PostEditController {
             posts = JsonUtil.jsonToPosts();
             SceneController sceneController = new SceneController();
             sceneController.goToRowPost(posts, listPost);
+        }
+
+        if (type_date != null){
+            myDatePickerStart = new MyDatePicker(dateStart, true);
+            myDatePickerEnd = new MyDatePicker(dateEnd, false);
+
+            if(plage != null && ponctuelles != null){
+                dateEnd.setDisable(false);
+
+                plage.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                    dateStart.setDisable(false);
+                    dateEnd.setDisable(false);
+                });
+
+                ponctuelles.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                    dateStart.setDisable(false);
+                    dateEnd.setDisable(true);
+                });
+            }
         }
     }
 
@@ -197,6 +230,9 @@ public class PostEditController {
         else if (description.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
         }
+        else if (dateEnd.getValue() == null && !ponctuelles.isSelected()){
+            new Alert(Alert.AlertType.ERROR, "La date de fin ne peut pas être vide").showAndWait();
+        }
         else if (dateStart.getValue() != null && dateEnd.getValue() != null && dateStart.getValue().isAfter(dateEnd.getValue())){
             new Alert(Alert.AlertType.ERROR, "La date de début ne peut pas être après la date de fin").showAndWait();
         }
@@ -235,30 +271,38 @@ public class PostEditController {
 
             SceneController sceneController = new SceneController();
 
-            RadioButton selected = (RadioButton) type_post.getSelectedToggle();
-
-
             if (dateStart.getValue() == null)
                 start = LocalDate.now();
             else
                 start = dateStart.getValue();
 
             State state = State.EN_COURS;
-            if (dateEnd.getValue() != null) {
-                end = dateEnd.getValue();
-                if (start.isAfter(LocalDate.now()))
-                    state = State.FUTUR;
+            end = dateEnd.getValue();
+            if (start.isAfter(LocalDate.now()))
+                state = State.FUTUR;
 
-                if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
-                    state = State.EN_COURS;
+            if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
+                state = State.EN_COURS;
 
-                if (end.isBefore(LocalDate.now()))
-                    state = State.TERMINE;
+            RadioButton date = (RadioButton) type_date.getSelectedToggle();
+            ArrayList<LocalDate> dates = new ArrayList<>();
+
+            if (date.getId().equals("plage")){
+                LocalDate boucle = start;
+                while (boucle.isBefore(end)){
+                    boucle = boucle.plusDays(1);
+                    dates.add(boucle);
+                }
             }
 
+            if (date.getId().equals("ponctuelles")){
+                dates.addAll(myDatePickerStart.getSelectedDates());
+            }
+
+            RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), user.getEmail(), start, end, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), user.getEmail(), start, end, dates, address, image.getImage(), state, null);
                 }
                 else {
                     modifierPost(start, end, user, address, state);
@@ -267,7 +311,7 @@ public class PostEditController {
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), user.getEmail(), start, end, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), user.getEmail(), start, end, dates, address, image.getImage(), state, null);
                 }
                 else {
                     modifierPost(start, end, user, address, state);
