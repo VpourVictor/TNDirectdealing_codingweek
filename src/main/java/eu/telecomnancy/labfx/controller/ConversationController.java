@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 @Setter
 public class ConversationController implements Initializable {
-    private Stage primaryStage;
     private User user;
     private Conversation conv;
     @FXML
