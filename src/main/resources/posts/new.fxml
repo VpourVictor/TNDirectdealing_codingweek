@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -25,8 +26,7 @@
       <Label layoutX="23.0" layoutY="72.0" text="Type annonce" />
       <Label layoutX="26.0" layoutY="140.0" text="Titre" />
       <Label layoutX="26.0" layoutY="176.0" text="Description" />
-      <Label layoutX="266.0" layoutY="194.0" text="Date début" />
-      <Label layoutX="266.0" layoutY="230.0" text="Date fin" />
+      <Label layoutX="266.0" layoutY="194.0" text="Date" />
       <Label layoutX="34.0" layoutY="319.0" text="Adresse" />
       <Label layoutX="34.0" layoutY="337.0" text="N°" />
       <Label layoutX="34.0" layoutY="362.0" text="Rue, avenue" />
@@ -42,8 +42,7 @@
       <TextField fx:id="city" layoutX="69.0" layoutY="409.0" text="city default" />
       <TextField fx:id="region" layoutX="78.0" layoutY="433.0" text="region default" />
       <ComboBox fx:id="countryList" layoutX="69.0" layoutY="458.0" prefWidth="150.0" />
-      <DatePicker fx:id="dateStart" editable="false" layoutX="334.0" layoutY="190.0" showWeekNumbers="true" />
-      <DatePicker fx:id="dateEnd" editable="false" layoutX="334.0" layoutY="234.0" showWeekNumbers="true" />
+      <DatePicker fx:id="datesPicker" editable="false" layoutX="334.0" layoutY="190.0" showWeekNumbers="true" />
       <Button layoutX="334.0" layoutY="283.0" mnemonicParsing="false" onAction="#browse" text="parcourir" />
       <Label layoutX="282.0" layoutY="287.0" text="Image" />
       <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" layoutX="422.0" layoutY="274.0" pickOnBounds="true" preserveRatio="true" />
@@ -56,5 +55,6 @@
       <RadioButton fx:id="ponctuelles" layoutX="398.0" layoutY="159.0" mnemonicParsing="false" text="Date(s) ponctuelles" toggleGroup="$type_date" />
       <RadioButton fx:id="ponctuelles_rec" layoutX="534.0" layoutY="159.0" mnemonicParsing="false" text="Date(s) ponctuelles récurrentes" toggleGroup="$type_date" />
       <Text layoutX="280.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour la séléction des dates, il y a 3 options :&#10;- plage où date de début et de fin sont nécessaires&#10;- dates ponctuelles (qui sont toutes à préciser)&#10;- dates ponctuelles récurrentes dont la fréquence est à définir)" />
+      <ListView fx:id="listDate" layoutX="534.0" layoutY="187.0" prefHeight="104.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

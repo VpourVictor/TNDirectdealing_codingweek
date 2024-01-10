@@ -16,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +25,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+@Getter
+@Setter
 public class SignUpController {
-
     private User user;
+
+    private ArrayList<User> users = new ArrayList<>();
 
     @FXML
     private Button browseButton;
@@ -94,24 +99,17 @@ public class SignUpController {
     final FileChooser fileChooser = new FileChooser();
     private final ObservableList<String> countries = FXCollections.observableArrayList();
 
+    @Getter
     @FXML
     Polygon hexagon;
+
     @FXML
     public void mouseEnter(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#F08A26"));
-
     }
     public void mouseExit(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#6C2466"));
-
     }
-    public Polygon getHexagon() {
-        return hexagon;
-    }
-
-
 
     @FXML
     void initialize() {
@@ -134,7 +132,6 @@ public class SignUpController {
             imageProfile.setImage(new Image(file.toURI().toString()));
         }
     }
-
 
     @FXML
     void createAccount(ActionEvent event) throws IOException {
@@ -175,15 +172,12 @@ public class SignUpController {
         else if ( passwordHiddenConfirmation.getText() == null) {
             new Alert(Alert.AlertType.ERROR, "Vérifiez votre mot de passe").showAndWait();
         }
-        else if (imageProfile.getImage() == null) {
-            new Alert(Alert.AlertType.ERROR, "Veuillez sélectionner une image").showAndWait();
-        }
         else if (!( passwordHiddenConfirmation.getText()).equals(passwordValue())){
             new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
         }
         else {
-
-            User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
+            users = JsonUtil.jsonToUsers();
+            user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
 
             Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
                     streetNameTF.getText(),
@@ -191,6 +185,7 @@ public class SignUpController {
                     cityTF.getText(),
                     regionTF.getText(),
                     countryList.getValue().toString());
+
             user.setAddress(address);
 
             user.setPseudo(pseudoTextField.getText());
@@ -198,17 +193,12 @@ public class SignUpController {
             user.setProfilePicture(imageProfile.getImage());
             user.setPassword(passwordValue());
             user.setConnected(true);
-            JsonUtil.registerNewUser(user);
-            //JsonUtil.betterRegisterNewUser(user);
+            users.add(user);
+            JsonUtil.usersToJson(users);
             SceneController sceneController = new SceneController();
             sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
-
         }
-
-
     }
-
-
 
     //method to get the password
     private String passwordValue() {
@@ -228,8 +218,6 @@ public class SignUpController {
             passwordHidden.setVisible(true);
             passwordText.setVisible(false);
         }
-
-
     }
 }
 

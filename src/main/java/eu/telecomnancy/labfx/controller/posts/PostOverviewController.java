@@ -10,13 +10,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class PostOverviewController {
     private Post post;
@@ -76,6 +79,9 @@ public class PostOverviewController {
 
     private ArrayList<Post> posts;
 
+    public ListView<LocalDate> listDate;
+    private final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
+
     @FXML
     void initialize() {
         posts = JsonUtil.jsonToPosts();
@@ -104,9 +110,8 @@ public class PostOverviewController {
         firstName.setText(author.getFirstName());
         lastName.setText(author.getLastName());
         email.setText(author.getEmail());
-
-        dateStart.setText(DateUtil.format(post.getDateCouple().getDateStart()));
-        dateEnd.setText(DateUtil.format(post.getDateCouple().getDateEnd()));
+        dates.addAll(post.getDates());
+        listDate.setItems(dates);
         title.setText(post.getTitle());
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));

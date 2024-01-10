@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
@@ -43,5 +44,6 @@
       <Button layoutX="4.0" layoutY="187.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
       <Button layoutX="14.0" layoutY="237.0" mnemonicParsing="false" onAction="#viewService" text="Voir" />
       <Label fx:id="email" layoutX="267.0" layoutY="169.0" prefHeight="18.0" prefWidth="175.0" />
+      <ListView fx:id="listDate" layoutX="240.0" layoutY="517.0" prefHeight="148.0" prefWidth="288.0" />
    </children>
 </AnchorPane>
