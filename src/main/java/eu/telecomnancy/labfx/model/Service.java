@@ -21,9 +21,10 @@ public class Service extends Post{
         this.setIdPost(Post.id);
     }
 
-    public Service(int id, String description, String title, String authorEmail, LocalDate start, LocalDate end, Address adress, Image image, State state, String descriptionService){
+    public Service(int id, String description, String title, String authorEmail, LocalDate start, LocalDate end, Address adress, Image image, State state, String descriptionService, List<Person> providers){
         super(description, title, authorEmail, start, end, adress, image, state);
         this.descriptionService = descriptionService;
+        this.providers = providers;
         this.setIdPost(id);
     }
 

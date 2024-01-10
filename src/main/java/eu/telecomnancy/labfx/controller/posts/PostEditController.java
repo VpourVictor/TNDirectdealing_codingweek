@@ -84,6 +84,9 @@ public class PostEditController {
     private TextField lastNamePrest;
 
     @FXML
+    private TextField emailPrest;
+
+    @FXML
     private TableView<Person> listPrest;
 
     private ObservableList<Person> personData = FXCollections.observableArrayList();
@@ -92,6 +95,8 @@ public class PostEditController {
     private TableColumn<Person, String> firstNameColumn;
     @FXML
     private TableColumn<Person, String> lastNameColumn;
+    @FXML
+    private TableColumn<Person, String> emailColumn;
 
     @FXML
     public TextArea stateTool;
@@ -113,25 +118,13 @@ public class PostEditController {
         if (firstNameColumn != null && lastNameColumn != null) {
             firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+            emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         }
 
         if (listPost != null){
             posts = JsonUtil.jsonToPosts();
-            for (Post post1 : posts){
-                FXMLLoader loader = new FXMLLoader();
-                if (post1 instanceof Service)
-                    loader.setLocation(getClass().getResource("/posts/postService_row_overview.fxml"));
-                else
-                    loader.setLocation(getClass().getResource("/posts/postTool_row_overview.fxml"));
-                try {
-                    AnchorPane pane = loader.load();
-                    PostOverviewController controller = loader.getController();
-                    controller.initData(post1);
-                    listPost.getChildren().add(pane);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            SceneController sceneController = new SceneController();
+            sceneController.goToRowPost(posts, listPost);
         }
     }
 
@@ -233,14 +226,12 @@ public class PostEditController {
         }
         else {
             // todo créer le user en fonction de la personne connectée
-            User user = new User("test", "test");
+            User user = new User("test", "test", "test@test.com");
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             user.getPostedPosts().add(post);
             user.setAddress(address);
             user.setPseudo("test");
             user.setPassword("test");
-            user.setEmail("dsldmlsk@dksjfslk.fr");
-
 
             SceneController sceneController = new SceneController();
 
@@ -300,10 +291,22 @@ public class PostEditController {
         // todo récupérer la liste des personnes inscrites dans le JSON
         // si personne dont nom et prénom sont ceux rentrés dans les champs
         // personData.add(new User(firstNamePrest.getText(), lastNamePrest.getText()));
-        personData.add(new ExternalActor(firstNamePrest.getText(), lastNamePrest.getText()));
-        listPrest.setItems(personData);
-        lastNamePrest.clear();
-        firstNamePrest.clear();
+        if (lastNamePrest.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
+        }
+        else if (firstNamePrest.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le prénom ne peut pas être vide").showAndWait();
+        }
+        else if (emailPrest.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le mail ne peut pas être vide").showAndWait();
+        }
+        else {
+            personData.add(new ExternalActor(firstNamePrest.getText(), lastNamePrest.getText(), emailPrest.getText()));
+            listPrest.setItems(personData);
+            lastNamePrest.clear();
+            firstNamePrest.clear();
+            emailPrest.clear();
+        }
     }
 
     public void validateServicePost(ActionEvent event) throws IOException {
@@ -374,7 +377,6 @@ public class PostEditController {
 
     public void newPost(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        // Post.setNbPosts(Post.getNbPosts() + 1);
         sceneController.goToCreatePost(event);
     }
 }

@@ -33,13 +33,15 @@
       <ImageView fx:id="image" fitHeight="179.0" fitWidth="356.0" layoutX="93.0" layoutY="400.0" pickOnBounds="true" preserveRatio="true" />
       <TableView fx:id="personTable" layoutX="97.0" layoutY="606.0" prefHeight="167.0" prefWidth="422.0">
         <columns>
-          <TableColumn fx:id="lastNameColumn" prefWidth="211.99998474121094" text="Nom" />
-          <TableColumn fx:id="firstNameColumn" prefWidth="210.4000244140625" text="Prénom" />
+          <TableColumn fx:id="lastNameColumn" prefWidth="148.0" text="Nom" />
+          <TableColumn fx:id="firstNameColumn" prefWidth="142.39996337890625" text="Prénom" />
+            <TableColumn fx:id="emailColumn" prefWidth="142.39996337890625" text="Email" />
         </columns>
       </TableView>
       <Text fx:id="descriptionService" layoutX="526.0" layoutY="619.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
       <Button layoutX="24.0" layoutY="24.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
       <Button layoutX="96.0" layoutY="24.0" mnemonicParsing="false" onAction="#viewAll" text="Voir tous" />
       <Button layoutX="171.0" layoutY="24.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+      <Label fx:id="email" layoutX="408.0" layoutY="253.0" prefHeight="18.0" prefWidth="175.0" />
    </children>
 </AnchorPane>

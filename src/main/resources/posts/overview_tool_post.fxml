@@ -33,5 +33,6 @@
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
       <Button layoutX="88.0" layoutY="14.0" mnemonicParsing="false" onAction="#viewAll" text="Voir tous" />
       <Button layoutX="159.0" layoutY="14.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+      <Label fx:id="email" layoutX="294.0" layoutY="263.0" prefHeight="18.0" prefWidth="175.0" />
    </children>
 </AnchorPane>
