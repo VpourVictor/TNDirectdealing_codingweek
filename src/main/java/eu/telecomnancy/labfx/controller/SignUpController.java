@@ -185,32 +185,43 @@ public class SignUpController {
 
             ArrayList<User> users = JsonUtil.jsonToUserList("src/main/resources/json/users.json");
 
-            User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
+            if (emailAlreadyUsed(users, mailTextField.getText())){
+                new Alert(Alert.AlertType.ERROR, "Cet email est déjà associé à un compte existant").showAndWait();
+            }
+            else{
+                User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
 
-            Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
-                    streetNameTF.getText(),
-                    Integer.parseInt(postalCodeTF.getText()),
-                    cityTF.getText(),
-                    regionTF.getText(),
-                    countryList.getValue().toString());
-            user.setAddress(address);
+                Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
+                        streetNameTF.getText(),
+                        Integer.parseInt(postalCodeTF.getText()),
+                        cityTF.getText(),
+                        regionTF.getText(),
+                        countryList.getValue().toString());
+                user.setAddress(address);
 
-            user.setPseudo(pseudoTextField.getText());
-            user.setCoins(50);
-            user.setProfilePicture(imageProfile.getImage());
-            user.setPassword(passwordValue());
-            user.setConnected(true);
-            users.add(user);
-            JsonUtil.userListToJson( users, "src/main/resources/json/users.json");
-            SceneController sceneController = new SceneController();
-            sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
-
+                user.setPseudo(pseudoTextField.getText());
+                user.setCoins(50);
+                user.setProfilePicture(imageProfile.getImage());
+                user.setPassword(passwordValue());
+                user.setConnected(true);
+                users.add(user);
+                JsonUtil.userListToJson( users, "src/main/resources/json/users.json");
+                SceneController sceneController = new SceneController();
+                sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
+            }
         }
-
-
     }
 
-
+    //method to know if someone in an ArrayList<User> has already the mail you are trying to add
+    private Boolean emailAlreadyUsed(ArrayList<User> users, String mail){
+        //supposed that the mail is already to the good format
+        for (User user : users) {
+            if (user.getEmail().equals(mail)){
+                return true;
+            }
+        }
+        return false   ;
+    }
 
     //method to get the password
     private String passwordValue() {
