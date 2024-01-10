@@ -183,6 +183,8 @@ public class SignUpController {
         }
         else {
 
+            ArrayList<User> users = JsonUtil.jsonToUserList("src/main/resources/json/users.json");
+
             User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
 
             Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
@@ -198,8 +200,8 @@ public class SignUpController {
             user.setProfilePicture(imageProfile.getImage());
             user.setPassword(passwordValue());
             user.setConnected(true);
-            JsonUtil.registerNewUser(user);
-            //JsonUtil.betterRegisterNewUser(user);
+            users.add(user);
+            JsonUtil.userListToJson( users, "src/main/resources/json/users.json");
             SceneController sceneController = new SceneController();
             sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
 
