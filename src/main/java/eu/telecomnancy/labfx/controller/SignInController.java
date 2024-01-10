@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.RegexUtils;
 import eu.telecomnancy.labfx.model.User;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.shape.Polygon;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SignInController implements Initializable{
@@ -51,20 +53,40 @@ public class SignInController implements Initializable{
 
     @FXML
     void connexion(ActionEvent event) throws IOException {
-
-
          if (!RegexUtils.isValidMail(mailTextArea.getText())){
             new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
         }
         else if ( passwordValue() == null) {
             new Alert(Alert.AlertType.ERROR, "Le mot de passe ne peut pas être vide").showAndWait();
         }
-         // TODO vérifier si le mail est dans la BD
-         // TODO vérifier dans la BD si le mail et le mdp sont bon (se correspondent)
+
         else {
-             // TODO user.setConnected(true);
-             SceneController sceneController = new SceneController();
-             sceneController.goToEditPost(event, null, false); //TODO ne pas renvoyer vers l'acceuil
+             ArrayList<User> users = JsonUtil.jsonToUserList("src/main/resources/json/users.json");
+             for (User user : users){
+                 System.out.println(user.getEmail());
+             }
+             if (users.isEmpty()){
+                 new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter").showAndWait();
+             }
+             else {
+
+                 int index = 0;
+                 while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextArea.getText())){
+                     index++;
+                 }
+                 if (index == User.getNbUsers()){
+                     new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter ou entrer un mail Valide").showAndWait();
+                 }
+                 else if ( !users.get(index).getPassword().equals(passwordValue())){
+                     new Alert(Alert.AlertType.ERROR, "Le mot de passe est incorrect").showAndWait();
+                 }
+                 else if (users.get(index).getPassword().equals(passwordValue())){
+                     new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
+                     SceneController sceneController = new SceneController();
+                     sceneController.goToEditPost(event, null, false);
+                 }
+             }
+
          }
 
     }

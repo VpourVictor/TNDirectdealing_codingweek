@@ -313,6 +313,7 @@ public class JsonUtil {
             for (int i = 1; i <= User.getNbUsers() ; i++){
                 JSONObject jsonUser = json.getJSONObject("user" + i);
                 User user = jsonToUser(jsonUser);
+                User.setNbUsers(User.getNbUsers()-1);
                 users.add(user);
             }
 

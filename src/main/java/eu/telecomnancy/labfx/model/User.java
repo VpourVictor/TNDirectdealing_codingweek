@@ -28,7 +28,7 @@ public class User extends Person {
     protected int nbOfAppliedToPosts = 0;
     @Getter
     @Setter
-    private static int nbUsers = 0;
+    private static int nbUsers = 2;
 
     public void addPostedPosts( Integer idPost ) {
         this.postedPosts.add(idPost);
