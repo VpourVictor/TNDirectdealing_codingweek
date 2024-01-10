@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "user1" : "mail1",
+    "user2" : "mail2",
+    "liste_id_msg" : [1,2]
+  },
+  {
+    "id": 2,
+    "user1" : "mail1",
+    "user2" : "mail3",
+    "liste_id_msg" : [3,4]
+  }
+]

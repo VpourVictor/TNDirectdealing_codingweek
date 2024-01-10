@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 public class User extends Person {
 
-    @Setter
     private boolean isConnected;
     private String email;
     private String pseudo;
@@ -28,7 +27,8 @@ public class User extends Person {
     protected int nbOfPostedPosts = 0;
     protected int nbOfAppliedToPosts = 0;
     @Getter
-    private static int nbUsers = 0;
+    @Setter
+    private static int nbUsers = 2;
 
     public void addPostedPosts( Integer idPost ) {
         this.postedPosts.add(idPost);
@@ -96,6 +96,6 @@ public class User extends Person {
 
     public void addConv(Conversation conv){
         convs.add(conv);
-    }
+    }       //TODO mettre à jour dans le json
 
 }

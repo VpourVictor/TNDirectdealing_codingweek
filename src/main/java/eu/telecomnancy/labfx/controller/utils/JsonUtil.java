@@ -288,14 +288,18 @@ public class JsonUtil {
             JSONObject json = readJsonFileFromPath (path);
             ArrayList<User> users = new ArrayList<>();
 
-            if (User.getNbUsers() == 0){
+            int nb_user = User.getNbUsers();
+            if (nb_user == 0){
                 return users;
             }
             //for (int i = 1; i <= 2 ; i++){
+            //
 
             for (int i = 1; i <= User.getNbUsers() ; i++){
+                System.out.println("user" + i);
                 JSONObject jsonUser = json.getJSONObject("user" + i);
                 User user = jsonToUser(jsonUser);
+                User.setNbUsers(User.getNbUsers()-1);
                 users.add(user);
             }
 
@@ -493,6 +497,73 @@ public class JsonUtil {
         }
         return json;
     }
+
+    public static JSONObject messageToJson(Message message) {
+        JSONObject json = new JSONObject();
+        String path = "src/main/resources/json/messages.json";
+
+        try {
+            json.put("id", message.getId());
+            json.put("contenu", message.getContent());
+            json.put("sender", message.getSender());
+            json.put("receiver", message.getReceiver());
+            json.put("date", message.getDate());
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveMsgInJason(Message msg){
+        String path = "src/main/resources/json/messages.json";
+        ArrayList<Message> list = recupMsgData(path);
+        list.add(msg);
+        sendMsgInJason(list);
+    }
+
+    public static ArrayList<Message> recupMsgData(String path){
+        try {
+            JSONObject json = readJsonFileFromPath(path);
+            ArrayList<Message> list = new ArrayList<>();
+
+            int nb_msgs = Message.getNb_msgs();
+            if (nb_msgs == 0){
+                return list;
+            }
+            //for (int i = 1; i <= 2 ; i++){
+            //
+
+            for (int i = 1; i <= nb_msgs ; i++){
+                JSONObject jsonmsg = json.getJSONObject("message" + i);
+                Message msg = jsonToMessage(jsonmsg);
+                Message.setNb_msgs(Message.getNb_msgs()-1);
+                list.add(msg);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException("Error in jsonToUserList the JSONFile", e);
+        }
+    }
+
+    public static Message jsonToMessage(JSONObject jsonmsg){
+        Message message = new Message(jsonmsg.getString("sender"), jsonmsg.getString("receiver"),
+                jsonmsg.getString("contenu"), jsonmsg.getString("date"));
+        //user.setCoins(author.getInt("coins"));
+        //user.setConnected("true".equals(author.getString("isConnected")));
+        //user.setNbOfPostedPosts(author.getInt("nbOfPostedPosts"));
+        //user.setNbOfEvaluation(author.getInt("nbOfEvaluation"));
+        //user.setNbOfAppliedToPosts(author.getInt("nbOfAppliedToPosts"));
+        //TODO il manque des champs là user.setPostedPosts(jsonToListPost(author.getString("postedPosts")))
+        //user.setAppliedToPosts(jsonToListPost(author.getString("appliedToPosts")))
+        //user.setEvaluationList(jsonToListDouble(author.getString("evaluationList")));
+        return user;
+    }
+
+    public static void sendMsgInJason(ArrayList<Message> list){}
+
+
 
 //    public static JSONObject readJsonFromFile(String fileName) {
 //        try (FileReader fileReader = new FileReader(fileName)) {
