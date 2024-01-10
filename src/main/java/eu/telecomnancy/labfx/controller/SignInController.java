@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,8 +18,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SignInController implements Initializable{
-
     private User user;
+
+    private ArrayList<User> users = new ArrayList<>();
 
     @FXML
     private TextArea mailTextArea;
@@ -34,21 +36,15 @@ public class SignInController implements Initializable{
 
     @FXML
     private CheckBox passToggle;
+    @Getter
     @FXML
     Polygon hexagon;
     @FXML
     public void mouseEnter(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#F08A26"));
-
     }
     public void mouseExit(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#6C2466"));
-
-    }
-    public Polygon getHexagon() {
-        return hexagon;
     }
 
     @FXML
@@ -61,7 +57,7 @@ public class SignInController implements Initializable{
         }
 
         else {
-             ArrayList<User> users = JsonUtil.jsonToUserList("src/main/resources/json/users.json");
+            users = JsonUtil.jsonToUsers();
              for (User user : users){
                  System.out.println(user.getEmail());
              }
@@ -95,7 +91,6 @@ public class SignInController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         this.toggleVisiblePassword(null);
     }
-
     //method to get the password
     private String passwordValue() {
         return passToggle.isSelected()?

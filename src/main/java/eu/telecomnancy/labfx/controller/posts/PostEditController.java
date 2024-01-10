@@ -74,10 +74,7 @@ public class PostEditController {
     final FileChooser fileChooser = new FileChooser();
 
     @FXML
-    public DatePicker dateStart;
-
-    @FXML
-    public DatePicker dateEnd;
+    public DatePicker datesPicker;
 
     @FXML
     private TextArea descriptionService;
@@ -115,11 +112,13 @@ public class PostEditController {
 
     @FXML private ToggleGroup type_date;
 
-    private MyDatePicker myDatePickerStart;
-    private MyDatePicker myDatePickerEnd;
+    private MyDatePicker myDatePicker;
 
     @FXML private RadioButton plage;
     @FXML private RadioButton ponctuelles;
+
+    public final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
+    public ListView<LocalDate> listDate;
 
     @FXML
     void initialize() {
@@ -142,22 +141,7 @@ public class PostEditController {
         }
 
         if (type_date != null){
-            myDatePickerStart = new MyDatePicker(dateStart, true);
-            myDatePickerEnd = new MyDatePicker(dateEnd, false);
-
-            if(plage != null && ponctuelles != null){
-                dateEnd.setDisable(false);
-
-                plage.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                    dateStart.setDisable(false);
-                    dateEnd.setDisable(false);
-                });
-
-                ponctuelles.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                    dateStart.setDisable(false);
-                    dateEnd.setDisable(true);
-                });
-            }
+            myDatePicker = new MyDatePicker(datesPicker, this);
         }
     }
 
@@ -178,8 +162,6 @@ public class PostEditController {
             title.setText(post.getTitle());
             description.setText(post.getDescription());
             image.setImage(post.getImage());
-            dateStart.setValue(post.getDateCouple().getDateStart());
-            dateEnd.setValue(post.getDateCouple().getDateEnd());
             streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
             street.setText(post.getAddress().getStreetName());
             postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
@@ -223,18 +205,15 @@ public class PostEditController {
     }
 
     public void validatePart1(ActionEvent event) {
-        LocalDate start, end = null;
         if (title.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Le titre ne peut pas être vide").showAndWait();
         }
         else if (description.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
         }
-        else if (dateEnd.getValue() == null && !ponctuelles.isSelected()){
-            new Alert(Alert.AlertType.ERROR, "La date de fin ne peut pas être vide").showAndWait();
-        }
-        else if (dateStart.getValue() != null && dateEnd.getValue() != null && dateStart.getValue().isAfter(dateEnd.getValue())){
-            new Alert(Alert.AlertType.ERROR, "La date de début ne peut pas être après la date de fin").showAndWait();
+        // todo si on modifie on doit garder les dates.. voir comment faire
+        else if (dates.size() != 2 && !ponctuelles.isSelected()){
+            new Alert(Alert.AlertType.ERROR, "Pour une plage, il faut 2 dates").showAndWait();
         }
         else if (streetNumber.getText().isEmpty()){
             new Alert(Alert.AlertType.ERROR, "Le numéro de rue ne peut pas être vide").showAndWait();
@@ -264,70 +243,63 @@ public class PostEditController {
             // todo créer le user en fonction de la personne connectée
             User user = new User("test", "test", "test@test.com");
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
-            //TODO changer ligne du dessous : user.getPostedPosts().add(post);
-            //user.getPostedPosts().add(post);
-
             user.setAddress(address);
             user.setPseudo("test");
             user.setPassword("test");
+            // todo plus loin ajouter à la liste de posts du user, l'id du post créé
 
             SceneController sceneController = new SceneController();
 
-            if (dateStart.getValue() == null)
-                start = LocalDate.now();
-            else
-                start = dateStart.getValue();
-
             State state = State.EN_COURS;
-            end = dateEnd.getValue();
-            if (start.isAfter(LocalDate.now()))
+            if (myDatePicker.getStart().isAfter(LocalDate.now()))
                 state = State.FUTUR;
 
-            if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
+            if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
                 state = State.EN_COURS;
 
             RadioButton date = (RadioButton) type_date.getSelectedToggle();
             ArrayList<LocalDate> dates = new ArrayList<>();
 
             if (date.getId().equals("plage")){
-                LocalDate boucle = start;
-                while (boucle.isBefore(end)){
+                LocalDate boucle = myDatePicker.getStart();
+                dates.add(boucle);
+                while (boucle.isBefore(myDatePicker.getEnd())){
                     boucle = boucle.plusDays(1);
                     dates.add(boucle);
                 }
             }
 
             if (date.getId().equals("ponctuelles")){
-                dates.addAll(myDatePickerStart.getSelectedDates());
+                dates.addAll(myDatePicker.getSelectedDates());
             }
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), user.getEmail(), start, end, dates, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), user.getEmail(), dates, address, image.getImage(), state, null);
                 }
                 else {
-                    modifierPost(start, end, user, address, state);
+                    modifierPost(dates, user, address, state);
                 }
                 sceneController.goToEditService(event, post, modify);
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), user.getEmail(), start, end, dates, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), user.getEmail(), dates, address, image.getImage(), state, null);
                 }
                 else {
-                    modifierPost(start, end, user, address, state);
+                    modifierPost(dates, user, address, state);
                 }
                 sceneController.goToEditTool(event, post, modify);
             }
         }
     }
 
-    private void modifierPost(LocalDate start, LocalDate end, User user, Address address, State state) {
+    private void modifierPost(ArrayList<LocalDate> dates, User user, Address address, State state) {
         post.setDescription(description.getText());
         post.setTitle(title.getText());
         post.setAuthorEmail(user.getEmail());
-        post.setDateCouple(new DateCouple(start, end));
+        post.setDates(dates);
         post.setAddress(address);
         post.setImage(image.getImage());
         post.setState(state);

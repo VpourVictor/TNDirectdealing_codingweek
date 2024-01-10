@@ -16,21 +16,21 @@ public class Service extends Post{
 
     private List<Person> providers = new ArrayList<>();
 
-    public Service(String description, String title, String authorEmail, LocalDate start, LocalDate end, ArrayList<LocalDate> dates, Address adress, Image image, State state, String descriptionService){
-        super(description, title, authorEmail, start, end, dates, adress, image, state);
+    public Service(String description, String title, String authorEmail, ArrayList<LocalDate> dates, Address adress, Image image, State state, String descriptionService){
+        super(description, title, authorEmail, dates, adress, image, state);
         this.descriptionService = descriptionService;
         this.setIdPost(Post.id);
     }
 
-    public Service(int id, String description, String title, String authorEmail, LocalDate start, LocalDate end, ArrayList<LocalDate> dates, Address adress, Image image, State state, String descriptionService, List<Person> providers){
-        super(description, title, authorEmail, start, end, dates, adress, image, state);
+    public Service(int id, String description, String title, String authorEmail, ArrayList<LocalDate> dates, Address adress, Image image, State state, String descriptionService, List<Person> providers){
+        super(description, title, authorEmail, dates, adress, image, state);
         this.descriptionService = descriptionService;
         this.providers = providers;
         this.setIdPost(id);
     }
 
     public Service(Post post, String descriptionService, List<Person> providers){
-        super(post.getDescription(), post.getTitle(), post.getAuthorEmail(), post.getDateCouple().getDateStart(), post.getDateCouple().getDateEnd(), (ArrayList<LocalDate>) post.getDates(), post.getAddress(), post.getImage(), post.getState());
+        super(post.getDescription(), post.getTitle(), post.getAuthorEmail(), (ArrayList<LocalDate>) post.getDates(), post.getAddress(), post.getImage(), post.getState());
         this.descriptionService = descriptionService;
         this.providers = providers;
         Post.id++;

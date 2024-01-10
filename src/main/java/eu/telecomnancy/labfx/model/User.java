@@ -12,8 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public class User extends Person {
-
-    @Setter
     private boolean isConnected;
     private String pseudo;
     private String password;
@@ -22,28 +20,10 @@ public class User extends Person {
     private int coins;
     private Image profilePicture;
     private ArrayList<Integer> postedPosts = new ArrayList<>();
-    private ArrayList<Integer> appliedToPosts = new ArrayList<>() ;
-    protected int nbOfEvaluation = 0;
-    protected int nbOfPostedPosts = 0;
-    protected int nbOfAppliedToPosts = 0;
+    private ArrayList<Integer> appliedToPosts = new ArrayList<>();
     @Getter
     @Setter
-    private static int nbUsers = 2;
-
-    public void addPostedPosts( Integer idPost ) {
-        this.postedPosts.add(idPost);
-        this.nbOfPostedPosts = getNbOfPostedPosts()+1;
-    }
-
-    public void addAppliedToPosts( Integer idPost ) {
-        this.appliedToPosts.add(idPost);
-        this.nbOfAppliedToPosts = getNbOfAppliedToPosts()+1;
-    }
-
-    public void addEvaluation( Double note ) {
-        this.evaluationList.add(note);
-        this.nbOfEvaluation = getNbOfEvaluation()+1;
-    }
+    private static int nbUsers = 0;
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {
@@ -75,7 +55,6 @@ public class User extends Person {
         nbUsers++;
     }
 
-
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();
     }
@@ -94,5 +73,4 @@ public class User extends Person {
     public void addConv(Conversation conv){
         convs.add(conv);
     }
-
 }

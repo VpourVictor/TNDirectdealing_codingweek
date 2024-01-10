@@ -16,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.FileChooser;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +25,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+@Getter
+@Setter
 public class SignUpController {
-
     private User user;
+
+    private ArrayList<User> users = new ArrayList<>();
 
     @FXML
     private Button browseButton;
@@ -94,24 +99,17 @@ public class SignUpController {
     final FileChooser fileChooser = new FileChooser();
     private final ObservableList<String> countries = FXCollections.observableArrayList();
 
+    @Getter
     @FXML
     Polygon hexagon;
+
     @FXML
     public void mouseEnter(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#F08A26"));
-
     }
     public void mouseExit(MouseEvent event) {
-
         hexagon.setStroke(Color.web("#6C2466"));
-
     }
-    public Polygon getHexagon() {
-        return hexagon;
-    }
-
-
 
     @FXML
     void initialize() {
@@ -134,7 +132,6 @@ public class SignUpController {
             imageProfile.setImage(new Image(file.toURI().toString()));
         }
     }
-
 
     @FXML
     void createAccount(ActionEvent event) throws IOException {
@@ -175,20 +172,16 @@ public class SignUpController {
         else if ( passwordHiddenConfirmation.getText() == null) {
             new Alert(Alert.AlertType.ERROR, "Vérifiez votre mot de passe").showAndWait();
         }
-        else if (imageProfile.getImage() == null) {
-            new Alert(Alert.AlertType.ERROR, "Veuillez sélectionner une image").showAndWait();
-        }
         else if (!( passwordHiddenConfirmation.getText()).equals(passwordValue())){
             new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
         }
         else {
 
-            ArrayList<User> users = JsonUtil.jsonToUserList("src/main/resources/json/users.json");
+            users = JsonUtil.jsonToUsers();
 
-            if (emailAlreadyUsed(users, mailTextField.getText())){
+            if (emailAlreadyUsed(mailTextField.getText())) {
                 new Alert(Alert.AlertType.ERROR, "Cet email est déjà associé à un compte existant").showAndWait();
-            }
-            else{
+            } else {
                 User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
 
                 Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
@@ -205,7 +198,7 @@ public class SignUpController {
                 user.setPassword(passwordValue());
                 user.setConnected(true);
                 users.add(user);
-                JsonUtil.userListToJson( users, "src/main/resources/json/users.json");
+                JsonUtil.usersToJson(users);
                 SceneController sceneController = new SceneController();
                 sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
             }
@@ -213,7 +206,7 @@ public class SignUpController {
     }
 
     //method to know if someone in an ArrayList<User> has already the mail you are trying to add
-    private Boolean emailAlreadyUsed(ArrayList<User> users, String mail){
+    private Boolean emailAlreadyUsed(String mail){
         //supposed that the mail is already to the good format
         for (User user : users) {
             if (user.getEmail().equals(mail)){
@@ -241,8 +234,6 @@ public class SignUpController {
             passwordHidden.setVisible(true);
             passwordText.setVisible(false);
         }
-
-
     }
 }
 

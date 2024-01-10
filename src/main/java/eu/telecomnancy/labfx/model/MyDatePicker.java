@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.model;
 
+import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
@@ -18,18 +19,25 @@ import java.util.TreeSet;
 @Getter
 public class MyDatePicker {
     @Getter
-    private final ObservableSet<LocalDate> selectedDates;
+    private ObservableSet<LocalDate> selectedDates;
     private final DatePicker datePicker;
-    private final boolean isStart;
+    private PostEditController postEditController;
+    private LocalDate start;
+    private LocalDate end;
 
-    public MyDatePicker(DatePicker dp, boolean isStart) {
+    public MyDatePicker(DatePicker dp, PostEditController postEditController) {
         this.selectedDates = FXCollections.observableSet(new TreeSet<>());
         this.datePicker = dp;
-        this.isStart = isStart;
+        this.postEditController = postEditController;
         setUpDatePicker();
     }
 
     private void setUpDatePicker() {
+        // initaliser le datePicker avec les valeurs dans la liste
+        this.selectedDates.addAll(postEditController.dates);
+        start();
+        end();
+
         this.datePicker.setConverter(new StringConverter<>() {
             @Override
             public String toString(LocalDate date) {
@@ -47,18 +55,18 @@ public class MyDatePicker {
             if (clickEvent.getButton() == MouseButton.PRIMARY) {
                 if (!this.selectedDates.contains(this.datePicker.getValue())) {
                     this.selectedDates.add(datePicker.getValue());
-                    if (this.isStart) {
-                        this.datePicker.setValue(start());
-                    } else {
-                        this.datePicker.setValue(end());
-                    }
+                    start();
+                    end();
+                    postEditController.dates.add(datePicker.getValue());
+                    postEditController.listDate.setItems(FXCollections.observableArrayList(postEditController.dates));
+
                 } else {
                     this.selectedDates.remove(this.datePicker.getValue());
-                    if (this.isStart) {
-                        this.datePicker.setValue(start());
-                    } else {
-                        this.datePicker.setValue(end());
-                    }
+                    start();
+                    end();
+                    postEditController.dates.remove(datePicker.getValue());
+                    postEditController.listDate.setItems(FXCollections.observableArrayList(postEditController.dates));
+
                 }
             }
             this.datePicker.show();
@@ -68,47 +76,45 @@ public class MyDatePicker {
         this.datePicker.setDayCellFactory((DatePicker param) -> new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item.isBefore(LocalDate.now())) {
-                    setDisable(true);
-                }
+            super.updateItem(item, empty);
+            if (item.isBefore(LocalDate.now())) {
+                setDisable(true);
+            }
 
-                if (!empty) {
-                    addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
-                } else {
-                    removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
-                }
+            if (!empty) {
+                addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
+            } else {
+                removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
+            }
 
-                if (selectedDates.contains(item)) {
-                    setStyle("-fx-background-color: rgba(3, 169, 244, 0.7);");
-                } else {
-                    setStyle(null);
-                }
+            if (selectedDates.contains(item)) {
+                setStyle("-fx-background-color: rgba(3, 169, 244, 0.7);");
+            } else {
+                setStyle(null);
+            }
             }
         });
     }
 
     private LocalDate start() {
-        // séléction de la date de début
-        // on parcourt les dates sélectionnées et on prend la plus petite
         LocalDate min = null;
         for (LocalDate date : this.selectedDates) {
             if (min == null || date.isBefore(min)) {
                 min = date;
             }
         }
+        start = min;
         return min;
     }
 
     private LocalDate end() {
-        // séléction de la date de fin
-        // on parcourt les dates sélectionnées et on prend la plus grande
         LocalDate max = null;
         for (LocalDate date : this.selectedDates) {
             if (max == null || date.isAfter(max)) {
                 max = date;
             }
         }
+        end = max;
         return max;
     }
 }
