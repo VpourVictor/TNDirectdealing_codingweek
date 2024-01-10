@@ -227,7 +227,7 @@ public class JsonUtil {
 
         }
         catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", e);
         }
     }
 
@@ -519,7 +519,7 @@ public class JsonUtil {
         String path = "src/main/resources/json/messages.json";
         ArrayList<Message> list = recupMsgData(path);
         list.add(msg);
-        sendMsgInJason(list);
+        sendMsgInJason(list, path);
     }
 
     public static ArrayList<Message> recupMsgData(String path){
@@ -531,8 +531,6 @@ public class JsonUtil {
             if (nb_msgs == 0){
                 return list;
             }
-            //for (int i = 1; i <= 2 ; i++){
-            //
 
             for (int i = 1; i <= nb_msgs ; i++){
                 JSONObject jsonmsg = json.getJSONObject("message" + i);
@@ -548,22 +546,48 @@ public class JsonUtil {
     }
 
     public static Message jsonToMessage(JSONObject jsonmsg){
-        Message message = new Message(jsonmsg.getString("sender"), jsonmsg.getString("receiver"),
-                jsonmsg.getString("contenu"), jsonmsg.getString("date"));
-        //user.setCoins(author.getInt("coins"));
-        //user.setConnected("true".equals(author.getString("isConnected")));
-        //user.setNbOfPostedPosts(author.getInt("nbOfPostedPosts"));
-        //user.setNbOfEvaluation(author.getInt("nbOfEvaluation"));
-        //user.setNbOfAppliedToPosts(author.getInt("nbOfAppliedToPosts"));
-        //TODO il manque des champs là user.setPostedPosts(jsonToListPost(author.getString("postedPosts")))
-        //user.setAppliedToPosts(jsonToListPost(author.getString("appliedToPosts")))
-        //user.setEvaluationList(jsonToListDouble(author.getString("evaluationList")));
-        return user;
+        String sendermail = jsonmsg.getString("sender");
+        String receivermail = jsonmsg.getString("receiver");
+        User sender = getUserFromMail(sendermail);
+        User receiver = getUserFromMail(receivermail);
+        Message message = new Message(sender, receiver, jsonmsg.getString("contenu"), jsonmsg.getString("date"));
+        return message;
     }
 
-    public static void sendMsgInJason(ArrayList<Message> list){}
+    public static void sendMsgInJason(ArrayList<Message> list, String path){
+        JSONObject msgJson = new JSONObject();
+        try {
+            if (!list.isEmpty()){
+                int index = 1;
+                for (Message message : list) {
+                    JSONObject jsonMsg = messageToJson(message);
+                    msgJson.put("message" + index, jsonMsg);
+                    index++;
+                }
+            }
+            else {
+                msgJson.put("user0", "");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        writeJsonInJsonFile(path, msgJson);
+    }
 
-
+    public static User getUserFromMail(String mail){
+        try {
+            ArrayList<User> users = JsonUtil.jsonToUserList("src/main/resources/json/users.json");
+            int i = 0;
+            int nb_user = User.getNbUsers();
+            while ((i < nb_user) && (!users.get(i).getEmail().equals(mail))) {
+                i++;
+            }
+            User user = users.get(i);
+            return user;
+        }
+        catch (Exception e){throw new RuntimeException(e);} //TODO check si c'est ok comme ca (cas ou on creer un msg avec un user qui n'existe pas) (ne peut pas arriver normalement, msg dans discussion)
+    }
 
 //    public static JSONObject readJsonFromFile(String fileName) {
 //        try (FileReader fileReader = new FileReader(fileName)) {

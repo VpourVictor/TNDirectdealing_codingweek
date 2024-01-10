@@ -1,5 +1,7 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
+import eu.telecomnancy.labfx.model.Address;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
@@ -54,8 +56,9 @@ public class HomepageController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        User user = new User("test", "test","test@gmail.com", "Rezko");
-        User user2 = new User("test2", "test2","test@gmail.com", "Rezko2");
+        Address adresse = new Address(5,"d",6,"y","h", "s");
+        User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse,null);
+        User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, null);
         Message message = new Message(user,user2,"Salut", "now");
         Conversation conversation = new Conversation(user,user2);
         Conversation conversation2 = new Conversation(user,user2);
@@ -68,6 +71,9 @@ public class HomepageController {
         user.getConvs().add(conversation);
         user.getConvs().add(conversation2);
         user.getConvs().add(conversation3);
+        JsonUtil.registerNewUser(user);
+        JsonUtil.registerNewUser(user2);
+        System.out.println(User.getNbUsers());
         MessagerieController messagerieController = loader.getController();
         messagerieController.setAndLoad(user);
 

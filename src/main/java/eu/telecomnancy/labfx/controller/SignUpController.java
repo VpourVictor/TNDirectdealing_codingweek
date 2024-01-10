@@ -202,7 +202,7 @@ public class SignUpController {
             JsonUtil.registerNewUser(user);
             //JsonUtil.betterRegisterNewUser(user);
             SceneController sceneController = new SceneController();
-            sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'acceuil
+            sceneController.goToAccueil(event); //TODO ne pas renvoyer vers l'accueil
 
         }
 
