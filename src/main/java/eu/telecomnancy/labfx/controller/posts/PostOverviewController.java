@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class PostOverviewController {
@@ -71,13 +72,19 @@ public class PostOverviewController {
 
     private ArrayList<Post> posts;
 
-    public void initData(Post post) {
-        System.out.println(Post.getNbPosts());
+    @FXML
+    void initialize() {
         posts = JsonUtil.jsonToPosts();
-        if (posts == null) {
-            posts = new ArrayList<>();
+        if (firstNameColumn != null && lastNameColumn != null) {
+            firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+            lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         }
+    }
+
+    public void initData(Post post) {
+        posts = JsonUtil.jsonToPosts();
         this.post = post;
+        System.out.println(post.getClass());
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
@@ -103,14 +110,6 @@ public class PostOverviewController {
         image.setImage(post.getImage());
     }
 
-    @FXML
-    void initialize() {
-        if (firstNameColumn != null && lastNameColumn != null) {
-            firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-            lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
-        }
-    }
-
     public void modify(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToEditPost(event, post, true);
@@ -122,11 +121,22 @@ public class PostOverviewController {
     }
 
     public void delete(ActionEvent event) {
-        posts.remove(post);
+        posts = JsonUtil.jsonToPosts();
+        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
         Post.setNbPosts(Post.getNbPosts() - 1);
         JsonUtil.postsToJson(posts);
 
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, posts);
+    }
+
+    public void viewService(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToOverviewServicePost(event, post);
+    }
+
+    public void viewTool(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToOverviewToolPost(event, post);
     }
 }

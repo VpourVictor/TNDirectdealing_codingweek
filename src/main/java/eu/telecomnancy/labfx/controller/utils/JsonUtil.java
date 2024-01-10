@@ -31,6 +31,45 @@ public class JsonUtil {
         return json;
     }
 
+    public static JSONObject providersToJson(ArrayList<User> users) {
+        JSONObject usersJson = new JSONObject();
+        try {
+            if (!users.isEmpty()){
+                for (User user : users) {
+                    JSONObject json = providerToJson(user);
+                    usersJson.put("provider" + user.getEmail(), json);
+                }
+            }
+            else {
+                usersJson.put("provider0", "");
+            }
+
+            return usersJson;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // todo finir enregistrement des personnes prestataires
+    private static JSONObject providerToJson(Person user) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("firstName", user.getFirstName());
+            json.put("lastName", user.getLastName());
+
+            if (user instanceof User) {
+                json.put("email", ((User) user).getEmail());
+            }
+
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public static JSONObject postToJson(Post post) {
         JSONObject json = new JSONObject();
 
@@ -59,6 +98,9 @@ public class JsonUtil {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
             }
+
+
+
             return json;
         }
         catch (Exception e) {
@@ -76,6 +118,9 @@ public class JsonUtil {
                     JSONObject json = postToJson(post);
                     postsJson.put("post" + post.getIdPost(), json);
                 }
+            }
+            else {
+                postsJson.put("post0", "");
             }
         }
         catch (Exception e) {
@@ -107,9 +152,11 @@ public class JsonUtil {
 
             JSONObject json = new JSONObject(builder.toString());
 
+            if (Post.getNbPosts() == 0)
+                return posts;
+
             for (int i = 1; i <= Post.getNbPosts() ; i++){
                 JSONObject jsonObject = json.getJSONObject("post" + i);
-                System.out.println(jsonObject.toString());
                 String type = jsonObject.getString("type");
                 LocalDate startDate = LocalDate.parse(jsonObject.getString("startDate"));
                 LocalDate endDate;
@@ -151,6 +198,7 @@ public class JsonUtil {
 
 
     public static JSONObject userToJsonNotVoid(User user) {
+        JSONObject userJson = new JSONObject();
         JSONObject json = new JSONObject();
         try {
             json.put("firstName", user.getFirstName());
@@ -171,13 +219,20 @@ public class JsonUtil {
             json.put("nbOfPostedPosts", user.getNbOfPostedPosts());
             json.put("nbOfAppliedToPosts", user.getNbOfAppliedToPosts());
             json.put("nbOfEvaluation", user.getNbOfEvaluation());
-
+            //userJson.put("user" + user.getNbUsers(), json);
+            //return userJson;
             return json;
 
         }
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void registerNewUser(User newUser){
+        JSONObject json = userToJsonNotVoid(newUser);
+        writeJsonInJsonFile("src/main/resources/json/users.json",json);
+
     }
 
     private static User jsonToUserNotVoid(JSONObject author) {
@@ -283,7 +338,6 @@ public class JsonUtil {
                 listOfDouble.add(doubleValue);
             }
         } catch (Exception e) {
-            // Handle the exception or log it
             throw new RuntimeException("Error converting JSON to list of doubles", e);
         }
         return listOfDouble;
@@ -295,6 +349,42 @@ public class JsonUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static JSONObject readJsonFromFile(String fileName) {
+        try (FileReader fileReader = new FileReader(fileName)) {
+            int data;
+            StringBuilder jsonString = new StringBuilder();
+
+            while ((data = fileReader.read()) != -1) {
+                jsonString.append((char) data);
+            }
+
+            return new JSONObject(jsonString.toString());
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading the JSONFile", e);
+        }
+    }
+
+    public static void writeJsonToFile(JSONObject json, String path) {
+        try (FileWriter fileWriter = new FileWriter(path)) {
+            fileWriter.write(json.toString());
+        } catch (Exception e) {
+            throw new RuntimeException("Error writing the JSONFile", e);
+        }
+    }
+
+    public static void addJsonUserInFile (JSONObject userJson, String path, int nbOfUsers){
+        JSONObject existingData = readJsonFromFile(path);
+
+        existingData.put("user" + nbOfUsers, userJson);
+        writeJsonToFile(existingData, path);
+    }
+
+    public static void betterRegisterNewUser(User newUser){
+        JSONObject json = userToJsonNotVoid(newUser);
+        addJsonUserInFile(json, "src/main/resources/json/users.json", newUser.getNbUsers() );
+
     }
 }
 
