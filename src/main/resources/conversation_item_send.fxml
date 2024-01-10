@@ -6,9 +6,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="50.0" prefWidth="911.0" styleClass="msg-style" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
+<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="911.0" styleClass="msg-style" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
     <children>
-        <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut, je dis des trucs au pif pour voir si la taille et le message fonctionne bien,anticonstitutionnelement, je sais plus quoi dire" wrappingWidth="726.0">
+        <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut, je dis des trucs au pif pour voir si la taille et le message xxxxxxxxxx fonctiodddddddddddddddddddddddddddddddddddddddddddddddddnne bienffffffffffffffffffffffffffffffffffff,anticonstitutionnelement, je sais phhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhlus quoi xxxxxxxxxxxxdire" wrappingWidth="690.0">
             <HBox.margin>
                 <Insets left="10.0" right="5.0" />
             </HBox.margin>
@@ -16,10 +16,10 @@
                 <Font size="18.0" />
             </font>
         </Text>
-        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="50.0" prefWidth="180.0" spacing="7.0">
+        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="205.0" spacing="7.0">
             <children>
                 <Label text="Date d'envoi :" />
-                <Label text="14/05, 14h35" />
+                <Label fx:id="dateText" text="2002/14/05, 14h35" />
             </children>
         </HBox>
     </children>

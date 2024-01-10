@@ -17,3 +17,11 @@
     -fx-background-color: #71a4cd;
     -fx-background-radius: 15;
 }
+
+.suppr-boutons{
+    -fx-background-color: #ff4c4c;
+}
+
+.labelarea{
+    -fx-background-color: #9c8b80;
+}
