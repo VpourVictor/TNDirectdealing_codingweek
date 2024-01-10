@@ -27,6 +27,8 @@ public class User extends Person {
     protected int nbOfEvaluation = 0;
     protected int nbOfPostedPosts = 0;
     protected int nbOfAppliedToPosts = 0;
+    @Getter
+    private static int nbUsers = 0;
 
     public void addPostedPosts( Post post ) {
         this.postedPosts.add(post);
@@ -46,6 +48,7 @@ public class User extends Person {
 
     public User(String prenom, String nom) {
         super(prenom, nom);
+        nbUsers++;
     }
 
     public User(String prenom, String nom, String mail) {
@@ -53,6 +56,7 @@ public class User extends Person {
         this.email = mail;
         this.convs = new ArrayList<Conversation>();
         this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+        nbUsers++;
     }
 
     public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
@@ -63,6 +67,7 @@ public class User extends Person {
         this.address = address;
         this.profilePicture = profilePicture;
         this.convs = new ArrayList<Conversation>();
+        nbUsers++;
     }
 
 

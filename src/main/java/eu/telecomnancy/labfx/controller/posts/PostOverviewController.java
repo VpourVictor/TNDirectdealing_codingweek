@@ -84,6 +84,7 @@ public class PostOverviewController {
     public void initData(Post post) {
         posts = JsonUtil.jsonToPosts();
         this.post = post;
+        System.out.println(post.getClass());
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
@@ -127,5 +128,15 @@ public class PostOverviewController {
 
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, posts);
+    }
+
+    public void viewService(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToOverviewServicePost(event, post);
+    }
+
+    public void viewTool(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToOverviewToolPost(event, post);
     }
 }

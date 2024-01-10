@@ -31,6 +31,45 @@ public class JsonUtil {
         return json;
     }
 
+    public static JSONObject providersToJson(ArrayList<User> users) {
+        JSONObject usersJson = new JSONObject();
+        try {
+            if (!users.isEmpty()){
+                for (User user : users) {
+                    JSONObject json = providerToJson(user);
+                    usersJson.put("provider" + user.getEmail(), json);
+                }
+            }
+            else {
+                usersJson.put("provider0", "");
+            }
+
+            return usersJson;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // todo finir enregistrement des personnes prestataires
+    private static JSONObject providerToJson(Person user) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("firstName", user.getFirstName());
+            json.put("lastName", user.getLastName());
+
+            if (user instanceof User) {
+                json.put("email", ((User) user).getEmail());
+            }
+
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public static JSONObject postToJson(Post post) {
         JSONObject json = new JSONObject();
 
@@ -59,6 +98,9 @@ public class JsonUtil {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
             }
+
+
+
             return json;
         }
         catch (Exception e) {

@@ -8,10 +8,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
@@ -98,7 +101,7 @@ public class PostEditController {
 
     private ArrayList<Post> posts;
 
-    @FXML private GridPane grid;
+    @FXML private VBox listPost;
 
     @FXML
     void initialize() {
@@ -110,6 +113,25 @@ public class PostEditController {
         if (firstNameColumn != null && lastNameColumn != null) {
             firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+        }
+
+        if (listPost != null){
+            posts = JsonUtil.jsonToPosts();
+            for (Post post1 : posts){
+                FXMLLoader loader = new FXMLLoader();
+                if (post1 instanceof Service)
+                    loader.setLocation(getClass().getResource("/posts/postService_row_overview.fxml"));
+                else
+                    loader.setLocation(getClass().getResource("/posts/postTool_row_overview.fxml"));
+                try {
+                    AnchorPane pane = loader.load();
+                    PostOverviewController controller = loader.getController();
+                    controller.initData(post1);
+                    listPost.getChildren().add(pane);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
