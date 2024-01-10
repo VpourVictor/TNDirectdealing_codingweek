@@ -1,6 +1,7 @@
 package eu.telecomnancy.labfx.model;
 
-
+import lombok.Getter;
+import lombok.Setter;
 import javafx.scene.image.Image;
 import lombok.Getter;
 import lombok.Setter;
