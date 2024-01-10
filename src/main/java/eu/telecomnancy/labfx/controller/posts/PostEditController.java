@@ -119,6 +119,10 @@ public class PostEditController {
 
     public final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
     public ListView<LocalDate> listDate;
+    private ArrayList<LocalDate> datesList = new ArrayList<>();
+
+    // todo voir tous -> problème
+    private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     @FXML
     void initialize() {
@@ -139,16 +143,19 @@ public class PostEditController {
             SceneController sceneController = new SceneController();
             sceneController.goToRowPost(posts, listPost);
         }
-
-        if (type_date != null){
-            myDatePicker = new MyDatePicker(datesPicker, this);
-        }
     }
 
     public void initData(Post post) {
         posts = JsonUtil.jsonToPosts();
         if (posts == null)
             posts = new ArrayList<>();
+
+        if (type_date != null){
+            if (post != null){
+                dates.addAll(post.getDates());
+            }
+            myDatePicker = new MyDatePicker(datesPicker, this);
+        }
 
         if (name_page != null) {
             if(!modify)
@@ -169,6 +176,7 @@ public class PostEditController {
             region.setText(post.getAddress().getRegion());
             countryList.setValue(post.getAddress().getCountry());
             type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
+            listDate.setItems(dates);
         }
 
         if (post != null && part2) {
@@ -189,7 +197,6 @@ public class PostEditController {
             else
                 mode.setText("Modification d'un post");
         }
-
     }
 
     public void browse(ActionEvent event) {
@@ -211,7 +218,6 @@ public class PostEditController {
         else if (description.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
         }
-        // todo si on modifie on doit garder les dates.. voir comment faire
         else if (dates.size() != 2 && !ponctuelles.isSelected()){
             new Alert(Alert.AlertType.ERROR, "Pour une plage, il faut 2 dates").showAndWait();
         }
@@ -241,13 +247,15 @@ public class PostEditController {
         }
         else {
             // todo créer le user en fonction de la personne connectée
-            User user = new User("test", "test", "test@test.com");
-            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
-            user.setAddress(address);
-            user.setPseudo("test");
-            user.setPassword("test");
-            // todo plus loin ajouter à la liste de posts du user, l'id du post créé
+            User author = null;
+            for (User user : users){
+                if (user.isConnected()){
+                    author = user;
+                    break;
+                }
+            }
 
+            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             SceneController sceneController = new SceneController();
 
             State state = State.EN_COURS;
@@ -258,37 +266,46 @@ public class PostEditController {
                 state = State.EN_COURS;
 
             RadioButton date = (RadioButton) type_date.getSelectedToggle();
-            ArrayList<LocalDate> dates = new ArrayList<>();
+
+            Type_Date type_date;
 
             if (date.getId().equals("plage")){
+                type_date = Type_Date.PLAGE;
                 LocalDate boucle = myDatePicker.getStart();
                 dates.add(boucle);
+                datesList.add(boucle);
                 while (boucle.isBefore(myDatePicker.getEnd())){
                     boucle = boucle.plusDays(1);
                     dates.add(boucle);
+                    datesList.add(boucle);
                 }
-            }
-
-            if (date.getId().equals("ponctuelles")){
+            } else if (date.getId().equals("ponctuelles")){
+                type_date = Type_Date.PONCTUELLES;
                 dates.addAll(myDatePicker.getSelectedDates());
+                datesList.addAll(myDatePicker.getSelectedDates());
+            }
+            else {
+                type_date = Type_Date.PONCTUELLE_REC;
             }
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), user.getEmail(), dates, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
-                    modifierPost(dates, user, address, state);
+                    modifierPost(datesList, author, address, state);
                 }
                 sceneController.goToEditService(event, post, modify);
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), user.getEmail(), dates, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
-                    modifierPost(dates, user, address, state);
+                    modifierPost(datesList, author, address, state);
                 }
                 sceneController.goToEditTool(event, post, modify);
             }
@@ -306,9 +323,6 @@ public class PostEditController {
     }
 
     public void add() {
-        // todo récupérer la liste des personnes inscrites dans le JSON
-        // si personne dont nom et prénom sont ceux rentrés dans les champs
-        // personData.add(new User(firstNamePrest.getText(), lastNamePrest.getText()));
         if (lastNamePrest.getText().isEmpty()){
             new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
         }
@@ -319,6 +333,16 @@ public class PostEditController {
             new Alert(Alert.AlertType.ERROR, "Le mail ne peut pas être vide").showAndWait();
         }
         else {
+            for (User user : users){
+                if (user.getEmail().equals(emailPrest.getText())){
+                    personData.add(user);
+                    listPrest.setItems(personData);
+                    lastNamePrest.clear();
+                    firstNamePrest.clear();
+                    emailPrest.clear();
+                    return;
+                }
+            }
             personData.add(new ExternalActor(firstNamePrest.getText(), lastNamePrest.getText(), emailPrest.getText()));
             listPrest.setItems(personData);
             lastNamePrest.clear();

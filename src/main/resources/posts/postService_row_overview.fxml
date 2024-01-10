@@ -23,8 +23,6 @@
       <Label fx:id="lastName" layoutX="423.0" layoutY="147.0" prefHeight="18.0" prefWidth="175.0" />
       <Label layoutX="98.0" layoutY="191.0" prefHeight="18.0" prefWidth="70.0" text="Date début : " />
       <Label layoutX="98.0" layoutY="223.0" prefHeight="18.0" prefWidth="70.0" text="Date début : " />
-      <Label fx:id="dateStart" layoutX="177.0" layoutY="191.0" prefHeight="18.0" prefWidth="89.0" />
-      <Label fx:id="dateEnd" layoutX="171.0" layoutY="223.0" prefHeight="18.0" prefWidth="89.0" />
       <Label layoutX="98.0" layoutY="263.0" prefHeight="18.0" prefWidth="58.0" text="Adresse :" />
       <Label fx:id="streetNumber" layoutX="163.0" layoutY="264.0" prefHeight="18.0" prefWidth="23.0" />
       <Label fx:id="streetName" layoutX="202.0" layoutY="264.0" prefHeight="18.0" prefWidth="133.0" />
@@ -44,6 +42,7 @@
       <Button layoutX="4.0" layoutY="187.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
       <Button layoutX="14.0" layoutY="237.0" mnemonicParsing="false" onAction="#viewService" text="Voir" />
       <Label fx:id="email" layoutX="267.0" layoutY="169.0" prefHeight="18.0" prefWidth="175.0" />
-      <ListView fx:id="listDate" layoutX="240.0" layoutY="517.0" prefHeight="148.0" prefWidth="288.0" />
+      <ListView fx:id="listDate" layoutX="101.0" layoutY="517.0" prefHeight="148.0" prefWidth="288.0" />
+      <Label fx:id="type_date" layoutX="409.0" layoutY="517.0" prefHeight="18.0" prefWidth="142.0" />
    </children>
 </AnchorPane>

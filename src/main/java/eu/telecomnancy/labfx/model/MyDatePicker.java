@@ -3,6 +3,7 @@ package eu.telecomnancy.labfx.model;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.event.EventHandler;
 import javafx.scene.control.DateCell;
@@ -11,6 +12,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.TreeSet;
@@ -18,25 +20,22 @@ import java.util.TreeSet;
 
 @Getter
 public class MyDatePicker {
-    @Getter
-    private ObservableSet<LocalDate> selectedDates;
+    @Setter
+    private ObservableList<LocalDate> selectedDates;
     private final DatePicker datePicker;
     private PostEditController postEditController;
     private LocalDate start;
     private LocalDate end;
 
     public MyDatePicker(DatePicker dp, PostEditController postEditController) {
-        this.selectedDates = FXCollections.observableSet(new TreeSet<>());
+        this.selectedDates = FXCollections.observableArrayList();
         this.datePicker = dp;
         this.postEditController = postEditController;
         setUpDatePicker();
     }
 
-    private void setUpDatePicker() {
-        // initaliser le datePicker avec les valeurs dans la liste
+    public void setUpDatePicker() {
         this.selectedDates.addAll(postEditController.dates);
-        start();
-        end();
 
         this.datePicker.setConverter(new StringConverter<>() {
             @Override
@@ -76,27 +75,27 @@ public class MyDatePicker {
         this.datePicker.setDayCellFactory((DatePicker param) -> new DateCell() {
             @Override
             public void updateItem(LocalDate item, boolean empty) {
-            super.updateItem(item, empty);
-            if (item.isBefore(LocalDate.now())) {
-                setDisable(true);
-            }
+                super.updateItem(item, empty);
+                if (item.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                }
 
-            if (!empty) {
-                addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
-            } else {
-                removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
-            }
+                if (!empty) {
+                    addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
+                } else {
+                    removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEventHandler);
+                }
 
-            if (selectedDates.contains(item)) {
-                setStyle("-fx-background-color: rgba(3, 169, 244, 0.7);");
-            } else {
-                setStyle(null);
-            }
+                if (selectedDates.contains(item)) {
+                    setStyle("-fx-background-color: rgba(3, 169, 244, 0.7);");
+                } else {
+                    setStyle(null);
+                }
             }
         });
     }
 
-    private LocalDate start() {
+    private void start() {
         LocalDate min = null;
         for (LocalDate date : this.selectedDates) {
             if (min == null || date.isBefore(min)) {
@@ -104,10 +103,9 @@ public class MyDatePicker {
             }
         }
         start = min;
-        return min;
     }
 
-    private LocalDate end() {
+    private void end() {
         LocalDate max = null;
         for (LocalDate date : this.selectedDates) {
             if (max == null || date.isAfter(max)) {
@@ -115,6 +113,5 @@ public class MyDatePicker {
             }
         }
         end = max;
-        return max;
     }
 }

@@ -53,7 +53,6 @@ public class JsonUtil {
 
         for (int i = 1; i <= nbProviders ; i++){
             JSONObject jsonObject = json.getJSONObject("provider" + i);
-            System.out.println(jsonObject);
             providers.add(jsonToProvider(jsonObject));
         }
         return providers;
@@ -83,23 +82,24 @@ public class JsonUtil {
             else
                 json.put("path", "");
             json.put("state", post.getState());
+            json.put("type_date", post.getType_date());
 
-            if (post instanceof eu.telecomnancy.labfx.model.Service) {
+            if (post instanceof Service) {
                 json.put("type", "service");
                 json.put("descriptionService", post.getDescriptionService());
                 json.put("providers", providersToJson(post.getProviders()));
             }
-            else if (post instanceof eu.telecomnancy.labfx.model.Tool) {
+            else if (post instanceof Tool) {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
             }
 
-            if (post instanceof eu.telecomnancy.labfx.model.Service) {
+            if (post instanceof Service) {
                 json.put("type", "service");
                 json.put("descriptionService", post.getDescriptionService());
                 json.put("providers", providersToJson(post.getProviders()));
             }
-            else if (post instanceof eu.telecomnancy.labfx.model.Tool) {
+            else if (post instanceof Tool) {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
             }
@@ -179,8 +179,14 @@ public class JsonUtil {
 
             State state = State.valueOf(jsonObject.getString("state"));
 
-            int nbProviders = jsonObject.getJSONObject("providers").length();
-            List<Person> providers = jsonToProviders(nbProviders, jsonObject.getJSONObject("providers"));
+            List<Person> providers = null;
+            try {
+                int nbProviders = jsonObject.getJSONObject("providers").length();
+                 providers = jsonToProviders(nbProviders, jsonObject.getJSONObject("providers"));
+            }
+            catch (Exception ignored) {
+
+            }
 
             Image image;
             if (jsonObject.getString("path").isEmpty())
@@ -188,14 +194,16 @@ public class JsonUtil {
             else
                 image = new Image(jsonObject.getString("path"));
 
+            Type_Date type_date = Type_Date.valueOf(jsonObject.getString("type_date"));
+
             if (type.equals("service")) {
                 return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates,
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
                         jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers);
             }
             else if (type.equals("tool")) {
                 return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates,
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
                         jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"));
             }
             else

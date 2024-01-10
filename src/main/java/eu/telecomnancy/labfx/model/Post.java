@@ -21,12 +21,14 @@ public abstract class Post {
     private Address address;
     private Image image;
     private State state;
+    private Type_Date type_date;
 
-    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, Address adress, Image image, State state) {
+    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, Type_Date type_date, Address adress, Image image, State state) {
         this.description = description;
         this.title = title;
         this.authorEmail = authorEmail;
         this.dates = dates;
+        this.type_date = type_date;
         this.address = adress;
         this.image = image;
         this.state = state;

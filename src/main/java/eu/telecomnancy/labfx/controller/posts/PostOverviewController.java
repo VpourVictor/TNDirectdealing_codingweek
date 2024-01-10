@@ -43,12 +43,6 @@ public class PostOverviewController {
     private Label country;
 
     @FXML
-    private Label dateEnd;
-
-    @FXML
-    private Label dateStart;
-
-    @FXML
     private Text description;
 
     @FXML
@@ -80,6 +74,8 @@ public class PostOverviewController {
     private ArrayList<Post> posts;
 
     public ListView<LocalDate> listDate;
+
+    @FXML private  Label type_date;
     private final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
 
     @FXML
@@ -112,6 +108,13 @@ public class PostOverviewController {
         email.setText(author.getEmail());
         dates.addAll(post.getDates());
         listDate.setItems(dates);
+        if (post.getType_date() == Type_Date.PONCTUELLES) {
+            type_date.setText("Ponctuelle");
+        } else if (post.getType_date() == Type_Date.PLAGE) {
+            type_date.setText("Plage");
+        } else if (post.getType_date() == Type_Date.PONCTUELLE_REC) {
+            type_date.setText("Ponctuelle récurrente");
+        }
         title.setText(post.getTitle());
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
