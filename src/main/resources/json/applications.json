@@ -1,1 +1,1 @@
-{"application1":{"isAccepted":false,"comment":"jdkjvds","dates":["2024-01-11","2024-01-12"],"id":1,"applicant":"test2@test.com"}}
+{"application1":{"isAccepted":false,"comment":"","dates":["2024-01-11","2024-01-12"],"id":1,"applicant":"test2@test.com"},"application2":{"isAccepted":false,"comment":"","dates":[],"id":2,"applicant":"test2@test.com"}}

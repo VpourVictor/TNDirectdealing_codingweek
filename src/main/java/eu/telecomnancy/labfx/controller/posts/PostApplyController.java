@@ -53,11 +53,12 @@ public class PostApplyController {
                 }
             }
 
-            sceneController.goToChekcDate(dates, listDates, post);
+            sceneController.goToChekcDate(dates, listDates, post, new ArrayList<>());
         }
     }
 
     public void save_application(ActionEvent actionEvent) {
+        // todo traiter la modification
         applications = JsonUtil.jsonToApplications();
         ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
         for (User user : users) {
@@ -87,5 +88,19 @@ public class PostApplyController {
     public void back(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, (ArrayList<Post>) posts);
+    }
+
+    public void initData(ApplicationToPost applicationToPost) {
+        comment.setText(applicationToPost.getComment());
+        SceneController sceneController = new SceneController();
+        ArrayList<LocalDate> checkedDates = new ArrayList<>();
+        ArrayList<LocalDate> dates = new ArrayList<>(post.getDates());
+
+        for (LocalDate date : dates) {
+            if (applicationToPost.getDates().contains(date)) {
+                checkedDates.add(date);
+            }
+        }
+        sceneController.goToChekcDate(dates, listDates, post, checkedDates);
     }
 }

@@ -53,9 +53,10 @@ public class PostApplicationController {
     @FXML
     private ArrayList<User> users;
 
-    public void initData(LocalDate date) {
+    public void initData(LocalDate date, ArrayList<LocalDate> checkedDates) {
         datesAppli = new ArrayList<>();
         check.setText(date.toString());
+        check.setSelected(checkedDates.contains(date));
         check.setOnAction(event -> {
             if (check.isSelected()) {
                 PostApplyController.getPost().getDatesOccupied().add(date);
@@ -234,8 +235,7 @@ public class PostApplicationController {
     }
 
     public void modify(ActionEvent event) {
-        // todo
-        /*SceneController sceneController = new SceneController();
-        sceneController.goToModifyApplication(event, applicationToPost);  */
+        SceneController sceneController = new SceneController();
+        sceneController.goToModifApplication(event, applicationToPost);
     }
 }

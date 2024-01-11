@@ -267,7 +267,7 @@ public class SceneController {
         }
     }
 
-    public void goToChekcDate(ArrayList<LocalDate> dates, VBox listDates, Post post) {
+    public void goToChekcDate(ArrayList<LocalDate> dates, VBox listDates, Post post, ArrayList<LocalDate> checkedDate) {
         for (LocalDate date : dates){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/posts/checkbox.fxml"));
@@ -275,7 +275,7 @@ public class SceneController {
                 AnchorPane pane = loader.load();
                 PostApplicationController controller = loader.getController();
                 PostApplyController.setPost(post);
-                controller.initData(date);
+                controller.initData(date, checkedDate);
                 listDates.getChildren().add(pane);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -331,6 +331,24 @@ public class SceneController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToModifApplication(ActionEvent event, ApplicationToPost applicationToPost) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/apply_post.fxml"));
+        try {
+            root = loader.load();
+            PostApplyController controller = loader.getController();
+            controller.initData(applicationToPost);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
         }
         catch (IOException e)
         {
