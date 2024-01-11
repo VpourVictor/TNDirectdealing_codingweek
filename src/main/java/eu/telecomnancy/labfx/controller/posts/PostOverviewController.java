@@ -10,17 +10,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class PostOverviewController extends HexaSuper {
@@ -92,7 +95,21 @@ public class PostOverviewController extends HexaSuper {
 
     @FXML Button postuler;
 
+    @FXML
+    private Button modifier;
+
+    @FXML
+    private Button supprimer;
+
+    @FXML
+    private Button candidatures;
+
     private ArrayList<User> users = JsonUtil.jsonToUsers();
+
+    private ArrayList<ApplicationToPost> applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
+
+    private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(-fx-base,80%)";
+    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
 
     @FXML
     void initialize() {
@@ -120,8 +137,11 @@ public class PostOverviewController extends HexaSuper {
             if (user.getEmail().equals(post.getAuthorEmail())) {
                 author = user;
                 if (user.isConnected()) {
+                    modifier.setVisible(true);
+                    supprimer.setVisible(true);
                     masquer.setVisible(true);
                     demasquer.setVisible(true);
+                    candidatures.setVisible(true);
                     if (post.getState() == State.FUTUR || post.getState() == State.EN_COURS) {
                         masquer.setDisable(false);
                         demasquer.setDisable(true);
@@ -137,11 +157,39 @@ public class PostOverviewController extends HexaSuper {
             }
         }
 
+        if (applications != null) {
+            if (post.getDatesOccupied().equals(post.getDates())){
+                postuler.setVisible(false);
+            }
+        }
+
         firstName.setText(author.getFirstName());
         lastName.setText(author.getLastName());
         email.setText(author.getEmail());
         dates.addAll(post.getDates());
         listDate.setItems(dates);
+        listDate.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<LocalDate> call(ListView<LocalDate> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(DateUtil.format(item));
+                            if (post.getDatesOccupied().contains(item)) {
+                                setStyle("-fx-background-color: #ff0000");
+                            } else {
+                                setStyle("-fx-background-color: #00ff00");
+                            }
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+            }
+        });
+
         if (post.getType_date() == Type_Date.PONCTUELLES) {
             type_date.setText("Ponctuelle");
         } else if (post.getType_date() == Type_Date.PLAGE) {
@@ -246,5 +294,10 @@ public class PostOverviewController extends HexaSuper {
     public void apply(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToApplyPost(event, post);
+    }
+
+    public void show_applications(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToApplications(event, post);
     }
 }

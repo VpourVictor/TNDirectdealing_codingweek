@@ -506,8 +506,9 @@ public class JsonUtil {
         }
 
         int id = jsonObject.getInt("id");
+        boolean isAccepted = jsonObject.getBoolean("isAccepted");
 
-        return new ApplicationToPost(id, applicantEmail, dates, comment);
+        return new ApplicationToPost(id, isAccepted, applicantEmail, dates, comment);
     }
 
     public static JSONObject applicationToJson(ApplicationToPost application) {
@@ -517,6 +518,7 @@ public class JsonUtil {
             json.put("applicant", application.getApplicantEmail());
             json.put("comment", application.getComment());
             json.put("dates", application.getDates());
+            json.put("isAccepted", application.isAccepted());
             return json;
         }
         catch (Exception e) {

@@ -4,10 +4,8 @@ import eu.telecomnancy.labfx.controller.posts.PostApplyController;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
 import eu.telecomnancy.labfx.controller.posts.PostApplicationController;
-import eu.telecomnancy.labfx.model.Conversation;
-import eu.telecomnancy.labfx.model.Post;
-import eu.telecomnancy.labfx.model.User;
-import eu.telecomnancy.labfx.model.Service;
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
+import eu.telecomnancy.labfx.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class SceneController {
     private Stage stage;
@@ -277,6 +277,44 @@ public class SceneController {
                 PostApplyController.setPost(post);
                 controller.initData(date);
                 listDates.getChildren().add(pane);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void goToApplications(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all_applications.fxml"));
+        try {
+            root = loader.load();
+            PostApplicationController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToApplicationOverview(List<Integer> applications, VBox listApplications){
+        for (Integer application : applications){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/posts/overview_application.fxml"));
+            try {
+                AnchorPane pane = loader.load();
+                PostApplicationController controller = loader.getController();
+                if (JsonUtil.jsonToApplications() != null){
+                    for (ApplicationToPost applicationToPost : Objects.requireNonNull(JsonUtil.jsonToApplications())){
+                        if (applicationToPost.getIdAppli() == application){
+                            controller.initData(applicationToPost);
+                        }
+                    }
+                }
+                listApplications.getChildren().add(pane);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

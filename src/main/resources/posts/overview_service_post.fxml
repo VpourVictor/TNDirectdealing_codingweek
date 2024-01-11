@@ -38,13 +38,15 @@
         </columns>
       </TableView>
       <Text fx:id="descriptionService" layoutX="640.0" layoutY="725.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
-      <Button layoutX="138.0" layoutY="130.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
+      <Button fx:id="modifier" layoutX="138.0" layoutY="130.0" mnemonicParsing="false" onAction="#modify" text="Modifier" visible="false" />
       <Button layoutX="210.0" layoutY="130.0" mnemonicParsing="false" onAction="#viewAll" text="Voir tous" />
-      <Button layoutX="285.0" layoutY="130.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+      <Button fx:id="supprimer" layoutX="285.0" layoutY="130.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" visible="false" />
       <Label fx:id="email" layoutX="522.0" layoutY="359.0" prefHeight="18.0" prefWidth="175.0" />
       <ListView fx:id="listDate" layoutX="583.0" layoutY="496.0" prefHeight="200.0" prefWidth="288.0" />
       <Label fx:id="type_date" layoutX="883.0" layoutY="497.0" prefHeight="18.0" prefWidth="154.0" />
       <Button fx:id="masquer" layoutX="370.0" layoutY="130.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false" />
-      <Button fx:id="demasquer" layoutX="440.0" layoutY="130.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false"/>
+      <Button fx:id="demasquer" layoutX="440.0" layoutY="130.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
+      <Button fx:id="postuler" layoutX="523.0" layoutY="130.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
+      <Button fx:id="candidatures" layoutX="24.0" layoutY="436.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false"/>
    </children>
 </AnchorPane>

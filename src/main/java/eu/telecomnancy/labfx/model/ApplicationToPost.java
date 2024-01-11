@@ -35,10 +35,11 @@ public class ApplicationToPost {
         ApplicationToPost.listId.add(this.idAppli);
     }
 
-    public ApplicationToPost(int id, String applicantEmail, ArrayList<LocalDate> dates, String comment) {
+    public ApplicationToPost(int id, boolean accepted, String applicantEmail, ArrayList<LocalDate> dates, String comment) {
         this.applicantEmail = applicantEmail;
         this.dates = dates;
         this.comment = comment;
         this.idAppli = id;
+        this.accepted = accepted;
     }
 }
