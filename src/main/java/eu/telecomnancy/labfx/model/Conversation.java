@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.model;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ public class Conversation {
     private ArrayList<Message> messages;
     @Getter
     @Setter
-    private static int nb_convs = 0;
+    private static int nb_convs = JsonUtil.recupConvFromJson().size();
 
     public Conversation(User usr1, User usr2){
         user1 = usr1;

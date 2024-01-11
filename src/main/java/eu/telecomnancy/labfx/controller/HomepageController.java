@@ -74,14 +74,14 @@ public class HomepageController extends HexaSuper{
         User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, image);
         User user3 = new User("test3", "test2","aaa", "Rezko3", "pas", adresse, image);
         User user4 = new User("test4", "test2","bbb", "Rezko4", "pas", adresse, image);
-        User.setNbUsers(1);
+        User.setNbUsers(0);
         ArrayList<User> users = JsonUtil.jsonToUsers();
         users.add(user);
         users.add(user2);
         users.add(user3);
         users.add(user4);
         JsonUtil.usersToJson(users);
-        User.setNbUsers(5);
+        User.setNbUsers(4);
         MessagerieController messagerieController = loader.getController();
         messagerieController.setAndLoad(user);
 

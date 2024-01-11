@@ -93,7 +93,9 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     private void load(){
         if (user != null) {
-            List<Conversation> convs = user.getConvs();     //TODO les recups dans le json à la place
+            List<Conversation> convs = JsonUtil.convsOfUser(user);     //TODO les recups dans le json à la place
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa   " + convs.size());
+            user.setConvs(convs);
             listcontacts.getChildren().clear();
             for (int i = 0; i < convs.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
