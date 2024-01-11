@@ -36,105 +36,68 @@ import java.util.Locale;
 @Getter
 @Setter
 public class PostEditController extends HexaSuper {
-    private Post post;
-
-    private boolean part2 = false;
-    private boolean modify;
-
-    @FXML
-    Pane hexagonPane;
-    @FXML
-    Polygon hexagon;
-
-
-    public Polygon getHexagon() {
-        return hexagon;
-    }
-
-    @FXML
-    public ToggleGroup type_post;
-
-    @FXML
-    public Label name_page;
-
-    @FXML
-    public TextField title;
-
-    @FXML
-    public TextArea description;
-
-    @FXML
-    public TextField streetNumber;
-
-    @FXML
-    public TextField region;
-
-    @FXML
-    public TextField street;
-
-    @FXML
-    public TextField postalCode;
-
-    @FXML
-    public TextField city;
-
-    private final ObservableList<String> countries = FXCollections.observableArrayList();
-    @FXML
-    public ComboBox countryList;
-
-    @FXML
-    public ImageView image;
-    final FileChooser fileChooser = new FileChooser();
-
-    @FXML
-    public DatePicker datesPicker;
-
-    @FXML
-    private TextArea descriptionService;
-
-    @FXML
-    private TextField firstNamePrest;
-
-    @FXML
-    private TextField lastNamePrest;
-
-    @FXML
-    private TextField emailPrest;
-
-    @FXML
-    private TableView<Person> listPrest;
-
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
-
-    @FXML
-    private TableColumn<Person, String> firstNameColumn;
-    @FXML
-    private TableColumn<Person, String> lastNameColumn;
-    @FXML
-    private TableColumn<Person, String> emailColumn;
-
-    @FXML
-    public TextArea stateTool;
-
-    @FXML
-    public Label mode;
-
-    private ArrayList<Post> posts;
-
+    @FXML Pane hexagonPane;
+    @FXML Polygon hexagon;
+    @FXML public ToggleGroup type_post;
+    @FXML public Label name_page;
+    @FXML public TextField title;
+    @FXML public TextArea description;
+    @FXML public TextField streetNumber;
+    @FXML public TextField region;
+    @FXML public TextField street;
+    @FXML public TextField postalCode;
+    @FXML public TextField city;
+    @FXML public ComboBox countryList;
+    @FXML public ImageView image;
+    @FXML public DatePicker datesPicker;
+    @FXML private TextArea descriptionService;
+    @FXML private TextField firstNamePrest;
+    @FXML private TextField lastNamePrest;
+    @FXML private TextField emailPrest;
+    @FXML private TableView<Person> listPrest;
+    @FXML private TableColumn<Person, String> firstNameColumn;
+    @FXML private TableColumn<Person, String> lastNameColumn;
+    @FXML private TableColumn<Person, String> emailColumn;
+    @FXML public TextArea stateTool;
+    @FXML public Label mode;
     @FXML private VBox listPost;
-
     @FXML private ToggleGroup type_date;
-
-    private MyDatePicker myDatePicker;
-
     @FXML private RadioButton plage;
     @FXML private RadioButton ponctuelles;
+    @FXML private RadioButton seeMyAppliedPosts;
+    @FXML private RadioButton seeMyPosts;
+    @FXML private RadioButton sortedByCity;
+    @FXML private RadioButton sortedByCountry;
+    @FXML private RadioButton sortedByNote;
+    @FXML private RadioButton sortedByRegion;
+    @FXML private RadioButton sortedByStateCurrent;
+    @FXML private RadioButton sortedByStateEnded;
+    @FXML private RadioButton sortedByStateFuture;
+    @FXML private RadioButton sortedByUser;
+    @FXML private RadioButton onlyServices;
+    @FXML private RadioButton onlyTools;
+    @FXML private RadioButton allPost;
+    @FXML private ToggleGroup choiceLocation;
+    @FXML private ToggleGroup choiceMyPostedApplied;
+    @FXML private ToggleGroup choiceOthers;
+    @FXML private ToggleGroup choicePost;
+    @FXML private ToggleGroup choiceState;
 
+    private Post post;
+    private boolean part2 = false;
+    private boolean modify;
+    private final ObservableList<String> countries = FXCollections.observableArrayList();
+    final FileChooser fileChooser = new FileChooser();
+    private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private ArrayList<Post> posts;
+    private MyDatePicker myDatePicker;
     public final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
     public ListView<LocalDate> listDate;
     private ArrayList<LocalDate> datesList = new ArrayList<>();
-
     private ArrayList<User> users = JsonUtil.jsonToUsers();
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     @FXML
     void initialize() {

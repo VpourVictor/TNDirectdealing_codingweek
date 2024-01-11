@@ -101,6 +101,24 @@ public class AlgoUtil {
         return postFromMyCity;
     }
 
+    public ArrayList<Post> postSortedByCountry (String myCountry){
+        ArrayList<Post> postFromMyCountry = new ArrayList<>();
+        int i = 0;
+        while (i < posts.size()){
+            if (posts.get(i).getAddress().getCountry().equals(myCountry)){
+                postFromMyCountry.add(posts.get(i));
+                posts.remove(i);
+            }
+            else {
+                i++;
+            }
+        }
+        if (postFromMyCountry.isEmpty()){
+            return null;
+        }
+        return postFromMyCountry;
+    }
+
     public ArrayList<Post> postSortedByUsers (){
         ArrayList<Post> postsByUsers = new ArrayList<>();
         for(User user: users){
