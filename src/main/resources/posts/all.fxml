@@ -21,7 +21,7 @@
             <Button mnemonicParsing="false" onAction="#newPost" prefHeight="26.0" prefWidth="94.0" text="Ajouter" />
             <VBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="368.0">
                <children>
-                  <RadioButton fx:id="allPost" mnemonicParsing="false" selected="true" text="Toutes les annonces ">
+                  <RadioButton fx:id="allPost" mnemonicParsing="false" onAction="#typeSelected" text="Toutes les annonces">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -29,12 +29,12 @@
                         <ToggleGroup fx:id="choicePost" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="onlyServices" mnemonicParsing="false" text="Services" toggleGroup="$choicePost">
+                  <RadioButton fx:id="onlyServices" mnemonicParsing="false" onAction="#typeSelected" text="Services" toggleGroup="$choicePost">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="onlyTools" mnemonicParsing="false" text="Outils" toggleGroup="$choicePost">
+                  <RadioButton fx:id="onlyTools" mnemonicParsing="false" onAction="#typeSelected" text="Outils" toggleGroup="$choicePost">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -64,13 +64,16 @@
                               <Font size="16.0" />
                            </font>
                            <toggleGroup>
-                              <ToggleGroup fx:id="choiceLocation" />
+                              <ToggleGroup fx:id="C" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" text="Région" toggleGroup="$choiceLocation" GridPane.rowIndex="2">
+                        <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" text="Région" GridPane.rowIndex="2">
                            <font>
                               <Font size="16.0" />
                            </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="choiceLocation" />
+                           </toggleGroup>
                         </RadioButton>
                         <RadioButton fx:id="sortedByCity" mnemonicParsing="false" text="Ville" toggleGroup="$choiceLocation" GridPane.rowIndex="3">
                            <font>
@@ -150,8 +153,11 @@
                <font>
                   <Font size="15.0" />
                </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="choiceMyPostedApplied" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="seeMyAppliedPosts" mnemonicParsing="false" text="Voir mes candidatures">
+            <RadioButton fx:id="seeMyAppliedPosts" mnemonicParsing="false" text="Voir mes candidatures" toggleGroup="$choiceMyPostedApplied">
                <font>
                   <Font size="15.0" />
                </font>

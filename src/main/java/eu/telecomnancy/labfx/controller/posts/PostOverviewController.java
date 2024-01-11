@@ -172,7 +172,7 @@ public class PostOverviewController extends HexaSuper {
             }
         }*/
 
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPosts(event, posts,null);
     }
 
     public void delete(ActionEvent event) {
@@ -189,7 +189,7 @@ public class PostOverviewController extends HexaSuper {
         JsonUtil.postsToJson(posts);
 
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPosts(event, posts, null);
     }
 
     public void viewService(ActionEvent event) {
@@ -211,7 +211,7 @@ public class PostOverviewController extends HexaSuper {
         }
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPosts(event, posts, null);
     }
 
     public void show(ActionEvent event){
@@ -240,7 +240,7 @@ public class PostOverviewController extends HexaSuper {
 
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPosts(event, posts, null);
     }
 
     public void apply(ActionEvent event) {

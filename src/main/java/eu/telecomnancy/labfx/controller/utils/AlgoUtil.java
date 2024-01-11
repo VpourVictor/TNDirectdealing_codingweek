@@ -78,7 +78,7 @@ public class AlgoUtil {
             }
         }
         if (postFromMyType.isEmpty()){
-            return null;
+            return postFromMyType;
         }
         return postFromMyType;
     }
@@ -225,6 +225,15 @@ public class AlgoUtil {
         }
 
         return doubleArrayList;
+    }
+
+    public User userConnected(ArrayList<User> users){
+        for(User user: users ){
+            if (user.isConnected()){
+                return user;
+            }
+        }
+        return users.get(0);
     }
 
 }

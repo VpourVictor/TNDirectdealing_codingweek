@@ -3,22 +3,16 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
-import eu.telecomnancy.labfx.controller.utils.DateUtil;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.layout.VBox;
@@ -30,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 @Getter
@@ -100,7 +93,185 @@ public class PostEditController extends HexaSuper {
     }
 
     @FXML
+    void typeSelected(ActionEvent event) {
+        System.out.println("WE ARE INSIDE typeSelected");
+        posts = JsonUtil.jsonToPosts();
+        ArrayList<String> radioBtnState = new ArrayList<>(5);
+        //0-> allPosts, 1-> choiceLocation, 2->choiceState, 3-> choiceOthers, 4-> choiceMyPostedApplied
+        RadioButton selected0 = (RadioButton) choicePost.getSelectedToggle();
+        RadioButton selected1 = (RadioButton) choiceLocation.getSelectedToggle();
+        RadioButton selected2 = (RadioButton) choiceState.getSelectedToggle();
+        RadioButton selected3 = (RadioButton) choiceState.getSelectedToggle();
+        RadioButton selected4 = (RadioButton) choiceState.getSelectedToggle();
+        if (selected0 != null){
+            radioBtnState.add(selected0.getText());
+        }
+        else if (selected0 == null){
+            radioBtnState.add(null);
+        }
+        if (selected1 != null){
+            radioBtnState.add(null);
+        }
+        else if (selected1 == null){
+            radioBtnState.add(null);
+        }
+        if (selected2 != null){
+            radioBtnState.add(selected2.getText());
+        }
+        else if (selected2 == null){
+            radioBtnState.add(null);
+        }
+        if (selected3 != null){
+            radioBtnState.add(selected3.getText());
+        }
+        else if (selected3 == null){
+            radioBtnState.add(null);
+        }
+        if (selected4 != null){
+            radioBtnState.add(selected4.getText());
+        }
+        else if (selected4 == null){
+            radioBtnState.add(null);
+        }
+        System.out.println(radioBtnState);
+        SceneController sceneController = new SceneController();
+        sceneController.goToAllPosts(event, posts, radioBtnState);
+    }
+
+    public ArrayList<Post> stateChoice(ArrayList<String> stateRadioBtn, ArrayList<Post> results) {
+        if (stateRadioBtn.get(2) != null) {
+            AlgoUtil algoUtil = new AlgoUtil(users, results);
+            switch (stateRadioBtn.get(2)) {
+                case "Futures":
+                    System.out.println("Dans le switch Futur");
+                    sortedByStateCurrent.setSelected(false);
+                    sortedByStateEnded.setSelected(false);
+                    sortedByStateFuture.setSelected(true);
+                    results = algoUtil.postInState(State.FUTUR);
+                    return results;
+                case "En cours":
+                    System.out.println("Dans le switch En cours");
+                    sortedByStateCurrent.setSelected(true);
+                    sortedByStateEnded.setSelected(false);
+                    sortedByStateFuture.setSelected(false);
+                    results = algoUtil.postInState(State.EN_COURS);
+                    return results;
+                case "Terminées":
+                    System.out.println("Dans le switch Terminées");
+                    sortedByStateCurrent.setSelected(false);
+                    sortedByStateEnded.setSelected(true);
+                    sortedByStateFuture.setSelected(false);
+                    results = algoUtil.postInState(State.TERMINE);
+                    return results;
+                default:
+                    sortedByStateCurrent.setSelected(false);
+                    sortedByStateEnded.setSelected(false);
+                    sortedByStateFuture.setSelected(false);
+                    return results;
+            }
+        }
+        sortedByStateCurrent.setSelected(false);
+        sortedByStateEnded.setSelected(false);
+        sortedByStateFuture.setSelected(false);
+        return results;
+    }
+
+    public ArrayList<Post> otherChoice(ArrayList<String> stateRadioBtn, ArrayList<Post> results) {
+        if (stateRadioBtn.get(3) != null) {
+            AlgoUtil algoUtil = new AlgoUtil(users, results);
+            switch (stateRadioBtn.get(3)) {
+                case "Note":
+                    System.out.println("Dans le switch Note");
+                    sortedByNote.setSelected(true);
+                    sortedByUser.setSelected(false);
+                    results = algoUtil.postSortedByEvaluation();
+                    return results;
+                case "Utilisateur":
+                    System.out.println("Dans le switch Utilisateur");
+                    sortedByNote.setSelected(false);
+                    sortedByUser.setSelected(true);
+                    results = algoUtil.postSortedByUsers();
+                    return results;
+                default:
+                    sortedByNote.setSelected(false);
+                    sortedByUser.setSelected(false);
+                    return results;
+            }
+        }
+        sortedByNote.setSelected(false);
+        sortedByUser.setSelected(false);
+        return results;
+    }
+
+    public ArrayList<Post> typeChoice(ArrayList<String> stateRadioBtn, ArrayList<Post> results) {
+        if (stateRadioBtn.get(0) != null) {
+            AlgoUtil algoUtil = new AlgoUtil(users, results);
+            switch (stateRadioBtn.get(0)) {
+                case "Toutes les annonces":
+                    System.out.println("Dans le switch Toutes les annonces");
+                    allPost.setSelected(true);
+                    onlyServices.setSelected(false);
+                    onlyTools.setSelected(false);
+                    return results;
+                case "Services":
+                    System.out.println("Dans le switch Services");
+                    allPost.setSelected(false);
+                    onlyServices.setSelected(true);
+                    onlyTools.setSelected(false);
+                    results = algoUtil.postSortedByType("Service");
+                    return results;
+                case "Outils":
+                    System.out.println("Dans le switch Outils");
+                    allPost.setSelected(false);
+                    onlyServices.setSelected(false);
+                    onlyTools.setSelected(true);
+                    results = algoUtil.postSortedByType("tool");
+                    return results;
+                default:
+                    allPost.setSelected(true);
+                    onlyServices.setSelected(false);
+                    onlyTools.setSelected(false);
+                    return results;
+            }
+        }
+        allPost.setSelected(true);
+        onlyServices.setSelected(false);
+        onlyTools.setSelected(false);
+        return results;
+    }
+
+    public ArrayList<Post> choiceMyPostedApplied(ArrayList<String> stateRadioBtn, ArrayList<Post> results) {
+        if (stateRadioBtn.get(4) != null) {
+            AlgoUtil algoUtil = new AlgoUtil(users, results);
+            User currentUser = algoUtil.userConnected(users);
+            switch (stateRadioBtn.get(4)) {
+                case "Voir mes annonces":
+                    System.out.println("Dans le switch Voir mes annonces");
+                    seeMyAppliedPosts.setSelected(false);
+                    seeMyPosts.setSelected(true);
+                    results = algoUtil.postFromUser(currentUser);
+                    return results;
+                case "Voir mes candidatures":
+                    System.out.println("Dans le switch Voir mes candidatures");
+                    seeMyAppliedPosts.setSelected(true);
+                    seeMyPosts.setSelected(false);
+                    results = algoUtil.postAppliedToByUser(currentUser);
+                    return results;
+                default:
+                    allPost.setSelected(false);
+                    onlyServices.setSelected(false);
+                    return results;
+            }
+        }
+        allPost.setSelected(false);
+        onlyServices.setSelected(false);
+        return results;
+    }
+
+
+    @FXML
     void initialize() {
+        System.out.println("WE ARE IN THE INITIALIZE");
         posts = JsonUtil.jsonToPosts();
         if (countryList != null){
             countries.addAll("France", "Allemagne", "Espagne", "Italie", "Royaume-Uni");
@@ -112,18 +283,62 @@ public class PostEditController extends HexaSuper {
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
             emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         }
-
-        if (listPost != null){
-            posts = JsonUtil.jsonToPosts();
-            SceneController sceneController = new SceneController();
-            sceneController.goToRowPost(posts, listPost);
-        }
     }
 
-    public void initData(Post post) {
+
+    public void initData(Post post, ArrayList<String> stateRadioBtn) {
+        System.out.println("WE ARE INSIDE initData");
         posts = JsonUtil.jsonToPosts();
+
         if (posts == null)
             posts = new ArrayList<>();
+
+        else if (posts != null){
+            if (stateRadioBtn != null){
+                if (stateRadioBtn.get(0) != null){
+                    System.out.println("In InitData :" + stateRadioBtn.get(0) );
+//                if (stateRadioBtn.get(0).equals("Toutes les annonces")){
+//
+//                }
+                    SceneController sceneController = new SceneController();
+                    AlgoUtil algoUtil = new AlgoUtil(users, posts);
+                    switch(stateRadioBtn.get(0)){
+                        case "Toutes les annonces":
+                            System.out.println("Dans le switch Toutes les annonces");
+                            allPost.setSelected(true);
+                            onlyServices.setSelected(false);
+                            onlyTools.setSelected(false);
+                            sceneController.goToRowPost(posts, listPost);
+                            break;
+                        case "Services":
+                            System.out.println("Dans le switch Services");
+                            allPost.setSelected(false);
+                            onlyServices.setSelected(true);
+                            onlyTools.setSelected(false);
+                            posts = algoUtil.postSortedByType("Service");
+
+                            sceneController.goToRowPost(posts, listPost);
+                            break;
+                        case "Outils":
+                            System.out.println("Dans le switch Outils");
+                            allPost.setSelected(false);
+                            onlyServices.setSelected(false);
+                            onlyTools.setSelected(true);
+                            posts = algoUtil.postSortedByType("tool");
+
+                            sceneController.goToRowPost(posts, listPost);
+                            break;
+                        default:
+                            allPost.setSelected(true);
+                            onlyServices.setSelected(false);
+                            onlyTools.setSelected(false);
+                            sceneController.goToRowPost(posts, listPost);
+                            break;
+                    }
+                }
+
+            }
+        }
 
         if (type_date != null){
             if (post != null){
@@ -389,7 +604,7 @@ public class PostEditController extends HexaSuper {
         if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null))
             sceneController.goToOverviewServicePost(event, post);
         else
-            sceneController.goToAllPosts(event, posts);
+            sceneController.goToAllPosts(event, posts, null);
     }
 
     public void newPost(ActionEvent event) {

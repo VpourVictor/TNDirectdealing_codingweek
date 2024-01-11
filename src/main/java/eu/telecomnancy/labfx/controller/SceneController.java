@@ -31,12 +31,13 @@ public class SceneController {
         load(event, loader);
     }
 
-    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
+    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts, ArrayList<String> stateRadioBtn) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
+        System.out.println("Inside the go to all :" + stateRadioBtn);
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
-            controller.initData(null);
+            controller.initData(null, stateRadioBtn);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -97,7 +98,7 @@ public class SceneController {
             PostEditController controller = loader.getController();
             controller.setPart2(true);
             controller.setModify(modify);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -114,7 +115,7 @@ public class SceneController {
             PostEditController controller = loader.getController();
             controller.setModify(modify);
             controller.setPart2(true);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -148,7 +149,7 @@ public class SceneController {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setModify(modify);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -180,7 +181,7 @@ public class SceneController {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setPart2(false);
-            controller.initData(null);
+            controller.initData(null, null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -282,4 +283,5 @@ public class SceneController {
             }
         }
     }
+
 }

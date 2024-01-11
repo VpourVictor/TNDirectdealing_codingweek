@@ -78,6 +78,6 @@ public class PostApplyController {
         }
         SceneController sceneController = new SceneController();
         JsonUtil.postsToJson((ArrayList<Post>) posts);
-        sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
+        sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts, null);
     }
 }
