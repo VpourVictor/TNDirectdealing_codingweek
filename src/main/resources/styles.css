@@ -3,6 +3,9 @@
     -fx-background-radius: 0 0 50 50;
 }
 
+.test{
+    -fx-background-radius: 50;
+}
 .background{
     -fx-background-color: #D7E2F3;
 }

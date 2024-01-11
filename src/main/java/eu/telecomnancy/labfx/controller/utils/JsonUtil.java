@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -339,10 +340,9 @@ public class JsonUtil {
         String path = "src/main/resources/json/messages.json";
 
         try {
-            json.put("id", message.getId());
             json.put("contenu", message.getContent());
-            json.put("sender", message.getSender());
-            json.put("receiver", message.getReceiver());
+            json.put("sender", message.getSender().getEmail());
+            json.put("receiver", message.getReceiver().getEmail());
             json.put("date", message.getDate());
             return json;
         }
@@ -355,7 +355,8 @@ public class JsonUtil {
         String path = "src/main/resources/json/messages.json";
         ArrayList<Message> list = recupMsgData(path);
         list.add(msg);
-        sendMsgInJason(list, path);
+        sendMsgInJason(list);
+        Message.setNb_msgs(Message.getNb_msgs()+1);
     }
 
     public static ArrayList<Message> recupMsgData(String path){
@@ -363,15 +364,17 @@ public class JsonUtil {
             JSONObject json = readJsonFileFromPath(path);
             ArrayList<Message> list = new ArrayList<>();
 
-            int nb_msgs = Message.getNb_msgs();
-            if (nb_msgs == 0){
+            //int nb_msgs = Message.getNb_msgs();
+            if (Message.getNb_msgs() == 0){
                 return list;
             }
-
-            for (int i = 1; i <= nb_msgs ; i++){
+            System.out.println("jusquici ca va");
+            for (int i = 1; i <= Message.getNb_msgs() ; i++){
                 JSONObject jsonmsg = json.getJSONObject("message" + i);
+                System.out.println("ici?");
                 Message msg = jsonToMessage(jsonmsg);
-                Message.setNb_msgs(Message.getNb_msgs()-1);
+                System.out.println("la?");
+                //Message.setNb_msgs(Message.getNb_msgs()-1);
                 list.add(msg);
             }
 
@@ -384,18 +387,21 @@ public class JsonUtil {
     public static Message jsonToMessage(JSONObject jsonmsg){
         String sendermail = jsonmsg.getString("sender");
         String receivermail = jsonmsg.getString("receiver");
+        System.out.println("check les mails recup" + sendermail + " et " + receivermail);
         User sender = getUserFromMail(sendermail);
         User receiver = getUserFromMail(receivermail);
         Message message = new Message(sender, receiver, jsonmsg.getString("contenu"), jsonmsg.getString("date"));
         return message;
     }
 
-    public static void sendMsgInJason(ArrayList<Message> list, String path){
+    public static JSONObject listMsgToObject(ArrayList<Message> list){
+        String path = "src/main/resources/json/messages.json";
         JSONObject msgJson = new JSONObject();
         try {
             if (!list.isEmpty()){
                 int index = 1;
                 for (Message message : list) {
+                    System.out.println("dans sendMsgInJason, mail = " + message.getSender().getEmail() + " et " + message.getReceiver().getEmail());
                     JSONObject jsonMsg = messageToJson(message);
                     msgJson.put("message" + index, jsonMsg);
                     index++;
@@ -408,21 +414,25 @@ public class JsonUtil {
         catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return msgJson;
+    }
+    public static void sendMsgInJason(ArrayList<Message> list){
+        JSONObject msgJson = listMsgToObject(list);
+        String path = "src/main/resources/json/messages.json";
         writeJsonInJsonFile(path, msgJson);
     }
 
     public static User getUserFromMail(String mail){
         try {
-            ArrayList<User> users = JsonUtil.jsonToUsers();
+            ArrayList<User> users = jsonToUsers();
             int i = 0;
-            int nb_user = User.getNbUsers();
-            while ((i < nb_user) && (!users.get(i).getEmail().equals(mail))) {
+            while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
                 i++;
             }
             User user = users.get(i);
             return user;
         }
-        catch (Exception e){throw new RuntimeException(e);} //TODO check si c'est ok comme ca (cas ou on creer un msg avec un user qui n'existe pas) (ne peut pas arriver normalement, msg dans discussion)
+        catch (Exception e){throw new RuntimeException("yeeeeeeeeeeeeeeeeeeeeeeeeeeet", e);} //TODO check si c'est ok comme ca (cas ou on creer un msg avec un user qui n'existe pas) (ne peut pas arriver normalement, msg dans discussion)
     }
 
     public static void writeJsonInJsonFile(String path, JSONObject json ){
@@ -454,7 +464,159 @@ public class JsonUtil {
         catch (Exception e) {
             throw new RuntimeException("Error in readJsonFileFromPath", e);
         }
+    }
 
+    public static ArrayList<Conversation> recupConvFromJson(String path){
+        try {
+            JSONObject json = readJsonFileFromPath(path);
+            ArrayList<Conversation> list = new ArrayList<>();
+
+            if (Conversation.getNb_convs() == 0){
+                return list;
+            }
+            for (int i = 1; i <= Conversation.getNb_convs() ; i++){
+                JSONObject jsonConv = json.getJSONObject("conv" + i);
+                Conversation conversation = jsonToConv(jsonConv);
+                list.add(conversation);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException("Error in jsonToConvList the JSONFile", e);
+        }
+    }
+
+    public static JSONObject convToJson(Conversation conversation){
+        JSONObject json = new JSONObject();
+        String path = "src/main/resources/json/conversations.json";
+
+        try {
+            json.put("id", conversation.getId());
+            json.put("user1", conversation.getUser1().getEmail());
+            json.put("user2", conversation.getUser2().getEmail());      //TODO sale pour l'instant, je stock directement les messages dans conversation
+            json.put("liste_msg", listMsgToObject(conversation.getMessages()));
+            return json;
+        }
+        //msgJson.put("message" + index, jsonMsg);
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Conversation jsonToConv(JSONObject jsonConv){
+        String user1mail = jsonConv.getString("user1");
+        String user2mail = jsonConv.getString("user2");
+        int id = jsonConv.getInt("id");
+        //JSONObject msgs = jsonConv.getJSONObject("liste_msg");
+        //ArrayList<Message> msg_liste = jsonToMsgList(msgs);
+        System.out.println("check les mails recup" + user1mail + " et " + user2mail);
+        User user1 = getUserFromMail(user1mail);
+        User user2 = getUserFromMail(user2mail);
+        Conversation conversation = new Conversation(user1, user2, messageFromConvBetween(user1, user2), id);
+        //Conversation.setNb_convs(Conversation.getNb_convs() - 1);
+        return conversation;
+    }
+
+    public static ArrayList<Message> messageFromConvBetween(User user1, User user2){
+        String path = "src/main/resources/json/messages.json";
+        ArrayList<Message> msgList = recupMsgData(path);
+        ArrayList<Message> listfinale = new ArrayList<Message>();
+        for (Message msg : msgList){
+            System.out.println("message contenu : " + msg.getContent());
+            if (msg.getReceiver().getEmail().equals(user1.getEmail()) || msg.getReceiver().getEmail().equals(user2.getEmail())){
+                if (msg.getSender().getEmail().equals(user1.getEmail()) || msg.getSender().getEmail().equals(user2.getEmail())){
+                    System.out.println("message retenu : " + msg.getContent());
+                    listfinale.add(msg);
+                }
+            }
+        }
+        return listfinale;
+    }
+
+    public static void saveConvInJson(Conversation conversation){
+        String path = "src/main/resources/json/conversations.json";
+        ArrayList<Conversation> convs = recupConvFromJson(path);
+        convs.add(conversation);
+        sendConvLInJson(convs);
+        Conversation.setNb_convs(Conversation.getNb_convs() + 1);
+
+    }
+
+    public static void sendConvLInJson(ArrayList<Conversation> convs){
+        JSONObject convsToSend = listConvToJsonObj(convs);
+        String path = "src/main/resources/json/conversations.json";
+        writeJsonInJsonFile(path, convsToSend);
+    }
+
+    public static JSONObject listConvToJsonObj(ArrayList<Conversation> convList){
+        String path = "src/main/resources/json/conversations.json";
+        JSONObject convJson = new JSONObject();
+        try {
+            if (!convList.isEmpty()){
+                int index = 1;
+                for (Conversation conversation : convList) {
+                    //System.out.println("dans sendconvInJason, mail = " + message.getSender().getEmail() + " et " + message.getReceiver().getEmail());
+                    JSONObject jsonConv = convToJson(conversation);
+                    convJson.put("conv" + index, jsonConv);
+                    index++;
+                }
+            }
+            else {
+                convJson.put("conv0", "");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return convJson;
+    }
+
+    public static void actualiserConv(int id){
+        String path = "src/main/resources/json/conversations.json";
+        ArrayList<Conversation> convs = recupConvFromJson(path);
+        int i = 0;
+        while (i <convs.size() && convs.get(i).getId() != id){
+            i++;
+        }
+        if (i == convs.size()){
+            System.out.println("Conversation introuvable pour y ajouter un message");
+        }
+        else{
+            //convs.get(i).addMessage(message);
+            sendConvLInJson(convs);
+        }
+
+    }
+
+    public static boolean conversationExiste(String mail, String user_email){
+        String path = "src/main/resources/json/conversations.json";
+        ArrayList<Conversation> convs = recupConvFromJson(path);
+        for (Conversation conversation : convs){
+            if (conversation.getUser1().getEmail().equals(mail) || conversation.getUser1().getEmail().equals(user_email)){
+                if (conversation.getUser2().getEmail().equals(mail) || conversation.getUser2().getEmail().equals(user_email)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static void delConv(Conversation conv){
+        String path = "src/main/resources/json/conversations.json";
+        ArrayList<Conversation> convs = recupConvFromJson(path);
+        int i = 0;
+        while (convs.get(i).getId() != conv.getId()) {
+            i++;
+        }
+        convs.remove(i);
+        while (i < convs.size()){
+            convs.get(i).setId(convs.get(i).getId() - 1);
+            i++;
+        }
+        Conversation.setNb_convs(Conversation.getNb_convs() - 1);
+
+        JSONObject listConvJson = listConvToJsonObj(convs);
+        writeJsonInJsonFile(path, listConvJson);
     }
 }
 

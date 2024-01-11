@@ -24,7 +24,7 @@ public class User extends Person {
     private ArrayList<Integer> appliedToPosts = new ArrayList<>();
     @Getter
     @Setter
-    private static int nbUsers = 0;
+    private static int nbUsers = 1;
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {
@@ -52,7 +52,7 @@ public class User extends Person {
         this.password = password;
         this.address = address;
         this.profilePicture = profilePicture;
-        this.convs = new ArrayList<Conversation>();
+        this.convs = new ArrayList<Conversation>();     //TODO recuperer les conversations dans le json
         nbUsers++;
     }
 

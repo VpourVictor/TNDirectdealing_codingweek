@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
@@ -52,9 +53,11 @@ public class ConversationController implements Initializable {
         if (user != null) {
             pseudoText.setText(conv.getOther(user).getPseudo());
             mailText.setText(conv.getOther(user).getEmail());
-            List<Message> messages = conv.getMessages();
+            ArrayList<Message> messages = JsonUtil.messageFromConvBetween(conv.getUser1(), conv.getUser2());
+            List<Message> messages2 = conv.getMessages();
             for (int i = 0; i < messages.size(); i++) {
-                if (messages.get(i).getSender() == user){
+
+                if (messages.get(i).getSender().getEmail().equals(user.getEmail())){
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/conversation_item_send.fxml"));
                     try {
@@ -68,7 +71,7 @@ public class ConversationController implements Initializable {
                 }
                 else{
                     FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/conversation_item_receive.fxml"));  //a check
+                    fxmlLoader.setLocation(getClass().getResource("/conversation_item_receive.fxml"));
 
                     try {
                         HBox hbox = fxmlLoader.load();
@@ -96,6 +99,7 @@ public class ConversationController implements Initializable {
 
     public void delConv(ActionEvent event) throws IOException {
         user.delConv(conv);
+        JsonUtil.delConv(conv);
         SceneController sc = new SceneController();
         sc.goBackMessagerie(user, event);
     }
@@ -107,7 +111,9 @@ public class ConversationController implements Initializable {
             String msg = msgText.getText();
             String date = dtf.format(now);
             msgText.setText("");
-            Message message = new Message(user, conv.getOther(user), msg, date);    //TODO ajouter le message au json
+            Message message = new Message(user, conv.getOther(user), msg, date);
+            JsonUtil.saveMsgInJason(message);
+            JsonUtil.actualiserConv(conv.getId());
             conv.addMessage(message);
             reload();
         }

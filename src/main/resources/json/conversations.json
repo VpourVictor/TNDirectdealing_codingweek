@@ -1,14 +1,1 @@
-[
-  {
-    "id": 1,
-    "user1" : "mail1",
-    "user2" : "mail2",
-    "liste_id_msg" : [1,2]
-  },
-  {
-    "id": 2,
-    "user1" : "mail1",
-    "user2" : "mail3",
-    "liste_id_msg" : [3,4]
-  }
-]
+{"conv2":{"user1":"test@gmail.com","user2":"test2@gmail.com","id":2,"liste_msg":{"message0":""}},"conv1":{"user1":"test@gmail.com","user2":"aaa","id":1,"liste_msg":{"message0":""}}}
