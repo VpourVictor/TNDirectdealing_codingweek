@@ -303,7 +303,7 @@ public class PostEditController extends HexaSuper {
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
@@ -313,7 +313,7 @@ public class PostEditController extends HexaSuper {
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
                 else {

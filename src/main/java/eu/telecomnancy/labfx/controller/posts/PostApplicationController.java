@@ -16,6 +16,7 @@ public class PostApplicationController {
     private static ArrayList<LocalDate> datesAppli = new ArrayList<>();
 
     public void initData(LocalDate date) {
+        datesAppli = new ArrayList<>();
         check.setText(date.toString());
         check.setOnAction(event -> {
             // System.out.println("check");

@@ -5,11 +5,14 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 public class ApplicationToPost {
-    protected static int nbAppli = 0;
+    @Getter
+    @Setter
+    protected static int nbAppli;
 
     private int idAppli;
 
@@ -19,15 +22,23 @@ public class ApplicationToPost {
 
     private String comment;
 
+    private boolean accepted;
+
+    @Getter
+    protected static List<Integer> listId = new ArrayList<>();
+
     public ApplicationToPost(String comment) {
         this.comment = comment;
+        this.accepted = false;
+        ApplicationToPost.nbAppli++;
+        this.idAppli = nbAppli;
+        ApplicationToPost.listId.add(this.idAppli);
     }
 
-    public ApplicationToPost(String applicantEmail, ArrayList<LocalDate> dates, String comment) {
+    public ApplicationToPost(int id, String applicantEmail, ArrayList<LocalDate> dates, String comment) {
         this.applicantEmail = applicantEmail;
         this.dates = dates;
         this.comment = comment;
-        nbAppli++;
-        this.idAppli = nbAppli;
+        this.idAppli = id;
     }
 }

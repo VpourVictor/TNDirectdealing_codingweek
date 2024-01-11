@@ -23,7 +23,7 @@ public class MyDatePicker {
     @Setter
     private ObservableList<LocalDate> selectedDates;
     private final DatePicker datePicker;
-    private PostEditController postEditController;
+    private final PostEditController postEditController;
     private LocalDate start;
     private LocalDate end;
 
@@ -78,6 +78,15 @@ public class MyDatePicker {
                 super.updateItem(item, empty);
                 if (item.isBefore(LocalDate.now())) {
                     setDisable(true);
+                }
+
+                Post post = postEditController.getPost();
+                if (post != null){
+                    post.getDatesOccupied().forEach(date -> {
+                        if (item.equals(date)) {
+                            setDisable(true);
+                        }
+                    });
                 }
 
                 if (!empty) {

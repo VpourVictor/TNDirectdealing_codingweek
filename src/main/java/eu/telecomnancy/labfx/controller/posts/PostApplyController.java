@@ -39,25 +39,45 @@ public class PostApplyController {
 
     private List<User> users = JsonUtil.jsonToUsers();
 
-    private List<ApplicationToPost> applications = JsonUtil.jsonToApplications();
+    private List<ApplicationToPost> applications = new ArrayList<>();
+
+    private List<Post> posts = JsonUtil.jsonToPosts();
 
     public void initData(Post post) {
         if (listDates != null){
             SceneController sceneController = new SceneController();
-            sceneController.goToChekcDate((ArrayList<LocalDate>) post.getDates(), listDates, post);
+            ArrayList<LocalDate> dates = new ArrayList<>();
+            for (LocalDate date : post.getDates()) {
+                if (!post.getDatesOccupied().contains(date)) {
+                    dates.add(date);
+                }
+            }
+
+            sceneController.goToChekcDate(dates, listDates, post);
         }
     }
 
     public void save_application(ActionEvent actionEvent) {
+        applications = JsonUtil.jsonToApplications();
         ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
         for (User user : users) {
             if (user.isConnected())
                 applicationToPost.setApplicantEmail(user.getEmail());
         }
-        // todo à vérifier
         applicationToPost.setDates(PostApplicationController.getDatesAppli());
         applications.add(applicationToPost);
         JsonUtil.applicationsToJson(applications);
-        post.getApplications().add(applicationToPost.getIdAppli());
+
+        for (Post post1 : posts) {
+            if (post1.getIdPost() == post.getIdPost()) {
+                post1.getApplications().add(applicationToPost.getIdAppli());
+                for (LocalDate date : PostApplicationController.getDatesAppli()) {
+                    post1.getDatesOccupied().add(date);
+                }
+            }
+        }
+        SceneController sceneController = new SceneController();
+        JsonUtil.postsToJson((ArrayList<Post>) posts);
+        sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
     }
 }

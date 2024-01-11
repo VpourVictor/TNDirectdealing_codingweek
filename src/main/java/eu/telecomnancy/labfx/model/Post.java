@@ -25,9 +25,9 @@ public abstract class Post {
     private Type_Date type_date;
     @Getter
     protected static List<Integer> listId = new ArrayList<>();
-    private List<Integer> applications = new ArrayList<>();
+    private List<Integer> applications;
 
-    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, ArrayList<LocalDate> datesOccupied,Type_Date type_date, Address adress, Image image, State state) {
+    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, ArrayList<LocalDate> datesOccupied,Type_Date type_date, Address adress, Image image, State state, List<Integer> applications) {
         this.description = description;
         this.title = title;
         this.authorEmail = authorEmail;
@@ -37,6 +37,7 @@ public abstract class Post {
         this.address = adress;
         this.image = image;
         this.state = state;
+        this.applications = applications;
     }
 
     public abstract String getDescriptionService();
