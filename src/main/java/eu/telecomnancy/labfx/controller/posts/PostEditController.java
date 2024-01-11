@@ -208,6 +208,7 @@ public class PostEditController extends HexaSuper {
                     allPost.setSelected(true);
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(false);
+                    System.out.println("results = " + results);
                     return results;
                 case "Services":
                     System.out.println("Dans le switch Services");
@@ -222,6 +223,7 @@ public class PostEditController extends HexaSuper {
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(true);
                     results = algoUtil.postSortedByType("tool");
+                    System.out.println("results = " + results);
                     return results;
                 default:
                     allPost.setSelected(true);
@@ -345,6 +347,7 @@ public class PostEditController extends HexaSuper {
                     mode.setText("Modification d'un post");
             }
             posts = choiceMyPostedApplied(stateRadioBtn, stateChoice(stateRadioBtn, typeChoice(stateRadioBtn, otherChoice(stateRadioBtn, new ArrayList<>()))));
+            System.out.println(posts);
             SceneController sceneController = new SceneController();
             sceneController.goToRowPost(posts, listPost);
             System.out.println("WE ARE OUTSIDE initData");
@@ -529,8 +532,11 @@ public class PostEditController extends HexaSuper {
                     post.setProviders(personData);
                 }
             }
+            //posts = JsonUtil.jsonToPosts();
             posts.add(post);
             JsonUtil.postsToJson(posts);
+            //TOdo check ici pour l'erreur
+            System.out.println("Is it working in Validate Service Post");
             sceneController.goToOverviewServicePost(event, post);
         }
     }
