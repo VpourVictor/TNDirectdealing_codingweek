@@ -8,13 +8,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import eu.telecomnancy.labfx.controller.MessagerieController;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
-import eu.telecomnancy.labfx.model.Conversation;
-import eu.telecomnancy.labfx.model.Message;
-import eu.telecomnancy.labfx.model.Post;
-import eu.telecomnancy.labfx.model.User;
+import eu.telecomnancy.labfx.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -32,6 +31,28 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+        ArrayList<Post> posts = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Address address = new Address(i, "rue"+i, i, "Nancy", "Lorraine", "France");
+            Post post = new Tool("La description"+i, "Le beau titre"+i, "user"+i+"@test.com", null, null, address, null, null, null);
+            User user = new User("Prenom"+i, "Nom" + i, "user"+i+"@test.com");
+            users.add(user);
+            posts.add(post);
+        }
+
+        posts.get(1).getAddress().setCity("Paris");
+        posts.get(4).getAddress().setCity("Paris");
+
+        AlgoUtil algoUtil = new AlgoUtil(posts);
+        ArrayList<Post> cityPost = algoUtil.postSortedByCity ("Paris");
+        for (Post post : cityPost) {
+            System.out.println("CityParis : " + post.getAddress().getStreetName());
+        }
+
+
+
         primaryStage.setTitle("JavaFx Demo");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
