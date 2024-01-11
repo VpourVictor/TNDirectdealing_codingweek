@@ -22,6 +22,8 @@ public abstract class Post {
     private Image image;
     private State state;
     private Type_Date type_date;
+    @Getter
+    protected static List<Integer> listId = new ArrayList<>();
 
     public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, Type_Date type_date, Address adress, Image image, State state) {
         this.description = description;
@@ -51,4 +53,8 @@ public abstract class Post {
     public abstract void setStateTool(String text);
 
     public abstract void setProviders(List<Person> providers);
+
+    public static void setListId(List<Integer> listId) {
+        Post.listId = listId;
+    }
 }

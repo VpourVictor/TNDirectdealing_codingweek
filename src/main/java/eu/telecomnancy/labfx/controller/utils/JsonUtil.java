@@ -94,16 +94,6 @@ public class JsonUtil {
                 json.put("stateTool", post.getStateTool());
             }
 
-            if (post instanceof Service) {
-                json.put("type", "service");
-                json.put("descriptionService", post.getDescriptionService());
-                json.put("providers", providersToJson(post.getProviders()));
-            }
-            else if (post instanceof Tool) {
-                json.put("type", "tool");
-                json.put("stateTool", post.getStateTool());
-            }
-
             return json;
         }
         catch (Exception e) {
@@ -158,8 +148,9 @@ public class JsonUtil {
             if (Post.getNbPosts() == 0)
                 return posts;
 
-            for (int i = 1; i <= Post.getNbPosts() ; i++){
-                JSONObject jsonObject = json.getJSONObject("post" + i);
+            for (int i = 0; i < Post.getListId().size() ; i++){
+                int val = Post.getListId().get(i);
+                JSONObject jsonObject = json.getJSONObject("post" + val);
                 posts.add(jsonToPost(jsonObject));
             }
             return posts;

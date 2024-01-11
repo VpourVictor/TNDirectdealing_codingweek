@@ -122,6 +122,7 @@ public class SignUpController extends HexaSuper{
         }
         this.toggleVisiblePassword(null);
         countryList.setItems(countries);
+        countryList.setValue("France");
     }
 
     @FXML

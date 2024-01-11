@@ -23,6 +23,7 @@ public class Tool extends Post {
         super(post.getDescription(), post.getTitle(), post.getAuthorEmail(), (ArrayList<LocalDate>) post.getDates(), post.getType_date(), post.getAddress(), post.getImage(), post.getState());
         this.stateTool = stateTool;
         Post.id++;
+        Post.listId.add(Post.id);
         this.setIdPost(Post.id);
     }
 

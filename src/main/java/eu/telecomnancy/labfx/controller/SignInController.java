@@ -24,7 +24,7 @@ public class SignInController extends HexaSuper implements Initializable {
     private ArrayList<User> users = new ArrayList<>();
 
     @FXML
-    private TextArea mailTextArea;
+    private TextField mailTextField;
 
     @FXML
     private PasswordField passwordHidden;
@@ -50,7 +50,7 @@ public class SignInController extends HexaSuper implements Initializable {
 
     @FXML
     void connexion(ActionEvent event) throws IOException {
-         if (!RegexUtils.isValidMail(mailTextArea.getText())){
+         if (!RegexUtils.isValidMail(mailTextField.getText())){
             new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
         }
         else if ( passwordValue() == null) {
@@ -68,7 +68,7 @@ public class SignInController extends HexaSuper implements Initializable {
              else {
 
                  int index = 0;
-                 while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextArea.getText())){
+                 while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextField.getText())){
                      index++;
                  }
                  if (index == User.getNbUsers()){

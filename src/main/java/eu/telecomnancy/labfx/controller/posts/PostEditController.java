@@ -134,7 +134,6 @@ public class PostEditController extends HexaSuper {
     public ListView<LocalDate> listDate;
     private ArrayList<LocalDate> datesList = new ArrayList<>();
 
-    // todo voir tous -> problème
     private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     @FXML

@@ -34,6 +34,7 @@ public class Service extends Post{
         this.descriptionService = descriptionService;
         this.providers = providers;
         Post.id++;
+        Post.listId.add(Post.id);
         this.setIdPost(Post.id);
     }
 

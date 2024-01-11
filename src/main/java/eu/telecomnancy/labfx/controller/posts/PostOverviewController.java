@@ -87,6 +87,8 @@ public class PostOverviewController extends HexaSuper {
     @FXML
     Polygon hexagon;
 
+    private ArrayList<User> users = JsonUtil.jsonToUsers();
+
     @FXML
     void initialize() {
         posts = JsonUtil.jsonToPosts();
@@ -109,8 +111,11 @@ public class PostOverviewController extends HexaSuper {
         }
         description.setText(post.getDescription());
 
-        // todo changer en fonction de la base
-        User author = new User("test", "test", "test@test.com");
+        User author = null;
+        for (User user : users){
+            if (user.getEmail().equals(post.getAuthorEmail()))
+                author = user;
+        }
 
         firstName.setText(author.getFirstName());
         lastName.setText(author.getLastName());
@@ -144,7 +149,14 @@ public class PostOverviewController extends HexaSuper {
 
     public void delete(ActionEvent event) {
         posts = JsonUtil.jsonToPosts();
-        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
+        for (int i = 0; i < posts.size(); i++){
+            if (posts.get(i).getIdPost() == this.post.getIdPost()){
+                int id = posts.get(i).getIdPost();
+                posts.remove(posts.get(i));
+                Post.getListId().remove((Integer) id);
+            }
+        }
+
         Post.setNbPosts(Post.getNbPosts() - 1);
         JsonUtil.postsToJson(posts);
 
