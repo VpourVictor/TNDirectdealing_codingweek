@@ -77,6 +77,7 @@ public class JsonUtil {
             json.put("author_email", post.getAuthorEmail());
             json.put("dates", post.getDates());
             json.put("datesOccupied", post.getDatesOccupied());
+            json.put("applications", post.getApplications());
             json.put("address", adressToJson(post.getAddress()));
             if (post.getImage() != null)
                 json.put("path", post.getImage().getUrl());
@@ -175,6 +176,12 @@ public class JsonUtil {
                 datesOccupied.add(LocalDate.parse(jsonDatesOccupied.getString(j)));
             }
 
+            List<ApplicationToPost> applicationsToPost = jsonToApplications();
+            ArrayList<Integer> applicationsId = new ArrayList<>();
+            for (ApplicationToPost applicationToPost : applicationsToPost) {
+                applicationsId.add(applicationToPost.getIdAppli());
+            }
+
             State state = State.valueOf(jsonObject.getString("state"));
 
             List<Person> providers = null;
@@ -197,12 +204,12 @@ public class JsonUtil {
             if (type.equals("service")) {
                 return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
                         jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers);
+                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId);
             }
             else if (type.equals("tool")) {
                 return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
                         jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"));
+                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId);
             }
             else
                 return null;
@@ -456,13 +463,94 @@ public class JsonUtil {
     }
 
     public static List<ApplicationToPost> jsonToApplications() {
-        // todo
-        return null;
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/applications.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            List<ApplicationToPost> applications = new ArrayList<>();
+
+            JSONObject json = new JSONObject(builder.toString());
+
+            if (ApplicationToPost.getNbAppli() == 0)
+                return applications;
+
+            for (int i = 0; i < ApplicationToPost.getListId().size() ; i++){
+                int val = ApplicationToPost.getListId().get(i);
+                JSONObject jsonObject = json.getJSONObject("application" + val);
+                applications.add(jsonToApplication(jsonObject));
+
+            }
+            return applications;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static ApplicationToPost jsonToApplication(JSONObject jsonObject) {
+        String applicantEmail = jsonObject.getString("applicant");
+        String comment = jsonObject.getString("comment");
+
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        JSONArray jsonDates = jsonObject.getJSONArray("dates");
+        for (int j = 0; j < jsonDates.length(); j++) {
+            dates.add(LocalDate.parse(jsonDates.getString(j)));
+        }
+
+        int id = jsonObject.getInt("id");
+
+        return new ApplicationToPost(id, applicantEmail, dates, comment);
+    }
+
+    public static JSONObject applicationToJson(ApplicationToPost application) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id", application.getIdAppli());
+            json.put("applicant", application.getApplicantEmail());
+            json.put("comment", application.getComment());
+            json.put("dates", application.getDates());
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void applicationsToJson(List<ApplicationToPost> applications) {
-        // todo
+        String path = "src/main/resources/json/applications.json";
+
+        JSONObject applicationsJson = new JSONObject();
+        try {
+            if (!applications.isEmpty()){
+                int i = 1;
+                for (ApplicationToPost application : applications) {
+                    JSONObject json = applicationToJson(application);
+                    applicationsJson.put("application" + i++, json);
+                }
+            }
+            else {
+                applicationsJson.put("application0", "");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(applicationsJson.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }
 
 
