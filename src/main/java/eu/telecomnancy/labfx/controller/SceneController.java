@@ -70,6 +70,8 @@ public class SceneController {
         try {
             root = loader.load();
             PostOverviewController controller = loader.getController();
+            System.out.println(post.getIdPost());
+            System.out.println(post.getAuthorEmail());
             controller.initData(post);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
@@ -237,6 +239,73 @@ public class SceneController {
             mainController.setOffY(offY);
             mainController.setPosition(position);
             mainController.setRoot(root);
+            //mainController.getPaneTest().setVisible(false);
+            mainController.teleportation(position);
+            mainController.updateHexagon();
+            stage.setWidth(width);
+            stage.setHeight(height);
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void goToMainEdit(ActionEvent event, int position, Post post, boolean modify) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
+        try {
+            root = loader.load();
+            Screen screen = Screen.getPrimary();
+            int width = (int) screen.getBounds().getWidth();
+            int height = (int) screen.getBounds().getHeight();
+            MainController mainController = loader.getController();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            double[] coord = mainController.getLayout();
+            int offX = (int) -coord[0];
+            int offY = (int) -coord[1];
+            root.translateXProperty().set(offX);
+            root.translateYProperty().set(offY);
+            mainController.setOffX(offX);
+            mainController.setOffY(offY);
+            mainController.setPosition(position);
+            mainController.setRoot(root);
+            mainController.setPost(post);
+            mainController.setModify(modify);
+            //mainController.getPaneTest().setVisible(false);
+            mainController.teleportation(position);
+            mainController.updateHexagon();
+            stage.setWidth(width);
+            stage.setHeight(height);
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void goToMainValidate(ActionEvent event, int position, Post post) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
+        try {
+            root = loader.load();
+            Screen screen = Screen.getPrimary();
+            int width = (int) screen.getBounds().getWidth();
+            int height = (int) screen.getBounds().getHeight();
+            MainController mainController = loader.getController();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            double[] coord = mainController.getLayout();
+            int offX = (int) -coord[0];
+            int offY = (int) -coord[1];
+            root.translateXProperty().set(offX);
+            root.translateYProperty().set(offY);
+            mainController.setOffX(offX);
+            mainController.setOffY(offY);
+            mainController.setPosition(position);
+            mainController.setRoot(root);
+            mainController.setPost(post);
             //mainController.getPaneTest().setVisible(false);
             mainController.teleportation(position);
             mainController.updateHexagon();

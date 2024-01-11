@@ -413,6 +413,8 @@ public class PostEditController extends HexaSuper {
             }
             posts.add(post);
             JsonUtil.postsToJson(posts);
+/*            System.out.println(post.getIdPost());
+            System.out.println(post.getAuthorEmail());*/
             sceneController.goToOverviewToolPost(event, post);
         }
     }
@@ -434,4 +436,160 @@ public class PostEditController extends HexaSuper {
         SceneController sceneController = new SceneController();
         sceneController.goToCreatePost(event);
     }
+
+    public void validateNew(ActionEvent event) throws IOException {
+        if (title.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Le titre ne peut pas être vide").showAndWait();
+        }
+        else if (description.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
+        }
+        else if (dates.size() != 2 && !ponctuelles.isSelected()){
+            new Alert(Alert.AlertType.ERROR, "Pour une plage, il faut 2 dates").showAndWait();
+        }
+        else if (streetNumber.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le numéro de rue ne peut pas être vide").showAndWait();
+        }
+        else if (!RegexUtils.isNumeric(streetNumber.getText())){
+            new Alert(Alert.AlertType.ERROR, "Le numéro de rue doit être un nombre").showAndWait();
+        }
+        else if (street.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le nom de rue ne peut pas être vide").showAndWait();
+        }
+        else if (postalCode.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Le code postal ne peut pas être vide").showAndWait();
+        }
+        else if (!RegexUtils.isNumeric(postalCode.getText())){
+            new Alert(Alert.AlertType.ERROR, "Le code postal doit être un nombre").showAndWait();
+        }
+        else if (city.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "La ville ne peut pas être vide").showAndWait();
+        }
+        else if (region.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "La région ne peut pas être vide").showAndWait();
+        }
+        else if (countryList.getValue() == null){
+            new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
+        }
+        else {
+            // todo créer le user en fonction de la personne connectée
+            User author = null;
+            for (User user : users){
+                if (user.isConnected()){
+                    author = user;
+                    break;
+                }
+            }
+
+            Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
+            SceneController sceneController = new SceneController();
+
+            State state = State.EN_COURS;
+            if (myDatePicker.getStart().isAfter(LocalDate.now()))
+                state = State.FUTUR;
+
+            if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+                state = State.EN_COURS;
+
+            RadioButton date = (RadioButton) type_date.getSelectedToggle();
+
+            Type_Date type_date;
+
+            if (date.getId().equals("plage")){
+                type_date = Type_Date.PLAGE;
+                LocalDate boucle = myDatePicker.getStart();
+                dates.add(boucle);
+                datesList.add(boucle);
+                while (boucle.isBefore(myDatePicker.getEnd())){
+                    boucle = boucle.plusDays(1);
+                    dates.add(boucle);
+                    datesList.add(boucle);
+                }
+            } else if (date.getId().equals("ponctuelles")){
+                type_date = Type_Date.PONCTUELLES;
+                dates.addAll(myDatePicker.getSelectedDates());
+                datesList.addAll(myDatePicker.getSelectedDates());
+            }
+            else {
+                type_date = Type_Date.PONCTUELLE_REC;
+            }
+
+            RadioButton selected = (RadioButton) type_post.getSelectedToggle();
+            if (selected.getText().equals("Service")){
+                if (!modify){
+                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    author.getPostedPosts().add(post.getIdPost());
+                }
+                else {
+                    modifierPost(datesList, author, address, state);
+                }
+                sceneController.goToMainEdit(event,24, post, modify);
+            }
+            else {
+                if (!modify){
+                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    author.getPostedPosts().add(post.getIdPost());
+                }
+                else {
+                    modifierPost(datesList, author, address, state);
+                }
+                sceneController.goToMainEdit(event,21, post, modify);
+            }
+        }
+
+    }
+    public void validateToolPostHexa(ActionEvent event) throws IOException {
+        if (stateTool.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "L'état ne peut pas être vide").showAndWait();
+        }
+        else {
+            SceneController sceneController = new SceneController();
+            if (!modify)
+                post = new Tool(post, stateTool.getText());
+            else{
+                if (post.getClass().equals(Service.class)){
+                    post = new Tool(post, stateTool.getText());
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
+                }
+                else {
+                    post.setStateTool(stateTool.getText());
+                }
+            }
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
+            sceneController.goToMainValidate(event,23,post);
+            /*sceneController.goToOverviewToolPost(event, post);*/
+        }
+    }
+    public void validateServicePostHexa(ActionEvent event) throws IOException {
+        if (personData.isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Vous devez ajouter au moins un prestataire").showAndWait();
+        }
+        else if (descriptionService.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
+        }
+        else {
+            SceneController sceneController = new SceneController();
+            if (!modify){
+                post = new Service(post, descriptionService.getText(), personData);
+            }
+            else{
+                if (post.getClass().equals(Tool.class)){
+                    post = new Service(post, descriptionService.getText(), personData);
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
+                }
+                else {
+                    post.setDescriptionService(descriptionService.getText());
+                    post.setProviders(personData);
+                }
+            }
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
+            sceneController.goToMainValidate(event,25,post);
+        }
+    }
+
+
 }

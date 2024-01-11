@@ -2,15 +2,86 @@
 
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="hexagonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.HexagonDirectDealingController">
    <children>
-      <Polygon fx:id="hexagon" fill="WHITE" layoutX="342.0" layoutY="40.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-      <Group layoutX="57.0" layoutY="163.0">
+      <Polygon fx:id="hexagon" fill="WHITE" layoutX="342.0" layoutY="40.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+      <ImageView fitHeight="559.0" fitWidth="2030.0" layoutX="-393.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../../../Capture%20d'écran%202024-01-08%20151832.png" />
+         </image>
+      </ImageView>
+      <Group layoutX="57.0" layoutY="163.0" />
+      <AnchorPane layoutX="37.0" layoutY="101.0" prefHeight="648.0" prefWidth="658.0">
          <children>
-            <Label layoutX="264.0" layoutY="208.0" text="DirectDealing" />
+            <Polygon fx:id="hexagon1" fill="WHITE" layoutX="406.0" layoutY="13.0" points="-12.79998779296875, 288.3999938964844, 59.20001220703125, 160.39999389648438, -12.79998779296875, 37.19999694824219, -156.0, 37.19999694824219, -228.7999725341797, 160.39999389648438, -156.0, 288.3999938964844" stroke="#6c2466" strokeType="INSIDE" strokeWidth="10.0" />
+            <Circle fill="#6c2466" layoutX="390.0" layoutY="50.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="252.0" layoutY="53.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="183.0" layoutY="176.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="458.0" layoutY="176.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="249.0" layoutY="294.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="390.0" layoutY="294.0" radius="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Line endX="-27.5999755859375" endY="145.19998168945312" layoutX="280.0" layoutY="149.0" startX="-27.5999755859375" startY="-94.0" stroke="#6c2466" strokeWidth="5.0" />
+            <Line endX="-75.0" endY="-42.0" layoutX="290.0" layoutY="159.0" startX="100.0" startY="-109.0" stroke="#6c2466" strokeWidth="5.0" />
+            <Circle fill="#6c2466" layoutX="215.0" layoutY="117.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="321.0" layoutY="55.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="426.0" layoutY="117.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="215.0" layoutY="232.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="321.0" layoutY="297.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#6c2466" layoutX="426.0" layoutY="232.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Line endX="-84.40000915527344" endY="63.600006103515625" layoutX="300.0" layoutY="169.0" startX="90.0" startY="-119.0" stroke="#6c2466" strokeWidth="5.0" />
+            <Line endX="-85.20001220703125" endY="64.39999389648438" layoutX="300.0" layoutY="169.0" startX="126.0" startY="64.39999389648438" stroke="#6c2466" strokeWidth="5.0" />
+            <Line endX="-47.5999755859375" endY="-116.40000915527344" layoutX="300.0" layoutY="169.0" startX="128.50006103515625" startY="64.39999389648438" stroke="#6c2466" strokeWidth="5.0" />
+            <Line endX="-85.00003051757812" endY="-52.0" layoutX="300.0" layoutY="169.0" startX="89.99996948242188" startY="125.0" stroke="#6c2466" strokeWidth="5.0" />
+            <Line endX="-50.0" endY="125.19998168945312" layoutX="300.0" layoutY="169.0" startX="126.0" startY="-52.0" stroke="#6c2466" strokeWidth="5.0" />
+            <Line endX="93.5355224609375" endY="128.5355224609375" layoutX="300.0" layoutY="169.0" startX="126.0" startY="-52.0" stroke="#6c2466" strokeWidth="5.0" />
+            <Circle fill="#f08a26" layoutX="365.0" layoutY="175.0" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="354.0" layoutY="247.0" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="290.0" layoutY="217.0" radius="25.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Line endX="64.80001831054688" endY="30.0" layoutX="290.0" layoutY="217.0" startX="-3.0517578125E-5" stroke="#f08a26" strokeWidth="17.0" />
+            <Line endX="66.79998779296875" endY="-52.0" layoutX="300.0" layoutY="227.0" startX="-10.0" startY="-10.0" stroke="#f08a26" strokeWidth="17.0" />
+         </children>
+      </AnchorPane>
+      <Group layoutX="9.0" layoutY="11.0">
+         <children>
+            <Circle fill="#f08a26" layoutX="350.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="176.0" layoutY="107.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="527.0" layoutY="107.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="176.0" layoutY="714.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="527.0" layoutY="714.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="702.0" layoutY="602.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutY="602.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="702.0" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Circle fill="#f08a26" layoutX="351.0" layoutY="812.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Label alignment="CENTER" layoutX="13.0" layoutY="513.0" prefHeight="61.0" prefWidth="675.0" text="DirectDealing" textFill="#919191">
+               <font>
+                  <Font name="Eras Medium ITC" size="53.0" />
+               </font>
+            </Label>
+            <HBox layoutX="14.0" layoutY="437.0" prefHeight="67.0" prefWidth="673.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="64.0" prefWidth="715.0" text="Telecom" textFill="#6c2466">
+                     <font>
+                        <Font name="Eras Demi ITC" size="53.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="64.0" prefWidth="677.0" text="Nancy" textFill="#f08a26">
+                     <font>
+                        <Font name="Eras Demi ITC" size="53.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </Group>
    </children>

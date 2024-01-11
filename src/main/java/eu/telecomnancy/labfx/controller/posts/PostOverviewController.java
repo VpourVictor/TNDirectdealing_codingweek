@@ -21,6 +21,7 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -100,6 +101,8 @@ public class PostOverviewController extends HexaSuper {
     public void initData(Post post) {
         posts = JsonUtil.jsonToPosts();
         this.post = post;
+        System.out.println(post.getIdPost());
+        System.out.println(post.getAuthorEmail());
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
@@ -160,5 +163,20 @@ public class PostOverviewController extends HexaSuper {
     public void viewTool(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToOverviewToolPost(event, post);
+    }
+    public void deleteHexa(ActionEvent event) throws IOException {
+        posts = JsonUtil.jsonToPosts();
+        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
+        Post.setNbPosts(Post.getNbPosts() - 1);
+        JsonUtil.postsToJson(posts);
+
+        SceneController sceneController = new SceneController();
+        sceneController.goToMain(event,17);
+        //sceneController.goToAllPosts(event, posts);
+    }
+    public void viewAllHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMain(event,17);
+        //sceneController.goToAllPosts(event, posts);
     }
 }

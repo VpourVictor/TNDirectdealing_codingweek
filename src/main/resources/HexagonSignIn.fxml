@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
@@ -19,24 +20,49 @@
    <children>
       <Group layoutX="57.0" layoutY="163.0">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <VBox alignment="CENTER" layoutX="155.0" layoutY="-43.0">
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#f08a26" strokeType="INSIDE" strokeWidth="20.0" />
+            <Group layoutX="-47.0" layoutY="-153.0">
                <children>
-                  <Label alignment="CENTER" text="Bienvenue ! ">
+                  <Circle fill="#f08a26" layoutX="350.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="176.0" layoutY="107.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="527.0" layoutY="107.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="176.0" layoutY="714.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="527.0" layoutY="714.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="702.0" layoutY="602.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutY="602.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="702.0" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="350.0" layoutY="812.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="707.0" layoutY="394.0" radius="29.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <VBox alignment="CENTER" layoutX="188.0" layoutY="107.0">
+                     <children>
+                        <Label alignment="CENTER" text="Bienvenue ! ">
+                           <font>
+                              <Font name="Eras Bold ITC" size="40.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets top="40.0" />
+                           </opaqueInsets>
+                        </Label>
+                        <Label text="Bon retour parmi nous !">
+                           <font>
+                              <Font name="Eras Demi ITC" size="29.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Label layoutX="221.0" layoutY="205.0" text="Connexion">
                      <font>
-                        <Font size="40.0" />
+                        <Font name="Eras Bold ITC" size="47.0" />
                      </font>
-                     <opaqueInsets>
-                        <Insets top="40.0" />
-                     </opaqueInsets>
                   </Label>
-                  <Label text="Bon retour parmi nous !">
+                  <Button fx:id="validateSignInButton" layoutX="249.0" layoutY="602.0" mnemonicParsing="false" onAction="#validate" prefHeight="44.0" prefWidth="203.0" styleClass="button_test" stylesheets="@styles.css" text="Se connecter">
                      <font>
-                        <Font size="29.0" />
+                        <Font name="Eras Medium ITC" size="24.0" />
                      </font>
-                  </Label>
+                  </Button>
                </children>
-            </VBox>
+            </Group>
             <VBox alignment="CENTER" layoutX="42.0" layoutY="157.0" prefHeight="200.0" prefWidth="530.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -48,7 +74,7 @@
                         </Label>
                         <VBox alignment="CENTER" prefHeight="100.0" prefWidth="246.0">
                            <children>
-                              <TextArea fx:id="mailTextArea" prefHeight="38.0" prefWidth="183.0" promptText="Entrez votre adresse mail" />
+                              <TextArea fx:id="mailTextArea" prefHeight="38.0" prefWidth="183.0" promptText="Entrez votre adresse mail" styleClass="login__input" stylesheets="@styles.css" text="test@test.com" />
                            </children>
                         </VBox>
                      </children>
@@ -65,8 +91,7 @@
                         </Label>
                         <AnchorPane prefHeight="100.0" prefWidth="241.0">
                            <children>
-                              <PasswordField fx:id="passwordHidden" layoutX="2.0" layoutY="28.0" prefHeight="31.0" prefWidth="185.0" promptText="Entrez votre mot de passe ici" />
-                              <TextField fx:id="passwordText" cache="true" layoutX="3.0" layoutY="28.0" prefHeight="31.0" prefWidth="184.0" promptText="Entrez votre mot de passe ici" />
+                              <TextField fx:id="passwordText" cache="true" layoutX="3.0" layoutY="28.0" prefHeight="31.0" prefWidth="184.0" promptText="Entrez votre mot de passe ici" text="a" />
                               <CheckBox fx:id="passToggle" alignment="CENTER" layoutX="24.0" layoutY="59.0" mnemonicParsing="false" onAction="#toggleVisiblePassword" text="Voir mon mot de passe">
                                  <opaqueInsets>
                                     <Insets />
@@ -75,6 +100,7 @@
                                     <Insets top="5.0" />
                                  </padding>
                               </CheckBox>
+                              <PasswordField fx:id="passwordHidden" layoutX="2.0" layoutY="28.0" prefHeight="31.0" prefWidth="185.0" promptText="Entrez votre mot de passe ici" />
                            </children>
                            <padding>
                               <Insets left="30.0" right="30.0" />
@@ -82,11 +108,6 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <Button fx:id="validateSignInButton" mnemonicParsing="false" onAction="#validate" text="Valider">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Button>
                </children>
             </VBox>
          </children>

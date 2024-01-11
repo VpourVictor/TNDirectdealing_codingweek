@@ -78,9 +78,11 @@ public class SignInController extends HexaSuper implements Initializable {
                      new Alert(Alert.AlertType.ERROR, "Le mot de passe est incorrect").showAndWait();
                  }
                  else if (users.get(index).getPassword().equals(passwordValue())){
-                     new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
+                     //new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
                      SceneController sceneController = new SceneController();
                      sceneController.goToEditPost(event, null, false);
+                     //sceneController.goToMain(event,14);
+
                  }
              }
 
@@ -115,7 +117,42 @@ public class SignInController extends HexaSuper implements Initializable {
 
     @FXML
     public void validate(ActionEvent event) throws IOException {
-        SceneController sc = new SceneController();
-        sc.goToMain(event,14);
+        if (!RegexUtils.isValidMail(mailTextArea.getText())){
+            new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
+        }
+        else if ( passwordValue() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le mot de passe ne peut pas être vide").showAndWait();
+        }
+
+        else {
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                System.out.println(user.getEmail());
+            }
+            if (users.isEmpty()){
+                new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter").showAndWait();
+            }
+            else {
+
+                int index = 0;
+                while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextArea.getText())){
+                    index++;
+                }
+                if (index == User.getNbUsers()){
+                    new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter ou entrer un mail Valide").showAndWait();
+                }
+                else if ( !users.get(index).getPassword().equals(passwordValue())){
+                    new Alert(Alert.AlertType.ERROR, "Le mot de passe est incorrect").showAndWait();
+                }
+                else if (users.get(index).getPassword().equals(passwordValue())){
+                    //new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
+                    SceneController sceneController = new SceneController();
+                    //sceneController.goToEditPost(event, null, false);
+                    sceneController.goToMain(event,14);
+
+                }
+            }
+
+        }
     }
 }

@@ -34,17 +34,7 @@ public class HomepageController extends HexaSuper{
     Pane hexagonPane;
     @FXML
     Pane paneTest;
-    @FXML
-    public void mouseEnter(MouseEvent event) {
 
-        hexagon.setStroke(Color.web("#F08A26"));
-
-    }
-    public void mouseExit(MouseEvent event) {
-
-        hexagon.setStroke(Color.web("#6C2466"));
-
-    }
     @FXML
     public void runApp(ActionEvent event) throws IOException {
         SceneController sc = new SceneController();
