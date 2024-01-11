@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -103,7 +105,9 @@ public class AlgoUtil {
         ArrayList<Post> postsByUsers = new ArrayList<>();
         for(User user: users){
             ArrayList<Post> postsFromUser = postFromUser(user);
-            postsByUsers.addAll(postsFromUser);
+            if (postsFromUser != null){
+                postsByUsers.addAll(postsFromUser);
+            }
         }
         if (postsByUsers.isEmpty()){
             return null;
@@ -112,7 +116,7 @@ public class AlgoUtil {
     }
 
     public ArrayList<Post> postSortedByEvaluation (){
-        users.sort(Comparator.comparing(User::getEvaluation));
+        this.users.sort(Comparator.comparingDouble(User::getEvaluation).reversed());
         return postSortedByUsers();
     }
 
@@ -148,7 +152,7 @@ public class AlgoUtil {
         return postsFromIds(user.getAppliedToPosts());
     }
 
-    public ArrayList<Post> postVisible(State state){
+    public ArrayList<Post> postInState(State state){
         ArrayList<Post> postWithState = new ArrayList<>();
         int i = 0;
         while (i < posts.size()){
@@ -165,4 +169,44 @@ public class AlgoUtil {
         }
         return postWithState;
     }
+
+    public ArrayList<Post> postInVisible(){
+        ArrayList<Post> postWithState = new ArrayList<>();
+        int i = 0;
+        while (i < posts.size()){
+            if (posts.get(i).getState() != State.MASQUE && posts.get(i).getState() != State.TERMINE){
+                postWithState.add(posts.get(i));
+                posts.remove(i);
+            }
+            else {
+                i++;
+            }
+        }
+        if (postWithState.isEmpty()){
+            return null;
+        }
+        return postWithState;
+    }
+
+    public User getUserFromMail(String mail){
+        for (User user : users){
+            if (user.getEmail().equals(mail)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Double> createRandomDoubleArrayList(int size) {
+        ArrayList<Double> doubleArrayList = new ArrayList<>(size);
+        Random random = new Random();
+
+        for (int i = 0; i < size; i++) {
+            double randomValue = random.nextDouble() + random.nextDouble()*10; // Génère une valeur aléatoire entre 0.0 (inclus) et 1.0 (exclus)
+            doubleArrayList.add(randomValue);
+        }
+
+        return doubleArrayList;
+    }
+
 }
