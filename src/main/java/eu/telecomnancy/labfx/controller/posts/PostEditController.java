@@ -103,6 +103,7 @@ public class PostEditController extends HexaSuper {
         RadioButton selected2 = (RadioButton) choiceState.getSelectedToggle();
         RadioButton selected3 = (RadioButton) choiceState.getSelectedToggle();
         RadioButton selected4 = (RadioButton) choiceState.getSelectedToggle();
+        System.out.println("selected0 : " + selected0);
         if (selected0 != null){
             radioBtnState.add(selected0.getText());
         }
@@ -170,9 +171,6 @@ public class PostEditController extends HexaSuper {
                     return results;
             }
         }
-        sortedByStateCurrent.setSelected(false);
-        sortedByStateEnded.setSelected(false);
-        sortedByStateFuture.setSelected(false);
         return results;
     }
 
@@ -198,8 +196,6 @@ public class PostEditController extends HexaSuper {
                     return results;
             }
         }
-        sortedByNote.setSelected(false);
-        sortedByUser.setSelected(false);
         return results;
     }
 
@@ -234,9 +230,6 @@ public class PostEditController extends HexaSuper {
                     return results;
             }
         }
-        allPost.setSelected(true);
-        onlyServices.setSelected(false);
-        onlyTools.setSelected(false);
         return results;
     }
 
@@ -263,8 +256,6 @@ public class PostEditController extends HexaSuper {
                     return results;
             }
         }
-        allPost.setSelected(false);
-        onlyServices.setSelected(false);
         return results;
     }
 
@@ -288,105 +279,79 @@ public class PostEditController extends HexaSuper {
 
     public void initData(Post post, ArrayList<String> stateRadioBtn) {
         System.out.println("WE ARE INSIDE initData");
+
+        if (stateRadioBtn == null){
+            ArrayList<String> stateRadioBtnBis = new ArrayList<>(5);
+            stateRadioBtnBis.add(null);
+            stateRadioBtnBis.add(null);
+            stateRadioBtnBis.add(null);
+            stateRadioBtnBis.add(null);
+            stateRadioBtnBis.add(null);
+            stateRadioBtn = stateRadioBtnBis;
+
+        }
         posts = JsonUtil.jsonToPosts();
 
         if (posts == null)
             posts = new ArrayList<>();
 
-        else if (posts != null){
-            if (stateRadioBtn != null){
-                if (stateRadioBtn.get(0) != null){
-                    System.out.println("In InitData :" + stateRadioBtn.get(0) );
-//                if (stateRadioBtn.get(0).equals("Toutes les annonces")){
-//
-//                }
-                    SceneController sceneController = new SceneController();
-                    AlgoUtil algoUtil = new AlgoUtil(users, posts);
-                    switch(stateRadioBtn.get(0)){
-                        case "Toutes les annonces":
-                            System.out.println("Dans le switch Toutes les annonces");
-                            allPost.setSelected(true);
-                            onlyServices.setSelected(false);
-                            onlyTools.setSelected(false);
-                            sceneController.goToRowPost(posts, listPost);
-                            break;
-                        case "Services":
-                            System.out.println("Dans le switch Services");
-                            allPost.setSelected(false);
-                            onlyServices.setSelected(true);
-                            onlyTools.setSelected(false);
-                            posts = algoUtil.postSortedByType("Service");
+        else {
+            if (type_date != null){
+                if (post != null){
+                    dates.addAll(post.getDates());
+                }
+                myDatePicker = new MyDatePicker(datesPicker, this);
+            }
 
-                            sceneController.goToRowPost(posts, listPost);
-                            break;
-                        case "Outils":
-                            System.out.println("Dans le switch Outils");
-                            allPost.setSelected(false);
-                            onlyServices.setSelected(false);
-                            onlyTools.setSelected(true);
-                            posts = algoUtil.postSortedByType("tool");
+            if (name_page != null) {
+                if(!modify)
+                    name_page.setText("Création d'un nouveau post");
+                else
+                    name_page.setText("Modification d'un post");
+            }
 
-                            sceneController.goToRowPost(posts, listPost);
-                            break;
-                        default:
-                            allPost.setSelected(true);
-                            onlyServices.setSelected(false);
-                            onlyTools.setSelected(false);
-                            sceneController.goToRowPost(posts, listPost);
-                            break;
+            this.post = post;
+            if (post != null && !part2) {
+                title.setText(post.getTitle());
+                description.setText(post.getDescription());
+                image.setImage(post.getImage());
+                streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
+                street.setText(post.getAddress().getStreetName());
+                postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
+                city.setText(post.getAddress().getCity());
+                region.setText(post.getAddress().getRegion());
+                countryList.setValue(post.getAddress().getCountry());
+                type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
+                listDate.setItems(dates);
+
+            }
+
+            if (post != null && part2) {
+                if (post instanceof Service) {
+                    if (modify && descriptionService != null){
+                        descriptionService.setText(post.getDescriptionService());
+                        personData.addAll(post.getProviders());
+                        listPrest.setItems(personData);
                     }
+
+                } else if (post instanceof Tool) {
+                    if (modify && stateTool != null)
+                        stateTool.setText(post.getStateTool());
                 }
 
+                if(!modify)
+                    mode.setText("Création d'un nouveau post");
+                else
+                    mode.setText("Modification d'un post");
             }
+            posts = choiceMyPostedApplied(stateRadioBtn, stateChoice(stateRadioBtn, typeChoice(stateRadioBtn, otherChoice(stateRadioBtn, new ArrayList<>()))));
+            SceneController sceneController = new SceneController();
+            sceneController.goToRowPost(posts, listPost);
+            System.out.println("WE ARE OUTSIDE initData");
         }
 
-        if (type_date != null){
-            if (post != null){
-                dates.addAll(post.getDates());
-            }
-            myDatePicker = new MyDatePicker(datesPicker, this);
-        }
 
-        if (name_page != null) {
-            if(!modify)
-                name_page.setText("Création d'un nouveau post");
-            else
-                name_page.setText("Modification d'un post");
-        }
 
-        this.post = post;
-        if (post != null && !part2) {
-            title.setText(post.getTitle());
-            description.setText(post.getDescription());
-            image.setImage(post.getImage());
-            streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
-            street.setText(post.getAddress().getStreetName());
-            postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
-            city.setText(post.getAddress().getCity());
-            region.setText(post.getAddress().getRegion());
-            countryList.setValue(post.getAddress().getCountry());
-            type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
-            listDate.setItems(dates);
-        }
-
-        if (post != null && part2) {
-            if (post instanceof Service) {
-                if (modify && descriptionService != null){
-                    descriptionService.setText(post.getDescriptionService());
-                    personData.addAll(post.getProviders());
-                    listPrest.setItems(personData);
-                }
-
-            } else if (post instanceof Tool) {
-                if (modify && stateTool != null)
-                    stateTool.setText(post.getStateTool());
-            }
-
-            if(!modify)
-                mode.setText("Création d'un nouveau post");
-            else
-                mode.setText("Modification d'un post");
-        }
     }
 
     public void browse(ActionEvent event) {
