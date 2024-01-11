@@ -1,7 +1,9 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.posts.PostApplyController;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
+import eu.telecomnancy.labfx.controller.posts.PostApplicationController;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Post;
 import eu.telecomnancy.labfx.model.User;
@@ -10,18 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class SceneController {
     private Stage stage;
@@ -250,5 +248,38 @@ public class SceneController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public void goToApplyPost(ActionEvent event, Post post) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/apply_post.fxml"));
+        try {
+            root = loader.load();
+            PostApplyController controller = loader.getController();
+            controller.initData(post);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToChekcDate(ArrayList<LocalDate> dates, VBox listDates, Post post) {
+        for (LocalDate date : dates){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/posts/checkbox.fxml"));
+            try {
+                AnchorPane pane = loader.load();
+                PostApplicationController controller = loader.getController();
+                PostApplyController.setPost(post);
+                controller.initData(date);
+                listDates.getChildren().add(pane);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

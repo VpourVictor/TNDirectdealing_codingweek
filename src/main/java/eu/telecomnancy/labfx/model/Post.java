@@ -18,16 +18,21 @@ public abstract class Post {
     private String title;
     private String authorEmail;
     private List<LocalDate> dates;
+    private List<LocalDate> datesOccupied;
     private Address address;
     private Image image;
     private State state;
     private Type_Date type_date;
+    @Getter
+    protected static List<Integer> listId = new ArrayList<>();
+    private List<Integer> applications = new ArrayList<>();
 
-    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, Type_Date type_date, Address adress, Image image, State state) {
+    public Post(String description, String title, String authorEmail, ArrayList<LocalDate> dates, ArrayList<LocalDate> datesOccupied,Type_Date type_date, Address adress, Image image, State state) {
         this.description = description;
         this.title = title;
         this.authorEmail = authorEmail;
         this.dates = dates;
+        this.datesOccupied = datesOccupied;
         this.type_date = type_date;
         this.address = adress;
         this.image = image;
@@ -51,4 +56,8 @@ public abstract class Post {
     public abstract void setStateTool(String text);
 
     public abstract void setProviders(List<Person> providers);
+
+    public static void setListId(List<Integer> listId) {
+        Post.listId = listId;
+    }
 }

@@ -24,7 +24,7 @@ public class SignInController extends HexaSuper implements Initializable {
     private ArrayList<User> users = new ArrayList<>();
 
     @FXML
-    private TextArea mailTextArea;
+    private TextField mailTextField;
 
     @FXML
     private PasswordField passwordHidden;
@@ -50,7 +50,7 @@ public class SignInController extends HexaSuper implements Initializable {
 
     @FXML
     void connexion(ActionEvent event) throws IOException {
-         if (!RegexUtils.isValidMail(mailTextArea.getText())){
+         if (!RegexUtils.isValidMail(mailTextField.getText())){
             new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
         }
         else if ( passwordValue() == null) {
@@ -59,16 +59,12 @@ public class SignInController extends HexaSuper implements Initializable {
 
         else {
             users = JsonUtil.jsonToUsers();
-             for (User user : users){
-                 System.out.println(user.getEmail());
-             }
              if (users.isEmpty()){
                  new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter").showAndWait();
              }
              else {
-
                  int index = 0;
-                 while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextArea.getText())){
+                 while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextField.getText())){
                      index++;
                  }
                  if (index == User.getNbUsers()){
@@ -78,9 +74,12 @@ public class SignInController extends HexaSuper implements Initializable {
                      new Alert(Alert.AlertType.ERROR, "Le mot de passe est incorrect").showAndWait();
                  }
                  else if (users.get(index).getPassword().equals(passwordValue())){
+                     users.get(index).setConnected(true);
+                        JsonUtil.usersToJson(users);
                      new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
+
                      SceneController sceneController = new SceneController();
-                     sceneController.goToEditPost(event, null, false);
+                     sceneController.goToAllPosts(event, JsonUtil.jsonToPosts());
                  }
              }
 

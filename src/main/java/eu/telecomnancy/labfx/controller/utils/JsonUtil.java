@@ -76,6 +76,7 @@ public class JsonUtil {
             json.put("description", post.getDescription());
             json.put("author_email", post.getAuthorEmail());
             json.put("dates", post.getDates());
+            json.put("datesOccupied", post.getDatesOccupied());
             json.put("address", adressToJson(post.getAddress()));
             if (post.getImage() != null)
                 json.put("path", post.getImage().getUrl());
@@ -83,16 +84,6 @@ public class JsonUtil {
                 json.put("path", "");
             json.put("state", post.getState());
             json.put("type_date", post.getType_date());
-
-            if (post instanceof Service) {
-                json.put("type", "service");
-                json.put("descriptionService", post.getDescriptionService());
-                json.put("providers", providersToJson(post.getProviders()));
-            }
-            else if (post instanceof Tool) {
-                json.put("type", "tool");
-                json.put("stateTool", post.getStateTool());
-            }
 
             if (post instanceof Service) {
                 json.put("type", "service");
@@ -158,8 +149,9 @@ public class JsonUtil {
             if (Post.getNbPosts() == 0)
                 return posts;
 
-            for (int i = 1; i <= Post.getNbPosts() ; i++){
-                JSONObject jsonObject = json.getJSONObject("post" + i);
+            for (int i = 0; i < Post.getListId().size() ; i++){
+                int val = Post.getListId().get(i);
+                JSONObject jsonObject = json.getJSONObject("post" + val);
                 posts.add(jsonToPost(jsonObject));
             }
             return posts;
@@ -175,6 +167,12 @@ public class JsonUtil {
             JSONArray jsonDates = jsonObject.getJSONArray("dates");
             for (int j = 0; j < jsonDates.length(); j++) {
                 dates.add(LocalDate.parse(jsonDates.getString(j)));
+            }
+
+            JSONArray jsonDatesOccupied = jsonObject.getJSONArray("datesOccupied");
+            ArrayList<LocalDate> datesOccupied = new ArrayList<>();
+            for (int j = 0; j < jsonDatesOccupied.length(); j++) {
+                datesOccupied.add(LocalDate.parse(jsonDatesOccupied.getString(j)));
             }
 
             State state = State.valueOf(jsonObject.getString("state"));
@@ -198,12 +196,12 @@ public class JsonUtil {
 
             if (type.equals("service")) {
                 return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
                         jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers);
             }
             else if (type.equals("tool")) {
                 return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
                         jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"));
             }
             else
@@ -455,6 +453,15 @@ public class JsonUtil {
             throw new RuntimeException("Error in readJsonFileFromPath", e);
         }
 
+    }
+
+    public static List<ApplicationToPost> jsonToApplications() {
+        // todo
+        return null;
+    }
+
+    public static void applicationsToJson(List<ApplicationToPost> applications) {
+        // todo
     }
 }
 

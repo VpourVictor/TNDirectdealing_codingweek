@@ -134,7 +134,6 @@ public class PostEditController extends HexaSuper {
     public ListView<LocalDate> listDate;
     private ArrayList<LocalDate> datesList = new ArrayList<>();
 
-    // todo voir tous -> problème
     private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     @FXML
@@ -304,7 +303,7 @@ public class PostEditController extends HexaSuper {
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
                 if (!modify){
-                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
@@ -314,7 +313,7 @@ public class PostEditController extends HexaSuper {
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
@@ -433,5 +432,17 @@ public class PostEditController extends HexaSuper {
     public void newPost(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToCreatePost(event);
+    }
+
+    public void logout(ActionEvent event) {
+        for (User user : users){
+            if (user.isConnected()){
+                user.setConnected(false);
+            }
+        }
+
+        JsonUtil.usersToJson(users);
+        SceneController sceneController = new SceneController();
+        sceneController.goToAccueil(event);
     }
 }
