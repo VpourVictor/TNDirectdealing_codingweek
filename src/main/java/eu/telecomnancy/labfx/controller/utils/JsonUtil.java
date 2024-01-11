@@ -402,7 +402,7 @@ public class JsonUtil {
                 }
             }
             else {
-                msgJson.put("user0", "");
+                msgJson.put("message0", "");
             }
         }
         catch (Exception e) {

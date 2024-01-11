@@ -245,4 +245,3 @@ public class SignUpController extends HexaSuper{
         sc.goToMain(event,14);
     }
 }
-
