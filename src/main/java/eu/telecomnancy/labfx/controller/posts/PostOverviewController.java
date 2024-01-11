@@ -10,10 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
@@ -21,6 +18,7 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -87,6 +85,11 @@ public class PostOverviewController extends HexaSuper {
     @FXML
     Polygon hexagon;
 
+    @FXML
+    private Button masquer;
+
+    @FXML Button demasquer;
+
     private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     @FXML
@@ -110,11 +113,24 @@ public class PostOverviewController extends HexaSuper {
             stateTool.setText(post.getStateTool());
         }
         description.setText(post.getDescription());
-
         User author = null;
         for (User user : users){
-            if (user.getEmail().equals(post.getAuthorEmail()))
+            if (user.getEmail().equals(post.getAuthorEmail())) {
                 author = user;
+                if (user.isConnected()) {
+                    masquer.setVisible(true);
+                    demasquer.setVisible(true);
+                    if (post.getState() == State.FUTUR || post.getState() == State.EN_COURS) {
+                        masquer.setDisable(false);
+                        demasquer.setDisable(true);
+                    }
+
+                    if (post.getState() == State.MASQUE) {
+                        masquer.setDisable(true);
+                        demasquer.setDisable(false);
+                    }
+                }
+            }
         }
 
         firstName.setText(author.getFirstName());
@@ -144,6 +160,14 @@ public class PostOverviewController extends HexaSuper {
 
     public void viewAll(ActionEvent event) {
         SceneController sceneController = new SceneController();
+        /*for (int i = 0; i < posts.size(); i++){
+            if (posts.get(i).getState().equals(State.MASQUE)){
+                int id = posts.get(i).getIdPost();
+                Post.getListId().remove((Integer) id);
+                posts.remove(posts.get(i));
+            }
+        }*/
+
         sceneController.goToAllPosts(event, posts);
     }
 
@@ -172,5 +196,46 @@ public class PostOverviewController extends HexaSuper {
     public void viewTool(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToOverviewToolPost(event, post);
+    }
+
+    public void hide(ActionEvent event){
+        for (Post value : posts) {
+            if (value.getIdPost() == this.post.getIdPost()) {
+                if (value.getState().equals(State.EN_COURS) || value.getState().equals(State.FUTUR))
+                    value.setState(State.MASQUE);
+            }
+        }
+        JsonUtil.postsToJson(posts);
+        SceneController sceneController = new SceneController();
+        sceneController.goToAllPosts(event, posts);
+    }
+
+    public void show(ActionEvent event){
+        for (Post value : posts) {
+            if (value.getIdPost() == this.post.getIdPost()) {
+                if (value.getState().equals(State.MASQUE)){
+                    LocalDate start = null;
+                    LocalDate end = null;
+                    for (LocalDate date : value.getDates()){
+                        if (end == null || date.isAfter(end)) {
+                            end = date;
+                        }
+
+                        if (start == null || date.isBefore(start)){
+                            start = date;
+                        }
+                    }
+
+                    if (start.equals(LocalDate.now()))
+                        value.setState(State.EN_COURS);
+                    else
+                        value.setState(State.FUTUR);
+                }
+            }
+        }
+
+        JsonUtil.postsToJson(posts);
+        SceneController sceneController = new SceneController();
+        sceneController.goToAllPosts(event, posts);
     }
 }

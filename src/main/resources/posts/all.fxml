@@ -16,4 +16,7 @@
          </content>
       </ScrollPane>
    </center>
+   <left>
+      <Button mnemonicParsing="false" onAction="#logout" text="Déco" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>

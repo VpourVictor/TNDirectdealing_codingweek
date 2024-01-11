@@ -59,14 +59,10 @@ public class SignInController extends HexaSuper implements Initializable {
 
         else {
             users = JsonUtil.jsonToUsers();
-             for (User user : users){
-                 System.out.println(user.getEmail());
-             }
              if (users.isEmpty()){
                  new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter").showAndWait();
              }
              else {
-
                  int index = 0;
                  while( index < User.getNbUsers() && !users.get(index).getEmail().equals(mailTextField.getText())){
                      index++;
@@ -78,9 +74,12 @@ public class SignInController extends HexaSuper implements Initializable {
                      new Alert(Alert.AlertType.ERROR, "Le mot de passe est incorrect").showAndWait();
                  }
                  else if (users.get(index).getPassword().equals(passwordValue())){
+                     users.get(index).setConnected(true);
+                        JsonUtil.usersToJson(users);
                      new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
+
                      SceneController sceneController = new SceneController();
-                     sceneController.goToEditPost(event, null, false);
+                     sceneController.goToAllPosts(event, JsonUtil.jsonToPosts());
                  }
              }
 

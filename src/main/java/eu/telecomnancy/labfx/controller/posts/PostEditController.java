@@ -433,4 +433,16 @@ public class PostEditController extends HexaSuper {
         SceneController sceneController = new SceneController();
         sceneController.goToCreatePost(event);
     }
+
+    public void logout(ActionEvent event) {
+        for (User user : users){
+            if (user.isConnected()){
+                user.setConnected(false);
+            }
+        }
+
+        JsonUtil.usersToJson(users);
+        SceneController sceneController = new SceneController();
+        sceneController.goToAccueil(event);
+    }
 }
