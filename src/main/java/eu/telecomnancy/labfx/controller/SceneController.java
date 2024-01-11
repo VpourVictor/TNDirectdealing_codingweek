@@ -320,4 +320,39 @@ public class SceneController {
         }
 
     }
+    public void goToMainMessagerie(ActionEvent event, int position, User user, Conversation conversation) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
+        try {
+            root = loader.load();
+            Screen screen = Screen.getPrimary();
+            int width = (int) screen.getBounds().getWidth();
+            int height = (int) screen.getBounds().getHeight();
+            MainController mainController = loader.getController();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            double[] coord = mainController.getLayout();
+            int offX = (int) -coord[0];
+            int offY = (int) -coord[1];
+            root.translateXProperty().set(offX);
+            root.translateYProperty().set(offY);
+            mainController.setOffX(offX);
+            mainController.setOffY(offY);
+            mainController.setPosition(position);
+            mainController.setRoot(root);
+            mainController.setUserMain(user);
+            if(conversation != null) {
+                mainController.setConversation(conversation);
+            }
+            mainController.teleportation(position);
+            mainController.updateHexagon();
+            stage.setWidth(width);
+            stage.setHeight(height);
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

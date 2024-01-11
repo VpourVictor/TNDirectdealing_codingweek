@@ -19,9 +19,9 @@
          <children>
             <VBox alignment="CENTER" prefHeight="486.0" prefWidth="329.0" styleClass="profile-layout" stylesheets="@styles.css">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="pdp" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pictures/defaultpfp.png" />
+                        <Image url="file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="pseudoText" text="PSEUDO">
@@ -32,7 +32,7 @@
                         <Insets top="30.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="mailText" text="maifjfkerjfkerfjkhjerhfjrefl@gmail.com">
+                  <Label fx:id="mailText" text="default@gmail.com">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -70,7 +70,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9c8b80" height="118.0" layoutX="329.0" layoutY="682.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="952.0" />
       <HBox alignment="CENTER_RIGHT" layoutX="329.0" layoutY="682.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="952.0" spacing="30.0">
          <children>
-            <TextArea fx:id="msgText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="738.0" style="background-color:orange" text="twwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd&#10;d&#10;d&#10;d&#10;d&#10;d&#10;d&#10;d" wrapText="true">
+            <TextArea fx:id="msgText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="738.0" promptText="Saisissez votre message" style="background-color:orange" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>

@@ -3,17 +3,20 @@
     -fx-background-radius: 0 0 50 50;
 }
 
+.test{
+    -fx-background-radius: 50;
+}
 .background{
     -fx-background-color: #D7E2F3;
 }
 
-.button-style {
+/*.button-style {
     -fx-background-color: #f08a26;
     -fx-text-fill: black;
     -fx-shape: "M 12 0 L 88 0 L 100 25 L 88 50 L 12 50 L 0 25 Z";
     -fx-font-family: "Eras Medium";
     -fx-font-size: 24px;
-}
+}*/
 
 
 .msg-style{

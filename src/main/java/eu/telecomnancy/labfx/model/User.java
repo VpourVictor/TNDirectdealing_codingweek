@@ -52,7 +52,7 @@ public class User extends Person {
         this.password = password;
         this.address = address;
         this.profilePicture = profilePicture;
-        this.convs = new ArrayList<Conversation>();
+        this.convs = new ArrayList<Conversation>();     //TODO recuperer les conversations dans le json
         nbUsers++;
     }
 

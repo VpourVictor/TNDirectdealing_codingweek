@@ -313,4 +313,3 @@ public class SignUpController extends HexaSuper{
         }
     }
 }
-

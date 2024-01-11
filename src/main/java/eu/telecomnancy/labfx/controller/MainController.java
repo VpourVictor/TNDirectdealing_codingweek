@@ -2,6 +2,7 @@ package eu.telecomnancy.labfx.controller;
 
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
 import javafx.animation.*;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -20,6 +22,7 @@ import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -38,7 +41,10 @@ public class MainController implements Initializable {
 
     @Setter
     private int position;
-
+    @Setter
+    private User userMain;
+    @Setter
+    private Conversation conversation;
     @FXML
     Pane centerHexagon;
 
@@ -402,24 +408,24 @@ public class MainController implements Initializable {
             if(position == 0){
                 currentPane = ((HomepageController) controller).getPaneTest();
             }
-            if(position == 20){
-                Address adresse = new Address(5,"d",6,"y","h", "s");
-                User user = new User("test", "test", "test@test.com", "Rezko", "a", adresse,null);
-                User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, null);
-                Message message = new Message(user,user2,"Salut", "now");
-                Conversation conversation = new Conversation(user,user2);
-                Conversation conversation2 = new Conversation(user,user2);
-                Conversation conversation3 = new Conversation(user,user2);
+            if(position == 20) {
+                System.out.println("testadhshchhscscbbcbcb");
+                Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
+                Address adresse = new Address(5, "d", 6, "y", "h", "s");
+                User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
+                User user2 = new User("test2", "test2", "test2@gmail.com", "Rezko2", "pas", adresse, image);
+                User user3 = new User("test3", "test2", "aaa", "Rezko3", "pas", adresse, image);
+                User user4 = new User("test4", "test2", "bbb", "Rezko4", "pas", adresse, image);
+                User.setNbUsers(0);
+                ArrayList<User> users = JsonUtil.jsonToUsers();
+                users.add(user);
+                users.add(user2);
+                users.add(user3);
+                users.add(user4);
 
-
-                conversation.addMessage(message);
-                conversation2.addMessage(message);
-                conversation3.addMessage(message);
-                user.getConvs().add(conversation);
-                user.getConvs().add(conversation2);
-                user.getConvs().add(conversation3);
-                ((MessagerieController)controller).setAndLoad(user);
-
+                JsonUtil.usersToJson(users);
+                User.setNbUsers(4);
+                ((MessagerieController) controller).setAndLoad(userMain);
             }
             if(position == 22){
                 ((PostEditController)controller).setPart2(false);
@@ -434,6 +440,7 @@ public class MainController implements Initializable {
                 ((PostEditController)controller).setModify(modify);
                 ((PostEditController)controller).initData(post);
             }
+
             currentHexagon = controller.getHexagon();
             paneCenter.getChildren().setAll(pane);
         }
@@ -502,6 +509,7 @@ public class MainController implements Initializable {
             case 23 -> loadFXML("/HexagonOverviewToolPost.fxml", PostOverviewController.class);
             case 17 -> loadFXML("/HexagonAllPost.fxml", PostEditController.class);
             case 22 -> loadFXML("/HexagonNew.fxml", PostEditController.class);
+            case 26 -> loadFXML("/HexagonConv.fxml", ConversationController.class);
         }
     }
 
@@ -531,25 +539,26 @@ public class MainController implements Initializable {
                 ((PostEditController)controller).initData(null);
             }
 
-            if(controller instanceof MessagerieController){
+            if(position == 20){
+                Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
                 Address adresse = new Address(5,"d",6,"y","h", "s");
-                User user = new User("test", "test", "test@test.com", "Rezko", "a", adresse,null);
-                User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, null);
-                Message message = new Message(user,user2,"Salut", "now");
-                Conversation conversation = new Conversation(user,user2);
-                Conversation conversation2 = new Conversation(user,user2);
-                Conversation conversation3 = new Conversation(user,user2);
-
-
-                conversation.addMessage(message);
-                conversation2.addMessage(message);
-                conversation3.addMessage(message);
-                user.getConvs().add(conversation);
-                user.getConvs().add(conversation2);
-                user.getConvs().add(conversation3);
-                //System.out.println(User.getNbUsers());
-                ((MessagerieController)controller).setAndLoad(user);
-
+                User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
+                User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, image);
+                User user3 = new User("test3", "test2","aaa", "Rezko3", "pas", adresse, image);
+                User user4 = new User("test4", "test2","bbb", "Rezko4", "pas", adresse, image);
+                User.setNbUsers(0);
+                ArrayList<User> users = JsonUtil.jsonToUsers();
+                users.add(user);
+                users.add(user2);
+                users.add(user3);
+                users.add(user4);
+                JsonUtil.usersToJson(users);
+                User.setNbUsers(4);
+                ((MessagerieController)controller).setAndLoad(userMain);
+            }
+            if(position == 26){
+                ((ConversationController)controller).setConv(conversation);
+                ((ConversationController)controller).setAndLoad(userMain);
             }
             controller.getHexagon().setFill(Color.web("#F08A26"));
 

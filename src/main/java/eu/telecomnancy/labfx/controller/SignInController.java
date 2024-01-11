@@ -126,9 +126,6 @@ public class SignInController extends HexaSuper implements Initializable {
 
         else {
             users = JsonUtil.jsonToUsers();
-            for (User user : users){
-                System.out.println(user.getEmail());
-            }
             if (users.isEmpty()){
                 new Alert(Alert.AlertType.ERROR, "Veuillez vous inscrire avant de vous connecter").showAndWait();
             }
@@ -148,7 +145,7 @@ public class SignInController extends HexaSuper implements Initializable {
                     //new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
                     SceneController sceneController = new SceneController();
                     //sceneController.goToEditPost(event, null, false);
-                    sceneController.goToMain(event,14);
+                    sceneController.goToMainMessagerie(event,14,user,null);
 
                 }
             }
