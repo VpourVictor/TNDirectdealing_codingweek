@@ -145,7 +145,7 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     public void contact(ActionEvent event) throws IOException {
         String mail = mailChose.getText();
-        users = JsonUtil.jsonToUsers("src/main/resources/json/users.json");
+        users = JsonUtil.jsonToUsers();
         int i = 0;
         int nb_user = User.getNbUsers();
         while ((i < nb_user) && (!users.get(i).getEmail().equals(mail))) {

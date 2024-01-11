@@ -81,8 +81,6 @@ public class HomepageController extends HexaSuper{
         user.getConvs().add(conversation);
         user.getConvs().add(conversation2);
         user.getConvs().add(conversation3);
-        JsonUtil.registerNewUser(user);
-        JsonUtil.registerNewUser(user2);
         System.out.println(User.getNbUsers());
         MessagerieController messagerieController = loader.getController();
         messagerieController.setAndLoad(user);
