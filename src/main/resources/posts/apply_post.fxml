@@ -17,5 +17,6 @@
          </content>
        </ScrollPane>
       <Button layoutX="35.0" layoutY="31.0" mnemonicParsing="false" onAction="#save_application" text="Valider" />
+      <Button layoutX="518.0" layoutY="19.0" mnemonicParsing="false" onAction="#back" text="Retour" />
    </children>
 </AnchorPane>

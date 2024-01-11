@@ -61,9 +61,12 @@ public class PostApplyController {
         applications = JsonUtil.jsonToApplications();
         ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
         for (User user : users) {
-            if (user.isConnected())
+            if (user.isConnected()){
                 applicationToPost.setApplicantEmail(user.getEmail());
+                user.getAppliedToPosts().add(post.getIdPost());
+            }
         }
+        JsonUtil.usersToJson((ArrayList<User>) users);
         applicationToPost.setDates(PostApplicationController.getDatesAppli());
         applications.add(applicationToPost);
         JsonUtil.applicationsToJson(applications);
@@ -79,5 +82,10 @@ public class PostApplyController {
         SceneController sceneController = new SceneController();
         JsonUtil.postsToJson((ArrayList<Post>) posts);
         sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
+    }
+
+    public void back(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToAllPosts(event, (ArrayList<Post>) posts);
     }
 }

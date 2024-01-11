@@ -3,6 +3,7 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
@@ -221,7 +222,6 @@ public class PostEditController extends HexaSuper {
             new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
         }
         else {
-            // todo créer le user en fonction de la personne connectée
             User author = null;
             for (User user : users){
                 if (user.isConnected()){

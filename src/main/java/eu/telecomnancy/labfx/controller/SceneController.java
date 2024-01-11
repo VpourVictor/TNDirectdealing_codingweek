@@ -320,4 +320,21 @@ public class SceneController {
             }
         }
     }
+
+    public void goToMyApplication(ActionEvent event, ApplicationToPost application) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/my_application.fxml"));
+        try {
+            root = loader.load();
+            PostApplicationController controller = loader.getController();
+            controller.initData(application);
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

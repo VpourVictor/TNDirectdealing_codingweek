@@ -39,5 +39,6 @@
       <Button fx:id="demasquer" layoutX="13.0" layoutY="300.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
       <Button fx:id="postuler" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
       <Button fx:id="candidatures" layoutX="14.0" layoutY="426.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
+      <Button fx:id="open_candidature" layoutX="836.0" layoutY="21.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false"/>
    </children>
 </AnchorPane>

@@ -305,6 +305,13 @@ public class JsonUtil {
         user.setCoins(author.getInt("coins"));
         user.setConnected("true".equals(author.getString("isConnected")));
 
+        ArrayList<Integer> appliedPosts = new ArrayList<>();
+        JSONArray jsonAppliedPosts = author.getJSONArray("appliedToPosts");
+        for (int j = 0; j < jsonAppliedPosts.length(); j++) {
+            appliedPosts.add(jsonAppliedPosts.getInt(j));
+        }
+        user.setAppliedToPosts(appliedPosts);
+
         return user;
     }
 

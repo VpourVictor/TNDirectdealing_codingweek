@@ -2,6 +2,7 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 public class PostOverviewController extends HexaSuper {
     private Post post;
+    private User user;
     @FXML
     public Text descriptionService;
     @FXML
@@ -107,9 +109,10 @@ public class PostOverviewController extends HexaSuper {
     private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     private ArrayList<ApplicationToPost> applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
+    @FXML
+    public Button open_candidature;
 
-    private static final String DEFAULT_CONTROL_INNER_BACKGROUND = "derive(-fx-base,80%)";
-    private static final String HIGHLIGHTED_CONTROL_INNER_BACKGROUND = "derive(palegreen, 50%)";
+    private ApplicationToPost applicationToPost;
 
     @FXML
     void initialize() {
@@ -123,7 +126,35 @@ public class PostOverviewController extends HexaSuper {
 
     public void initData(Post post) {
         posts = JsonUtil.jsonToPosts();
+        users = JsonUtil.jsonToUsers();
+        for (User user : users){
+            if (user.isConnected()){
+                this.user = user;
+                break;
+            }
+        }
+
+        AlgoUtil algoUtil = new AlgoUtil(posts);
+        ArrayList<Post> applied = algoUtil.postAppliedToByUser(this.user);
+
         this.post = post;
+        if (applied != null){
+            if (applied.size() == 1){
+                postuler.setVisible(false);
+            }
+            for (Post post1 : applied){
+                if (post1.getIdPost() == post.getIdPost()){
+                    open_candidature.setVisible(true);
+                    for (ApplicationToPost application : applications){
+                        if (application.getApplicantEmail().equals(this.user.getEmail())){
+                            applicationToPost = application;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
@@ -152,8 +183,16 @@ public class PostOverviewController extends HexaSuper {
                         demasquer.setDisable(false);
                     }
                 }
-                else
-                    postuler.setVisible(true);
+                else{
+                    if (applied != null){
+                        if (applied.size() == 1){
+                            postuler.setVisible(false);
+                        }
+                    }
+                    else {
+                        postuler.setVisible(true);
+                    }
+                }
             }
         }
 
@@ -212,14 +251,6 @@ public class PostOverviewController extends HexaSuper {
 
     public void viewAll(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        /*for (int i = 0; i < posts.size(); i++){
-            if (posts.get(i).getState().equals(State.MASQUE)){
-                int id = posts.get(i).getIdPost();
-                Post.getListId().remove((Integer) id);
-                posts.remove(posts.get(i));
-            }
-        }*/
-
         sceneController.goToAllPosts(event, posts);
     }
 
@@ -296,8 +327,17 @@ public class PostOverviewController extends HexaSuper {
         sceneController.goToApplyPost(event, post);
     }
 
+    // todo random
+    // si il fait supprimer voir ce que les candidatures deviennent
+
+
     public void show_applications(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToApplications(event, post);
+    }
+
+    public void open(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMyApplication(event, applicationToPost);
     }
 }
