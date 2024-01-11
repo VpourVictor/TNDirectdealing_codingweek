@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class User extends Person {
+
     private boolean isConnected;
     private String pseudo;
     private String password;
@@ -72,5 +73,6 @@ public class User extends Person {
 
     public void addConv(Conversation conv){
         convs.add(conv);
-    }
+    }       //TODO mettre à jour dans le json
+
 }

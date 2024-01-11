@@ -333,7 +333,132 @@ public class JsonUtil {
             return null;
         }
     }
+
+    public static JSONObject messageToJson(Message message) {
+        JSONObject json = new JSONObject();
+        String path = "src/main/resources/json/messages.json";
+
+        try {
+            json.put("id", message.getId());
+            json.put("contenu", message.getContent());
+            json.put("sender", message.getSender());
+            json.put("receiver", message.getReceiver());
+            json.put("date", message.getDate());
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void saveMsgInJason(Message msg){
+        String path = "src/main/resources/json/messages.json";
+        ArrayList<Message> list = recupMsgData(path);
+        list.add(msg);
+        sendMsgInJason(list, path);
+    }
+
+    public static ArrayList<Message> recupMsgData(String path){
+        try {
+            JSONObject json = readJsonFileFromPath(path);
+            ArrayList<Message> list = new ArrayList<>();
+
+            int nb_msgs = Message.getNb_msgs();
+            if (nb_msgs == 0){
+                return list;
+            }
+
+            for (int i = 1; i <= nb_msgs ; i++){
+                JSONObject jsonmsg = json.getJSONObject("message" + i);
+                Message msg = jsonToMessage(jsonmsg);
+                Message.setNb_msgs(Message.getNb_msgs()-1);
+                list.add(msg);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException("Error in jsonToUserList the JSONFile", e);
+        }
+    }
+
+    public static Message jsonToMessage(JSONObject jsonmsg){
+        String sendermail = jsonmsg.getString("sender");
+        String receivermail = jsonmsg.getString("receiver");
+        User sender = getUserFromMail(sendermail);
+        User receiver = getUserFromMail(receivermail);
+        Message message = new Message(sender, receiver, jsonmsg.getString("contenu"), jsonmsg.getString("date"));
+        return message;
+    }
+
+    public static void sendMsgInJason(ArrayList<Message> list, String path){
+        JSONObject msgJson = new JSONObject();
+        try {
+            if (!list.isEmpty()){
+                int index = 1;
+                for (Message message : list) {
+                    JSONObject jsonMsg = messageToJson(message);
+                    msgJson.put("message" + index, jsonMsg);
+                    index++;
+                }
+            }
+            else {
+                msgJson.put("user0", "");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        writeJsonInJsonFile(path, msgJson);
+    }
+
+    public static User getUserFromMail(String mail){
+        try {
+            ArrayList<User> users = JsonUtil.jsonToUsers();
+            int i = 0;
+            int nb_user = User.getNbUsers();
+            while ((i < nb_user) && (!users.get(i).getEmail().equals(mail))) {
+                i++;
+            }
+            User user = users.get(i);
+            return user;
+        }
+        catch (Exception e){throw new RuntimeException(e);} //TODO check si c'est ok comme ca (cas ou on creer un msg avec un user qui n'existe pas) (ne peut pas arriver normalement, msg dans discussion)
+    }
+
+    public static void writeJsonInJsonFile(String path, JSONObject json ){
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(json.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static JSONObject readJsonFileFromPath (String path){
+        try {
+            InputStream is = new FileInputStream(path);
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while (line != null) {
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            return json;
+        }
+
+        catch (Exception e) {
+            throw new RuntimeException("Error in readJsonFileFromPath", e);
+        }
+
+    }
 }
+
+
 
 
 

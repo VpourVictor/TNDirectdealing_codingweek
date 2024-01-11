@@ -107,10 +107,8 @@ public class ConversationController implements Initializable {
             String msg = msgText.getText();
             String date = dtf.format(now);
             msgText.setText("");
-            Message message = new Message(user, conv.getOther(user), msg, date);
+            Message message = new Message(user, conv.getOther(user), msg, date);    //TODO ajouter le message au json
             conv.addMessage(message);
-            //SceneController sc = new SceneController();
-            //sc.openConv(user, conv, event);
             reload();
         }
     }

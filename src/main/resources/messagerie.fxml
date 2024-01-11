@@ -5,13 +5,16 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="background" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.MessagerieController">
@@ -45,10 +48,10 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="362.0" prefWidth="300.0" spacing="50.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goToAccueil" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Accueil" />
-                  <Button mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Nouvelle Conversation" />
-                  <Button mnemonicParsing="false" onAction="#supprMessage" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Supprimer message" />
-                  <Button mnemonicParsing="false" onAction="#changeInfo" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Modifier mes informations" />
+                  <Button fx:id="boutonAccueil" mnemonicParsing="false" onAction="#goToAccueil" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Accueil" />
+                  <Button fx:id="boutonConv" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Nouvelle Conversation" />
+                  <Button fx:id="boutonMessage" mnemonicParsing="false" onAction="#supprMessage" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Supprimer message" />
+                  <Button fx:id="boutonInfo" mnemonicParsing="false" onAction="#changeInfo" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Modifier mes informations" />
                </children>
             </VBox>
          </children>
@@ -92,5 +95,27 @@
             <String fx:value="background" />
          </styleClass>
       </ScrollPane>
+      <Pane layoutX="480.0" layoutY="230.0" prefHeight="378.0" prefWidth="503.0">
+         <children>
+            <Polygon fx:id="polygon" fill="#f89886" layoutX="-496.0" layoutY="-207.0" points="866.0, 585.0, 993.0, 385.0, 866.0, 185.0, 619.0, 185.0, 500.0, 385.0, 619.0, 585.0" stroke="BLACK" strokeType="INSIDE" />
+            <TextField fx:id="mailChose" layoutX="117.0" layoutY="166.0" prefHeight="25.0" prefWidth="274.0" promptText="email">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </TextField>
+            <Button fx:id="boutonContact" layoutX="202.0" layoutY="215.0" mnemonicParsing="false" onAction="#contact" prefHeight="25.0" prefWidth="99.0" text="Contacter" />
+            <Label fx:id="prompt1" layoutX="76.0" layoutY="89.0" text="Qui souhaitez vous contacter?">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="prompt2" layoutX="142.0" layoutY="312.0" text="ERREUR : Utilisateur introuvable" textFill="#c30000">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="boutonAnnuler" layoutX="202.0" layoutY="254.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="99.0" text="Annuler" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
