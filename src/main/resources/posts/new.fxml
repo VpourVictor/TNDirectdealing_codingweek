@@ -53,7 +53,7 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="ponctuelles" layoutX="398.0" layoutY="159.0" mnemonicParsing="false" text="Date(s) ponctuelles" toggleGroup="$type_date" />
-      <RadioButton fx:id="ponctuelles_rec" layoutX="534.0" layoutY="159.0" mnemonicParsing="false" text="Date(s) ponctuelles récurrentes" toggleGroup="$type_date" />
+      <!--<RadioButton fx:id="ponctuelles_rec" layoutX="534.0" layoutY="159.0" mnemonicParsing="false" text="Date(s) ponctuelles récurrentes" toggleGroup="$type_date" />-->
       <Text layoutX="280.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour la séléction des dates, il y a 3 options :&#10;- plage où date de début et de fin sont nécessaires&#10;- dates ponctuelles (qui sont toutes à préciser)&#10;- dates ponctuelles récurrentes dont la fréquence est à définir)" />
       <ListView fx:id="listDate" layoutX="534.0" layoutY="187.0" prefHeight="104.0" prefWidth="200.0" />
    </children>

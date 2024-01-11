@@ -59,7 +59,7 @@ public class User extends Person {
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();
     }
-    private double getEvaluation(){
+    public double getEvaluation(){
         double finalNote = 0;
         for(Double note: this.evaluationList) {
             finalNote = finalNote + note;
