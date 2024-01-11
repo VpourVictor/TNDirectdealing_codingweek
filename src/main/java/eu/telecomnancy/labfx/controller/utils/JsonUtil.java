@@ -76,6 +76,7 @@ public class JsonUtil {
             json.put("description", post.getDescription());
             json.put("author_email", post.getAuthorEmail());
             json.put("dates", post.getDates());
+            json.put("datesOccupied", post.getDatesOccupied());
             json.put("address", adressToJson(post.getAddress()));
             if (post.getImage() != null)
                 json.put("path", post.getImage().getUrl());
@@ -168,6 +169,12 @@ public class JsonUtil {
                 dates.add(LocalDate.parse(jsonDates.getString(j)));
             }
 
+            JSONArray jsonDatesOccupied = jsonObject.getJSONArray("datesOccupied");
+            ArrayList<LocalDate> datesOccupied = new ArrayList<>();
+            for (int j = 0; j < jsonDatesOccupied.length(); j++) {
+                datesOccupied.add(LocalDate.parse(jsonDatesOccupied.getString(j)));
+            }
+
             State state = State.valueOf(jsonObject.getString("state"));
 
             List<Person> providers = null;
@@ -189,12 +196,12 @@ public class JsonUtil {
 
             if (type.equals("service")) {
                 return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
                         jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers);
             }
             else if (type.equals("tool")) {
                 return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
                         jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"));
             }
             else
@@ -446,6 +453,15 @@ public class JsonUtil {
             throw new RuntimeException("Error in readJsonFileFromPath", e);
         }
 
+    }
+
+    public static List<ApplicationToPost> jsonToApplications() {
+        // todo
+        return null;
+    }
+
+    public static void applicationsToJson(List<ApplicationToPost> applications) {
+        // todo
     }
 }
 

@@ -44,7 +44,8 @@
       <Label fx:id="email" layoutX="267.0" layoutY="169.0" prefHeight="18.0" prefWidth="175.0" />
       <ListView fx:id="listDate" layoutX="101.0" layoutY="517.0" prefHeight="148.0" prefWidth="288.0" />
       <Label fx:id="type_date" layoutX="409.0" layoutY="517.0" prefHeight="18.0" prefWidth="142.0" />
-      <Button fx:id="masquer" layoutX="8.0" layoutY="281.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false"/>
-      <Button fx:id="demasquer" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false"/>
+      <Button fx:id="masquer" layoutX="8.0" layoutY="281.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false" />
+      <Button fx:id="demasquer" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
+      <Button fx:id="postuler" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false"/>
    </children>
 </AnchorPane>

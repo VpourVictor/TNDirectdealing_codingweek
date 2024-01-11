@@ -90,6 +90,8 @@ public class PostOverviewController extends HexaSuper {
 
     @FXML Button demasquer;
 
+    @FXML Button postuler;
+
     private ArrayList<User> users = JsonUtil.jsonToUsers();
 
     @FXML
@@ -130,6 +132,8 @@ public class PostOverviewController extends HexaSuper {
                         demasquer.setDisable(false);
                     }
                 }
+                else
+                    postuler.setVisible(true);
             }
         }
 
@@ -237,5 +241,10 @@ public class PostOverviewController extends HexaSuper {
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, posts);
+    }
+
+    public void apply(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToApplyPost(event, post);
     }
 }
