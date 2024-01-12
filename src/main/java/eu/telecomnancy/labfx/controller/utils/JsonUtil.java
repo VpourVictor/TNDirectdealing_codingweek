@@ -91,10 +91,12 @@ public class JsonUtil {
                 json.put("type", "service");
                 json.put("descriptionService", post.getDescriptionService());
                 json.put("providers", providersToJson(post.getProviders()));
+                json.put("sensService", post.getSensService());
             }
             else if (post instanceof Tool) {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
+                json.put("sensTool", post.getSensTool());
             }
 
             return json;
@@ -203,14 +205,29 @@ public class JsonUtil {
             Type_Date type_date = Type_Date.valueOf(jsonObject.getString("type_date"));
 
             if (type.equals("service")) {
-                return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId);
+                if (jsonObject.getString("sensService").equals("PROPOSITION")){
+                    return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId, SensService.PROPOSITION);
+                }
+                else {
+                    return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId, SensService.DEMANDE);
+
+                }
             }
             else if (type.equals("tool")) {
-                return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId);
+                if (jsonObject.getString("sensTool").equals("PRET")){
+                    return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId, SensTool.PRET);
+                }
+                else {
+                    return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId, SensTool.EMPRUNT);
+                }
             }
             else
                 return null;
@@ -311,7 +328,15 @@ public class JsonUtil {
         for (int j = 0; j < jsonAppliedPosts.length(); j++) {
             appliedPosts.add(jsonAppliedPosts.getInt(j));
         }
+
+        ArrayList<Integer> postedPosts = new ArrayList<>();
+        JSONArray jsonPostedPosts = author.getJSONArray("posts");
+        for (int j = 0; j < jsonPostedPosts.length(); j++) {
+            postedPosts.add(jsonPostedPosts.getInt(j));
+        }
+
         user.setAppliedToPosts(appliedPosts);
+        user.setPostedPosts(postedPosts);
 
         return user;
     }
@@ -439,9 +464,7 @@ public class JsonUtil {
         try {
             ArrayList<User> users = jsonToUsers();
             int i = 0;
-            System.out.println(mail);
             while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
-                System.out.println(users.get(i).getEmail());
                 i++;
             }
             if(i == User.getNbUsers()){
@@ -733,6 +756,88 @@ public class JsonUtil {
         System.out.println(recupConvFromJson().size());
         convs.removeIf(conversation -> (!(conversation.getUser1().getEmail().equals(user.getEmail())) && (!conversation.getUser2().getEmail().equals(user.getEmail()))));
         return convs;
+    }
+    public static void getNbApplications(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/applications.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            ApplicationToPost.setNbAppli(json.length());
+            if (ApplicationToPost.getNbAppli() == 0)
+                return;
+
+            for (int i = 1; i <= json.length() ; i++){
+                ApplicationToPost.getListId().add(i);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getNbPosts(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/posts.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            Post.setNbPosts(json.length());
+            if (Post.getNbPosts() == 0)
+                return;
+
+            for (int i = 1; i <= json.length() ; i++){
+                Post.getListId().add(i);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // faire avec user
+    public static void getNbUsers(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/users.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            User.setNbUsers(json.length());
+            if (User.getNbUsers() == 0)
+                return;
+            for (int i = 1; i <= json.length() ; i++){
+                // récupérer les mails
+                User.getEmailList().add(json.getJSONObject("user" + i).getString("email"));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

@@ -25,7 +25,10 @@ public class User extends Person {
     private ArrayList<Integer> appliedToPosts = new ArrayList<>();
     @Getter
     @Setter
-    private static int nbUsers = 4; //JsonUtil.jsonToUsers().size();
+    private static int nbUsers = 0;
+    @Getter
+    @Setter
+    private static ArrayList<String> emailList = new ArrayList<>();
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {

@@ -519,19 +519,19 @@ public class MainController implements Initializable {
             if(position == 22){
                 if(old_position == 21 || old_position ==24){
                     ((PostEditController)controller).setModify(modify);
-                    ((PostEditController)controller).initData(post);
+                    ((PostEditController)controller).initData(post, null);
                 }
                 ((PostEditController)controller).setPart2(false);
                 if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null)){
-                    ((PostEditController)controller).initData(post);
+                    ((PostEditController)controller).initData(post, null);
                 }
                 else {
-                    ((PostEditController)controller).initData(null);
+                    ((PostEditController)controller).initData(null, null);
                 }
             }
             if(position == 23){
                 ((PostEditController)controller).setModify(modify);
-                ((PostEditController)controller).initData(post);
+                ((PostEditController)controller).initData(post, null);
             }
 
             currentHexagon = controller.getHexagon();
@@ -623,14 +623,14 @@ public class MainController implements Initializable {
             if(position == 24 || position == 21){
                 ((PostEditController)controller).setPart2(true);
                 ((PostEditController)controller).setModify(modify);
-                ((PostEditController)controller).initData(post);
+                ((PostEditController)controller).initData(post, null);
 
             }
             if(position == 23 || position ==25){
                 ((PostOverviewController)controller).initData(post);
             }
             if (position == 17){
-                ((PostEditController)controller).initData(null);
+                ((PostEditController)controller).initData(null, null);
             }
             if(position == 27){
                 ((PostApplicationController)controller).initData(post);
@@ -638,11 +638,11 @@ public class MainController implements Initializable {
             if(position == 22){
                 if(old_position == 17){
                     ((PostEditController)controller).setPart2(false);
-                    ((PostEditController)controller).initData(null);
+                    ((PostEditController)controller).initData(null, null);
                 }
                 else {
                     ((PostEditController) controller).setModify(modify);
-                    ((PostEditController) controller).initData(post);
+                    ((PostEditController) controller).initData(post, null);
                 }
             }
             if(position == 28){
@@ -689,7 +689,7 @@ public class MainController implements Initializable {
             scaleTransition2.setToY(1.2);
 
 
-            KeyValue keyValue2 = new KeyValue(controller.getHexagon().fillProperty(), Color.web());
+            KeyValue keyValue2 = new KeyValue(controller.getHexagon().fillProperty(), Color.WHITE);
             KeyFrame keyFrame2 = new KeyFrame(Duration.millis(500), keyValue2);
 
             Timeline timeline2 = new Timeline(keyFrame2);

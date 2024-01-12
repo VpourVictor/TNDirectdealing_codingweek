@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SceneController {
     private Stage stage;
@@ -30,12 +31,12 @@ public class SceneController {
         goToMain(event, 7);
     }
 
-    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
+    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts, ArrayList<String> stateRadioBtn) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
-            controller.initData(null);
+            controller.initData(null, stateRadioBtn);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -84,7 +85,7 @@ public class SceneController {
             PostEditController controller = loader.getController();
             controller.setPart2(true);
             controller.setModify(modify);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -101,7 +102,7 @@ public class SceneController {
             PostEditController controller = loader.getController();
             controller.setModify(modify);
             controller.setPart2(true);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -135,7 +136,7 @@ public class SceneController {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setModify(modify);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -166,7 +167,7 @@ public class SceneController {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setPart2(false);
-            controller.initData(null);
+            controller.initData(null, null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -236,7 +237,6 @@ public class SceneController {
         }
 
     }
-
     public void goToMainEdit(ActionEvent event, int position, Post post, boolean modify) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
         try {
@@ -271,7 +271,6 @@ public class SceneController {
         }
 
     }
-
     public void goToMainValidate(ActionEvent event, int position, Post post) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
         try {
@@ -461,7 +460,7 @@ public class SceneController {
         goToMainApplication(event, 28, applicationToPost);
     }
 
-    public void goToAllPostsHexa(ActionEvent event, ArrayList<Post> posts) throws IOException {
+    public void goToAllPostsHexa(ActionEvent event, ArrayList<Post> posts, ArrayList<String> stateRadioBtn) throws IOException {
         goToMain(event, 17);
     }
 
@@ -549,7 +548,9 @@ public class SceneController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
     }

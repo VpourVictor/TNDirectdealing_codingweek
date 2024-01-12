@@ -21,7 +21,7 @@
             <Button mnemonicParsing="false" onAction="#newPost" prefHeight="26.0" prefWidth="94.0" text="Ajouter" />
             <VBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="368.0">
                <children>
-                  <RadioButton fx:id="allPost" mnemonicParsing="false" selected="true" text="Toutes les annonces ">
+                  <RadioButton fx:id="allPost" mnemonicParsing="false" onAction="#typeSelected" text="Toutes les annonces">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -29,12 +29,12 @@
                         <ToggleGroup fx:id="choicePost" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="onlyServices" mnemonicParsing="false" text="Services" toggleGroup="$choicePost">
+                  <RadioButton fx:id="onlyServices" mnemonicParsing="false" onAction="#typeSelected" text="Services" toggleGroup="$choicePost">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton fx:id="onlyTools" mnemonicParsing="false" text="Outils" toggleGroup="$choicePost">
+                  <RadioButton fx:id="onlyTools" mnemonicParsing="false" onAction="#typeSelected" text="Outils" toggleGroup="$choicePost">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -64,13 +64,16 @@
                               <Font size="16.0" />
                            </font>
                            <toggleGroup>
-                              <ToggleGroup fx:id="choiceLocation" />
+                              <ToggleGroup fx:id="C" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" text="Région" toggleGroup="$choiceLocation" GridPane.rowIndex="2">
+                        <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" text="Région" GridPane.rowIndex="2">
                            <font>
                               <Font size="16.0" />
                            </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="choiceLocation" />
+                           </toggleGroup>
                         </RadioButton>
                         <RadioButton fx:id="sortedByCity" mnemonicParsing="false" text="Ville" toggleGroup="$choiceLocation" GridPane.rowIndex="3">
                            <font>
@@ -87,7 +90,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <RadioButton fx:id="sortedByNote" mnemonicParsing="false" prefHeight="26.0" prefWidth="193.0" text="Note" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <RadioButton fx:id="sortedByNote" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Note" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -95,7 +98,7 @@
                               <ToggleGroup fx:id="choiceOthers" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByUser" mnemonicParsing="false" text="Utilisateur" toggleGroup="$choiceOthers" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <RadioButton fx:id="sortedByUser" mnemonicParsing="false" onAction="#typeSelected" text="Utilisateur" toggleGroup="$choiceOthers" GridPane.columnIndex="2" GridPane.rowIndex="2">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -105,7 +108,7 @@
                               <Font size="20.0" />
                            </font>
                         </Label>
-                        <RadioButton fx:id="sortedByStateFuture" mnemonicParsing="false" prefHeight="26.0" prefWidth="193.0" text="Futures" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <RadioButton fx:id="sortedByStateFuture" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Futures" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -113,12 +116,12 @@
                               <ToggleGroup fx:id="choiceState" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByStateCurrent" mnemonicParsing="false" prefHeight="26.0" prefWidth="193.0" text="En cours" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <RadioButton fx:id="sortedByStateCurrent" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="En cours" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByStateEnded" mnemonicParsing="false" text="Terminées" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <RadioButton fx:id="sortedByStateEnded" mnemonicParsing="false" onAction="#typeSelected" text="Terminées" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -146,12 +149,15 @@
    <left>
       <VBox alignment="CENTER" prefHeight="649.0" prefWidth="250.0" BorderPane.alignment="CENTER">
          <children>
-            <RadioButton fx:id="seeMyPosts" mnemonicParsing="false" prefHeight="22.0" prefWidth="170.0" text="Voir mes annonces">
+            <RadioButton fx:id="seeMyPosts" mnemonicParsing="false" onAction="#typeSelected" prefHeight="22.0" prefWidth="170.0" text="Voir mes annonces">
                <font>
                   <Font size="15.0" />
                </font>
+               <toggleGroup>
+                  <ToggleGroup fx:id="choiceMyPostedApplied" />
+               </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="seeMyAppliedPosts" mnemonicParsing="false" text="Voir mes candidatures">
+            <RadioButton fx:id="seeMyAppliedPosts" mnemonicParsing="false" onAction="#typeSelected" text="Voir mes candidatures" toggleGroup="$choiceMyPostedApplied">
                <font>
                   <Font size="15.0" />
                </font>

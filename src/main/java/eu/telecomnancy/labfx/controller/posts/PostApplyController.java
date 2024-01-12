@@ -72,7 +72,6 @@ public class PostApplyController extends HexaSuper {
                     dates.add(date);
                 }
             }
-
             PostApplyController.setModification(false);
             sceneController.goToChekcDate(dates, listDates, post, new ArrayList<>());
         }
@@ -103,7 +102,7 @@ public class PostApplyController extends HexaSuper {
             }
             SceneController sceneController = new SceneController();
             JsonUtil.postsToJson((ArrayList<Post>) posts);
-            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts);
+            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts, null);
         }
         else {
             applications = JsonUtil.jsonToApplications();
@@ -125,13 +124,13 @@ public class PostApplyController extends HexaSuper {
             }
             JsonUtil.postsToJson((ArrayList<Post>) posts);
             SceneController sceneController = new SceneController();
-            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts);
+            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts, null);
         }
     }
 
     public void back(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPostsHexa(event, (ArrayList<Post>) posts);
+        sceneController.goToAllPostsHexa(event, (ArrayList<Post>) posts, null);
     }
 
     public void initData(ApplicationToPost applicationToPost) {
@@ -145,7 +144,6 @@ public class PostApplyController extends HexaSuper {
                 checkedDates.add(date);
             }
         }
-
         PostApplyController.setModification(true);
         PostApplyController.setApplicationToPost(applicationToPost);
         sceneController.goToChekcDate(dates, listDates, post, checkedDates);

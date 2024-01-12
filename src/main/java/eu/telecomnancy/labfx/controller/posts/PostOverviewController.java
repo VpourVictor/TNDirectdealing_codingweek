@@ -115,6 +115,9 @@ public class PostOverviewController extends HexaSuper {
 
     private ApplicationToPost applicationToPost;
 
+    public Label sensService;
+    public Label sensTool;
+
     @FXML
     void initialize() {
         posts = JsonUtil.jsonToPosts();
@@ -237,6 +240,13 @@ public class PostOverviewController extends HexaSuper {
         } else if (post.getType_date() == Type_Date.PONCTUELLE_REC) {
             type_date.setText("Ponctuelle récurrente");
         }
+
+        if (post instanceof Service) {
+            sensService.setText(post.getSensService().toString());
+        } else if (post instanceof Tool) {
+            sensTool.setText(post.getSensTool().toString());
+        }
+
         title.setText(post.getTitle());
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
@@ -252,7 +262,7 @@ public class PostOverviewController extends HexaSuper {
 
     public void viewAll(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPostsHexa(event, posts);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
     public void delete(ActionEvent event) throws IOException {
@@ -288,7 +298,7 @@ public class PostOverviewController extends HexaSuper {
         JsonUtil.applicationsToJson(applications);
 
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPostsHexa(event, posts);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
     public void viewService(ActionEvent event) throws IOException {
@@ -325,7 +335,7 @@ public class PostOverviewController extends HexaSuper {
         }
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPostsHexa(event, posts);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
     public void show(ActionEvent event) throws IOException {
@@ -354,7 +364,7 @@ public class PostOverviewController extends HexaSuper {
 
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPostsHexa(event, posts);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
     public void apply(ActionEvent event) throws IOException {

@@ -26,8 +26,6 @@
             <Label fx:id="lastName" layoutX="317.0" layoutY="149.0" prefHeight="18.0" prefWidth="175.0" />
             <Label layoutX="-20.0" layoutY="179.0" prefHeight="18.0" prefWidth="70.0" text="Date début : " />
             <Label layoutX="-21.0" layoutY="207.0" prefHeight="18.0" prefWidth="70.0" text="Date fin : " />
-            <Label fx:id="dateStart" layoutX="80.0" layoutY="179.0" prefHeight="18.0" prefWidth="89.0" />
-            <Label fx:id="dateEnd" layoutX="79.0" layoutY="215.0" prefHeight="18.0" prefWidth="89.0" />
             <Label layoutX="-21.0" layoutY="239.0" prefHeight="18.0" prefWidth="58.0" text="Adresse :" />
             <Label fx:id="streetNumber" layoutX="50.0" layoutY="238.0" prefHeight="18.0" prefWidth="23.0" />
             <Label fx:id="streetName" layoutX="80.0" layoutY="238.0" prefHeight="18.0" prefWidth="133.0" />
@@ -47,6 +45,7 @@
             <Button fx:id="postuler" layoutX="366.0" layoutY="10.0" mnemonicParsing="false" onAction="#applyHexa" text="Postuler" visible="false" />
             <Button fx:id="candidatures" layoutX="464.0" layoutY="10.0" mnemonicParsing="false" onAction="#show_applicationsHexa" text="Candidatures" visible="false" />
             <Button fx:id="open_candidature" layoutX="178.0" layoutY="91.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false" />
+            <Label fx:id="sensTool" layoutX="252.0" layoutY="-52.0" prefHeight="18.0" prefWidth="110.0" />
          </children>
       </Group>
    </children>
