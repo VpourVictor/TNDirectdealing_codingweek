@@ -8,6 +8,7 @@ import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -133,7 +134,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveUpRight(MouseEvent event) throws InterruptedException, IOException {
+    public void moveUpRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             root.translateXProperty().set(offX+435);
             root.translateYProperty().set(offY-693);
@@ -193,7 +194,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveDownRight(MouseEvent event) throws InterruptedException, IOException {
+    public void moveDownRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
             root.translateXProperty().set(offX+435);
@@ -221,7 +222,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveLeft(MouseEvent event) throws InterruptedException, IOException {
+    public void moveLeft(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
             root.translateXProperty().set(offX-870);
@@ -249,7 +250,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveRight(MouseEvent event) throws InterruptedException, IOException {
+    public void moveRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
             root.translateXProperty().set(offX+870);
@@ -333,6 +334,58 @@ public class MainController implements Initializable {
     }
 
     public void handleMovement(int position){
+        paneUpLeft.setOnMouseClicked(event -> {
+            try {
+                moveUpLeft(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneUpRight.setOnMouseClicked(event -> {
+            try {
+                moveUpRight(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneDownLeft.setOnMouseClicked(event -> {
+            try {
+                moveDownLeft(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneDownRight.setOnMouseClicked(event -> {
+            try {
+                moveDownRight(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneLeft.setOnMouseClicked(event -> {
+            try {
+                moveLeft(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneRight.setOnMouseClicked(event -> {
+            try {
+                moveRight(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
         switch (position) {
             case 7:
                 paneUpLeft.setOnMouseClicked(null);
@@ -358,6 +411,7 @@ public class MainController implements Initializable {
         //TODO bloquer les voies
 
     }
+
 
     public void loadPosition() throws IOException {
         String fxmlPath = "";
@@ -413,7 +467,7 @@ public class MainController implements Initializable {
                 controllerType = PostOverviewController.class;
                 break;
             case 17 :
-                fxmlPath = "/HexagonAllPost.fxml";
+                fxmlPath = "/HexagonAll.fxml";
                 controllerType = PostEditController.class;
                 break;
             case 22 :
@@ -546,13 +600,12 @@ public class MainController implements Initializable {
             case 21 -> loadFXML("/HexagonEditTool.fxml", PostEditController.class);
             case 25 -> loadFXML("/HexagonOverviewServicePost.fxml", PostOverviewController.class);
             case 23 -> loadFXML("/HexagonOverviewToolPost.fxml", PostOverviewController.class);
-            case 17 -> loadFXML("/HexagonAllPost.fxml", PostEditController.class);
+            case 17 -> loadFXML("/HexagonAll.fxml", PostEditController.class);
             case 22 -> loadFXML("/HexagonNew.fxml", PostEditController.class);
             case 26 -> loadFXML("/HexagonConv.fxml", ConversationController.class);
             case 27 -> loadFXML("/HexagonAllApplication.fxml", PostApplicationController.class);
             case 28 -> loadFXML("/HexagonApply.fxml", PostApplyController.class);
             case 29 -> loadFXML("/HexagonMyApplication.fxml", PostApplicationController.class);
-            case 30 -> loadFXML("/HexagonAll.fxml", PostEditController.class);
 
         }
     }
@@ -576,7 +629,7 @@ public class MainController implements Initializable {
             if(position == 23 || position ==25){
                 ((PostOverviewController)controller).initData(post);
             }
-            if (position == 17 || position == 30){
+            if (position == 17){
                 ((PostEditController)controller).initData(null);
             }
             if(position == 27){
@@ -636,7 +689,7 @@ public class MainController implements Initializable {
             scaleTransition2.setToY(1.2);
 
 
-            KeyValue keyValue2 = new KeyValue(controller.getHexagon().fillProperty(), Color.WHITE);
+            KeyValue keyValue2 = new KeyValue(controller.getHexagon().fillProperty(), Color.web());
             KeyFrame keyFrame2 = new KeyFrame(Duration.millis(500), keyValue2);
 
             Timeline timeline2 = new Timeline(keyFrame2);
@@ -1044,7 +1097,7 @@ public class MainController implements Initializable {
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 14;
+                position = 17;
             }
             else {
                 position = 14;

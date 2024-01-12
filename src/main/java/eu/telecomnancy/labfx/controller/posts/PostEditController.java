@@ -187,7 +187,7 @@ public class PostEditController extends HexaSuper {
         }
     }
 
-    public void validatePart1(ActionEvent event) {
+    public void validatePart1(ActionEvent event) throws IOException {
         if (title.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Le titre ne peut pas être vide").showAndWait();
         }
@@ -270,7 +270,7 @@ public class PostEditController extends HexaSuper {
                 else {
                     modifierPost(datesList, author, address, state);
                 }
-                sceneController.goToEditService(event, post, modify);
+                sceneController.goToEditServiceHexa(event, post, modify);
             }
             else {
                 if (!modify){
@@ -280,7 +280,7 @@ public class PostEditController extends HexaSuper {
                 else {
                     modifierPost(datesList, author, address, state);
                 }
-                sceneController.goToEditTool(event, post, modify);
+                sceneController.goToEditToolHexa(event, post, modify);
             }
         }
     }
@@ -349,7 +349,7 @@ public class PostEditController extends HexaSuper {
             }
             posts.add(post);
             JsonUtil.postsToJson(posts);
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
         }
     }
 
@@ -375,26 +375,27 @@ public class PostEditController extends HexaSuper {
             JsonUtil.postsToJson(posts);
 /*            System.out.println(post.getIdPost());
             System.out.println(post.getAuthorEmail());*/
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
         }
     }
 
-    public void back(ActionEvent event) {
+    public void back(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post, modify);
+        sceneController.goToEditPostHexa(event, post, modify);
     }
 
-    public void back_to_view(ActionEvent event) {
+    public void back_to_view(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
         if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null))
-            sceneController.goToOverviewServicePost(event, post);
+
+            sceneController.goToOverviewServicePostHexa(event, post);
         else
-            sceneController.goToAllPosts(event, posts);
+            sceneController.goToAllPostsHexa(event, posts);
     }
 
-    public void newPost(ActionEvent event) {
+    public void newPost(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToCreatePost(event);
+        sceneController.goToCreatePostHexa(event);
     }
 
     public void validateNew(ActionEvent event) throws IOException {if (title.getText().isEmpty()) {
@@ -552,7 +553,7 @@ public class PostEditController extends HexaSuper {
 
 
 
-    public void logout(ActionEvent event) {
+    public void logout(ActionEvent event) throws IOException {
         for (User user : users){
             if (user.isConnected()){
                 user.setConnected(false);
@@ -561,6 +562,6 @@ public class PostEditController extends HexaSuper {
 
         JsonUtil.usersToJson(users);
         SceneController sceneController = new SceneController();
-        sceneController.goToAccueil(event);
+        sceneController.goToMain(event, 7);
     }
 }

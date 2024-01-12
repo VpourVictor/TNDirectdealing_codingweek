@@ -245,17 +245,17 @@ public class PostOverviewController extends HexaSuper {
         image.setImage(post.getImage());
     }
 
-    public void modify(ActionEvent event) {
+    public void modify(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post, true);
+        sceneController.goToEditPostHexa(event, post, true);
     }
 
-    public void viewAll(ActionEvent event) {
+    public void viewAll(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPostsHexa(event, posts);
     }
 
-    public void delete(ActionEvent event) {
+    public void delete(ActionEvent event) throws IOException {
         users = JsonUtil.jsonToUsers();
         posts = JsonUtil.jsonToPosts();
         applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
@@ -288,17 +288,17 @@ public class PostOverviewController extends HexaSuper {
         JsonUtil.applicationsToJson(applications);
 
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPostsHexa(event, posts);
     }
 
-    public void viewService(ActionEvent event) {
+    public void viewService(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToOverviewServicePost(event, post);
+        sceneController.goToOverviewServicePostHexa(event, post);
     }
 
-    public void viewTool(ActionEvent event) {
+    public void viewTool(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToOverviewToolPost(event, post);
+        sceneController.goToOverviewToolPostHexa(event, post);
     }
     public void deleteHexa(ActionEvent event) throws IOException {
         posts = JsonUtil.jsonToPosts();
@@ -316,7 +316,7 @@ public class PostOverviewController extends HexaSuper {
         //sceneController.goToAllPosts(event, posts);
     }
 
-    public void hide(ActionEvent event){
+    public void hide(ActionEvent event) throws IOException {
         for (Post value : posts) {
             if (value.getIdPost() == this.post.getIdPost()) {
                 if (value.getState().equals(State.EN_COURS) || value.getState().equals(State.FUTUR))
@@ -325,10 +325,10 @@ public class PostOverviewController extends HexaSuper {
         }
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPostsHexa(event, posts);
     }
 
-    public void show(ActionEvent event){
+    public void show(ActionEvent event) throws IOException {
         for (Post value : posts) {
             if (value.getIdPost() == this.post.getIdPost()) {
                 if (value.getState().equals(State.MASQUE)){
@@ -354,26 +354,26 @@ public class PostOverviewController extends HexaSuper {
 
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts);
+        sceneController.goToAllPostsHexa(event, posts);
     }
 
-    public void apply(ActionEvent event) {
+    public void apply(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToApplyPost(event, post);
+        sceneController.goToApplyPostHexa(event, post);
     }
 
     // todo random
     // si il fait supprimer voir ce que les candidatures deviennent
 
 
-    public void show_applications(ActionEvent event) {
+    public void show_applications(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToApplications(event, post);
+        sceneController.goToApplicationsHexa(event, post);
     }
 
-    public void open(ActionEvent event) {
+    public void open(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToMyApplication(event, applicationToPost);
+        sceneController.goToMyApplicationHexa(event, applicationToPost);
     }
 
     public void show_applicationsHexa(ActionEvent event) throws IOException {

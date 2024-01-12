@@ -176,7 +176,7 @@ public class MessagerieController extends HexaSuper implements Initializable {
                     user.addConv(conversation);
                     receiver.addConv(conversation);
                     SceneController sc = new SceneController();
-                    sc.openConv(user, conversation, event);
+                    sc.openConvHexa(user, conversation, event);
                 }
             }
         }

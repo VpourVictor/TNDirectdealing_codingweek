@@ -166,7 +166,7 @@
                               <Insets bottom="20.0" />
                            </padding>
                         </RadioButton>
-                        <Button mnemonicParsing="false" onAction="#logoutHexa" text="Déco" />
+                        <Button mnemonicParsing="false" onAction="#logout" text="Déco" />
                      </children>
                   </VBox>
                </left>

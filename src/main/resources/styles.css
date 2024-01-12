@@ -42,39 +42,23 @@
     -fx-margin: 20px;
     -fx-position: relative;
     -fx-border-width: 2px;
-    -fx-border-color: #560bad;
+    -fx-border-color: #6c2466;
     -fx-transition: -fx-text-fill .5s;
     -fx-z-index: 1;
     -fx-font-size: 17px;
     -fx-border-radius: 6px;
     -fx-font-weight: 500;
-    -fx-text-fill: #560bad;
+    -fx-text-fill: #6c2466;
 }
 
 .button_test:hover {
-    -fx-text-fill: #fff;
+    -fx-border-radius: 6px;
+    -fx-margin: 20px;
+    -fx-border-width: 2px;
+    -fx-background-color: #e2b7df;
+
 }
 
-.button_test .before {
-    -fx-content: "";
-    -fx-position: absolute;
-    -fx-z-index: -1;
-    -fx-background-color: #560bad;
-    -fx-height: 150px;
-    -fx-width: 200px;
-    -fx-border-radius: 50%;
-}
-
-.button_test:hover .before {
-    -fx-top: -30px;
-    -fx-left: -30px;
-    -fx-transition: all .7s;
-}
-
-.button_test:pressed .before {
-    -fx-background-color: #3a0ca3;
-    -fx-transition: -fx-background-color 0s;
-}
 
 .login__input {
     -fx-border-style: none none none none;

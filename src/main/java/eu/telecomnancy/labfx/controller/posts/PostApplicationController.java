@@ -146,15 +146,7 @@ public class PostApplicationController extends HexaSuper {
 
     }
 
-    public void back(ActionEvent event) {
-        SceneController sceneController = new SceneController();
-        if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
-
-        if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
-    }
-    public void backHexa(ActionEvent event) throws IOException {
+    public void back(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
             sceneController.goToOverviewServicePostHexa(event, post);
@@ -163,7 +155,7 @@ public class PostApplicationController extends HexaSuper {
             sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void accept(ActionEvent event) {
+    public void accept(ActionEvent event) throws IOException {
         applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
         for (ApplicationToPost application : applications) {
 
@@ -175,13 +167,13 @@ public class PostApplicationController extends HexaSuper {
         JsonUtil.applicationsToJson(applications);
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void refuse(ActionEvent event) {
+    public void refuse(ActionEvent event) throws IOException {
         applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
         for (ApplicationToPost application : applications) {
             if (application.getIdAppli() == applicationToPost.getIdAppli()) {
@@ -208,13 +200,13 @@ public class PostApplicationController extends HexaSuper {
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void delete(ActionEvent event) {
+    public void delete(ActionEvent event) throws IOException {
         users = JsonUtil.jsonToUsers();
         for (User user : users) {
             if (user.isConnected()){
@@ -262,15 +254,15 @@ public class PostApplicationController extends HexaSuper {
         JsonUtil.applicationsToJson(applications);
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
 
     }
 
-    public void modify(ActionEvent event) {
+    public void modify(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToModifApplication(event, applicationToPost);
+        sceneController.goToModifApplicationHexa(event, applicationToPost);
     }
 }

@@ -21,6 +21,7 @@ import javafx.scene.shape.Polygon;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,7 +78,7 @@ public class PostApplyController extends HexaSuper {
         }
     }
 
-    public void save_application(ActionEvent actionEvent) {
+    public void save_application(ActionEvent actionEvent) throws IOException {
         if (!isModification){
             applications = JsonUtil.jsonToApplications();
             ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
@@ -102,7 +103,7 @@ public class PostApplyController extends HexaSuper {
             }
             SceneController sceneController = new SceneController();
             JsonUtil.postsToJson((ArrayList<Post>) posts);
-            sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
+            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts);
         }
         else {
             applications = JsonUtil.jsonToApplications();
@@ -124,13 +125,13 @@ public class PostApplyController extends HexaSuper {
             }
             JsonUtil.postsToJson((ArrayList<Post>) posts);
             SceneController sceneController = new SceneController();
-            sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
+            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts);
         }
     }
 
-    public void back(ActionEvent event) {
+    public void back(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, (ArrayList<Post>) posts);
+        sceneController.goToAllPostsHexa(event, (ArrayList<Post>) posts);
     }
 
     public void initData(ApplicationToPost applicationToPost) {
