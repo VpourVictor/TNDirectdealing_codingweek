@@ -96,12 +96,6 @@ public class HexagonController{
                     animation();
 
                 }
-                else if (loaderPos.equals("UR")) {
-                    labelDownLeft.setText("Template");
-                    labelDownLeft.setVisible(true);
-                    animation();
-
-                }
                 else if (loaderPos.equals("L")) {
                     labelRight.setText("Messagerie");
                     labelRight.setVisible(true);

@@ -4,23 +4,58 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane fx:id="hexagonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.HexagonBoardController">
    <children>
-      <Polygon fx:id="hexagon" fill="WHITE" layoutX="342.0" layoutY="40.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+      <Polygon fx:id="hexagon" fill="WHITE" layoutX="342.0" layoutY="40.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="20.0" />
       <Group layoutX="57.0" layoutY="163.0" />
-      <Label fx:id="message" alignment="CENTER" layoutX="217.0" layoutY="172.0" prefHeight="49.0" prefWidth="297.0">
+      <Group layoutX="-245.0" layoutY="-41.0">
+         <children>
+            <Group layoutX="329.0" layoutY="71.0">
+               <children>
+                  <Line endX="-72.20001220703125" endY="688.0" layoutX="165.20001220703125" layoutY="1.0" startX="-237.4141845703125" startY="179.35748291015625" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="-239.4141845703125" endY="80.35748291015625" layoutX="165.60000610351562" layoutY="98.39999580383301" startX="302.3999938964844" startY="590.5999755859375" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="283.39996337890625" endY="-10.60000228881836" startX="468.0" startY="689.0" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="-82.60003662109375" endY="585.0" layoutX="1.60003662109375" layoutY="1.0" startX="282.5999755859375" startY="-9.200000762939453" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="639.9857788085938" endY="78.52908325195312" layoutX="0.60003662109375" layoutY="502.6283874511719" startX="-74.22845458984375" startY="78.52908325195312" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="472.1999816894531" endY="583.5999755859375" layoutX="168.80001831054688" layoutY="2.4000015258789062" startX="-226.20004272460938" startY="184.60000610351562" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="-63.800048828125" endY="588.5999755859375" layoutX="531.2000122070312" layoutY="100.00000190734863" startX="107.4000244140625" startY="85.0" stroke="#f9ebde" strokeWidth="2.0" />
+                  <Line endX="641.0000610351562" endY="178.0" startX="93.0" startY="689.0" stroke="#f9ebde" strokeWidth="2.0" />
+               </children>
+            </Group>
+            <Group layoutX="268.0" layoutY="44.0">
+               <children>
+                  <Circle fill="#f08a26" layoutX="339.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="702.0" layoutY="613.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="-20.0" layoutY="613.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="702.0000305175781" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="-20.0" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="339.0" layoutY="832.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="529.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Circle fill="#f08a26" layoutX="154.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+               </children>
+            </Group>
+         </children>
+      </Group>
+      <Label fx:id="message1" alignment="CENTER" layoutX="28.0" layoutY="122.0" prefHeight="49.0" prefWidth="675.0" text="Bienvenue">
          <font>
-            <Font size="18.0" />
+            <Font name="Eras Demi ITC" size="41.0" />
+         </font>
+      </Label>
+      <Pane fx:id="calendarPane" layoutX="95.0" layoutY="259.0" prefHeight="355.0" prefWidth="560.0" />
+      <Label fx:id="message" alignment="CENTER" layoutX="27.0" layoutY="172.0" prefHeight="49.0" prefWidth="675.0" text="Pseudo">
+         <font>
+            <Font name="Eras Demi ITC" size="41.0" />
          </font></Label>
-      <Text layoutX="203.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voilà ton planning du mois" textAlignment="CENTER" wrappingWidth="325.0">
+      <Text layoutX="203.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voici ton planning du mois" textAlignment="CENTER" wrappingWidth="325.0">
          <font>
-            <Font size="15.0" />
+            <Font name="Eras Medium ITC" size="18.0" />
          </font>
       </Text>
-      <Pane fx:id="calendarPane" layoutX="95.0" layoutY="259.0" prefHeight="355.0" prefWidth="560.0" />
    </children>
 </Pane>

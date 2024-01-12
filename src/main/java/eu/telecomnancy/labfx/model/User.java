@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -39,7 +40,7 @@ public class User extends Person {
     public User(String prenom, String nom, String email) {
         super(prenom, nom, email);
         this.convs = new ArrayList<Conversation>();
-        this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+        this.profilePicture = new Image(JsonUtil.class.getResource("/pictures/defaultpfp.jpg").toExternalForm());
         nbUsers++;
     }
 
@@ -47,7 +48,7 @@ public class User extends Person {
         super(prenom, nom, mail);
         this.pseudo = pseudo;
         this.convs = new ArrayList<Conversation>();
-        this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+        this.profilePicture = new Image(JsonUtil.class.getResource("/pictures/defaultpfp.jpg").toExternalForm());
     }
 
     public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
@@ -63,12 +64,17 @@ public class User extends Person {
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();
     }
-    public double getEvaluation(){
-        double finalNote = 0;
-        for(Double note: this.evaluationList) {
-            finalNote = finalNote + note;
+    public long getEvaluation(){
+        if (!evaluationList.isEmpty()) {
+            Double finalNote = 0.;
+            for (Double note : this.evaluationList) {
+                finalNote = finalNote + note;
+            }
+            return Math.round(finalNote / (2*getNumberOfEvaluations()));
         }
-        return finalNote/getNumberOfEvaluations();
+        else{
+            return 5;
+        }
     }
 
     public void delConv(Conversation conv){

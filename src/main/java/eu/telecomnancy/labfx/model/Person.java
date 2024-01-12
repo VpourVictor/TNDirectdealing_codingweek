@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class Person {
-    private final SimpleStringProperty firstName;
-    private final SimpleStringProperty lastName;
+    private SimpleStringProperty firstName;
+    private SimpleStringProperty lastName;
     private final SimpleStringProperty email;
     @Getter
     @Setter
@@ -30,6 +30,14 @@ public abstract class Person {
 
     public String getFirstName() {
         return firstName.get();
+    }
+
+    public void setFirstName(String name){
+        firstName = new SimpleStringProperty(name);
+    }
+
+    public void setLastName(String name){
+        lastName = new SimpleStringProperty(name);
     }
 
     public SimpleStringProperty firstNameProperty() {

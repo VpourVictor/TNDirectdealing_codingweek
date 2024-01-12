@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -242,8 +243,6 @@ public class SignUpController extends HexaSuper{
     }
     @FXML
     public void validate(ActionEvent event) throws IOException {
-        passwordHidden.setText("a");
-        passwordText.setText("a");
         if (firstnameTextField.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
         }
@@ -284,14 +283,12 @@ public class SignUpController extends HexaSuper{
             new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
         }
         else {
-
             users = JsonUtil.jsonToUsers();
 
             if (emailAlreadyUsed(mailTextField.getText())) {
                 new Alert(Alert.AlertType.ERROR, "Cet email est déjà associé à un compte existant").showAndWait();
             } else {
                 User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
-
                 Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
                         streetNameTF.getText(),
                         Integer.parseInt(postalCodeTF.getText()),
@@ -301,8 +298,10 @@ public class SignUpController extends HexaSuper{
                 user.setAddress(address);
 
                 user.setPseudo(pseudoTextField.getText());
-                user.setCoins(50);
-                user.setProfilePicture(imageProfile.getImage());
+                user.setCoins(45);
+                if (!(imageProfile.getImage() == null)){
+                    user.setProfilePicture(imageProfile.getImage());
+                }
                 user.setPassword(passwordValue());
                 user.setConnected(true);
                 users.add(user);

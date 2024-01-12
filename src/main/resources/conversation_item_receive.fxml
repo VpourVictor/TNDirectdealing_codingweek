@@ -3,18 +3,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="910.0" styleClass="msg-style" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
+<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="630.0" styleClass="msg-style-receive" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
    <children>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="205.0" spacing="7.0">
+      <VBox alignment="CENTER" prefHeight="50.0" prefWidth="93.0">
          <children>
-            <Label text="Date d'envoi :" />
-            <Label fx:id="dateText" text="14/05, 14h35" />
+            <Label text="Date d'envoi :" textFill="WHITE" />
+            <Label fx:id="dateText" text="14/05, 14h35" textFill="WHITE" />
          </children>
-      </HBox>
-      <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut, tu fais quoi? slt" wrappingWidth="700.0">
+      </VBox>
+      <Text fx:id="message" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut, tu fais quoi? slt" wrappingWidth="534.4000496864319">
          <font>
             <Font size="18.0" />
          </font>

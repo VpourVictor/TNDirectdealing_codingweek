@@ -45,6 +45,7 @@ public class Main extends Application {
         JsonUtil.usersToJson(users);
 
         primaryStage.setTitle("JavaFx Demo");
+        primaryStage.setTitle("DirectDealing");
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
 
@@ -58,9 +59,6 @@ public class Main extends Application {
         int height = (int) screen.getBounds().getHeight();
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
-        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
-        Pane paneBoard = loader2.load();
-        HexagonBoardController c = loader2.getController();
         double[] coord = mainController.getLayout();
         int offX = (int) -coord[0];
         int offY = (int) -coord[1];
@@ -70,7 +68,10 @@ public class Main extends Application {
         mainController.setOffY(offY);
         //primaryStage.setFullScreen(true);
         MainController.setRoot(root);
-        mainController.setPosition(0);
+        mainController.setPosition(7);
+        //mainController.getPaneTest().setVisible(false);
+        mainController.teleportation(7);
+        mainController.updateHexagon();
 
         primaryStage.show();
     }

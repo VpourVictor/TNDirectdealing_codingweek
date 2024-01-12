@@ -3,12 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="910.0" styleClass="msg-style" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
+<HBox alignment="CENTER_LEFT" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="630.0" styleClass="msg-style-send" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ConversationItemController">
     <children>
-      <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="edzddk,zeeeeeeeeeeeeeeeeeeeeeeeeezqwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww&#10;&#10;&#10;dcdsca" wrappingWidth="690.0">
+      <Text fx:id="message" strokeType="OUTSIDE" strokeWidth="0.0" text="Salut, Hello !" wrappingWidth="510.8000209927559">
          <font>
             <Font size="18.0" />
          </font>
@@ -16,12 +17,12 @@
             <Insets bottom="5.0" left="10.0" top="5.0" />
          </HBox.margin>
       </Text>
-        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="205.0" spacing="7.0">
-            <children>
+      <VBox alignment="CENTER" prefHeight="154.0" prefWidth="142.0">
+         <children>
                 <Label text="Date d'envoi :" />
                 <Label fx:id="dateText" text="2002/14/05, 14h35" />
-            </children>
-        </HBox>
+         </children>
+      </VBox>
     </children>
     <opaqueInsets>
         <Insets />
