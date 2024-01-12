@@ -403,19 +403,23 @@ public class SceneController {
     }
 
     public void goToApplicationOverview(List<Integer> applications, VBox listApplications){
+        ArrayList<ApplicationToPost> applications1 = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
+        ArrayList<ApplicationToPost> applications2 = new ArrayList<>();
+
         for (Integer application : applications){
+            for (ApplicationToPost applicationToPost : applications1){
+                if (applicationToPost.getIdAppli() == application){
+                    applications2.add(applicationToPost);
+                }
+            }
+        }
+        for (ApplicationToPost appli : applications2){
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/posts/overview_application.fxml"));
             try {
                 AnchorPane pane = loader.load();
                 PostApplicationController controller = loader.getController();
-                if (JsonUtil.jsonToApplications() != null){
-                    for (ApplicationToPost applicationToPost : Objects.requireNonNull(JsonUtil.jsonToApplications())){
-                        if (applicationToPost.getIdAppli() == application){
-                            controller.initData(applicationToPost);
-                        }
-                    }
-                }
+                controller.initData(appli);
                 listApplications.getChildren().add(pane);
             } catch (IOException e) {
                 throw new RuntimeException(e);

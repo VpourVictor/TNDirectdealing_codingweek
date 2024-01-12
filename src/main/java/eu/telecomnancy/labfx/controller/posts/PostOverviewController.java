@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PostOverviewController extends HexaSuper {
     private Post post;
@@ -255,17 +256,36 @@ public class PostOverviewController extends HexaSuper {
     }
 
     public void delete(ActionEvent event) {
+        users = JsonUtil.jsonToUsers();
         posts = JsonUtil.jsonToPosts();
+        applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
         for (int i = 0; i < posts.size(); i++){
             if (posts.get(i).getIdPost() == this.post.getIdPost()){
                 int id = posts.get(i).getIdPost();
+                ArrayList<Integer> myAppli = (ArrayList<Integer>) posts.get(i).getApplications();
+                for (Integer integer : myAppli) {
+                    for (int k = 0; k < Objects.requireNonNull(applications).size(); k++) {
+                        if (applications.get(k).getIdAppli() == integer) {
+                            ApplicationToPost.getListId().remove((Integer) applications.get(k).getIdAppli());
+                            ApplicationToPost.setNbAppli(ApplicationToPost.getNbAppli() - 1);
+                            applications.remove(applications.get(k));
+                        }
+                    }
+                }
+
+                for (User user : users){
+                    user.getAppliedToPosts().remove((Integer) id);
+                }
+
                 posts.remove(posts.get(i));
                 Post.getListId().remove((Integer) id);
+                Post.setNbPosts(Post.getNbPosts() - 1);
             }
         }
 
-        Post.setNbPosts(Post.getNbPosts() - 1);
+        JsonUtil.usersToJson(users);
         JsonUtil.postsToJson(posts);
+        JsonUtil.applicationsToJson(applications);
 
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, posts);
