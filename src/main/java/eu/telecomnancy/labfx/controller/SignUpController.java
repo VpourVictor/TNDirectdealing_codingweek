@@ -201,7 +201,7 @@ public class SignUpController extends HexaSuper{
                 user.setCoins(50);
                 user.setProfilePicture(imageProfile.getImage());
                 user.setPassword(passwordValue());
-                user.setConnected(true);
+                user.setConnected(false);
                 users.add(user);
                 JsonUtil.usersToJson(users);
                 SceneController sceneController = new SceneController();
