@@ -173,7 +173,7 @@ public class HexagonController{
                 break;
             case 21, 24:
                 if (loaderPos.equals("R")) {
-                    labelLeft.setText("Modifier");
+                    labelLeft.setText("Retour");
                     labelLeft.setVisible(true);
                     animation();
 

@@ -13,6 +13,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane fx:id="hexagonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.posts.PostEditController">
@@ -20,46 +21,48 @@
       <Group layoutX="57.0" layoutY="163.0">
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <Label fx:id="name_page" layoutX="203.0" layoutY="-29.0" prefHeight="18.0" prefWidth="208.0" />
-            <Button layoutX="281.0" layoutY="-89.0" mnemonicParsing="false" onAction="#back_to_view" text="Retour" />
-            <RadioButton layoutX="36.0" layoutY="79.0" mnemonicParsing="false" selected="true" text="Service">
+            <Label fx:id="name_page" alignment="CENTER" layoutX="203.0" layoutY="-43.0" prefHeight="18.0" prefWidth="208.0">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <RadioButton layoutX="242.0" layoutY="17.0" mnemonicParsing="false" selected="true" text="Service">
                <toggleGroup>
                   <ToggleGroup fx:id="type_post" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton layoutX="117.0" layoutY="79.0" mnemonicParsing="false" text="Matériel" toggleGroup="$type_post" />
-            <Label layoutX="46.0" layoutY="54.0" text="Type annonce" />
-            <Label layoutX="-6.0" layoutY="114.0" text="Titre" />
-            <Label layoutX="-6.0" layoutY="150.0" text="Description" />
-            <Label layoutX="210.0" layoutY="128.0" text="Date" />
-            <Label layoutX="2.0" layoutY="293.0" text="Adresse" />
-            <Label layoutX="2.0" layoutY="311.0" text="N°" />
-            <Label layoutX="2.0" layoutY="336.0" text="Rue, avenue" />
-            <Label layoutX="2.0" layoutY="361.0" text="Code postal" />
-            <Label layoutX="2.0" layoutY="387.0" text="Ville" />
-            <Label layoutX="2.0" layoutY="411.0" text="Région" />
-            <Label layoutX="2.0" layoutY="436.0" text="Pays" />
-            <TextField fx:id="title" layoutX="21.0" layoutY="111.0" text="title default" />
-            <TextArea fx:id="description" layoutX="-4.0" layoutY="179.0" prefHeight="104.0" prefWidth="231.0" text="desc default" />
-            <TextField fx:id="streetNumber" layoutX="21.0" layoutY="311.0" prefHeight="26.0" prefWidth="38.0" text="51" />
-            <TextField fx:id="street" layoutX="67.0" layoutY="332.0" text="street default" />
-            <TextField fx:id="postalCode" layoutX="68.0" layoutY="357.0" prefHeight="26.0" prefWidth="52.0" text="458" />
-            <TextField fx:id="city" layoutX="37.0" layoutY="383.0" text="city default" />
-            <TextField fx:id="region" layoutX="46.0" layoutY="407.0" text="region default" />
-            <ComboBox fx:id="countryList" layoutX="37.0" layoutY="432.0" prefWidth="150.0" />
-            <DatePicker fx:id="datesPicker" editable="false" layoutX="278.0" layoutY="124.0" showWeekNumbers="true" />
-            <Button layoutX="302.0" layoutY="257.0" mnemonicParsing="false" onAction="#browse" text="parcourir" />
-            <Label layoutX="250.0" layoutY="261.0" text="Image" />
-            <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" layoutX="334.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true" />
-            <Button layoutX="244.0" layoutY="432.0" mnemonicParsing="false" onAction="#validateNew" text="Valider (1)" />
-            <RadioButton fx:id="plage" layoutX="195.0" layoutY="88.0" mnemonicParsing="false" selected="true" text="Plage début et fin">
+            <RadioButton layoutX="311.0" layoutY="17.0" mnemonicParsing="false" text="Matériel" toggleGroup="$type_post" />
+            <Label layoutX="268.0" layoutY="-6.0" text="Type annonce" />
+            <Label layoutX="-5.0" layoutY="93.0" text="Titre" />
+            <Label layoutX="-5.0" layoutY="127.0" text="Description" />
+            <Label layoutX="-2.0" layoutY="269.0" text="Adresse" />
+            <Label layoutX="-5.0" layoutY="293.0" text="N°" />
+            <Label layoutX="61.0" layoutY="293.0" text="Rue, avenue" />
+            <Label layoutX="-4.0" layoutY="324.0" text="Code postal" />
+            <Label layoutX="-4.0" layoutY="353.0" text="Ville" />
+            <Label layoutX="-12.0" layoutY="384.0" text="Région" />
+            <Label layoutX="-3.0" layoutY="415.0" text="Pays" />
+            <TextField fx:id="title" layoutX="34.0" layoutY="89.0" prefHeight="25.0" prefWidth="147.0" text="title default" />
+            <TextArea fx:id="description" layoutX="-5.0" layoutY="153.0" prefHeight="104.0" prefWidth="343.0" text="desc default" />
+            <TextField fx:id="streetNumber" layoutX="18.0" layoutY="288.0" prefHeight="26.0" prefWidth="38.0" text="51" />
+            <TextField fx:id="street" layoutX="133.0" layoutY="289.0" prefHeight="25.0" prefWidth="195.0" text="street default" />
+            <TextField fx:id="postalCode" layoutX="62.0" layoutY="320.0" prefHeight="26.0" prefWidth="52.0" text="458" />
+            <TextField fx:id="city" layoutX="31.0" layoutY="349.0" text="city default" />
+            <TextField fx:id="region" layoutX="32.0" layoutY="380.0" text="region default" />
+            <ComboBox fx:id="countryList" layoutX="31.0" layoutY="411.0" prefWidth="150.0" />
+            <DatePicker fx:id="datesPicker" editable="false" layoutX="379.0" layoutY="123.0" showWeekNumbers="true" />
+            <Button layoutX="255.0" layoutY="349.0" mnemonicParsing="false" onAction="#browse" text="parcourir" />
+            <Label layoutX="207.0" layoutY="353.0" text="Image" />
+            <ImageView fx:id="image" fitHeight="158.0" fitWidth="227.0" layoutX="328.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true" />
+            <Button layoutX="272.0" layoutY="526.0" mnemonicParsing="false" onAction="#validatePart1" text="Valider (1)" />
+            <RadioButton fx:id="plage" layoutX="297.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Plage début et fin">
                <toggleGroup>
                   <ToggleGroup fx:id="toggle_type_date" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="ponctuelles" layoutX="321.0" layoutY="88.0" mnemonicParsing="false" text="Date(s) ponctuelles" toggleGroup="$toggle_type_date" />
-            <Text layoutX="216.0" layoutY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour la séléction des dates, il y a 3 options :&#10;- plage où date de début et de fin sont nécessaires&#10;- dates ponctuelles (qui sont toutes à préciser)&#10;- dates ponctuelles récurrentes dont la fréquence est à définir)" />
-            <ListView fx:id="listDate" layoutX="411.0" layoutY="167.0" prefHeight="104.0" prefWidth="200.0" />
+            <RadioButton fx:id="ponctuelles" layoutX="423.0" layoutY="93.0" mnemonicParsing="false" text="Date(s) ponctuelles" toggleGroup="$toggle_type_date" />
+            <Text layoutX="344.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour la séléction des dates, il y a 3 options :&#10;- plage où date de début et de fin sont nécessaires&#10;- dates ponctuelles (qui sont toutes à préciser)" />
+            <ListView fx:id="listDate" layoutX="379.0" layoutY="163.0" prefHeight="104.0" prefWidth="200.0" />
+            <Label layoutX="222.0" layoutY="93.0" text="Type dates" />
          </children>
       </Group>
    </children>

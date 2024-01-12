@@ -18,7 +18,6 @@
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#newPost" prefHeight="26.0" prefWidth="94.0" text="Ajouter" />
             <VBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="368.0">
                <children>
                   <RadioButton fx:id="allPost" mnemonicParsing="false" onAction="#typeSelected" text="Toutes les annonces">

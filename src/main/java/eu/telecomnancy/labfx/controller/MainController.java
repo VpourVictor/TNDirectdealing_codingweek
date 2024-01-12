@@ -638,7 +638,7 @@ public class MainController implements Initializable {
             if(position == 22){
                 if(old_position == 17){
                     ((PostEditController)controller).setPart2(false);
-                    ((PostEditController)controller).initData(null, null);
+                    ((PostEditController)controller).initData(post, null);
                 }
                 else {
                     ((PostEditController) controller).setModify(modify);

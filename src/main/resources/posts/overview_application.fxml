@@ -5,12 +5,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="159.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.posts.PostApplicationController">
+<AnchorPane prefHeight="159.0" prefWidth="495.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.posts.PostApplicationController">
    <children>
-      <Text fx:id="comment" layoutX="60.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="455.73675537109375" />
-      <Label fx:id="emailApplicant" layoutX="60.0" layoutY="14.0" prefHeight="18.0" prefWidth="272.0" />
-      <Text fx:id="dates" layoutX="79.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="442.93670654296875" />
-      <Button fx:id="accepter" layoutX="452.0" layoutY="119.0" mnemonicParsing="false" onAction="#accept" text="Accepter" />
-      <Button fx:id="refuser" layoutX="534.0" layoutY="119.0" mnemonicParsing="false" onAction="#refuse" text="Refuser" />
+      <Text fx:id="comment" layoutX="14.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="455.73675537109375" />
+      <Label fx:id="emailApplicant" layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="272.0" />
+      <Text fx:id="dates" layoutX="20.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="216.5367431640625" />
+      <Button fx:id="accepter" layoutX="341.0" layoutY="96.0" mnemonicParsing="false" onAction="#accept" text="Accepter" />
+      <Button fx:id="refuser" layoutX="272.0" layoutY="96.0" mnemonicParsing="false" onAction="#refuse" text="Refuser" />
+      <Label layoutX="14.0" layoutY="32.0" text="Commentaire" />
+      <Label layoutX="20.0" layoutY="85.0" text="Dates" />
    </children>
 </AnchorPane>

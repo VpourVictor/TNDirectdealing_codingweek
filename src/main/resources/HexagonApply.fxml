@@ -15,14 +15,14 @@
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
             <TextArea fx:id="comment" layoutX="44.0" layoutY="68.0" prefHeight="135.0" prefWidth="526.0" />
-            <Label layoutX="70.0" layoutY="32.0" text="Commentaire" />
-            <ScrollPane layoutX="240.0" layoutY="239.0" prefHeight="205.0" prefWidth="370.0">
+            <Label layoutX="44.0" layoutY="45.0" text="Commentaire" />
+            <ScrollPane layoutX="196.0" layoutY="257.0" prefHeight="122.0" prefWidth="200.0">
                <content>
-                  <VBox fx:id="listDates" prefHeight="151.0" prefWidth="218.0" />
+                  <VBox fx:id="listDates" alignment="CENTER" prefHeight="118.0" prefWidth="195.0" />
                </content>
             </ScrollPane>
-            <Button layoutX="110.0" layoutY="239.0" mnemonicParsing="false" onAction="#save_application" text="Valider" />
-            <Button layoutX="281.0" layoutY="-83.0" mnemonicParsing="false" onAction="#back" text="Retour" />
+            <Button layoutX="280.0" layoutY="429.0" mnemonicParsing="false" onAction="#save_application" text="Valider" />
+            <Button layoutX="281.0" layoutY="511.0" mnemonicParsing="false" onAction="#back" text="Retour" />
          </children>
       </Group>
    </children>

@@ -171,8 +171,7 @@
                   </VBox>
                </left>
             </BorderPane>
-            <Button layoutX="217.0" layoutY="-8.0" mnemonicParsing="false" onAction="#newPost" prefHeight="26.0" prefWidth="86.0" text="Ajouter" />
-         </children>
+            </children>
       </Group>
    </children>
 </Pane>

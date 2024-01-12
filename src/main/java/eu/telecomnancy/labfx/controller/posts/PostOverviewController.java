@@ -79,11 +79,11 @@ public class PostOverviewController extends HexaSuper {
     @FXML
     private Label title;
 
+    @FXML private Label city;
+
     private ArrayList<Post> posts;
 
     public ListView<LocalDate> listDate;
-
-    @FXML private  Label type_date;
     private final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
     @FXML
     Pane hexagonPane;
@@ -233,14 +233,6 @@ public class PostOverviewController extends HexaSuper {
             }
         });
 
-        if (post.getType_date() == Type_Date.PONCTUELLES) {
-            type_date.setText("Ponctuelle");
-        } else if (post.getType_date() == Type_Date.PLAGE) {
-            type_date.setText("Plage");
-        } else if (post.getType_date() == Type_Date.PONCTUELLE_REC) {
-            type_date.setText("Ponctuelle récurrente");
-        }
-
         if (post instanceof Service) {
             sensService.setText(post.getSensService().toString());
         } else if (post instanceof Tool) {
@@ -248,12 +240,15 @@ public class PostOverviewController extends HexaSuper {
         }
 
         title.setText(post.getTitle());
+        streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
+        city.setText(post.getAddress().getCity());
         region.setText(post.getAddress().getRegion());
         streetName.setText(post.getAddress().getStreetName());
         image.setImage(post.getImage());
     }
+    // tdoo
 
     public void modify(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
@@ -310,21 +305,6 @@ public class PostOverviewController extends HexaSuper {
         SceneController sceneController = new SceneController();
         sceneController.goToOverviewToolPostHexa(event, post);
     }
-    public void deleteHexa(ActionEvent event) throws IOException {
-        posts = JsonUtil.jsonToPosts();
-        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
-        Post.setNbPosts(Post.getNbPosts() - 1);
-        JsonUtil.postsToJson(posts);
-
-        SceneController sceneController = new SceneController();
-        sceneController.goToMain(event,17);
-        //sceneController.goToAllPosts(event, posts);
-    }
-    public void viewAllHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMain(event,17);
-        //sceneController.goToAllPosts(event, posts);
-    }
 
     public void hide(ActionEvent event) throws IOException {
         for (Post value : posts) {
@@ -372,10 +352,6 @@ public class PostOverviewController extends HexaSuper {
         sceneController.goToApplyPostHexa(event, post);
     }
 
-    // todo random
-    // si il fait supprimer voir ce que les candidatures deviennent
-
-
     public void show_applications(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
         sceneController.goToApplicationsHexa(event, post);
@@ -384,74 +360,5 @@ public class PostOverviewController extends HexaSuper {
     public void open(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
         sceneController.goToMyApplicationHexa(event, applicationToPost);
-    }
-
-    public void show_applicationsHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMainValidate(event, 27, post);
-    }
-
-    public void applyHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMainValidate(event, 28, post);
-    }
-
-    public void viewServiceHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMainValidate(event, 25, post);
-    }
-    public void openHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMainApplication(event,29,applicationToPost);
-    }
-
-    public void showHexa(ActionEvent event) throws IOException {
-        for (Post value : posts) {
-            if (value.getIdPost() == this.post.getIdPost()) {
-                if (value.getState().equals(State.MASQUE)){
-                    LocalDate start = null;
-                    LocalDate end = null;
-                    for (LocalDate date : value.getDates()){
-                        if (end == null || date.isAfter(end)) {
-                            end = date;
-                        }
-
-                        if (start == null || date.isBefore(start)){
-                            start = date;
-                        }
-                    }
-
-                    if (start.equals(LocalDate.now()))
-                        value.setState(State.EN_COURS);
-                    else
-                        value.setState(State.FUTUR);
-                }
-            }
-        }
-
-        JsonUtil.postsToJson(posts);
-        SceneController sceneController = new SceneController();
-        sceneController.goToMain(event,30);
-    }
-    public void hideHexa(ActionEvent event) throws IOException {
-        for (Post value : posts) {
-            if (value.getIdPost() == this.post.getIdPost()) {
-                if (value.getState().equals(State.EN_COURS) || value.getState().equals(State.FUTUR))
-                    value.setState(State.MASQUE);
-            }
-        }
-        JsonUtil.postsToJson(posts);
-        SceneController sceneController = new SceneController();
-        sceneController.goToMain(event,30);
-
-    }
-    public void viewToolHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMainValidate(event, 23, post);
-    }
-
-    public void modifyHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMainEdit(event,22,post, true);
     }
 }

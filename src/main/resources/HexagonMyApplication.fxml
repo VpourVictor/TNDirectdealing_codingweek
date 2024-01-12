@@ -15,12 +15,14 @@
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
             <AnchorPane layoutX="7.0" layoutY="57.0" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <Text fx:id="comment" layoutX="92.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="403.7366943359375" />
-                  <Label fx:id="emailApplicant" layoutX="78.0" layoutY="103.0" prefHeight="18.0" prefWidth="206.0" />
-                  <Text fx:id="dates" layoutX="67.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="373.336669921875" />
-                  <Button fx:id="supprimer" layoutX="52.0" layoutY="212.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
-                  <Button fx:id="modifier" layoutX="146.0" layoutY="212.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
-                  <Button layoutX="120.0" layoutY="244.0" mnemonicParsing="false" onAction="#back" text="Retour" />
+                  <Text fx:id="comment" layoutX="38.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="403.7366943359375" />
+                  <Label fx:id="emailApplicant" layoutX="379.0" layoutY="14.0" prefHeight="18.0" prefWidth="206.0" />
+                  <Text fx:id="dates" layoutX="38.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="234.13665771484375" />
+                  <Button fx:id="supprimer" layoutX="39.0" layoutY="225.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+                  <Button fx:id="modifier" layoutX="124.0" layoutY="225.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
+                  <Button layoutX="28.0" layoutY="348.0" mnemonicParsing="false" onAction="#back" text="Retour" />
+                  <Label layoutX="38.0" layoutY="58.0" text="Mon commentaire" />
+                  <Label layoutX="39.0" layoutY="130.0" text="Dates" />
                </children>
             </AnchorPane>
          </children>
