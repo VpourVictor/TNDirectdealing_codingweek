@@ -1,10 +1,13 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.posts.PostApplicationController;
+import eu.telecomnancy.labfx.controller.posts.PostApplyController;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
 import javafx.animation.*;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,7 +29,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-
+@Setter
+    public ApplicationToPost applicationToPost;
     @Setter
     public Post post = null;
     @Setter
@@ -537,6 +541,11 @@ public class MainController implements Initializable {
             case 17 -> loadFXML("/HexagonAllPost.fxml", PostEditController.class);
             case 22 -> loadFXML("/HexagonNew.fxml", PostEditController.class);
             case 26 -> loadFXML("/HexagonConv.fxml", ConversationController.class);
+            case 27 -> loadFXML("/HexagonAllApplication.fxml", PostApplicationController.class);
+            case 28 -> loadFXML("/HexagonApply.fxml", PostApplyController.class);
+            case 29 -> loadFXML("/HexagonMyApplication.fxml", PostApplicationController.class);
+            case 30 -> loadFXML("/HexagonAll.fxml", PostEditController.class);
+
         }
     }
 
@@ -556,15 +565,32 @@ public class MainController implements Initializable {
                 ((PostEditController)controller).initData(post);
 
             }
-            if(position == 23){
+            if(position == 23 || position ==25){
                 ((PostOverviewController)controller).initData(post);
             }
-            if(position == 25){
-                ((PostOverviewController)controller).initData(post);
-            }
-            if (position == 17){
+            if (position == 17 || position == 30){
                 ((PostEditController)controller).initData(null);
             }
+            if(position == 27){
+                ((PostApplicationController)controller).initData(post);
+            }
+            if(position == 22){
+                if(old_position == 17){
+                    ((PostEditController)controller).setPart2(false);
+                    ((PostEditController)controller).initData(null);
+                }
+                else {
+                    ((PostEditController) controller).setModify(modify);
+                    ((PostEditController) controller).initData(post);
+                }
+            }
+            if(position == 28){
+                ((PostApplyController)controller).initData(post);
+            }
+            if(position == 29){
+                ((PostApplicationController)controller).initData(applicationToPost);
+            }
+
 
             if(position == 20){
                 /*System.out.println(userMain.getEmail());

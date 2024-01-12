@@ -139,11 +139,11 @@ public class ConversationController extends HexaSuper implements Initializable {
         user.delConv(conv);
         JsonUtil.delConv(conv);
         SceneController sc = new SceneController();
-        sc.goToMainMessagerie(event, 20, user, null);
+        sc.goToMainUser(event, 20, user);
         //sc.goBackMessagerie(user, event);
     }
     public void goMenuHexa(ActionEvent event) throws IOException {
         SceneController sc = new SceneController();
-        sc.goToMainMessagerie(event, 20, user, null);
+        sc.goToMainUser(event, 20, user);
     }
 }

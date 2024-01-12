@@ -138,7 +138,7 @@ public class SignInController extends HexaSuper implements Initializable {
                     }
                     SceneController sceneController = new SceneController();
                     System.out.println(user.getEmail());
-                    sceneController.goToMainMessagerie(event, 14, user, null);
+                    sceneController.goToMainUser(event, 14, user);
                 }
             }
 

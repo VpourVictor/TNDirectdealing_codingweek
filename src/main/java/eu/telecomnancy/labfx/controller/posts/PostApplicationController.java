@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller.posts;
 
+import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
 import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
@@ -9,15 +10,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostApplicationController {
+public class PostApplicationController extends HexaSuper {
     @FXML
     public Label emailApplicant;
     @FXML
@@ -54,6 +58,17 @@ public class PostApplicationController {
 
     @FXML
     private ArrayList<User> users;
+
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+
+
+    public Polygon getHexagon() {
+        return hexagon;
+    }
+
 
     public void initData(LocalDate date, ArrayList<LocalDate> checkedDates) {
         check.setText(date.toString());
@@ -138,6 +153,14 @@ public class PostApplicationController {
 
         if (post instanceof Tool)
             sceneController.goToOverviewToolPost(event, post);
+    }
+    public void backHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        if (post instanceof Service)
+            sceneController.goToOverviewServicePostHexa(event, post);
+
+        if (post instanceof Tool)
+            sceneController.goToOverviewToolPostHexa(event, post);
     }
 
     public void accept(ActionEvent event) {

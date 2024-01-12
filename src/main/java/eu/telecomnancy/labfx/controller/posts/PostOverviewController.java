@@ -375,4 +375,73 @@ public class PostOverviewController extends HexaSuper {
         SceneController sceneController = new SceneController();
         sceneController.goToMyApplication(event, applicationToPost);
     }
+
+    public void show_applicationsHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMainValidate(event, 27, post);
+    }
+
+    public void applyHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMainValidate(event, 28, post);
+    }
+
+    public void viewServiceHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMainValidate(event, 25, post);
+    }
+    public void openHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMainApplication(event,29,applicationToPost);
+    }
+
+    public void showHexa(ActionEvent event) throws IOException {
+        for (Post value : posts) {
+            if (value.getIdPost() == this.post.getIdPost()) {
+                if (value.getState().equals(State.MASQUE)){
+                    LocalDate start = null;
+                    LocalDate end = null;
+                    for (LocalDate date : value.getDates()){
+                        if (end == null || date.isAfter(end)) {
+                            end = date;
+                        }
+
+                        if (start == null || date.isBefore(start)){
+                            start = date;
+                        }
+                    }
+
+                    if (start.equals(LocalDate.now()))
+                        value.setState(State.EN_COURS);
+                    else
+                        value.setState(State.FUTUR);
+                }
+            }
+        }
+
+        JsonUtil.postsToJson(posts);
+        SceneController sceneController = new SceneController();
+        sceneController.goToMain(event,30);
+    }
+    public void hideHexa(ActionEvent event) throws IOException {
+        for (Post value : posts) {
+            if (value.getIdPost() == this.post.getIdPost()) {
+                if (value.getState().equals(State.EN_COURS) || value.getState().equals(State.FUTUR))
+                    value.setState(State.MASQUE);
+            }
+        }
+        JsonUtil.postsToJson(posts);
+        SceneController sceneController = new SceneController();
+        sceneController.goToMain(event,30);
+
+    }
+    public void viewToolHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMainValidate(event, 23, post);
+    }
+
+    public void modifyHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMainEdit(event,22,post, true);
+    }
 }

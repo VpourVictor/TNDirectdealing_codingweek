@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller.posts;
 
+import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.ApplicationToPost;
@@ -14,7 +15,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +28,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PostApplyController {
+public class PostApplyController extends HexaSuper {
 
     @FXML
     public TextArea comment;
@@ -50,6 +53,14 @@ public class PostApplyController {
     @Getter
     @Setter
     private static ApplicationToPost applicationToPost;
+
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     public void initData(Post post) {
         if (listDates != null){

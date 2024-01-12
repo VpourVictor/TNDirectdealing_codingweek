@@ -52,8 +52,8 @@
             <Label fx:id="type_date" layoutX="185.0" layoutY="265.0" prefHeight="18.0" prefWidth="154.0" />
             <Button fx:id="masquer" layoutX="107.0" layoutY="481.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false" />
             <Button fx:id="demasquer" layoutX="230.0" layoutY="481.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
-            <Button fx:id="postuler" layoutX="339.0" layoutY="481.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
-            <Button fx:id="candidatures" layoutX="421.0" layoutY="474.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
+            <Button fx:id="postuler" layoutX="339.0" layoutY="481.0" mnemonicParsing="false" onAction="#applyHexa" text="Postuler" visible="false" />
+            <Button fx:id="candidatures" layoutX="421.0" layoutY="474.0" mnemonicParsing="false" onAction="#show_applicationsHexa" text="Candidatures" visible="false" />
             <Button fx:id="open_candidature" layoutX="215.0" layoutY="529.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false" />
          </children>
       </Group>
