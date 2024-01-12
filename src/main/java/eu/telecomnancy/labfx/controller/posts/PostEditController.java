@@ -96,7 +96,6 @@ public class PostEditController extends HexaSuper {
 
     @FXML
     void typeSelected(ActionEvent event) {
-        System.out.println("WE ARE INSIDE typeSelected");
         posts = JsonUtil.jsonToPosts();
         ArrayList<String> radioBtnState = new ArrayList<>(5);
         //0-> allPosts, 1-> choiceLocation, 2->choiceState, 3-> choiceOthers, 4-> choiceMyPostedApplied
@@ -105,7 +104,6 @@ public class PostEditController extends HexaSuper {
         RadioButton selected2 = (RadioButton) choiceState.getSelectedToggle();
         RadioButton selected3 = (RadioButton) choiceState.getSelectedToggle();
         RadioButton selected4 = (RadioButton) choiceState.getSelectedToggle();
-        System.out.println("selected0 : " + selected0);
         if (selected0 != null){
             radioBtnState.add(selected0.getText());
         }
@@ -136,7 +134,6 @@ public class PostEditController extends HexaSuper {
         else if (selected4 == null){
             radioBtnState.add(null);
         }
-        System.out.println(radioBtnState);
         SceneController sceneController = new SceneController();
         sceneController.goToAllPosts(event, posts, radioBtnState);
     }
@@ -146,21 +143,18 @@ public class PostEditController extends HexaSuper {
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             switch (stateRadioBtn.get(2)) {
                 case "Futures":
-                    System.out.println("Dans le switch Futur");
                     sortedByStateCurrent.setSelected(false);
                     sortedByStateEnded.setSelected(false);
                     sortedByStateFuture.setSelected(true);
                     results = algoUtil.postInState(State.FUTUR);
                     return results;
                 case "En cours":
-                    System.out.println("Dans le switch En cours");
                     sortedByStateCurrent.setSelected(true);
                     sortedByStateEnded.setSelected(false);
                     sortedByStateFuture.setSelected(false);
                     results = algoUtil.postInState(State.EN_COURS);
                     return results;
                 case "Terminées":
-                    System.out.println("Dans le switch Terminées");
                     sortedByStateCurrent.setSelected(false);
                     sortedByStateEnded.setSelected(true);
                     sortedByStateFuture.setSelected(false);
@@ -181,13 +175,11 @@ public class PostEditController extends HexaSuper {
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             switch (stateRadioBtn.get(3)) {
                 case "Note":
-                    System.out.println("Dans le switch Note");
                     sortedByNote.setSelected(true);
                     sortedByUser.setSelected(false);
                     results = algoUtil.postSortedByEvaluation();
                     return results;
                 case "Utilisateur":
-                    System.out.println("Dans le switch Utilisateur");
                     sortedByNote.setSelected(false);
                     sortedByUser.setSelected(true);
                     results = algoUtil.postSortedByUsers();
@@ -206,26 +198,21 @@ public class PostEditController extends HexaSuper {
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             switch (stateRadioBtn.get(0)) {
                 case "Toutes les annonces":
-                    System.out.println("Dans le switch Toutes les annonces");
                     allPost.setSelected(true);
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(false);
-                    System.out.println("results = " + results);
                     return results;
                 case "Services":
-                    System.out.println("Dans le switch Services");
                     allPost.setSelected(false);
                     onlyServices.setSelected(true);
                     onlyTools.setSelected(false);
                     results = algoUtil.postSortedByType("Service");
                     return results;
                 case "Outils":
-                    System.out.println("Dans le switch Outils");
                     allPost.setSelected(false);
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(true);
                     results = algoUtil.postSortedByType("tool");
-                    System.out.println("results = " + results);
                     return results;
                 default:
                     allPost.setSelected(true);
@@ -243,13 +230,11 @@ public class PostEditController extends HexaSuper {
             User currentUser = algoUtil.userConnected(users);
             switch (stateRadioBtn.get(4)) {
                 case "Voir mes annonces":
-                    System.out.println("Dans le switch Voir mes annonces");
                     seeMyAppliedPosts.setSelected(false);
                     seeMyPosts.setSelected(true);
                     results = algoUtil.postFromUser(currentUser);
                     return results;
                 case "Voir mes candidatures":
-                    System.out.println("Dans le switch Voir mes candidatures");
                     seeMyAppliedPosts.setSelected(true);
                     seeMyPosts.setSelected(false);
                     results = algoUtil.postAppliedToByUser(currentUser);
@@ -266,7 +251,6 @@ public class PostEditController extends HexaSuper {
 
     @FXML
     void initialize() {
-        System.out.println("WE ARE IN THE INITIALIZE");
         posts = JsonUtil.jsonToPosts();
         if (countryList != null){
             countries.addAll("France", "Allemagne", "Espagne", "Italie", "Royaume-Uni");
@@ -287,8 +271,6 @@ public class PostEditController extends HexaSuper {
 
 
     public void initData(Post post, ArrayList<String> stateRadioBtn) {
-        System.out.println("WE ARE INSIDE initData");
-
         if (stateRadioBtn == null){
             ArrayList<String> stateRadioBtnBis = new ArrayList<>(5);
             stateRadioBtnBis.add(null);
@@ -307,10 +289,8 @@ public class PostEditController extends HexaSuper {
 
         if (choicePost != null){
             posts = choiceMyPostedApplied(stateRadioBtn, stateChoice(stateRadioBtn, typeChoice(stateRadioBtn, otherChoice(stateRadioBtn, new ArrayList<>()))));
-            System.out.println(posts);
             SceneController sceneController = new SceneController();
             sceneController.goToRowPost(posts, listPost);
-            System.out.println("WE ARE OUTSIDE initData");
         }
 
         if (toggle_type_date != null){

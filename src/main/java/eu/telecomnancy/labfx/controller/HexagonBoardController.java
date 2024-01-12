@@ -42,36 +42,9 @@ public class HexagonBoardController extends HexaSuper{
     @FXML
     void initialize() {
         users = JsonUtil.jsonToUsers();
-        AlgoUtil algoUtil = new AlgoUtil();
-        ArrayList<Post> posts = new ArrayList<>();
         for (User user : users) {
             if (user.isConnected()){
                 message.setText("Welcome " + user.getPseudo());
-                System.out.println("pseudo : " + user.getPseudo());
-                if (algoUtil.postAppliedToByUser(user) != null){
-                    System.out.println("post postulés : ");
-                    posts.addAll(algoUtil.postAppliedToByUser(user));
-                    posts.forEach(post -> {
-                        ArrayList<ApplicationToPost> applications = algoUtil.getApplicationsFromPost(post);
-                        applications.forEach(applicationToPost -> {
-                            if (applicationToPost.getApplicantEmail().equals(user.getEmail())){
-                                System.out.println("dates où l'utilisateur a postulé : ");
-                                System.out.println(applicationToPost.getDates());
-                            }
-                        });
-                    });
-                }
-
-                if (algoUtil.postFromUser(user) != null){
-                    System.out.println("post publiés : ");
-                    posts.addAll(algoUtil.postFromUser(user));
-                    posts.forEach(post -> {
-                        System.out.println("dates : ");
-                        System.out.println(post.getDates());
-                        System.out.println("dont dates occupées : ");
-                        System.out.println(post.getDatesOccupied());
-                    });
-                }
             }
         }
         if (calendarPane != null)
