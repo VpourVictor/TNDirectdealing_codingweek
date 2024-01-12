@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -77,6 +78,8 @@ public class PostEditController extends HexaSuper {
     @FXML private ToggleGroup choiceOthers;
     @FXML private ToggleGroup choicePost;
     @FXML private ToggleGroup choiceState;
+    @FXML private ToggleGroup sensTool;
+    @FXML private ToggleGroup sensService;
 
     private Post post;
     private boolean part2 = false;
@@ -320,7 +323,13 @@ public class PostEditController extends HexaSuper {
             countryList.setValue(post.getAddress().getCountry());
             type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
             listDate.setItems(dates);
+        }
 
+        if (modify && type_post != null){
+            RadioButton one = (RadioButton) type_post.getToggles().get(0);
+            RadioButton two = (RadioButton) type_post.getToggles().get(1);
+            one.setDisable(true);
+            two.setDisable(true);
         }
 
         if (post != null && part2) {
@@ -340,14 +349,45 @@ public class PostEditController extends HexaSuper {
                 mode.setText("Création d'un nouveau post");
             else
                 mode.setText("Modification d'un post");
+
+            if(sensService != null){
+                RadioButton one = (RadioButton) sensService.getToggles().get(0);
+                RadioButton two = (RadioButton) sensService.getToggles().get(1);
+                if (modify /*&& post instanceof Service*/){
+                    one.setDisable(true);
+                    two.setDisable(true);
+                }
+                else {
+                    one.setDisable(false);
+                    two.setDisable(false);
+                }
+
+                if (post.getSensService() == SensService.DEMANDE || post.getSensTool() == null)
+                    one.setSelected(true);
+                if (post.getSensService() == SensService.PROPOSITION)
+                    two.setSelected(true);
+            }
+
+            if (sensTool != null) {
+                RadioButton one = (RadioButton) sensTool.getToggles().get(0);
+                RadioButton two = (RadioButton) sensTool.getToggles().get(1);
+                one.setDisable(true);
+                two.setDisable(true);
+                if (modify /*&& post instanceof Tool*/){
+                    one.setDisable(true);
+                    two.setDisable(true);
+                }
+                else {
+                    one.setDisable(false);
+                    two.setDisable(false);
+                }
+
+                if (post.getSensTool() == SensTool.PRET || post.getSensTool() == null)
+                    one.setSelected(true);
+                if (post.getSensTool() == SensTool.EMPRUNT)
+                    two.setSelected(true);
+            }
         }
-
-
-
-
-
-
-
     }
 
     public void browse(ActionEvent event) {
@@ -407,34 +447,51 @@ public class PostEditController extends HexaSuper {
 
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             SceneController sceneController = new SceneController();
-                State state = State.EN_COURS;
-                if (myDatePicker.getStart().isAfter(LocalDate.now()))
-                    state = State.FUTUR;
+            LocalDate start = null;
+            LocalDate end = null;
+            if (post != null){
+                if (myDatePicker.getStart() == null || myDatePicker.getEnd() == null){
+                    start = DateUtil.start((ArrayList<LocalDate>) post.getDates());
+                    end = DateUtil.end((ArrayList<LocalDate>) post.getDates());
+                }
+                else {
+                    start = myDatePicker.getStart();
+                    end = myDatePicker.getEnd();
+                }
+            }
+            if (myDatePicker.getStart() != null && myDatePicker.getEnd() != null){
+                start = myDatePicker.getStart();
+                end = myDatePicker.getEnd();
+            }
 
-                if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
-                    state = State.EN_COURS;
+            State state = State.EN_COURS;
+            if (start.isAfter(LocalDate.now()))
+                state = State.FUTUR;
 
-                RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
+            if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
+                state = State.EN_COURS;
 
-                Type_Date type_date;
+            RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
 
-                if (date.getId().equals("plage")) {
-                    type_date = Type_Date.PLAGE;
-                    LocalDate boucle = myDatePicker.getStart();
+            Type_Date type_date;
+
+            if (date.getId().equals("plage")) {
+                type_date = Type_Date.PLAGE;
+                LocalDate boucle = start;
+                dates.add(boucle);
+                datesList.add(boucle);
+                while (boucle.isBefore(end)) {
+                    boucle = boucle.plusDays(1);
                     dates.add(boucle);
                     datesList.add(boucle);
-                    while (boucle.isBefore(myDatePicker.getEnd())) {
-                        boucle = boucle.plusDays(1);
-                        dates.add(boucle);
-                        datesList.add(boucle);
-                    }
-                } else if (date.getId().equals("ponctuelles")) {
-                    type_date = Type_Date.PONCTUELLES;
-                    dates.addAll(myDatePicker.getSelectedDates());
-                    datesList.addAll(myDatePicker.getSelectedDates());
-                } else {
-                    type_date = Type_Date.PONCTUELLE_REC;
                 }
+            } else if (date.getId().equals("ponctuelles")) {
+                type_date = Type_Date.PONCTUELLES;
+                dates.addAll(myDatePicker.getSelectedDates());
+                datesList.addAll(myDatePicker.getSelectedDates());
+            } else {
+                type_date = Type_Date.PONCTUELLE_REC;
+            }
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
@@ -509,18 +566,31 @@ public class PostEditController extends HexaSuper {
         else {
             SceneController sceneController = new SceneController();
             if (!modify){
-                post = new Service(post, descriptionService.getText(), personData);
+                RadioButton selectedToggleSens = (RadioButton) sensService.getSelectedToggle();
+                Enum<SensService> sensService;
+                if (selectedToggleSens.getText().equals("Proposition"))
+                    sensService = SensService.PROPOSITION;
+                else
+                    sensService = SensService.DEMANDE;
+                post = new Service(post, descriptionService.getText(), personData, sensService);
             }
             else{
-                if (post.getClass().equals(Tool.class)){
-                    post = new Service(post, descriptionService.getText(), personData);
+                /*if (post.getClass().equals(Tool.class)){
+                    RadioButton selectedToggleSens = (RadioButton) sensService.getSelectedToggle();
+                    Enum<SensService> sensService;
+                    if (selectedToggleSens.getText().equals("Proposition"))
+                        sensService = SensService.PROPOSITION;
+                    else
+                        sensService = SensService.DEMANDE;
+                    post = new Service(post, descriptionService.getText(), personData, sensService);
                     post.setIdPost(post.getIdPost() - 1);
                     Post.setNbPosts(Post.getNbPosts() - 1);
+                    Post.getListId().remove(Post.getListId().size() - 1);
                 }
-                else {
+                else {*/
                     post.setDescriptionService(descriptionService.getText());
                     post.setProviders(personData);
-                }
+
             }
             users = JsonUtil.jsonToUsers();
             for (User user : users){
@@ -540,17 +610,31 @@ public class PostEditController extends HexaSuper {
         }
         else {
             SceneController sceneController = new SceneController();
-            if (!modify)
-                post = new Tool(post, stateTool.getText());
+            if (!modify){
+                RadioButton selectedToggleSens = (RadioButton) sensTool.getSelectedToggle();
+                Enum<SensTool> sensTool;
+                if (selectedToggleSens.getText().equals("Emprunt"))
+                    sensTool = SensTool.EMPRUNT;
+                else
+                    sensTool = SensTool.PRET;
+                post = new Tool(post, stateTool.getText(), sensTool);
+            }
             else{
-                if (post.getClass().equals(Service.class)){
-                    post = new Tool(post, stateTool.getText());
+                /*if (post.getClass().equals(Service.class)){
+                    RadioButton selectedToggleSens = (RadioButton) sensTool.getSelectedToggle();
+                    Enum<SensTool> sensTool;
+                    if (selectedToggleSens.getText().equals("Emprunt"))
+                        sensTool = SensTool.EMPRUNT;
+                    else
+                        sensTool = SensTool.PRET;
+                    post = new Tool(post, stateTool.getText(), sensTool);
                     post.setIdPost(post.getIdPost() - 1);
                     Post.setNbPosts(Post.getNbPosts() - 1);
+                    Post.getListId().remove(Post.getListId().size() - 1);
                 }
-                else {
+                else {*/
                     post.setStateTool(stateTool.getText());
-                }
+
             }
             posts.add(post);
             JsonUtil.postsToJson(posts);
@@ -627,35 +711,52 @@ public class PostEditController extends HexaSuper {
         Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
         SceneController sceneController = new SceneController();
 
+        LocalDate start = null;
+        LocalDate end = null;
+        if (post != null){
+            if (myDatePicker.getStart() == null || myDatePicker.getEnd() == null){
+                start = DateUtil.start((ArrayList<LocalDate>) post.getDates());
+                end = DateUtil.end((ArrayList<LocalDate>) post.getDates());
+            }
+            else {
+                start = myDatePicker.getStart();
+                end = myDatePicker.getEnd();
+            }
+        }
+        if (myDatePicker.getStart() != null && myDatePicker.getEnd() != null){
+            start = myDatePicker.getStart();
+            end = myDatePicker.getEnd();
+        }
+
         State state = State.EN_COURS;
-        if (myDatePicker.getStart().isAfter(LocalDate.now()))
+        if (start.isAfter(LocalDate.now()))
             state = State.FUTUR;
 
-        if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+        if (start.isAfter(LocalDate.now()) && end.isBefore(LocalDate.now()))
             state = State.EN_COURS;
 
         RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
 
         Type_Date type_date;
 
-        if (date.getId().equals("plage")){
+        if (date.getId().equals("plage")) {
             type_date = Type_Date.PLAGE;
-            LocalDate boucle = myDatePicker.getStart();
+            LocalDate boucle = start;
             dates.add(boucle);
             datesList.add(boucle);
-            while (boucle.isBefore(myDatePicker.getEnd())){
+            while (boucle.isBefore(end)) {
                 boucle = boucle.plusDays(1);
                 dates.add(boucle);
                 datesList.add(boucle);
             }
-        } else if (date.getId().equals("ponctuelles")){
+        } else if (date.getId().equals("ponctuelles")) {
             type_date = Type_Date.PONCTUELLES;
             dates.addAll(myDatePicker.getSelectedDates());
             datesList.addAll(myDatePicker.getSelectedDates());
-        }
-        else {
+        } else {
             type_date = Type_Date.PONCTUELLE_REC;
         }
+
 
         RadioButton selected = (RadioButton) type_post.getSelectedToggle();
         if (selected.getText().equals("Service")){
@@ -688,17 +789,31 @@ public class PostEditController extends HexaSuper {
         }
         else {
             SceneController sceneController = new SceneController();
-            if (!modify)
-                post = new Tool(post, stateTool.getText());
+            if (!modify){
+                RadioButton selectedToggleSens = (RadioButton) sensTool.getSelectedToggle();
+                Enum<SensTool> sensTool;
+                if (selectedToggleSens.getText().equals("Emprunt"))
+                    sensTool = SensTool.EMPRUNT;
+                else
+                    sensTool = SensTool.PRET;
+                post = new Tool(post, stateTool.getText(), sensTool);
+            }
             else{
-                if (post.getClass().equals(Service.class)){
-                    post = new Tool(post, stateTool.getText());
+                /*if (post.getClass().equals(Service.class)){
+                    RadioButton selectedToggleSens = (RadioButton) sensTool.getSelectedToggle();
+                    Enum<SensTool> sensTool;
+                    if (selectedToggleSens.getText().equals("Emprunt"))
+                        sensTool = SensTool.EMPRUNT;
+                    else
+                        sensTool = SensTool.PRET;
+                    post = new Tool(post, stateTool.getText(), sensTool);
                     post.setIdPost(post.getIdPost() - 1);
                     Post.setNbPosts(Post.getNbPosts() - 1);
-                }
-                else {
+                    Post.getListId().remove(Post.getListId().size() - 1);
+                }*/
+                /*else {*/
                     post.setStateTool(stateTool.getText());
-                }
+                /*}*/
             }
             users = JsonUtil.jsonToUsers();
             for (User user : users){
@@ -721,18 +836,31 @@ public class PostEditController extends HexaSuper {
         else {
             SceneController sceneController = new SceneController();
             if (!modify){
-                post = new Service(post, descriptionService.getText(), personData);
+                RadioButton selectedToggleSens = (RadioButton) sensService.getSelectedToggle();
+                Enum<SensService> sensService;
+                if (selectedToggleSens.getText().equals("Proposition"))
+                    sensService = SensService.PROPOSITION;
+                else
+                    sensService = SensService.DEMANDE;
+                post = new Service(post, descriptionService.getText(), personData, sensService);
             }
             else{
-                if (post.getClass().equals(Tool.class)){
-                    post = new Service(post, descriptionService.getText(), personData);
+               /* if (post.getClass().equals(Tool.class)){
+                    RadioButton selectedToggleSens = (RadioButton) sensService.getSelectedToggle();
+                    Enum<SensService> sensService;
+                    if (selectedToggleSens.getText().equals("Proposition"))
+                        sensService = SensService.PROPOSITION;
+                    else
+                        sensService = SensService.DEMANDE;
+                    post = new Service(post, descriptionService.getText(), personData, sensService);
                     post.setIdPost(post.getIdPost() - 1);
                     Post.setNbPosts(Post.getNbPosts() - 1);
+                    Post.getListId().remove(Post.getListId().size() - 1);
                 }
-                else {
+                else {*/
                     post.setDescriptionService(descriptionService.getText());
                     post.setProviders(personData);
-                }
+                /*}*/
             }
             users = JsonUtil.jsonToUsers();
             for (User user : users){

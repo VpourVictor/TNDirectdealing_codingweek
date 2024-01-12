@@ -91,10 +91,12 @@ public class JsonUtil {
                 json.put("type", "service");
                 json.put("descriptionService", post.getDescriptionService());
                 json.put("providers", providersToJson(post.getProviders()));
+                json.put("sensService", post.getSensService());
             }
             else if (post instanceof Tool) {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
+                json.put("sensTool", post.getSensTool());
             }
 
             return json;
@@ -203,14 +205,29 @@ public class JsonUtil {
             Type_Date type_date = Type_Date.valueOf(jsonObject.getString("type_date"));
 
             if (type.equals("service")) {
-                return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId);
+                if (jsonObject.getString("sensService").equals("PROPOSITION")){
+                    return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId, SensService.PROPOSITION);
+                }
+                else {
+                    return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId, SensService.DEMANDE);
+
+                }
             }
             else if (type.equals("tool")) {
-                return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId);
+                if (jsonObject.getString("sensTool").equals("PRET")){
+                    return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId, SensTool.PRET);
+                }
+                else {
+                    return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId, SensTool.EMPRUNT);
+                }
             }
             else
                 return null;

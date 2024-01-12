@@ -114,6 +114,9 @@ public class PostOverviewController extends HexaSuper {
 
     private ApplicationToPost applicationToPost;
 
+    public Label sensService;
+    public Label sensTool;
+
     @FXML
     void initialize() {
         posts = JsonUtil.jsonToPosts();
@@ -236,6 +239,13 @@ public class PostOverviewController extends HexaSuper {
         } else if (post.getType_date() == Type_Date.PONCTUELLE_REC) {
             type_date.setText("Ponctuelle récurrente");
         }
+
+        if (post instanceof Service) {
+            sensService.setText(post.getSensService().toString());
+        } else if (post instanceof Tool) {
+            sensTool.setText(post.getSensTool().toString());
+        }
+
         title.setText(post.getTitle());
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
