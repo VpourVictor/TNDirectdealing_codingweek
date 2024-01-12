@@ -62,7 +62,7 @@ public class PostEditController extends HexaSuper {
     @FXML public TextArea stateTool;
     @FXML public Label mode;
     @FXML private VBox listPost;
-    @FXML private ToggleGroup type_date;
+    @FXML private ToggleGroup toggle_type_date;
     @FXML private RadioButton plage;
     @FXML private RadioButton ponctuelles;
     @FXML private RadioButton seeMyAppliedPosts;
@@ -126,7 +126,7 @@ public class PostEditController extends HexaSuper {
         if (posts == null)
             posts = new ArrayList<>();
 
-        if (type_date != null){
+        if (toggle_type_date != null){
             if (post != null){
                 dates.addAll(post.getDates());
             }
@@ -232,40 +232,38 @@ public class PostEditController extends HexaSuper {
 
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             SceneController sceneController = new SceneController();
+                State state = State.EN_COURS;
+                if (myDatePicker.getStart().isAfter(LocalDate.now()))
+                    state = State.FUTUR;
 
-            State state = State.EN_COURS;
-            if (myDatePicker.getStart().isAfter(LocalDate.now()))
-                state = State.FUTUR;
+                if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+                    state = State.EN_COURS;
 
-            if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
-                state = State.EN_COURS;
+                RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
 
-            RadioButton date = (RadioButton) type_date.getSelectedToggle();
+                Type_Date type_date;
 
-            Type_Date type_date;
-
-            if (date.getId().equals("plage")){
-                type_date = Type_Date.PLAGE;
-                LocalDate boucle = myDatePicker.getStart();
-                dates.add(boucle);
-                datesList.add(boucle);
-                while (boucle.isBefore(myDatePicker.getEnd())){
-                    boucle = boucle.plusDays(1);
+                if (date.getId().equals("plage")) {
+                    type_date = Type_Date.PLAGE;
+                    LocalDate boucle = myDatePicker.getStart();
                     dates.add(boucle);
                     datesList.add(boucle);
+                    while (boucle.isBefore(myDatePicker.getEnd())) {
+                        boucle = boucle.plusDays(1);
+                        dates.add(boucle);
+                        datesList.add(boucle);
+                    }
+                } else if (date.getId().equals("ponctuelles")) {
+                    type_date = Type_Date.PONCTUELLES;
+                    dates.addAll(myDatePicker.getSelectedDates());
+                    datesList.addAll(myDatePicker.getSelectedDates());
+                } else {
+                    type_date = Type_Date.PONCTUELLE_REC;
                 }
-            } else if (date.getId().equals("ponctuelles")){
-                type_date = Type_Date.PONCTUELLES;
-                dates.addAll(myDatePicker.getSelectedDates());
-                datesList.addAll(myDatePicker.getSelectedDates());
-            }
-            else {
-                type_date = Type_Date.PONCTUELLE_REC;
-            }
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
-                if (!modify){
+                if (!modify) {
                     post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
@@ -451,7 +449,7 @@ public class PostEditController extends HexaSuper {
         if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
             state = State.EN_COURS;
 
-        RadioButton date = (RadioButton) type_date.getSelectedToggle();
+        RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
 
         Type_Date type_date;
 

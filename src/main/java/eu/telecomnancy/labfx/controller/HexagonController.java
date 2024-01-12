@@ -14,10 +14,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
+import lombok.Setter;
 
 import java.io.IOException;
 
 public class HexagonController{
+
     @FXML
     Pane hexagonPane;
 
@@ -50,57 +52,6 @@ public class HexagonController{
 
     public void updateLabel(int pos, String loaderPos) {
         switch (pos) {
-/*            case 0:
-                if (loaderPos.equals("UR")) {
-                    labelDownLeft.setText("Tableau de Bord");
-                    labelDownLeft.setVisible(true);
-                } else if (loaderPos.equals("UL")) {
-                    labelDownRight.setText("Profil");
-                    labelDownRight.setVisible(true);
-                } else if (loaderPos.equals("DR")) {
-                    labelUpLeft.setText("Se connecter");
-                    labelUpLeft.setVisible(true);
-                } else if (loaderPos.equals("DL")) {
-                    labelUpRight.setText("S'inscrire");
-                    labelUpRight.setVisible(true);
-                }
-                break;*/
-            /*case 1:
-                if (loaderPos.equals("R")) {
-                    labelLeft.setText("Tableau de Bord");
-                    labelLeft.setVisible(true);
-                } else if (loaderPos.equals("DR")) {
-                    labelUpLeft.setText("Home");
-                    labelUpLeft.setVisible(true);
-                }
-                break;
-            case 2:
-                if (loaderPos.equals("L")) {
-                    labelRight.setText("Profil");
-                    labelRight.setVisible(true);
-                } else if (loaderPos.equals("DL")) {
-                    labelUpRight.setText("Home");
-                    labelUpRight.setVisible(true);
-                }
-                break;
-            case 4:
-                if (loaderPos.equals("L")) {
-                    labelRight.setText("S'inscrire");
-                    labelRight.setVisible(true);
-                } else if (loaderPos.equals("UL")) {
-                    labelDownRight.setText("Home");
-                    labelDownRight.setVisible(true);
-                }
-                break;
-            case 5:
-                if (loaderPos.equals("R")) {
-                    labelLeft.setText("Se connecter");
-                    labelLeft.setVisible(true);
-                } else if (loaderPos.equals("UR")) {
-                    labelDownLeft.setText("Home");
-                    labelDownLeft.setVisible(true);
-                }
-                break;*/
             case 7:
                 if (loaderPos.equals("L")) {
                     labelRight.setText("S'inscrire");
@@ -157,12 +108,30 @@ public class HexagonController{
                     animation();
 
                 }
-                if (loaderPos.equals("R")) {
+                else if (loaderPos.equals("R")) {
                     labelLeft.setText("Annonces");
                     labelLeft.setVisible(true);
                     animation();
 
                 }
+                else {
+                    updateHexagon(hexagon);
+                }
+                break;
+            case 15:
+                if (loaderPos.equals("DL")) {
+                    labelUpRight.setText("Messagerie");
+                    labelUpRight.setVisible(true);
+                    animation();
+
+                }
+                else if (loaderPos.equals("DR")) {
+                    labelUpLeft.setText("Accueil");
+                    labelUpLeft.setVisible(true);
+                    animation();
+
+                }
+
                 else {
                     updateHexagon(hexagon);
                 }
@@ -192,19 +161,19 @@ public class HexagonController{
                     animation();
 
                 }
+                else if (loaderPos.equals("R")) {
+                    labelLeft.setText("Accueil");
+                    labelLeft.setVisible(true);
+                    animation();
+
+                }
                 else {
                     updateHexagon(hexagon);
                 }
                 break;
-            case 21:
-                if (loaderPos.equals("DR")) {
-                    labelUpLeft.setText("Edit");
-                    labelUpLeft.setVisible(true);
-                    animation();
-
-                }
-                else if (loaderPos.equals("R")) {
-                    labelLeft.setText("Prévisualisation");
+            case 21, 24:
+                if (loaderPos.equals("R")) {
+                    labelLeft.setText("Modifier");
                     labelLeft.setVisible(true);
                     animation();
 
@@ -231,28 +200,18 @@ public class HexagonController{
                     animation();
 
                 }
+                else if(loaderPos.equals("R")) {
+                labelLeft.setText("Modifier");
+                labelLeft.setVisible(true);
+                animation();
+
+            }
 
                 else {
                     updateHexagon(hexagon);
                 }
                 break;
-            case 24:
-                if (loaderPos.equals("DL")) {
-                    labelUpRight.setText("Edit");
-                    labelUpRight.setVisible(true);
-                    animation();
 
-                }
-                else if (loaderPos.equals("R")) {
-                    labelLeft.setText("Prévisualisation");
-                    labelLeft.setVisible(true);
-                    animation();
-
-                }
-                else {
-                    updateHexagon(hexagon);
-                }
-                break;
 
         }
     }

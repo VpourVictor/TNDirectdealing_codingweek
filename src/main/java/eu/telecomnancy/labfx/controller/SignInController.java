@@ -136,8 +136,6 @@ public class SignInController extends HexaSuper implements Initializable {
                             user = user1;
                         }
                     }
-                    new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
-
                     SceneController sceneController = new SceneController();
                     System.out.println(user.getEmail());
                     sceneController.goToMainMessagerie(event, 14, user, null);
