@@ -58,6 +58,7 @@ public abstract class Post {
 
     public abstract void setProviders(List<Person> providers);
 
+
     public static void setListId(List<Integer> listId) {
         Post.listId = listId;
     }

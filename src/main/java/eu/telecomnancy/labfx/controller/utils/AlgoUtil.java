@@ -4,6 +4,7 @@ import eu.telecomnancy.labfx.model.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -265,6 +266,24 @@ public class AlgoUtil {
         return null;
     }
 
+    public void updatePostsAndCoins(){
+        for(Post post : posts){
+            LocalDate latestDate = Collections.max(post.getDates());
+            if (latestDate.isBefore(LocalDate.now())){
+                post.setState(State.TERMINE);
+                ArrayList<ApplicationToPost> allApplications = getApplicationsFromPost(post);
+                for(ApplicationToPost application : allApplications){
+                    if (application.getAccepted()){
+                        User helpingUser = getUserFromMail(application.getApplicantEmail());
+                        User helpedUser = getUserFromMail(post.getAuthorEmail());
+                        helpedUser.setCoins(helpedUser.getCoins()  - 25);
+                        helpingUser.setCoins(helpingUser.getCoins() + 25);
+                    }
+                }
+
+            }
+        }
+    }
 
     public ArrayList<ApplicationToPost> getApplicationsFromPost(Post post){
         ArrayList<ApplicationToPost> applicationsFromPost = new ArrayList<>();
