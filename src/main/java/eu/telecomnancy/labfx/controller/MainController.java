@@ -486,6 +486,11 @@ public class MainController implements Initializable {
 
             colorizeHexagon(controller.getHexagon(), true);
 
+            if(position == 15){
+                ((ProfileController)controller).setUser(userMain);
+                ((ProfileController)controller).load();
+            }
+
             if(position == 26){
                 ((ConversationController)controller).setConv(conversation);
                 ((ConversationController)controller).setAndLoad(userMain);

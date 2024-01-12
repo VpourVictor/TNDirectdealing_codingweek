@@ -152,3 +152,20 @@
     -fx-padding: 0.4em;
 }
 
+.button_test2 {
+    -fx-background-color: transparent;
+    -fx-font-family: inherit;
+    -fx-display: inline-block;
+    -fx-width: 30px;
+    -fx-height: 10px;
+    -fx-line-height: 2.5em;
+    -fx-position: relative;
+    -fx-border-width: 2px;
+    -fx-border-color: #560bad;
+    -fx-transition: -fx-text-fill .5s;
+    -fx-z-index: 1;
+    -fx-font-size: 12px;
+    -fx-border-radius: 6px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #560bad;
+}
