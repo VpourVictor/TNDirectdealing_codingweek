@@ -242,8 +242,74 @@ public class SignUpController extends HexaSuper{
     }
     @FXML
     public void validate(ActionEvent event) throws IOException {
-        SceneController sc = new SceneController();
-        sc.goToMain(event,14);
+        passwordHidden.setText("a");
+        passwordText.setText("a");
+        if (firstnameTextField.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
+        }
+        else if (nameTextField.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
+        }
+        else if ( pseudoTextField.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le pseudo ne peut pas être vide").showAndWait();
+        }
+        else if (!RegexUtils.isValidMail(mailTextField.getText())){
+            new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
+        }
+        else if ( !RegexUtils.isNumeric(streetNumberTF.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Le numéro de la rue ne peut pas être vide et doit être un entier").showAndWait();
+        }
+        else if ( streetNameTF.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le nom de rue ne peut pas être vide").showAndWait();
+        }
+        else if ( !RegexUtils.isNumeric(postalCodeTF.getText())) {
+            new Alert(Alert.AlertType.ERROR, "Le code postal ne peut pas être vide et doit être un entier").showAndWait();
+        }
+        else if ( cityTF.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le nom de la ville ne peut pas être vide").showAndWait();
+        }
+        else if (countryList.getValue() == null){
+            new Alert(Alert.AlertType.ERROR, "Veuillez sélectionner un pays").showAndWait();
+        }
+        else if ( regionTF.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le nom de la région ne peut pas être vide").showAndWait();
+        }
+        else if ( passwordValue() == null) {
+            new Alert(Alert.AlertType.ERROR, "Le mot de passe ne peut pas être vide").showAndWait();
+        }
+        else if ( passwordHiddenConfirmation.getText() == null) {
+            new Alert(Alert.AlertType.ERROR, "Vérifiez votre mot de passe").showAndWait();
+        }
+        else if (!( passwordHiddenConfirmation.getText()).equals(passwordValue())){
+            new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
+        }
+        else {
+
+            users = JsonUtil.jsonToUsers();
+
+            if (emailAlreadyUsed(mailTextField.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Cet email est déjà associé à un compte existant").showAndWait();
+            } else {
+                User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
+
+                Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
+                        streetNameTF.getText(),
+                        Integer.parseInt(postalCodeTF.getText()),
+                        cityTF.getText(),
+                        regionTF.getText(),
+                        countryList.getValue().toString());
+                user.setAddress(address);
+
+                user.setPseudo(pseudoTextField.getText());
+                user.setCoins(50);
+                user.setProfilePicture(imageProfile.getImage());
+                user.setPassword(passwordValue());
+                user.setConnected(true);
+                users.add(user);
+                JsonUtil.usersToJson(users);
+                SceneController sceneController = new SceneController();
+                sceneController.goToMain(event,10); //TODO ne pas renvoyer vers l'accueil
+            }
+        }
     }
 }
-

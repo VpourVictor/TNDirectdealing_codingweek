@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,6 +20,7 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class HomepageController extends HexaSuper{
 
@@ -34,17 +36,7 @@ public class HomepageController extends HexaSuper{
     Pane hexagonPane;
     @FXML
     Pane paneTest;
-    @FXML
-    public void mouseEnter(MouseEvent event) {
 
-        hexagon.setStroke(Color.web("#F08A26"));
-
-    }
-    public void mouseExit(MouseEvent event) {
-
-        hexagon.setStroke(Color.web("#6C2466"));
-
-    }
     @FXML
     public void runApp(ActionEvent event) throws IOException {
         SceneController sc = new SceneController();
@@ -66,22 +58,20 @@ public class HomepageController extends HexaSuper{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/messagerie.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
         Address adresse = new Address(5,"d",6,"y","h", "s");
-        User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse,null);
-        User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, null);
-        Message message = new Message(user,user2,"Salut", "now");
-        Conversation conversation = new Conversation(user,user2);
-        Conversation conversation2 = new Conversation(user,user2);
-        Conversation conversation3 = new Conversation(user,user2);
-
-
-        conversation.addMessage(message);
-        conversation2.addMessage(message);
-        conversation3.addMessage(message);
-        user.getConvs().add(conversation);
-        user.getConvs().add(conversation2);
-        user.getConvs().add(conversation3);
-        System.out.println(User.getNbUsers());
+        User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
+        User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, image);
+        User user3 = new User("test3", "test2","aaa", "Rezko3", "pas", adresse, image);
+        User user4 = new User("test4", "test2","bbb", "Rezko4", "pas", adresse, image);
+        User.setNbUsers(1);
+        ArrayList<User> users = JsonUtil.jsonToUsers();
+        users.add(user);
+        users.add(user2);
+        users.add(user3);
+        users.add(user4);
+        JsonUtil.usersToJson(users);
+        User.setNbUsers(5);
         MessagerieController messagerieController = loader.getController();
         messagerieController.setAndLoad(user);
 

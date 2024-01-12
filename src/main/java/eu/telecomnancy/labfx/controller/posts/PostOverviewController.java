@@ -2,6 +2,7 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
@@ -10,21 +11,25 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import lombok.Getter;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class PostOverviewController extends HexaSuper {
     private Post post;
+    private User user;
     @FXML
     public Text descriptionService;
     @FXML
@@ -92,7 +97,22 @@ public class PostOverviewController extends HexaSuper {
 
     @FXML Button postuler;
 
+    @FXML
+    private Button modifier;
+
+    @FXML
+    private Button supprimer;
+
+    @FXML
+    private Button candidatures;
+
     private ArrayList<User> users = JsonUtil.jsonToUsers();
+
+    private ArrayList<ApplicationToPost> applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
+    @FXML
+    public Button open_candidature;
+
+    private ApplicationToPost applicationToPost;
 
     @FXML
     void initialize() {
@@ -106,7 +126,35 @@ public class PostOverviewController extends HexaSuper {
 
     public void initData(Post post) {
         posts = JsonUtil.jsonToPosts();
+        users = JsonUtil.jsonToUsers();
+        for (User user : users){
+            if (user.isConnected()){
+                this.user = user;
+                break;
+            }
+        }
+
+        AlgoUtil algoUtil = new AlgoUtil(posts);
+        ArrayList<Post> applied = algoUtil.postAppliedToByUser(this.user);
+
         this.post = post;
+        if (applied != null){
+            if (applied.size() == 1){
+                postuler.setVisible(false);
+            }
+            for (Post post1 : applied){
+                if (post1.getIdPost() == post.getIdPost()){
+                    open_candidature.setVisible(true);
+                    for (ApplicationToPost application : applications){
+                        if (application.getApplicantEmail().equals(this.user.getEmail())){
+                            applicationToPost = application;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         if (post instanceof Service) {
             descriptionService.setText(post.getDescriptionService());
             personData.addAll(post.getProviders());
@@ -120,8 +168,11 @@ public class PostOverviewController extends HexaSuper {
             if (user.getEmail().equals(post.getAuthorEmail())) {
                 author = user;
                 if (user.isConnected()) {
+                    modifier.setVisible(true);
+                    supprimer.setVisible(true);
                     masquer.setVisible(true);
                     demasquer.setVisible(true);
+                    candidatures.setVisible(true);
                     if (post.getState() == State.FUTUR || post.getState() == State.EN_COURS) {
                         masquer.setDisable(false);
                         demasquer.setDisable(true);
@@ -132,8 +183,22 @@ public class PostOverviewController extends HexaSuper {
                         demasquer.setDisable(false);
                     }
                 }
-                else
-                    postuler.setVisible(true);
+                else{
+                    if (applied != null){
+                        if (applied.size() == 1){
+                            postuler.setVisible(false);
+                        }
+                    }
+                    else {
+                        postuler.setVisible(true);
+                    }
+                }
+            }
+        }
+
+        if (applications != null) {
+            if (post.getDatesOccupied().equals(post.getDates())){
+                postuler.setVisible(false);
             }
         }
 
@@ -142,6 +207,28 @@ public class PostOverviewController extends HexaSuper {
         email.setText(author.getEmail());
         dates.addAll(post.getDates());
         listDate.setItems(dates);
+        listDate.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<LocalDate> call(ListView<LocalDate> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            setText(DateUtil.format(item));
+                            if (post.getDatesOccupied().contains(item)) {
+                                setStyle("-fx-background-color: #ff0000");
+                            } else {
+                                setStyle("-fx-background-color: #00ff00");
+                            }
+                        } else {
+                            setText(null);
+                        }
+                    }
+                };
+            }
+        });
+
         if (post.getType_date() == Type_Date.PONCTUELLES) {
             type_date.setText("Ponctuelle");
         } else if (post.getType_date() == Type_Date.PLAGE) {
@@ -164,15 +251,7 @@ public class PostOverviewController extends HexaSuper {
 
     public void viewAll(ActionEvent event) {
         SceneController sceneController = new SceneController();
-        /*for (int i = 0; i < posts.size(); i++){
-            if (posts.get(i).getState().equals(State.MASQUE)){
-                int id = posts.get(i).getIdPost();
-                Post.getListId().remove((Integer) id);
-                posts.remove(posts.get(i));
-            }
-        }*/
-
-        sceneController.goToAllPosts(event, posts,null);
+        sceneController.goToAllPosts(event, posts, null);
     }
 
     public void delete(ActionEvent event) {
@@ -200,6 +279,21 @@ public class PostOverviewController extends HexaSuper {
     public void viewTool(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToOverviewToolPost(event, post);
+    }
+    public void deleteHexa(ActionEvent event) throws IOException {
+        posts = JsonUtil.jsonToPosts();
+        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
+        Post.setNbPosts(Post.getNbPosts() - 1);
+        JsonUtil.postsToJson(posts);
+
+        SceneController sceneController = new SceneController();
+        sceneController.goToMain(event,17);
+        //sceneController.goToAllPosts(event, posts);
+    }
+    public void viewAllHexa(ActionEvent event) throws IOException {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMain(event,17);
+        //sceneController.goToAllPosts(event, posts);
     }
 
     public void hide(ActionEvent event){
@@ -246,5 +340,19 @@ public class PostOverviewController extends HexaSuper {
     public void apply(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToApplyPost(event, post);
+    }
+
+    // todo random
+    // si il fait supprimer voir ce que les candidatures deviennent
+
+
+    public void show_applications(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToApplications(event, post);
+    }
+
+    public void open(ActionEvent event) {
+        SceneController sceneController = new SceneController();
+        sceneController.goToMyApplication(event, applicationToPost);
     }
 }

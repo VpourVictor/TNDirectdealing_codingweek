@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
@@ -57,6 +58,7 @@ public class MessageItemController implements Initializable {
         }
         else{
             user.delConv(conversation);
+            JsonUtil.delConv(conversation);
             SceneController sc = new SceneController();
             sc.goBackMessagerie(user, event);
         }

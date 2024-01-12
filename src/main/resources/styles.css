@@ -3,15 +3,21 @@
     -fx-background-radius: 0 0 50 50;
 }
 
+.test{
+    -fx-background-radius: 50;
+}
 .background{
     -fx-background-color: #D7E2F3;
 }
 
-.button-style{
-    -fx-background-color: #556;
-    -fx-background-radius: 50;
-    -fx-text-fill: #ffffff;
-}
+/*.button-style {
+    -fx-background-color: #f08a26;
+    -fx-text-fill: black;
+    -fx-shape: "M 12 0 L 88 0 L 100 25 L 88 50 L 12 50 L 0 25 Z";
+    -fx-font-family: "Eras Medium";
+    -fx-font-size: 24px;
+}*/
+
 
 .msg-style{
     -fx-background-color: #71a4cd;
@@ -25,3 +31,140 @@
 .labelarea{
     -fx-background-color: #9c8b80;
 }
+
+.button_test {
+    -fx-background-color: transparent;
+    -fx-font-family: inherit;
+    -fx-display: inline-block;
+    -fx-width: 8em;
+    -fx-height: 2.6em;
+    -fx-line-height: 2.5em;
+    -fx-margin: 20px;
+    -fx-position: relative;
+    -fx-border-width: 2px;
+    -fx-border-color: #560bad;
+    -fx-transition: -fx-text-fill .5s;
+    -fx-z-index: 1;
+    -fx-font-size: 17px;
+    -fx-border-radius: 6px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #560bad;
+}
+
+.button_test:hover {
+    -fx-text-fill: #fff;
+}
+
+.button_test .before {
+    -fx-content: "";
+    -fx-position: absolute;
+    -fx-z-index: -1;
+    -fx-background-color: #560bad;
+    -fx-height: 150px;
+    -fx-width: 200px;
+    -fx-border-radius: 50%;
+}
+
+.button_test:hover .before {
+    -fx-top: -30px;
+    -fx-left: -30px;
+    -fx-transition: all .7s;
+}
+
+.button_test:pressed .before {
+    -fx-background-color: #3a0ca3;
+    -fx-transition: -fx-background-color 0s;
+}
+
+.login__input {
+    -fx-border-style: none none none none;
+    -fx-border-color: #D1D1D4;
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-padding-left: 24px;
+    -fx-font-weight: 700;
+    -fx-font-size: 14px; /* Taille de la police à ajuster selon vos besoins */
+    -fx-transition: -fx-border-color 0.2s;
+    -fx-pref-width: 75%; /* Largeur préférée du champ */
+}
+
+.login__input:pressed,
+.login__input:focused,
+.login__input:hover {
+    -fx-outline: none;
+    -fx-border-color: #6A679E;
+}
+
+.text-field-form {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 0, 0;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* Ajustement des marges */
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #D1D1D4;
+
+}
+
+.text-field-form:pressed,
+.text-field-form:focused,
+.text-field-form:hover {
+    -fx-border-color: #6A679E;
+}
+
+.labelFont{
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6c2466;
+}
+
+.combo-box-sobre {
+    -fx-background-color: #6c2466;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.combo-box-sobre .arrow-button {
+    -fx-background-color: #6c2466;
+    -fx-background-insets: 0, 0, 1;
+    -fx-padding: 0.166667em 0.583em 0.25em 0.583em; /* Adjust padding as needed */
+}
+
+.combo-box-sobre .arrow-button:hover {
+    -fx-background-color: #8e3a8c;
+}
+
+.combo-box-sobre .list-cell {
+    -fx-background-color: #6c2466;
+    -fx-text-fill: white;
+}
+
+.combo-box-sobre .list-cell:hover {
+    -fx-background-color: #8e3a8c;
+}
+
+.combo-box-sobre .list-view {
+    -fx-background-color: #6c2466;
+}
+
+.checkbox-sobre {
+}
+
+.checkbox-sobre .box {
+    -fx-background-color: #6c2466;
+    -fx-border-color: white;
+    -fx-text-fill: white;
+}
+
+.checkbox-sobre .box:hover {
+    -fx-background-color: #8e3a8c;
+}
+
+.checkbox-sobre .text {
+    -fx-text-fill: white;
+}
+.checkbox-sobre .check-mark {
+    -fx-shape: "M 4.4 8.7 L 2 6.3 L 3.4 5 L4.5 6.1 L 7.8 2.8 L 9.2 4.2 L 4.5 9 Z";
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-padding: 0.4em;
+}
+

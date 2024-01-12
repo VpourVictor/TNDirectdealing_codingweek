@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -37,6 +39,8 @@ public class MessagerieController extends HexaSuper implements Initializable {
     private Label pseudoText;
     @FXML
     private Label mailText;
+    @FXML
+    private ImageView pdp = new ImageView();
 
     @FXML
     Pane hexagonPane;
@@ -47,25 +51,25 @@ public class MessagerieController extends HexaSuper implements Initializable {
         return hexagon;
     }
     @FXML
-    private Button boutonAccueil;
-    @FXML
     private Button boutonMessage;
+    @FXML
+    private TextField mailChose;
     @FXML
     private Button boutonConv;
     @FXML
     private Button boutonInfo;
     @FXML
-    private Polygon polygon;
-    @FXML
     private Button boutonAnnuler;
     @FXML
     private Button boutonContact;
     @FXML
-    private TextField mailChose;
-    @FXML
-    private Label prompt1;
-    @FXML
     private Label prompt2;
+    @FXML
+    private Pane panecontact;
+    @FXML
+    private Label prompt3;
+    @FXML
+    private Label prompt4;
     @Override
     public void initialize(URL Location, ResourceBundle resources){
         load();
@@ -73,23 +77,23 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     public void setAndLoad(User user){
         this.user = user;
-        this.pseudoText.setText(user.getPseudo());
-        this.mailText.setText(user.getEmail());
+        pseudoText.setText(user.getPseudo());
+        mailText.setText(user.getEmail());
+        Image image = user.getProfilePicture();
+        pdp.setImage(image);
         delete = false;
         create = false;
         prompt2.setVisible(false);
-        polygon.setVisible(create);
-        prompt1.setVisible(create);
-        mailChose.setVisible(create);
-        boutonContact.setVisible(create);
-        boutonAnnuler.setVisible(create);
+        prompt3.setVisible(false);
+        prompt4.setVisible(false);
+        panecontact.setVisible(create);
         load();
 
     }
 
     private void load(){
         if (user != null) {
-            List<Conversation> convs = user.getConvs();
+            List<Conversation> convs = user.getConvs();     //TODO les recups dans le json à la place
             listcontacts.getChildren().clear();
             for (int i = 0; i < convs.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -99,7 +103,7 @@ public class MessagerieController extends HexaSuper implements Initializable {
                     if (delete) {
                         button.getStyleClass().add("suppr-boutons");
                     }
-                    MessageItemController mic = fxmlLoader.getController();
+                    MessageItemController mic = fxmlLoader.getController();     //TODO recuperer les messages dans le json
                     mic.setUser(user);
                     mic.setData(convs.get(i));
                     mic.setDelete(delete);
@@ -112,21 +116,16 @@ public class MessagerieController extends HexaSuper implements Initializable {
         }
     }
 
-    public void goToAccueil(){}     //  TODO BOUTONS
-
     public void supprMessage(ActionEvent event){
         if (!listcontacts.getChildren().isEmpty()) {
             delete = !delete;
-            boutonAccueil.setDisable(delete);
             boutonConv.setDisable(delete);
             boutonInfo.setDisable(delete);
             load();
         }
     }
-
     public void newConvo(){
         create = !create;
-        boutonAccueil.setDisable(create);
         boutonConv.setDisable(create);
         boutonInfo.setDisable(create);
         boutonMessage.setDisable(create);
@@ -134,12 +133,10 @@ public class MessagerieController extends HexaSuper implements Initializable {
             button.setDisable(create);
         }
 
-        polygon.setVisible(create);
-        prompt1.setVisible(create);
         prompt2.setVisible(false);
-        mailChose.setVisible(create);
-        boutonContact.setVisible(create);
-        boutonAnnuler.setVisible(create);
+        prompt3.setVisible(false);
+        prompt4.setVisible(false);
+        panecontact.setVisible(create);
     }
     public void changeInfo(){}
 
@@ -147,20 +144,72 @@ public class MessagerieController extends HexaSuper implements Initializable {
         String mail = mailChose.getText();
         users = JsonUtil.jsonToUsers();
         int i = 0;
-        int nb_user = User.getNbUsers();
-        while ((i < nb_user) && (!users.get(i).getEmail().equals(mail))) {
-            i++;
-        }
-        if (i == nb_user){
-            prompt2.setVisible(true);
+        String user_email = user.getEmail();
+
+        if (mail.equals(user_email)){
+            prompt4.setVisible(true);
+            prompt3.setVisible(false);
+            prompt2.setVisible(false);
         }
         else {
-            User receiver = users.get(i);
-            Conversation conversation = new Conversation(user, receiver);       //TODO ajouter conversation au json
-            user.addConv(conversation);     //TODO avant de add, verifier si la conversation existe déjà
-            receiver.addConv(conversation);
-            SceneController sc = new SceneController();
-            sc.openConv(user, conversation, event);
+            if (JsonUtil.conversationExiste(mail, user_email)) {
+                prompt3.setVisible(true);
+                prompt2.setVisible(false);
+                prompt4.setVisible(false);
+            } else {
+                while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
+                    i++;
+                }
+                if (i == User.getNbUsers()) {
+                    prompt2.setVisible(true);
+                    prompt3.setVisible(false);
+                    prompt4.setVisible(false);
+                } else {
+                    User receiver = users.get(i);
+                    Conversation conversation = new Conversation(user, receiver);
+                    JsonUtil.saveConvInJson(conversation);
+                    user.addConv(conversation);
+                    receiver.addConv(conversation);
+                    SceneController sc = new SceneController();
+                    sc.openConv(user, conversation, event);
+                }
+            }
+        }
+    }
+    public void contactHexa(ActionEvent event) throws IOException {
+        String mail = mailChose.getText();
+        users = JsonUtil.jsonToUsers();
+        int i = 0;
+        String user_email = user.getEmail();
+
+        if (mail.equals(user_email)){
+            prompt4.setVisible(true);
+            prompt3.setVisible(false);
+            prompt2.setVisible(false);
+        }
+        else {
+            if (JsonUtil.conversationExiste(mail, user_email)) {
+                prompt3.setVisible(true);
+                prompt2.setVisible(false);
+                prompt4.setVisible(false);
+            } else {
+                while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
+                    i++;
+                }
+                if (i == User.getNbUsers()) {
+                    prompt2.setVisible(true);
+                    prompt3.setVisible(false);
+                    prompt4.setVisible(false);
+                } else {
+                    User receiver = users.get(i);
+                    Conversation conversation = new Conversation(user, receiver);
+                    JsonUtil.saveConvInJson(conversation);
+                    user.addConv(conversation);
+                    receiver.addConv(conversation);
+                    SceneController sc = new SceneController();
+                    sc.goToMainMessagerie(event,26, user, conversation);
+                }
+            }
         }
     }
 }

@@ -1,14 +1,1 @@
-[
-  {
-    "id": 1,
-    "user1" : "mail1",
-    "user2" : "mail2",
-    "liste_id_msg" : [1,2]
-  },
-  {
-    "id": 2,
-    "user1" : "mail1",
-    "user2" : "mail3",
-    "liste_id_msg" : [3,4]
-  }
-]
+{"conv1":{"user1":"test@test.com","user2":"aaa","id":1,"liste_msg":{"message1":{"date":"12/01/2024 01:34","receiver":"aaa","sender":"test@test.com","contenu":"zz"}}}}

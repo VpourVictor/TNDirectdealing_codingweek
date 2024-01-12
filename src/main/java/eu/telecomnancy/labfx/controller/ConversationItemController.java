@@ -25,7 +25,9 @@ public class ConversationItemController implements Initializable {
     public void initialize(URL location, ResourceBundle resources){}
 
     public void setData(Message message_obj) {
-        message.setText(message_obj.getContent());
+        String content = message_obj.getContent();
+        //String content2 = content.replaceAll("\n", "&#x10;");
+        message.setText(content);//message_obj.getContent());
         dateText.setText(message_obj.getDate());
     }
 }

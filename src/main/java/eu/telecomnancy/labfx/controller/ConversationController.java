@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.Conversation;
 import eu.telecomnancy.labfx.model.Message;
 import eu.telecomnancy.labfx.model.User;
@@ -14,7 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 @Setter
-public class ConversationController implements Initializable {
+public class ConversationController extends HexaSuper implements Initializable {
     private User user;
     private Conversation conv;
     @FXML
@@ -42,6 +45,15 @@ public class ConversationController implements Initializable {
     private Label ratingText;
     @FXML
     private ScrollPane scroll;
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+
+
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     @Override
     public void initialize(URL Location, ResourceBundle resources){
@@ -52,9 +64,11 @@ public class ConversationController implements Initializable {
         if (user != null) {
             pseudoText.setText(conv.getOther(user).getPseudo());
             mailText.setText(conv.getOther(user).getEmail());
-            List<Message> messages = conv.getMessages();
+            ArrayList<Message> messages = JsonUtil.messageFromConvBetween(conv.getUser1(), conv.getUser2());
+            List<Message> messages2 = conv.getMessages();
             for (int i = 0; i < messages.size(); i++) {
-                if (messages.get(i).getSender() == user){
+
+                if (messages.get(i).getSender().getEmail().equals(user.getEmail())){
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/conversation_item_send.fxml"));
                     try {
@@ -68,7 +82,7 @@ public class ConversationController implements Initializable {
                 }
                 else{
                     FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/conversation_item_receive.fxml"));  //a check
+                    fxmlLoader.setLocation(getClass().getResource("/conversation_item_receive.fxml"));
 
                     try {
                         HBox hbox = fxmlLoader.load();
@@ -96,6 +110,7 @@ public class ConversationController implements Initializable {
 
     public void delConv(ActionEvent event) throws IOException {
         user.delConv(conv);
+        JsonUtil.delConv(conv);
         SceneController sc = new SceneController();
         sc.goBackMessagerie(user, event);
     }
@@ -107,7 +122,9 @@ public class ConversationController implements Initializable {
             String msg = msgText.getText();
             String date = dtf.format(now);
             msgText.setText("");
-            Message message = new Message(user, conv.getOther(user), msg, date);    //TODO ajouter le message au json
+            Message message = new Message(user, conv.getOther(user), msg, date);
+            JsonUtil.saveMsgInJason(message);
+            JsonUtil.actualiserConv(conv.getId());
             conv.addMessage(message);
             reload();
         }
@@ -117,5 +134,16 @@ public class ConversationController implements Initializable {
         listMessages.getChildren().clear();
         load();
         scroll.setVvalue(scroll.getVmax());
+    }
+    public void delConvHexa(ActionEvent event) throws IOException {
+        user.delConv(conv);
+        JsonUtil.delConv(conv);
+        SceneController sc = new SceneController();
+        sc.goToMainMessagerie(event, 20, user, null);
+        //sc.goBackMessagerie(user, event);
+    }
+    public void goMenuHexa(ActionEvent event) throws IOException {
+        SceneController sc = new SceneController();
+        sc.goToMainMessagerie(event, 20, user, null);
     }
 }

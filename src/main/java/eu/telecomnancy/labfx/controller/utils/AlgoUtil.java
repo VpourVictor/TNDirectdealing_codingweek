@@ -15,16 +15,29 @@ public class AlgoUtil {
 
     private ArrayList<User> users;
     private ArrayList<Post> posts;
+    private ArrayList<ApplicationToPost> applications;
 
+    public AlgoUtil() {
+        this.users = JsonUtil.jsonToUsers();
+        this.posts = JsonUtil.jsonToPosts();
+        this.applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
+    }
 
     public AlgoUtil(ArrayList<?> list) {
         if (list.get(0) instanceof User) {
             this.users = (ArrayList<User>) list;
             this.posts = new ArrayList<>();
+            this.applications = new ArrayList<>();
         } else if (list.get(0) instanceof Post) {
             this.posts = (ArrayList<Post>) list;
             this.users = new ArrayList<>();
-        } else {
+            this.applications = new ArrayList<>();
+        } else if (list.get(0) instanceof ApplicationToPost){
+            this.applications = (ArrayList<ApplicationToPost>) list;
+            this.users = new ArrayList<>();
+            this.posts = new ArrayList<>();
+        }
+        else {
             throw new IllegalArgumentException("Invalid list type");
         }
     }
@@ -236,4 +249,27 @@ public class AlgoUtil {
         return users.get(0);
     }
 
+    // récupère une ApplicationToPost à partir de son id
+    public ApplicationToPost getApplicationToPostFromId(int id){
+        for (ApplicationToPost applicationToPost : applications){
+            if (applicationToPost.getIdAppli() == id){
+                return applicationToPost;
+            }
+        }
+        return null;
+    }
+
+
+    public ArrayList<ApplicationToPost> getApplicationsFromPost(Post post){
+        ArrayList<ApplicationToPost> applicationsFromPost = new ArrayList<>();
+        for (ApplicationToPost applicationToPost : applications){
+            if (post.getApplications().contains(applicationToPost.getIdAppli())){
+                applicationsFromPost.add(applicationToPost);
+            }
+        }
+        if (applicationsFromPost.isEmpty()){
+            return null;
+        }
+        return applicationsFromPost;
+    }
 }

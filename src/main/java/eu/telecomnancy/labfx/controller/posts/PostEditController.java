@@ -4,6 +4,8 @@ package eu.telecomnancy.labfx.controller.posts;
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
 import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
+import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
 import javafx.collections.FXCollections;
@@ -54,7 +56,7 @@ public class PostEditController extends HexaSuper {
     @FXML public TextArea stateTool;
     @FXML public Label mode;
     @FXML private VBox listPost;
-    @FXML private ToggleGroup type_date;
+    @FXML private ToggleGroup toggle_type_date;
     @FXML private RadioButton plage;
     @FXML private RadioButton ponctuelles;
     @FXML private RadioButton seeMyAppliedPosts;
@@ -276,6 +278,11 @@ public class PostEditController extends HexaSuper {
             lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
             emailColumn.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
         }
+        if (listPost != null){
+            posts = JsonUtil.jsonToPosts();
+            SceneController sceneController = new SceneController();
+            sceneController.goToRowPost(posts, listPost);
+        }
     }
 
 
@@ -297,61 +304,67 @@ public class PostEditController extends HexaSuper {
         if (posts == null)
             posts = new ArrayList<>();
 
-        else {
-            if (type_date != null){
-                if (post != null){
-                    dates.addAll(post.getDates());
-                }
-                myDatePicker = new MyDatePicker(datesPicker, this);
-            }
 
-            if (name_page != null) {
-                if(!modify)
-                    name_page.setText("Création d'un nouveau post");
-                else
-                    name_page.setText("Modification d'un post");
-            }
-
-            this.post = post;
-            if (post != null && !part2) {
-                title.setText(post.getTitle());
-                description.setText(post.getDescription());
-                image.setImage(post.getImage());
-                streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
-                street.setText(post.getAddress().getStreetName());
-                postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
-                city.setText(post.getAddress().getCity());
-                region.setText(post.getAddress().getRegion());
-                countryList.setValue(post.getAddress().getCountry());
-                type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
-                listDate.setItems(dates);
-
-            }
-
-            if (post != null && part2) {
-                if (post instanceof Service) {
-                    if (modify && descriptionService != null){
-                        descriptionService.setText(post.getDescriptionService());
-                        personData.addAll(post.getProviders());
-                        listPrest.setItems(personData);
-                    }
-
-                } else if (post instanceof Tool) {
-                    if (modify && stateTool != null)
-                        stateTool.setText(post.getStateTool());
-                }
-
-                if(!modify)
-                    mode.setText("Création d'un nouveau post");
-                else
-                    mode.setText("Modification d'un post");
-            }
+        if (choicePost != null){
             posts = choiceMyPostedApplied(stateRadioBtn, stateChoice(stateRadioBtn, typeChoice(stateRadioBtn, otherChoice(stateRadioBtn, new ArrayList<>()))));
             System.out.println(posts);
             SceneController sceneController = new SceneController();
             sceneController.goToRowPost(posts, listPost);
             System.out.println("WE ARE OUTSIDE initData");
         }
+
+        if (toggle_type_date != null){
+            if (post != null){
+                dates.addAll(post.getDates());
+            }
+            myDatePicker = new MyDatePicker(datesPicker, this);
+        }
+
+        if (name_page != null) {
+            if(!modify)
+                name_page.setText("Création d'un nouveau post");
+            else
+                name_page.setText("Modification d'un post");
+        }
+
+        this.post = post;
+        if (post != null && !part2) {
+            title.setText(post.getTitle());
+            description.setText(post.getDescription());
+            image.setImage(post.getImage());
+            streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
+            street.setText(post.getAddress().getStreetName());
+            postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
+            city.setText(post.getAddress().getCity());
+            region.setText(post.getAddress().getRegion());
+            countryList.setValue(post.getAddress().getCountry());
+            type_post.selectToggle(post instanceof Service ? type_post.getToggles().get(0) : type_post.getToggles().get(1));
+            listDate.setItems(dates);
+
+        }
+
+        if (post != null && part2) {
+            if (post instanceof Service) {
+                if (modify && descriptionService != null){
+                    descriptionService.setText(post.getDescriptionService());
+                    personData.addAll(post.getProviders());
+                    listPrest.setItems(personData);
+                }
+
+            } else if (post instanceof Tool) {
+                if (modify && stateTool != null)
+                    stateTool.setText(post.getStateTool());
+            }
+
+            if(!modify)
+                mode.setText("Création d'un nouveau post");
+            else
+                mode.setText("Modification d'un post");
+        }
+
+
+
+
 
 
 
@@ -404,7 +417,6 @@ public class PostEditController extends HexaSuper {
             new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
         }
         else {
-            // todo créer le user en fonction de la personne connectée
             User author = null;
             for (User user : users){
                 if (user.isConnected()){
@@ -415,40 +427,38 @@ public class PostEditController extends HexaSuper {
 
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             SceneController sceneController = new SceneController();
+                State state = State.EN_COURS;
+                if (myDatePicker.getStart().isAfter(LocalDate.now()))
+                    state = State.FUTUR;
 
-            State state = State.EN_COURS;
-            if (myDatePicker.getStart().isAfter(LocalDate.now()))
-                state = State.FUTUR;
+                if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+                    state = State.EN_COURS;
 
-            if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
-                state = State.EN_COURS;
+                RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
 
-            RadioButton date = (RadioButton) type_date.getSelectedToggle();
+                Type_Date type_date;
 
-            Type_Date type_date;
-
-            if (date.getId().equals("plage")){
-                type_date = Type_Date.PLAGE;
-                LocalDate boucle = myDatePicker.getStart();
-                dates.add(boucle);
-                datesList.add(boucle);
-                while (boucle.isBefore(myDatePicker.getEnd())){
-                    boucle = boucle.plusDays(1);
+                if (date.getId().equals("plage")) {
+                    type_date = Type_Date.PLAGE;
+                    LocalDate boucle = myDatePicker.getStart();
                     dates.add(boucle);
                     datesList.add(boucle);
+                    while (boucle.isBefore(myDatePicker.getEnd())) {
+                        boucle = boucle.plusDays(1);
+                        dates.add(boucle);
+                        datesList.add(boucle);
+                    }
+                } else if (date.getId().equals("ponctuelles")) {
+                    type_date = Type_Date.PONCTUELLES;
+                    dates.addAll(myDatePicker.getSelectedDates());
+                    datesList.addAll(myDatePicker.getSelectedDates());
+                } else {
+                    type_date = Type_Date.PONCTUELLE_REC;
                 }
-            } else if (date.getId().equals("ponctuelles")){
-                type_date = Type_Date.PONCTUELLES;
-                dates.addAll(myDatePicker.getSelectedDates());
-                datesList.addAll(myDatePicker.getSelectedDates());
-            }
-            else {
-                type_date = Type_Date.PONCTUELLE_REC;
-            }
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
-                if (!modify){
+                if (!modify) {
                     post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
@@ -532,13 +542,14 @@ public class PostEditController extends HexaSuper {
                     post.setProviders(personData);
                 }
             }
-            //posts = JsonUtil.jsonToPosts();
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
             posts.add(post);
-            System.out.println("Posts.size() = "+ posts.size());
             JsonUtil.postsToJson(posts);
-            //TOdo check ici pour l'erreur
-            System.out.println("Is it working in Validate Service Post");
-            System.out.println("Overview with a post : " + post.getDescription());
             sceneController.goToOverviewServicePost(event, post);
         }
     }
@@ -563,6 +574,12 @@ public class PostEditController extends HexaSuper {
             }
             posts.add(post);
             JsonUtil.postsToJson(posts);
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
             sceneController.goToOverviewToolPost(event, post);
         }
     }
@@ -584,6 +601,172 @@ public class PostEditController extends HexaSuper {
         SceneController sceneController = new SceneController();
         sceneController.goToCreatePost(event);
     }
+
+    public void validateNew(ActionEvent event) throws IOException {if (title.getText().isEmpty()) {
+        new Alert(Alert.AlertType.ERROR, "Le titre ne peut pas être vide").showAndWait();
+    }
+    else if (description.getText().isEmpty()) {
+        new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
+    }
+    else if (dates.size() != 2 && !ponctuelles.isSelected()){
+        new Alert(Alert.AlertType.ERROR, "Pour une plage, il faut 2 dates").showAndWait();
+    }
+    else if (streetNumber.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "Le numéro de rue ne peut pas être vide").showAndWait();
+    }
+    else if (!RegexUtils.isNumeric(streetNumber.getText())){
+        new Alert(Alert.AlertType.ERROR, "Le numéro de rue doit être un nombre").showAndWait();
+    }
+    else if (street.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "Le nom de rue ne peut pas être vide").showAndWait();
+    }
+    else if (postalCode.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "Le code postal ne peut pas être vide").showAndWait();
+    }
+    else if (!RegexUtils.isNumeric(postalCode.getText())){
+        new Alert(Alert.AlertType.ERROR, "Le code postal doit être un nombre").showAndWait();
+    }
+    else if (city.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "La ville ne peut pas être vide").showAndWait();
+    }
+    else if (region.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "La région ne peut pas être vide").showAndWait();
+    }
+    else if (countryList.getValue() == null){
+        new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
+    }
+    else {
+        User author = null;
+        for (User user : users){
+            if (user.isConnected()){
+                author = user;
+                break;
+            }
+        }
+
+        Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
+        SceneController sceneController = new SceneController();
+
+        State state = State.EN_COURS;
+        if (myDatePicker.getStart().isAfter(LocalDate.now()))
+            state = State.FUTUR;
+
+        if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+            state = State.EN_COURS;
+
+        RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
+
+        Type_Date type_date;
+
+        if (date.getId().equals("plage")){
+            type_date = Type_Date.PLAGE;
+            LocalDate boucle = myDatePicker.getStart();
+            dates.add(boucle);
+            datesList.add(boucle);
+            while (boucle.isBefore(myDatePicker.getEnd())){
+                boucle = boucle.plusDays(1);
+                dates.add(boucle);
+                datesList.add(boucle);
+            }
+        } else if (date.getId().equals("ponctuelles")){
+            type_date = Type_Date.PONCTUELLES;
+            dates.addAll(myDatePicker.getSelectedDates());
+            datesList.addAll(myDatePicker.getSelectedDates());
+        }
+        else {
+            type_date = Type_Date.PONCTUELLE_REC;
+        }
+
+        RadioButton selected = (RadioButton) type_post.getSelectedToggle();
+        if (selected.getText().equals("Service")){
+            if (!modify){
+                post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
+                author.getPostedPosts().add(post.getIdPost());
+            }
+            else {
+                modifierPost(datesList, author, address, state);
+            }
+            sceneController.goToMainEdit(event,24, post, modify);
+
+        }
+        else {
+            if (!modify){
+                post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
+                author.getPostedPosts().add(post.getIdPost());
+            }
+            else {
+                modifierPost(datesList, author, address, state);
+            }
+            sceneController.goToMainEdit(event,21, post, modify);
+        }
+    }
+
+    }
+    public void validateToolPostHexa(ActionEvent event) throws IOException {
+        if (stateTool.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "L'état ne peut pas être vide").showAndWait();
+        }
+        else {
+            SceneController sceneController = new SceneController();
+            if (!modify)
+                post = new Tool(post, stateTool.getText());
+            else{
+                if (post.getClass().equals(Service.class)){
+                    post = new Tool(post, stateTool.getText());
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
+                }
+                else {
+                    post.setStateTool(stateTool.getText());
+                }
+            }
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
+            sceneController.goToMainValidate(event,23,post);
+        }
+    }
+    public void validateServicePostHexa(ActionEvent event) throws IOException {
+        if (personData.isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Vous devez ajouter au moins un prestataire").showAndWait();
+        }
+        else if (descriptionService.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
+        }
+        else {
+            SceneController sceneController = new SceneController();
+            if (!modify){
+                post = new Service(post, descriptionService.getText(), personData);
+            }
+            else{
+                if (post.getClass().equals(Tool.class)){
+                    post = new Service(post, descriptionService.getText(), personData);
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
+                }
+                else {
+                    post.setDescriptionService(descriptionService.getText());
+                    post.setProviders(personData);
+                }
+            }
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
+            sceneController.goToMainValidate(event,25,post);
+        }
+    }
+
+
 
     public void logout(ActionEvent event) {
         for (User user : users){

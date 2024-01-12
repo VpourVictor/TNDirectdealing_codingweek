@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Message {
-    private int id;
     private User sender;
     private User receiver;
     private String content;
@@ -21,12 +20,9 @@ public class Message {
         this.receiver = receiver;
         this.content = content;
         this.date = date;
-        this.id = nb_msgs;
-        saveinjason(this);
-        nb_msgs++;
     }
 
-    public Message(String mailsender, String mailreceiver, String content, String date){
+    /*public Message(String mailsender, String mailreceiver, String content, String date){
         //this.sender = sender;
         //this.receiver = receiver;
         this.content = content;
@@ -34,9 +30,9 @@ public class Message {
         this.id = nb_msgs;
         saveinjason(this);
         nb_msgs++;
-    }
+    }*/
 
-    public void saveinjason(Message msg){
-    JsonUtil.saveMsgInJason(this);
-    }
+    //public void saveinjason(Message msg){
+    //JsonUtil.saveMsgInJason(this);
+    //}
 }
