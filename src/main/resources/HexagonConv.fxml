@@ -17,9 +17,8 @@
       <Group layoutX="57.0" layoutY="163.0">
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <VBox alignment="CENTER" layoutX="-25.0" layoutY="39.0" prefHeight="194.0" prefWidth="175.0" styleClass="profile-layout" stylesheets="@styles.css">
+            <VBox alignment="CENTER_LEFT" layoutX="258.0" layoutY="-114.0" prefHeight="174.0" prefWidth="260.0" stylesheets="@styles.css">
                <children>
-                  <ImageView fx:id="pdp" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="pseudoText" text="PSEUDO">
                      <font>
                         <Font name="System Bold" size="22.0" />
@@ -28,7 +27,7 @@
                         <Insets top="30.0" />
                      </padding>
                   </Label>
-                  <Label fx:id="mailText" text="default@gmail.com">
+                  <Label fx:id="mailText" prefHeight="56.0" prefWidth="163.0" text="default@gmail.com">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -46,23 +45,24 @@
                   </Label>
                </children>
             </VBox>
-            <Button layoutX="232.0" layoutY="-80.0" mnemonicParsing="false" onAction="#goMenuHexa" prefWidth="150.0" styleClass="button-style" stylesheets="@styles.css" text="Retour" />
-            <Button layoutX="232.0" layoutY="-38.0" mnemonicParsing="false" onAction="#delConvHexa" prefWidth="150.0" styleClass="button-style" stylesheets="@styles.css" text="Supprimer conversation" />
-            <ScrollPane fx:id="scroll" layoutX="185.0" layoutY="20.0" prefHeight="424.0" prefWidth="454.0">
+            <Button layoutX="422.0" layoutY="21.0" mnemonicParsing="false" onAction="#goMenuHexa" prefWidth="150.0" styleClass="button_test" stylesheets="@styles.css" text="Retour" />
+            <Button layoutX="39.0" layoutY="21.0" mnemonicParsing="false" onAction="#delConvHexa" prefHeight="42.0" prefWidth="207.0" styleClass="button_test" stylesheets="@styles.css" text="Supprimer conversation" />
+            <ScrollPane fx:id="scroll" layoutX="-27.0" layoutY="63.0" prefHeight="386.0" prefWidth="668.0">
                <content>
-                  <VBox fx:id="listMessages" alignment="TOP_CENTER" prefHeight="407.0" prefWidth="449.0" spacing="20.0">
+                  <VBox fx:id="listMessages" alignment="TOP_CENTER" prefHeight="383.0" prefWidth="650.0" spacing="20.0">
                      <padding>
                         <Insets top="40.0" />
                      </padding>
                   </VBox>
                </content>
             </ScrollPane>
-            <Button layoutX="30.0" layoutY="455.0" mnemonicParsing="false" onAction="#sendMsg" prefHeight="25.0" prefWidth="124.0" styleClass="button-style" stylesheets="@styles.css" text="ENVOYER" />
-            <TextArea fx:id="msgText" layoutX="143.0" layoutY="468.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="78.0" prefWidth="421.0" promptText="Saisissez votre message" style="background-color:orange" wrapText="true">
+            <Button layoutX="422.0" layoutY="457.0" mnemonicParsing="false" onAction="#sendMsg" prefHeight="25.0" prefWidth="124.0" styleClass="button_test" stylesheets="@styles.css" text="ENVOYER" />
+            <TextArea fx:id="msgText" layoutX="116.0" layoutY="457.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="299.0" promptText="Saisissez votre message" styleClass="button_test" stylesheets="@styles.css" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>
             </TextArea>
+            <ImageView fx:id="pdp" fitHeight="88.0" fitWidth="117.0" layoutX="116.0" layoutY="-27.0" pickOnBounds="true" preserveRatio="true" visible="false" />
          </children>
       </Group>
    </children>

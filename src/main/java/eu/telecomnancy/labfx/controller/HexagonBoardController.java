@@ -44,7 +44,7 @@ public class HexagonBoardController extends HexaSuper{
         users = JsonUtil.jsonToUsers();
         for (User user : users) {
             if (user.isConnected()){
-                message.setText("Welcome " + user.getPseudo());
+                message.setText(""+user.getPseudo());
             }
         }
         if (calendarPane != null)

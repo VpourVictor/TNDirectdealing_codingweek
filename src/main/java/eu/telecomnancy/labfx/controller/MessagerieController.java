@@ -57,8 +57,6 @@ public class MessagerieController extends HexaSuper implements Initializable {
     @FXML
     private Button boutonConv;
     @FXML
-    private Button boutonInfo;
-    @FXML
     private Button boutonAnnuler;
     @FXML
     private Button boutonContact;
@@ -125,14 +123,12 @@ public class MessagerieController extends HexaSuper implements Initializable {
         if (!listcontacts.getChildren().isEmpty()) {
             delete = !delete;
             boutonConv.setDisable(delete);
-            boutonInfo.setDisable(delete);
             load();
         }
     }
     public void newConvo(){
         create = !create;
         boutonConv.setDisable(create);
-        boutonInfo.setDisable(create);
         boutonMessage.setDisable(create);
         for (Button button : list_boutons){
             button.setDisable(create);

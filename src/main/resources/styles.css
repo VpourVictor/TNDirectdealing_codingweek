@@ -19,9 +19,14 @@
 }*/
 
 
-.msg-style{
-    -fx-background-color: #71a4cd;
-    -fx-background-radius: 15;
+.msg-style-send{
+    -fx-background-color: #edcdaf;
+    -fx-background-radius: 30;
+}
+
+.msg-style-receive{
+    -fx-background-color: #a47bc4;
+    -fx-background-radius: 30;
 }
 
 .suppr-boutons{
@@ -80,11 +85,13 @@
 }
 
 .text-field-form {
-    -fx-background-color: transparent;
+    -fx-background-color: white;
     -fx-background-insets: 0, 0, 0;
     -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* Ajustement des marges */
     -fx-border-width: 0 0 2 0;
-    -fx-border-color: #D1D1D4;
+    -fx-border-color: #8c8280;
+    -fx-text-fill: #8c8280;
+    -fx-prompt-text-fill: #8c8280;
 
 }
 
@@ -100,57 +107,7 @@
     -fx-text-fill: #6c2466;
 }
 
-.combo-box-sobre {
-    -fx-background-color: #6c2466;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
 
-.combo-box-sobre .arrow-button {
-    -fx-background-color: #6c2466;
-    -fx-background-insets: 0, 0, 1;
-    -fx-padding: 0.166667em 0.583em 0.25em 0.583em; /* Adjust padding as needed */
-}
-
-.combo-box-sobre .arrow-button:hover {
-    -fx-background-color: #8e3a8c;
-}
-
-.combo-box-sobre .list-cell {
-    -fx-background-color: #6c2466;
-    -fx-text-fill: white;
-}
-
-.combo-box-sobre .list-cell:hover {
-    -fx-background-color: #8e3a8c;
-}
-
-.combo-box-sobre .list-view {
-    -fx-background-color: #6c2466;
-}
-
-.checkbox-sobre {
-}
-
-.checkbox-sobre .box {
-    -fx-background-color: #6c2466;
-    -fx-border-color: white;
-    -fx-text-fill: white;
-}
-
-.checkbox-sobre .box:hover {
-    -fx-background-color: #8e3a8c;
-}
-
-.checkbox-sobre .text {
-    -fx-text-fill: white;
-}
-.checkbox-sobre .check-mark {
-    -fx-shape: "M 4.4 8.7 L 2 6.3 L 3.4 5 L4.5 6.1 L 7.8 2.8 L 9.2 4.2 L 4.5 9 Z";
-    -fx-background-color: white;
-    -fx-background-insets: 0;
-    -fx-padding: 0.4em;
-}
 
 .button_test2 {
     -fx-background-color: transparent;

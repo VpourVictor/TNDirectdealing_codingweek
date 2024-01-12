@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 
@@ -19,70 +21,97 @@
    <children>
       <Group layoutX="57.0" layoutY="163.0">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="284.0" layoutY="-122.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 168.800048828125, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="284.0" layoutY="-122.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 168.800048828125, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="20.0" />
+            <Group layoutX="-305.0" layoutY="-200.0">
+               <children>
+                  <Group layoutX="329.0" layoutY="71.0" visible="false">
+                     <children>
+                        <Line endX="-72.20001220703125" endY="688.0" layoutX="165.20001220703125" layoutY="1.0" startX="-237.4141845703125" startY="179.35748291015625" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="-239.4141845703125" endY="80.35748291015625" layoutX="165.60000610351562" layoutY="98.39999580383301" startX="302.3999938964844" startY="590.5999755859375" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="468.0" endY="88.0" startX="468.0" startY="689.0" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="-82.60003662109375" endY="585.0" layoutX="1.60003662109375" layoutY="1.0" startX="466.39996337890625" startY="87.00001525878906" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="639.9857788085938" endY="78.52908325195312" layoutX="0.60003662109375" layoutY="502.6283874511719" startX="-74.22845458984375" startY="78.52908325195312" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="472.1999816894531" endY="583.5999755859375" layoutX="168.80001831054688" layoutY="2.4000015258789062" startX="-80.2142333984375" startY="84.1858139038086" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="-445.20001220703125" endY="-12.000001907348633" layoutX="531.2000122070312" layoutY="100.00000190734863" startX="107.4000244140625" startY="85.0" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="641.0000610351562" endY="178.0" startX="93.0" startY="689.0" stroke="#f9ebde" strokeWidth="2.0" />
+                     </children>
+                  </Group>
+                  <Group layoutX="268.0" layoutY="44.0">
+                     <children>
+                        <Circle fill="#f08a26" layoutX="529.0" layoutY="115.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="147.0" layoutY="115.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="339.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="702.0" layoutY="613.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="-20.0" layoutY="613.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="702.0000305175781" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="-20.0" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="339.0" layoutY="832.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="-12.0" layoutY="409.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="529.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="154.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                     </children>
+                  </Group>
+               </children>
+            </Group>
             <Label alignment="CENTER" layoutX="170.0" layoutY="-86.0" prefHeight="103.0" prefWidth="275.0" text="Inscription">
                <font>
-                  <Font name="Eras Bold ITC" size="44.0" />
+                  <Font name="Eras Light ITC" size="58.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="-28.0" layoutY="240.0" prefHeight="118.0" prefWidth="671.0" spacing="100.0">
+            <HBox alignment="CENTER" layoutX="-28.0" layoutY="240.0" prefHeight="68.0" prefWidth="671.0" spacing="20.0">
                <children>
-                  <HBox prefHeight="118.0" prefWidth="285.0" spacing="10.0">
+                  <HBox prefHeight="118.0" prefWidth="146.0" spacing="10.0">
                      <children>
                         <VBox prefHeight="158.0" prefWidth="157.0" spacing="10.0">
                            <children>
                               <Label prefHeight="19.0" prefWidth="122.0" styleClass="labelFont" stylesheets="@styles.css" text="Ajoutez une image" />
-                              <Pane prefHeight="163.0" prefWidth="158.0" style="-fx-background-color: #e8e8e8;">
-                                 <children>
-                                    <ImageView fx:id="imageProfile" fitHeight="116.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" />
-                                 </children>
-                              </Pane>
+                              <Button fx:id="browseButton" maxWidth="115.0" mnemonicParsing="false" onAction="#browse" prefHeight="28.0" prefWidth="115.0" styleClass="button_test" stylesheets="@styles.css" text="Parcourir">
+                                 <padding>
+                                    <Insets left="20.0" right="20.0" />
+                                 </padding>
+                              </Button>
                            </children>
                         </VBox>
-                        <Button fx:id="browseButton" maxWidth="115.0" mnemonicParsing="false" onAction="#browse" prefHeight="28.0" prefWidth="115.0" styleClass="button_test" stylesheets="@styles.css" text="Parcourir">
+                     </children>
+                  </HBox>
+                  <Pane prefHeight="163.0" prefWidth="158.0" style="-fx-background-color: white;">
+                     <children>
+                        <ImageView fx:id="imageProfile" fitHeight="116.0" fitWidth="157.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Pane>
+                  <VBox>
+                     <children>
+                        <Label prefHeight="18.0" prefWidth="76.0" styleClass="labelFont" stylesheets="@styles.css" text="Pays :">
+                           <opaqueInsets>
+                              <Insets right="20.0" />
+                           </opaqueInsets>
                            <padding>
                               <Insets left="20.0" right="20.0" />
                            </padding>
-                        </Button>
+                        </Label>
+                        <ComboBox fx:id="countryList" prefHeight="42.0" prefWidth="176.0" promptText="Sélectionnez" styleClass="button_test" stylesheets="@styles.css" />
                      </children>
-                  </HBox>
-                  <VBox prefHeight="118.0" prefWidth="176.0" spacing="20.0">
+                  </VBox>
+                  <VBox prefHeight="46.0" prefWidth="100.0">
                      <children>
-                        <VBox prefHeight="46.0" prefWidth="100.0">
-                           <children>
-                              <Label styleClass="labelFont" stylesheets="@styles.css" text="Région :">
-                                 <opaqueInsets>
-                                    <Insets right="20.0" />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </Label>
-                              <TextField fx:id="regionTF" prefHeight="26.0" prefWidth="177.0" promptText="Entrez le nom de votre région" styleClass="text-field-form" stylesheets="@styles.css" text="Normandie">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </TextField>
-                           </children>
-                        </VBox>
-                        <VBox>
-                           <children>
-                              <Label prefHeight="18.0" prefWidth="76.0" styleClass="labelFont" stylesheets="@styles.css" text="Pays :">
-                                 <opaqueInsets>
-                                    <Insets right="20.0" />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </Label>
-                              <ComboBox fx:id="countryList" prefHeight="25.0" prefWidth="176.0" promptText="Sélectionnez votre pays" styleClass="button_test" stylesheets="@styles.css" />
-                           </children>
-                        </VBox>
+                        <Label styleClass="labelFont" stylesheets="@styles.css" text="Région :">
+                           <opaqueInsets>
+                              <Insets right="20.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="regionTF" prefHeight="26.0" prefWidth="177.0" promptText="région" styleClass="text-field-form" stylesheets="@styles.css" text="zz">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </TextField>
                      </children>
                   </VBox>
                </children>
             </HBox>
-            <VBox layoutX="62.0" layoutY="379.0" prefHeight="118.0" prefWidth="433.0" spacing="20.0">
+            <VBox layoutX="62.0" layoutY="321.0" prefHeight="118.0" prefWidth="433.0" spacing="20.0">
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="423.0">
                      <children>
@@ -95,8 +124,8 @@
                            <children>
                               <Group>
                                  <children>
-                                    <TextField fx:id="passwordText" cache="true" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" />
-                                    <PasswordField fx:id="passwordHidden" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" text="a" />
+                                    <TextField fx:id="passwordText" cache="true" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" visible="false" />
+                                    <PasswordField fx:id="passwordHidden" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" text="a" />
                                  </children>
                               </Group>
                               <CheckBox fx:id="passToggle" mnemonicParsing="false" onAction="#toggleVisiblePassword" stylesheets="@styles.css" text="Voir mon mot de passe">
@@ -121,13 +150,13 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <PasswordField fx:id="passwordHiddenConfirmation" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" text="a" />
+                        <PasswordField fx:id="passwordHiddenConfirmation" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" text="a" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <Button layoutX="173.0" layoutY="512.0" mnemonicParsing="false" onAction="#validate" prefHeight="42.0" prefWidth="269.0" styleClass="button_test" stylesheets="@styles.css" text="Valider et créer mon compte" />
-            <HBox alignment="CENTER" layoutX="-28.0" layoutY="161.0" prefHeight="68.0" prefWidth="668.0" spacing="30.0">
+            <Button layoutX="172.0" layoutY="471.0" mnemonicParsing="false" onAction="#validate" prefHeight="42.0" prefWidth="269.0" styleClass="button_test" stylesheets="@styles.css" text="Valider et créer mon compte" />
+            <HBox alignment="CENTER" layoutX="-28.0" layoutY="161.0" prefHeight="68.0" prefWidth="668.0" spacing="50.0">
                <children>
                   <VBox prefHeight="100.0" prefWidth="99.0">
                      <children>
@@ -139,7 +168,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="streetNumberTF" prefHeight="26.0" prefWidth="161.0" promptText="Entrez votre numéro de rue" styleClass="text-field-form" stylesheets="@styles.css" text="12">
+                        <TextField fx:id="streetNumberTF" prefHeight="26.0" prefWidth="161.0" promptText="ex : 10" styleClass="text-field-form" stylesheets="@styles.css" text="12">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -156,7 +185,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="streetNameTF" prefHeight="26.0" prefWidth="269.0" promptText="Entrez le nom de votre rue/boulevard/impasse..." styleClass="text-field-form" stylesheets="@styles.css" text="rue aj">
+                        <TextField fx:id="streetNameTF" prefHeight="26.0" prefWidth="269.0" promptText="rue, avenue, ..." styleClass="text-field-form" stylesheets="@styles.css" text="ru">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -173,7 +202,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="postalCodeTF" prefHeight="26.0" prefWidth="75.0" promptText="ex : 13510" styleClass="text-field-form" stylesheets="@styles.css" text="54500">
+                        <TextField fx:id="postalCodeTF" prefHeight="26.0" prefWidth="75.0" promptText="ex : 13510" styleClass="text-field-form" stylesheets="@styles.css" text="12345">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -213,7 +242,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="nameTextField" promptText="Entrez votre nom" styleClass="text-field-form" stylesheets="@styles.css" text="azzaa">
+                              <TextField fx:id="nameTextField" promptText="Entrez votre nom" styleClass="text-field-form" stylesheets="@styles.css" text="a">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -230,7 +259,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="firstnameTextField" promptText="Entrez votre prénom" styleClass="text-field-form" stylesheets="@styles.css" text="Prénom">
+                              <TextField fx:id="firstnameTextField" promptText="Entrez votre prénom" styleClass="text-field-form" stylesheets="@styles.css" text="a">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -248,7 +277,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="pseudoTextField" prefHeight="26.0" prefWidth="199.0" promptText="Choississez un pseudo" styleClass="text-field-form" stylesheets="@styles.css" text="e">
+                              <TextField fx:id="pseudoTextField" prefHeight="26.0" prefWidth="199.0" promptText="Choisissez un pseudonyme" styleClass="text-field-form" stylesheets="@styles.css" text="a">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -262,7 +291,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="mailTextField" prefHeight="33.0" prefWidth="281.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css" text="test@test.com">
+                              <TextField fx:id="mailTextField" prefHeight="33.0" prefWidth="281.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css" text="a@a.com">
                                  <font>
                                     <Font size="15.0" />
                                  </font>

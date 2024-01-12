@@ -7,8 +7,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
@@ -20,108 +18,113 @@
    <children>
       <Group layoutX="57.0" layoutY="163.0">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#f08a26" strokeType="INSIDE" strokeWidth="20.0" style="-fx-fill: ead2bb;" />
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#f08a26" strokeType="INSIDE" strokeWidth="20.0" />
+            <Group layoutX="-302.0" layoutY="-200.0">
+               <children>
+                  <Group layoutX="329.0" layoutY="71.0">
+                     <children>
+                        <Line endX="-72.20001220703125" endY="688.0" layoutX="165.20001220703125" layoutY="1.0" startX="-237.4141845703125" startY="179.35748291015625" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="-239.4141845703125" endY="80.35748291015625" layoutX="165.60000610351562" layoutY="98.39999580383301" startX="302.3999938964844" startY="590.5999755859375" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="468.0" endY="88.0" startX="468.0" startY="689.0" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="-82.60003662109375" endY="585.0" layoutX="1.60003662109375" layoutY="1.0" startX="466.39996337890625" startY="87.00001525878906" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="639.9857788085938" endY="78.52908325195312" layoutX="0.60003662109375" layoutY="502.6283874511719" startX="-74.22845458984375" startY="78.52908325195312" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="472.1999816894531" endY="583.5999755859375" layoutX="168.80001831054688" layoutY="2.4000015258789062" startX="-80.2142333984375" startY="84.1858139038086" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="-445.20001220703125" endY="-12.000001907348633" layoutX="531.2000122070312" layoutY="100.00000190734863" startX="107.4000244140625" startY="85.0" stroke="#f9ebde" strokeWidth="2.0" />
+                        <Line endX="641.0000610351562" endY="178.0" startX="93.0" startY="689.0" stroke="#f9ebde" strokeWidth="2.0" />
+                     </children>
+                  </Group>
+                  <Group layoutX="268.0" layoutY="44.0">
+                     <children>
+                        <Circle fill="#f08a26" layoutX="529.0" layoutY="115.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="147.0" layoutY="115.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="339.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="702.0" layoutY="613.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="-20.0" layoutY="613.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="702.0000305175781" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="-20.0" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="339.0" layoutY="832.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="695.0" layoutY="416.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="529.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fill="#f08a26" layoutX="154.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                     </children>
+                  </Group>
+               </children>
+            </Group>
             <Group layoutX="-47.0" layoutY="-153.0">
                <children>
                   <Group layoutX="290.0" layoutY="189.0">
                      <children>
-                        <Line endX="-121.99998474121094" endY="527.0" startX="-122.0" startY="-82.0" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="413.60003662109375" endY="15.399993896484375" startX="-121.60000610351562" startY="526.5999755859375" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="244.79998779296875" endY="529.7999877929688" startX="-284.79998779296875" startY="14.600006103515625" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="244.800048828125" endY="-83.0" startX="-287.20001220703125" startY="17.800003051757812" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="-285.5999755859375" endY="417.79998779296875" startX="244.0" startY="-82.0" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="416.79998779296875" endY="419.21417236328125" startX="-287.0141906738281" startY="419.21417236328125" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="416.79998779296875" endY="419.21417236328125" startX="-118.39999389648438" startY="-80.5999984741211" stroke="#fafafa" strokeWidth="2.0" />
-                        <Line endX="244.0" endY="526.5999755859375" startX="416.79998779296875" startY="17.0" stroke="#fafafa" strokeWidth="2.0" />
-                     </children>
-                  </Group>
-                  <Circle fill="#f08a26" layoutX="534.0" layoutY="107.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="168.0" layoutY="107.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="350.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="702.0" layoutY="602.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutY="602.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="702.0" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutY="205.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="350.0" layoutY="812.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <VBox alignment="CENTER" layoutX="188.0" layoutY="107.0">
-                     <children>
-                        <Label alignment="CENTER" text="Bienvenue ! ">
-                           <font>
-                              <Font name="Eras Bold ITC" size="40.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets top="40.0" />
-                           </opaqueInsets>
-                        </Label>
-                        <Label text="Bon retour parmi nous !">
-                           <font>
-                              <Font name="Eras Demi ITC" size="29.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <Label alignment="CENTER" layoutX="221.0" layoutY="205.0" text="Connexion">
-                     <font>
-                        <Font name="Eras Bold ITC" size="47.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="validateSignInButton" layoutX="249.0" layoutY="602.0" mnemonicParsing="false" onAction="#validate" prefHeight="44.0" prefWidth="203.0" styleClass="button_test" stylesheets="@styles.css" text="Se connecter">
-                     <font>
-                        <Font name="Eras Medium ITC" size="24.0" />
-                     </font>
-                  </Button>
-                  <Circle fill="#f08a26" layoutX="709.0" layoutY="406.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="534.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Circle fill="#f08a26" layoutX="168.0" layoutY="716.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-               </children>
-            </Group>
-            <VBox alignment="CENTER" layoutX="42.0" layoutY="157.0" prefHeight="200.0" prefWidth="530.0">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="38.0" prefWidth="232.0" text="Mail :">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="246.0">
+                        <VBox alignment="CENTER" layoutX="-65.0" layoutY="120.0" prefHeight="206.0" prefWidth="260.0" spacing="20.0">
                            <children>
-                              <TextField fx:id="mailTextField" promptText="Entrez votre email" text="test@test.com" />
+                              <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="246.0">
+                                 <children>
+                                    <Label prefHeight="38.0" prefWidth="232.0" styleClass="labelFont" stylesheets="@styles.css" text="Mail">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="mailTextField" prefHeight="28.0" prefWidth="289.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css" text="a@a.com" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER_LEFT" prefHeight="92.0" prefWidth="300.0">
+                                 <children>
+                                    <Label prefHeight="38.0" prefWidth="232.0" styleClass="labelFont" stylesheets="@styles.css" text="Mot de passe">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Group>
+                                       <children>
+                                          <TextField fx:id="passwordText" cache="true" layoutX="1.0" prefHeight="31.0" prefWidth="254.0" promptText="Entrez votre mot de passe ici" text="a" visible="false" />
+                                          <CheckBox fx:id="passToggle" alignment="TOP_LEFT" layoutX="22.0" layoutY="31.0" mnemonicParsing="false" onAction="#toggleVisiblePassword" pickOnBounds="false" text="Voir mon mot de passe">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </CheckBox>
+                                          <PasswordField fx:id="passwordHidden" prefHeight="31.0" prefWidth="250.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" text="a" />
+                                       </children>
+                                    </Group>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                        <Button fx:id="validateSignInButton" layoutX="-36.0" layoutY="374.0" mnemonicParsing="false" onAction="#validate" prefHeight="44.0" prefWidth="203.0" styleClass="button_test" stylesheets="@styles.css" text="Se connecter">
+                           <font>
+                              <Font name="Eras Medium ITC" size="24.0" />
+                           </font>
+                        </Button>
+                        <Label alignment="CENTER" layoutX="-283.0" layoutY="51.0" prefHeight="69.0" prefWidth="696.0" text="Connexion">
+                           <font>
+                              <Font name="Eras Light ITC" size="47.0" />
+                           </font>
+                        </Label>
+                        <VBox alignment="CENTER" layoutX="-283.0" layoutY="-75.0" prefHeight="83.0" prefWidth="701.0">
+                           <children>
+                              <Label alignment="CENTER" text="Bienvenue ! ">
+                                 <font>
+                                    <Font name="Eras Demi ITC" size="44.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets top="40.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Label text="Bon retour parmi nous !">
+                                 <font>
+                                    <Font name="Eras Medium ITC" size="29.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </VBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="38.0" prefWidth="277.0" text="Mot de passe :">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <padding>
-                              <Insets left="30.0" right="30.0" />
-                           </padding>
-                        </Label>
-                        <AnchorPane prefHeight="100.0" prefWidth="241.0">
-                           <children>
-                              <TextField fx:id="passwordText" cache="true" layoutX="3.0" layoutY="28.0" prefHeight="31.0" prefWidth="184.0" promptText="Entrez votre mot de passe ici" text="a" />
-                              <CheckBox fx:id="passToggle" alignment="CENTER" layoutX="24.0" layoutY="59.0" mnemonicParsing="false" onAction="#toggleVisiblePassword" text="Voir mon mot de passe">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets top="5.0" />
-                                 </padding>
-                              </CheckBox>
-                              <PasswordField fx:id="passwordHidden" layoutX="2.0" layoutY="28.0" prefHeight="31.0" prefWidth="185.0" promptText="Entrez votre mot de passe ici" />
-                           </children>
-                           <padding>
-                              <Insets left="30.0" right="30.0" />
-                           </padding>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
+                  </Group>
                </children>
-            </VBox>
+            </Group>
          </children>
       </Group>
    </children>

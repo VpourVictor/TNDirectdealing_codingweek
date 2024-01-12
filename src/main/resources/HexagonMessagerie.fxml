@@ -32,19 +32,19 @@
                   <String fx:value="background" />
                </styleClass>
             </ScrollPane>
-            <HBox alignment="CENTER_LEFT" layoutX="62.0" layoutY="-22.0" prefHeight="85.0" prefWidth="491.0">
+            <HBox alignment="CENTER_LEFT" layoutX="60.0" layoutY="16.0" prefHeight="47.0" prefWidth="491.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="82.0" text="A" textAlignment="CENTER">
+                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="82.0" styleClass="labelFont" stylesheets="@styles.css" text="A" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="197.0" text="Nom" textAlignment="CENTER">
+                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="197.0" styleClass="labelFont" stylesheets="@styles.css" text="Nom" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="274.0" text="Email" textAlignment="CENTER">
+                  <Label alignment="CENTER" prefHeight="38.0" prefWidth="274.0" styleClass="labelFont" stylesheets="@styles.css" text="Email" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -57,57 +57,56 @@
                   <Bloom />
                </effect>
             </HBox>
-            <Button fx:id="boutonConv" layoutX="229.0" layoutY="461.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Nouvelle Conversation" />
-            <Button fx:id="boutonMessage" layoutX="229.0" layoutY="510.0" mnemonicParsing="false" onAction="#supprMessage" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Supprimer Conversation" />
-            <Pane fx:id="panecontact" layoutX="54.0" layoutY="74.0" prefHeight="378.0" prefWidth="503.0" visible="false">
+            <Button fx:id="boutonConv" layoutX="208.0" layoutY="460.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="42.0" prefWidth="198.0" styleClass="button_test" stylesheets="@styles.css" text="Nouvelle Conversation" />
+            <Button fx:id="boutonMessage" layoutX="193.0" layoutY="508.0" mnemonicParsing="false" onAction="#supprMessage" prefHeight="42.0" prefWidth="228.0" styleClass="button_test" stylesheets="@styles.css" text="Supprimer Conversation" />
+            <Label fx:id="pseudoText" alignment="CENTER" layoutX="255.0" layoutY="-80.0" text="PSEUDO">
+               <font>
+                  <Font name="Eras Demi ITC" size="25.0" />
+               </font>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
+            </Label>
+            <Label fx:id="mailText" alignment="CENTER" layoutX="194.0" layoutY="-19.0" text="maifjfkerjfkerfjkhjerhfjrefl@gmail.com">
+               <font>
+                  <Font name="Eras Light ITC" size="15.0" />
+               </font>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </Label>
+            <Pane fx:id="panecontact" layoutX="54.0" layoutY="74.0" prefHeight="378.0" prefWidth="503.0">
                <children>
-                  <Polygon fx:id="polygon" fill="#f89886" layoutX="-496.0" layoutY="-207.0" points="866.0, 585.0, 993.0, 385.0, 866.0, 185.0, 619.0, 185.0, 500.0, 385.0, 619.0, 585.0" stroke="BLACK" strokeType="INSIDE" />
-                  <TextField fx:id="mailChose" layoutX="117.0" layoutY="166.0" prefHeight="25.0" prefWidth="274.0" promptText="email">
+                  <Polygon fx:id="polygon" fill="#f08a26" layoutX="-496.0" layoutY="-207.0" points="866.0, 585.0, 993.0, 385.0, 866.0, 185.0, 619.0, 185.0, 500.0, 385.0, 619.0, 585.0" stroke="#f08a26" strokeType="INSIDE" strokeWidth="20.0" />
+                  <TextField fx:id="mailChose" layoutX="117.0" layoutY="148.0" prefHeight="25.0" prefWidth="274.0" promptText="email" styleClass="text-field-form" stylesheets="@styles.css">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="boutonContact" layoutX="202.0" layoutY="215.0" mnemonicParsing="false" onAction="#contactHexa" prefHeight="25.0" prefWidth="99.0" text="Contacter" />
-                  <Label fx:id="prompt1" layoutX="76.0" layoutY="89.0" text="Qui souhaitez vous contacter?">
+                  <Button fx:id="boutonContact" layoutX="189.0" layoutY="203.0" mnemonicParsing="false" onAction="#contactHexa" prefHeight="42.0" prefWidth="119.0" styleClass="button_test" stylesheets="@styles.css" text="Contacter" />
+                  <Label fx:id="prompt1" layoutX="63.0" layoutY="90.0" text="Qui souhaitez vous contacter?" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="25.0" />
+                        <Font name="Eras Demi ITC" size="26.0" />
                      </font>
                   </Label>
-                  <Label fx:id="prompt2" layoutX="142.0" layoutY="312.0" text="ERREUR : Utilisateur introuvable" textFill="#c30000">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="boutonAnnuler" layoutX="202.0" layoutY="254.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="99.0" text="Annuler" />
-                  <Label fx:id="prompt3" layoutX="117.0" layoutY="310.0" text="ERREUR : Conversation déjà existante" textFill="#c30000" visible="false">
+                  <Button fx:id="boutonAnnuler" layoutX="189.0" layoutY="253.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="42.0" prefWidth="119.0" styleClass="button_test" stylesheets="@styles.css" text="Annuler" />
+                  <Label fx:id="prompt2" layoutX="142.0" layoutY="312.0" text="ERREUR : Utilisateur introuvable">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="prompt4" layoutX="117.0" layoutY="310.0" prefHeight="54.0" prefWidth="282.0" text="ERREUR : Vous ne pouvez vous contacter vous même" textAlignment="CENTER" textFill="#c30000" wrapText="true">
+                  <Label fx:id="prompt3" layoutX="117.0" layoutY="310.0" text="ERREUR : Conversation déjà existante" visible="false">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prompt4" layoutX="117.0" layoutY="310.0" prefHeight="54.0" prefWidth="282.0" text="ERREUR : Vous ne pouvez vous contacter vous même" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Label fx:id="pseudoText" layoutX="386.0" layoutY="454.0" text="PSEUDO">
-               <font>
-                  <Font name="System Bold" size="22.0" />
-               </font>
-               <padding>
-                  <Insets top="30.0" />
-               </padding>
-            </Label>
-            <Label fx:id="mailText" layoutX="386.0" layoutY="454.0" text="maifjfkerjfkerfjkhjerhfjrefl@gmail.com">
-               <font>
-                  <Font size="15.0" />
-               </font>
-               <padding>
-                  <Insets top="15.0" />
-               </padding>
-            </Label>
-            <Button fx:id="boutonInfo" layoutX="227.0" layoutY="-55.0" mnemonicParsing="false" onAction="#changeInfo" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Modifier mes informations" />
          </children>
       </Group>
    </children>

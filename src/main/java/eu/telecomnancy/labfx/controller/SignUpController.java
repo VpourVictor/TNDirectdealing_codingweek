@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -242,8 +243,6 @@ public class SignUpController extends HexaSuper{
     }
     @FXML
     public void validate(ActionEvent event) throws IOException {
-        passwordHidden.setText("a");
-        passwordText.setText("a");
         if (firstnameTextField.getText().isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Le nom ne peut pas être vide").showAndWait();
         }
