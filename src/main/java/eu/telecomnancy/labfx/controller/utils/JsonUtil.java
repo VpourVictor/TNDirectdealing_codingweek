@@ -473,7 +473,7 @@ public class JsonUtil {
             JSONObject json = readJsonFileFromPath(path);
             ArrayList<Conversation> list = new ArrayList<>();
             int nb_users = json.length();
-            if (nb_users == 0){
+            if (nb_users == 0 || json.has("conv0")){
                 return list;
             }
             for (int i = 1; i <= nb_users ; i++){

@@ -39,7 +39,7 @@ public class MessageItemController implements Initializable {
 
     public void setData(Conversation conversation) {
         this.conversation = conversation;
-        if (conversation.getUser1() == user) {
+        if (conversation.getUser1().getEmail().equals(user.getEmail())) {
             photo.setImage(conversation.getUser2().getProfilePicture());
             nomText.setText(conversation.getUser2().getPseudo());
             mailText.setText(conversation.getUser2().getEmail());
