@@ -25,7 +25,7 @@ public class User extends Person {
     private ArrayList<Integer> appliedToPosts = new ArrayList<>();
     @Getter
     @Setter
-    private static int nbUsers = JsonUtil.jsonToUsers().size();
+    private static int nbUsers = 0; //JsonUtil.jsonToUsers().size();
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {

@@ -322,10 +322,10 @@ public class JsonUtil {
 
             JSONObject json = new JSONObject(builder.toString());
 
-            if (json.length() == 0)         //TODO JAI CHANGE CA, A MODIF LE RESTE POUR QUE CA MARCHE
+            if (User.getNbUsers() == 0) {//(json.length() == 0)         //TODO JAI CHANGE CA, A MODIF LE RESTE POUR QUE CA MARCHE
                 return users;
-
-            for (int i = 1; i <= json.length() ; i++){
+            }
+            for (int i = 1; i <= User.getNbUsers() ; i++){
                 JSONObject jsonObject = json.getJSONObject("user" + i);
                 users.add(jsonToUser(jsonObject));
             }
