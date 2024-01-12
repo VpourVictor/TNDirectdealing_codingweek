@@ -108,11 +108,9 @@ public class PostEditController extends HexaSuper {
     }
     @FXML
     void typeSelected(ActionEvent event) {
-        System.out.println("WE ARE INSIDE typeSelected");
         posts = JsonUtil.jsonToPosts();
         ArrayList<String> radioBtnState = new ArrayList<>(5);
         //0-> allPosts, 1-> choiceLocation, 2->choiceState, 3-> choiceOthers, 4-> choiceMyPostedApplied, 5-> Valeur du TFLocation
-        //TODO add the location TFto the list
         RadioButton selected0 = (RadioButton) choicePost.getSelectedToggle();
         RadioButton selected1 = (RadioButton) choiceLocation.getSelectedToggle();
         RadioButton selected2 = (RadioButton) choiceState.getSelectedToggle();
@@ -178,28 +176,24 @@ public class PostEditController extends HexaSuper {
             sortedByStateCurrent.setSelected(false);
             sortedByStateEnded.setSelected(false);
             sortedByStateFuture.setSelected(false);
-            System.out.println("null OF stateChoice");
             return results;
         }
         else{
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             switch (stateRadioBtn.get(2)) {
                 case "Futures":
-                    System.out.println("Dans le switch Futur");
                     sortedByStateCurrent.setSelected(false);
                     sortedByStateEnded.setSelected(false);
                     sortedByStateFuture.setSelected(true);
                     results = algoUtil.postInState(State.FUTUR);
                     return results;
                 case "En cours":
-                    System.out.println("Dans le switch En cours");
                     sortedByStateCurrent.setSelected(true);
                     sortedByStateEnded.setSelected(false);
                     sortedByStateFuture.setSelected(false);
                     results = algoUtil.postInState(State.EN_COURS);
                     return results;
                 case "Finies":
-                    System.out.println("Dans le switch Terminées");
                     sortedByStateCurrent.setSelected(false);
                     sortedByStateEnded.setSelected(true);
                     sortedByStateFuture.setSelected(false);
@@ -209,7 +203,6 @@ public class PostEditController extends HexaSuper {
                     sortedByStateCurrent.setSelected(false);
                     sortedByStateEnded.setSelected(false);
                     sortedByStateFuture.setSelected(false);
-                    System.out.println("default of stateChoice");
                     return results;
 
             }
@@ -223,40 +216,39 @@ public class PostEditController extends HexaSuper {
             sortedByCity.setSelected(false);
             sortedByCountry.setSelected(false);
             sortedByRegion.setSelected(false);
-            System.out.println("null OF locationChoice");
             return results;
         }
         else{
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             switch (stateRadioBtn.get(1)) {
                 case "Ville":
-                    System.out.println("Dans le switch Ville");
                     sortedByCity.setSelected(true);
                     sortedByCountry.setSelected(false);
                     sortedByRegion.setSelected(false);
                     results = algoUtil.postSortedByCity(stateRadioBtn.get(5));
+                    algoUtil = new AlgoUtil(users, results);
+                    results = algoUtil.allExceptMasque();
                     return results;
                 case "Pays":
-                    System.out.println("Dans le switch Pays");
                     sortedByCity.setSelected(false);
                     sortedByCountry.setSelected(true);
                     sortedByRegion.setSelected(false);
                     results = algoUtil.postSortedByCountry(stateRadioBtn.get(5));
+                    algoUtil = new AlgoUtil(users, results);
+                    results = algoUtil.allExceptMasque();
                     return results;
                 case "Région":
-                    System.out.println("Dans le switch Région");
                     sortedByCity.setSelected(false);
                     sortedByCountry.setSelected(false);
                     sortedByRegion.setSelected(true);
-                    System.out.println("sortedbyRegion ? " + sortedByRegion.isSelected());
                     results = algoUtil.postSortedByRegion(stateRadioBtn.get(5));
+                    algoUtil = new AlgoUtil(users, results);
+                    results = algoUtil.allExceptMasque();
                     return results;
                 default:
-                    System.out.println("Dans le switch Région");
                     sortedByCity.setSelected(false);
                     sortedByCountry.setSelected(false);
                     sortedByRegion.setSelected(true);
-                    System.out.println("sortedbyRegion ? " + sortedByRegion.isSelected());
                     results = algoUtil.postSortedByRegion(stateRadioBtn.get(5));
                     return results;
 
@@ -270,20 +262,17 @@ public class PostEditController extends HexaSuper {
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             sortedByNote.setSelected(false);
             sortedByUser.setSelected(false);
-            System.out.println("WE ARE IN THE null OF otherChoice");
             return results;
         }
         else {
             AlgoUtil algoUtil = new AlgoUtil(users, posts);
             switch (stateRadioBtn.get(3)) {
                 case "Note":
-                    System.out.println("Dans le switch Note");
                     sortedByNote.setSelected(true);
                     sortedByUser.setSelected(false);
                     results = algoUtil.postSortedByEvaluation();
                     return results;
                 case "Utilisateur":
-                    System.out.println("Dans le switch Utilisateur");
                     sortedByNote.setSelected(false);
                     sortedByUser.setSelected(true);
                     results = algoUtil.postSortedByUsers();
@@ -291,7 +280,6 @@ public class PostEditController extends HexaSuper {
                 default:
                     sortedByNote.setSelected(false);
                     sortedByUser.setSelected(false);
-                    System.out.println("WE ARE IN THE DEFAULT OF otherChoice");
                     return results;
             }
         }
@@ -303,27 +291,23 @@ public class PostEditController extends HexaSuper {
             allPost.setSelected(true);
             onlyServices.setSelected(false);
             onlyTools.setSelected(false);
-            System.out.println("WE ARE IN THE null OF typeChoice");
             return results;
         }
         else{
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             switch (stateRadioBtn.get(0)) {
                 case "Toutes les annonces":
-                    System.out.println("Dans le switch Toutes les annonces");
                     allPost.setSelected(true);
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(false);
                     return results;
                 case "Services":
-                    System.out.println("Dans le switch Services");
                     allPost.setSelected(false);
                     onlyServices.setSelected(true);
                     onlyTools.setSelected(false);
                     results = algoUtil.postSortedByType("Service");
                     return results;
                 case "Outils":
-                    System.out.println("Dans le switch Outils");
                     allPost.setSelected(false);
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(true);
@@ -333,7 +317,6 @@ public class PostEditController extends HexaSuper {
                     allPost.setSelected(true);
                     onlyServices.setSelected(false);
                     onlyTools.setSelected(false);
-                    System.out.println("WE ARE IN THE DEFAULT OF typeChoice");
                     return results;
             }
         }
@@ -344,7 +327,6 @@ public class PostEditController extends HexaSuper {
             AlgoUtil algoUtil = new AlgoUtil(users, results);
             seeMyAppliedPosts.setSelected(false);
             seeMyPosts.setSelected(false);
-            System.out.println("WE ARE IN THE null OF choiceMyPostedApplied");
             return results;
         }
         else {
@@ -352,13 +334,11 @@ public class PostEditController extends HexaSuper {
             User currentUser = algoUtil.userConnected(users);
             switch (stateRadioBtn.get(4)) {
                 case "Voir mes annonces":
-                    System.out.println("Dans le switch Voir mes annonces");
                     seeMyAppliedPosts.setSelected(false);
                     seeMyPosts.setSelected(true);
                     results = algoUtil.postFromUser(currentUser);
                     return results;
                 case "Voir mes candidatures":
-                    System.out.println("Dans le switch Voir mes candidatures");
                     seeMyAppliedPosts.setSelected(true);
                     seeMyPosts.setSelected(false);
                     results = algoUtil.postAppliedToByUser(currentUser);
@@ -366,7 +346,6 @@ public class PostEditController extends HexaSuper {
                 default:
                     seeMyAppliedPosts.setSelected(false);
                     seeMyPosts.setSelected(false);
-                    System.out.println("WE ARE IN THE DEFAULT OF choiceMyPostedApplied");
                     return results;
             }
         }
@@ -376,7 +355,6 @@ public class PostEditController extends HexaSuper {
 
     @FXML
     void initialize() {
-        System.out.println("WE ARE IN THE INITIALIZE");
         posts = JsonUtil.jsonToPosts();
         if (countryList != null){
             countries.addAll("France", "Allemagne", "Espagne", "Italie", "Royaume-Uni");
@@ -390,20 +368,9 @@ public class PostEditController extends HexaSuper {
         }
         if (listPost != null){
             posts = JsonUtil.jsonToPosts();
-//            SceneController sceneController = new SceneController();
-//            sceneController.goToRowPost(posts, listPost);
         }
 
         if (choicePost != null){
-//            ArrayList<String> radioBtnState = new ArrayList<>(5);
-//            radioBtnState.add("Toutes les annonces");
-//            radioBtnState.add(null);
-//            radioBtnState.add(null);
-//            radioBtnState.add(null);
-//            radioBtnState.add(null);
-//            posts = choiceMyPostedApplied(radioBtnState, stateChoice(radioBtnState, typeChoice(radioBtnState, otherChoice(radioBtnState, posts))));
-//            SceneController sceneController = new SceneController();
-//            sceneController.goToRowPost(posts, listPost);
             allPost.setSelected(true);
 
         }
@@ -411,7 +378,7 @@ public class PostEditController extends HexaSuper {
 
 
     public void initData(Post post, ArrayList<String> stateRadioBtn) {
-        System.out.println("WE ARE INSIDE initData" + "State Radio Button" + stateRadioBtn);
+
 
 
         if (stateRadioBtn == null){

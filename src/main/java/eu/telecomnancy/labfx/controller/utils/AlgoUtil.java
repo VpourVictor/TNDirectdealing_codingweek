@@ -195,6 +195,21 @@ public class AlgoUtil {
         return postWithState;
     }
 
+    public ArrayList<Post> allExceptMasque(){
+        ArrayList<Post> postWithState = new ArrayList<>();
+        int i = 0;
+        while (i < posts.size()){
+            if (posts.get(i).getState() == State.MASQUE){
+                posts.remove(i);
+            }
+            else {
+                postWithState.add(posts.get(i));
+                i++;
+            }
+        }
+        return postWithState;
+    }
+
     public ArrayList<Post> postInVisible(){
         ArrayList<Post> postWithState = new ArrayList<>();
         int i = 0;
