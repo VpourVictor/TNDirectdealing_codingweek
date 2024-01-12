@@ -63,7 +63,7 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="mailTextField" prefHeight="28.0" prefWidth="289.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css" text="a@a.com" />
+                                    <TextField fx:id="mailTextField" prefHeight="28.0" prefWidth="289.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER_LEFT" prefHeight="92.0" prefWidth="300.0">
@@ -75,7 +75,7 @@
                                     </Label>
                                     <Group>
                                        <children>
-                                          <TextField fx:id="passwordText" cache="true" layoutX="1.0" prefHeight="31.0" prefWidth="254.0" promptText="Entrez votre mot de passe ici" text="a" visible="false" />
+                                          <TextField fx:id="passwordText" cache="true" layoutX="1.0" prefHeight="31.0" prefWidth="254.0" promptText="Entrez votre mot de passe ici" visible="false" />
                                           <CheckBox fx:id="passToggle" alignment="TOP_LEFT" layoutX="22.0" layoutY="31.0" mnemonicParsing="false" onAction="#toggleVisiblePassword" pickOnBounds="false" text="Voir mon mot de passe">
                                              <opaqueInsets>
                                                 <Insets />
@@ -84,7 +84,7 @@
                                                 <Insets top="5.0" />
                                              </padding>
                                           </CheckBox>
-                                          <PasswordField fx:id="passwordHidden" prefHeight="31.0" prefWidth="250.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" text="a" />
+                                          <PasswordField fx:id="passwordHidden" prefHeight="31.0" prefWidth="250.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" />
                                        </children>
                                     </Group>
                                  </children>

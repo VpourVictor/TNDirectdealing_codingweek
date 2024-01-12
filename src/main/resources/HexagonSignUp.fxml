@@ -102,7 +102,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="regionTF" prefHeight="26.0" prefWidth="177.0" promptText="région" styleClass="text-field-form" stylesheets="@styles.css" text="zz">
+                        <TextField fx:id="regionTF" prefHeight="26.0" prefWidth="177.0" promptText="région" styleClass="text-field-form" stylesheets="@styles.css">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -125,7 +125,7 @@
                               <Group>
                                  <children>
                                     <TextField fx:id="passwordText" cache="true" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" visible="false" />
-                                    <PasswordField fx:id="passwordHidden" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" text="a" />
+                                    <PasswordField fx:id="passwordHidden" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" />
                                  </children>
                               </Group>
                               <CheckBox fx:id="passToggle" mnemonicParsing="false" onAction="#toggleVisiblePassword" stylesheets="@styles.css" text="Voir mon mot de passe">
@@ -150,7 +150,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <PasswordField fx:id="passwordHiddenConfirmation" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" text="a" />
+                        <PasswordField fx:id="passwordHiddenConfirmation" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" styleClass="text-field-form" stylesheets="@styles.css" />
                      </children>
                   </HBox>
                </children>
@@ -168,7 +168,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="streetNumberTF" prefHeight="26.0" prefWidth="161.0" promptText="ex : 10" styleClass="text-field-form" stylesheets="@styles.css" text="12">
+                        <TextField fx:id="streetNumberTF" prefHeight="26.0" prefWidth="161.0" promptText="ex : 10" styleClass="text-field-form" stylesheets="@styles.css">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -185,7 +185,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="streetNameTF" prefHeight="26.0" prefWidth="269.0" promptText="rue, avenue, ..." styleClass="text-field-form" stylesheets="@styles.css" text="ru">
+                        <TextField fx:id="streetNameTF" prefHeight="26.0" prefWidth="269.0" promptText="rue, avenue, ..." styleClass="text-field-form" stylesheets="@styles.css">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -202,7 +202,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="postalCodeTF" prefHeight="26.0" prefWidth="75.0" promptText="ex : 13510" styleClass="text-field-form" stylesheets="@styles.css" text="12345">
+                        <TextField fx:id="postalCodeTF" prefHeight="26.0" prefWidth="75.0" promptText="ex : 13510" styleClass="text-field-form" stylesheets="@styles.css">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -219,7 +219,7 @@
                               <Insets left="20.0" right="20.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="cityTF" prefHeight="26.0" prefWidth="193.0" promptText="Entrez le nom de votre ville" styleClass="text-field-form" stylesheets="@styles.css" text="ville">
+                        <TextField fx:id="cityTF" prefHeight="26.0" prefWidth="193.0" promptText="ville" styleClass="text-field-form" stylesheets="@styles.css">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -242,7 +242,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="nameTextField" promptText="Entrez votre nom" styleClass="text-field-form" stylesheets="@styles.css" text="a">
+                              <TextField fx:id="nameTextField" promptText="Entrez votre nom" styleClass="text-field-form" stylesheets="@styles.css">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -259,7 +259,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="firstnameTextField" promptText="Entrez votre prénom" styleClass="text-field-form" stylesheets="@styles.css" text="a">
+                              <TextField fx:id="firstnameTextField" promptText="Entrez votre prénom" styleClass="text-field-form" stylesheets="@styles.css">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -277,7 +277,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="pseudoTextField" prefHeight="26.0" prefWidth="199.0" promptText="Choisissez un pseudonyme" styleClass="text-field-form" stylesheets="@styles.css" text="a">
+                              <TextField fx:id="pseudoTextField" prefHeight="26.0" prefWidth="199.0" promptText="Choisissez un pseudonyme" styleClass="text-field-form" stylesheets="@styles.css">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -291,7 +291,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <TextField fx:id="mailTextField" prefHeight="33.0" prefWidth="281.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css" text="a@a.com">
+                              <TextField fx:id="mailTextField" prefHeight="33.0" prefWidth="281.0" promptText="Entrez votre email" styleClass="text-field-form" stylesheets="@styles.css">
                                  <font>
                                     <Font size="15.0" />
                                  </font>

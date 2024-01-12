@@ -71,7 +71,7 @@ public class PostOverviewController extends HexaSuper {
     private Label region;
 
     @FXML
-    private Text stateTool;
+    private Text stateTool = new Text();
 
     @FXML
     private Label streetName;
@@ -115,8 +115,11 @@ public class PostOverviewController extends HexaSuper {
 
     private ApplicationToPost applicationToPost;
 
+    @FXML
     public Label sensService;
-    public Label sensTool;
+
+    @FXML
+    public Label sensTool = new Label();
 
     @FXML
     void initialize() {
