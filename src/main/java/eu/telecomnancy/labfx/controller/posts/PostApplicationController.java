@@ -22,9 +22,7 @@ public class PostApplicationController {
     public Label emailApplicant;
     @FXML
     public Text dates;
-    @FXML
     public Button supprimer;
-    @FXML
     public Button modifier;
     @FXML
     private CheckBox check;
@@ -56,16 +54,9 @@ public class PostApplicationController {
     private ArrayList<User> users;
 
     public void initData(LocalDate date, ArrayList<LocalDate> checkedDates) {
+        datesAppli = new ArrayList<>();
         check.setText(date.toString());
         check.setSelected(checkedDates.contains(date));
-        if (!checkedDates.isEmpty()){
-            PostApplyController.setModification(true);
-            datesAppli = checkedDates;
-        }
-        else {
-            datesAppli = new ArrayList<>();
-        }
-
         check.setOnAction(event -> {
             if (check.isSelected()) {
                 PostApplyController.getPost().getDatesOccupied().add(date);
@@ -101,13 +92,10 @@ public class PostApplicationController {
             }
         }
 
-        if (modifier != null && supprimer != null) {
-            if (this.applicationToPost.isAccepted()) {
-                supprimer.setVisible(false);
-                modifier.setVisible(false);
-            }
+        if (this.applicationToPost.isAccepted()) {
+            supprimer.setVisible(false);
+            modifier.setVisible(false);
         }
-
         comment.setText(applicationToPost.getComment());
         emailApplicant.setText(applicationToPost.getApplicantEmail());
         dates.setText(applicationToPost.getDates().toString());

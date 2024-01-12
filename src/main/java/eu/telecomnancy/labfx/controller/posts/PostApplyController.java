@@ -43,14 +43,6 @@ public class PostApplyController {
 
     private List<Post> posts = JsonUtil.jsonToPosts();
 
-    @Getter
-    @Setter
-    private static boolean isModification;
-
-    @Getter
-    @Setter
-    private static ApplicationToPost applicationToPost;
-
     public void initData(Post post) {
         if (listDates != null){
             SceneController sceneController = new SceneController();
@@ -61,60 +53,36 @@ public class PostApplyController {
                 }
             }
 
-            PostApplyController.setModification(false);
             sceneController.goToChekcDate(dates, listDates, post, new ArrayList<>());
         }
     }
 
     public void save_application(ActionEvent actionEvent) {
-        if (!isModification){
-            applications = JsonUtil.jsonToApplications();
-            ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
-            for (User user : users) {
-                if (user.isConnected()){
-                    applicationToPost.setApplicantEmail(user.getEmail());
-                    user.getAppliedToPosts().add(post.getIdPost());
-                }
+        // todo traiter la modification
+        applications = JsonUtil.jsonToApplications();
+        ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
+        for (User user : users) {
+            if (user.isConnected()){
+                applicationToPost.setApplicantEmail(user.getEmail());
+                user.getAppliedToPosts().add(post.getIdPost());
             }
-            JsonUtil.usersToJson((ArrayList<User>) users);
-            applicationToPost.setDates(PostApplicationController.getDatesAppli());
-            applications.add(applicationToPost);
-            JsonUtil.applicationsToJson(applications);
+        }
+        JsonUtil.usersToJson((ArrayList<User>) users);
+        applicationToPost.setDates(PostApplicationController.getDatesAppli());
+        applications.add(applicationToPost);
+        JsonUtil.applicationsToJson(applications);
 
-            for (Post post1 : posts) {
-                if (post1.getIdPost() == post.getIdPost()) {
-                    post1.getApplications().add(applicationToPost.getIdAppli());
-                    for (LocalDate date : PostApplicationController.getDatesAppli()) {
-                        post1.getDatesOccupied().add(date);
-                    }
+        for (Post post1 : posts) {
+            if (post1.getIdPost() == post.getIdPost()) {
+                post1.getApplications().add(applicationToPost.getIdAppli());
+                for (LocalDate date : PostApplicationController.getDatesAppli()) {
+                    post1.getDatesOccupied().add(date);
                 }
             }
-            SceneController sceneController = new SceneController();
-            JsonUtil.postsToJson((ArrayList<Post>) posts);
-            sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
         }
-        else {
-            applications = JsonUtil.jsonToApplications();
-            for (ApplicationToPost application : applications) {
-                if (application.getIdAppli() == applicationToPost.getIdAppli()) {
-                    application.setComment(comment.getText());
-                    application.setDates(PostApplicationController.getDatesAppli());
-                }
-            }
-            JsonUtil.applicationsToJson(applications);
-            posts = JsonUtil.jsonToPosts();
-            for (Post post1 : posts) {
-                if (post1.getIdPost() == post.getIdPost()) {
-                    post1.setDatesOccupied(new ArrayList<>());
-                    for (LocalDate date : PostApplicationController.getDatesAppli()) {
-                        post1.getDatesOccupied().add(date);
-                    }
-                }
-            }
-            JsonUtil.postsToJson((ArrayList<Post>) posts);
-            SceneController sceneController = new SceneController();
-            sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
-        }
+        SceneController sceneController = new SceneController();
+        JsonUtil.postsToJson((ArrayList<Post>) posts);
+        sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
     }
 
     public void back(ActionEvent event) {
@@ -133,9 +101,6 @@ public class PostApplyController {
                 checkedDates.add(date);
             }
         }
-
-        PostApplyController.setModification(true);
-        PostApplyController.setApplicationToPost(applicationToPost);
         sceneController.goToChekcDate(dates, listDates, post, checkedDates);
     }
 }
