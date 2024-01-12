@@ -534,9 +534,11 @@ public class PostEditController extends HexaSuper {
             }
             //posts = JsonUtil.jsonToPosts();
             posts.add(post);
+            System.out.println("Posts.size() = "+ posts.size());
             JsonUtil.postsToJson(posts);
             //TOdo check ici pour l'erreur
             System.out.println("Is it working in Validate Service Post");
+            System.out.println("Overview with a post : " + post.getDescription());
             sceneController.goToOverviewServicePost(event, post);
         }
     }

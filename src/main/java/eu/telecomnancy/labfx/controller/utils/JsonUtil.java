@@ -109,6 +109,7 @@ public class JsonUtil {
         JSONObject postsJson = new JSONObject();
         try {
             if (!posts.isEmpty()){
+                System.out.println("In postsToJason, posts is not empty");
                 for (Post post : posts) {
                     JSONObject json = postToJson(post);
                     postsJson.put("post" + post.getIdPost(), json);
@@ -152,6 +153,7 @@ public class JsonUtil {
 
             for (int i = 0; i < Post.getListId().size() ; i++){
                 int val = Post.getListId().get(i);
+                System.out.println(("In jsonToPosts val = " + val ));
                 JSONObject jsonObject = json.getJSONObject("post" + val);
                 posts.add(jsonToPost(jsonObject));
             }
