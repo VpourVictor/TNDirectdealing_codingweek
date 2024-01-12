@@ -734,6 +734,20 @@ public class JsonUtil {
         convs.removeIf(conversation -> (!(conversation.getUser1().getEmail().equals(user.getEmail())) && (!conversation.getUser2().getEmail().equals(user.getEmail()))));
         return convs;
     }
+
+    /*public static void changeUserInJson(User user){
+        String mail = user.getEmail();
+        ArrayList<User> users = jsonToUsers();
+        int i = 0;
+        while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail)){
+            i++;
+        }
+        users.get(i).setFirstName(user.getFirstName());
+        users.get(i).setLastName(user.getLastName());
+        users.get(i).setPseudo(user.getPseudo());
+        users.get(i).setPassword(user.getPassword());
+        //users.get(i).setProfilePicture(user.getProfilePicture().getUrl());
+    }*/
 }
 
 
