@@ -42,6 +42,8 @@ public class MainController implements Initializable {
     @Setter
     private int position;
     @Setter
+    private int old_position;
+    @Setter
     private User userMain;
     @Setter
     private Conversation conversation;
@@ -301,6 +303,13 @@ public class MainController implements Initializable {
         HexagonController controllerR = loaderR.getController();
         HexagonController controllerL = loaderL.getController();
 
+/*        controllerUR.setOld_position(old_position);
+        controllerUL.setOld_position(old_position);
+        controllerDR.setOld_position(old_position);
+        controllerDL.setOld_position(old_position);
+        controllerR.setOld_position(old_position);
+        controllerL.setOld_position(old_position);*/
+
         controllerUR.updateLabel(position, "UR");
         controllerUL.updateLabel(position,"UL");
         controllerDR.updateLabel(position,"DR");
@@ -326,6 +335,20 @@ public class MainController implements Initializable {
                 paneUpRight.setOnMouseClicked(null);
                 paneDownLeft.setOnMouseClicked(null);
                 paneDownRight.setOnMouseClicked(null);
+                break;
+            case 13:
+                paneUpLeft.setOnMouseClicked(null);
+                paneUpRight.setOnMouseClicked(null);
+                paneDownLeft.setOnMouseClicked(null);
+                paneDownRight.setOnMouseClicked(null);
+                paneLeft.setOnMouseClicked(null);
+                break;
+            case 10:
+                paneUpLeft.setOnMouseClicked(null);
+                paneUpRight.setOnMouseClicked(null);
+                paneDownLeft.setOnMouseClicked(null);
+                paneDownRight.setOnMouseClicked(null);
+                paneRight.setOnMouseClicked(null);
                 break;
         }
         //TODO bloquer les voies
@@ -409,10 +432,10 @@ public class MainController implements Initializable {
                 currentPane = ((HomepageController) controller).getPaneTest();
             }
             if(position == 20) {
-                System.out.println("testadhshchhscscbbcbcb");
+                System.out.println(userMain.getEmail());
                 Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
                 Address adresse = new Address(5, "d", 6, "y", "h", "s");
-                User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
+                User user = new User("test", "test", "test@test.com", "Rezko", "pas", adresse, image);
                 User user2 = new User("test2", "test2", "test2@gmail.com", "Rezko2", "pas", adresse, image);
                 User user3 = new User("test3", "test2", "aaa", "Rezko3", "pas", adresse, image);
                 User user4 = new User("test4", "test2", "bbb", "Rezko4", "pas", adresse, image);
@@ -428,6 +451,10 @@ public class MainController implements Initializable {
                 ((MessagerieController) controller).setAndLoad(userMain);
             }
             if(position == 22){
+                if(old_position == 21 || old_position ==24){
+                    ((PostEditController)controller).setModify(modify);
+                    ((PostEditController)controller).initData(post);
+                }
                 ((PostEditController)controller).setPart2(false);
                 if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null)){
                     ((PostEditController)controller).initData(post);
@@ -540,6 +567,7 @@ public class MainController implements Initializable {
             }
 
             if(position == 20){
+                /*System.out.println(userMain.getEmail());
                 Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
                 Address adresse = new Address(5,"d",6,"y","h", "s");
                 User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
@@ -553,7 +581,7 @@ public class MainController implements Initializable {
                 users.add(user3);
                 users.add(user4);
                 JsonUtil.usersToJson(users);
-                User.setNbUsers(4);
+                User.setNbUsers(4);*/
                 ((MessagerieController)controller).setAndLoad(userMain);
             }
             if(position == 26){
@@ -607,6 +635,7 @@ public class MainController implements Initializable {
     }
 
     private void updatePosition(String direction) {
+        old_position = position;
         if (position == 0) {
             if (direction.equals("UP_LEFT")) {
                 position = 1;
@@ -972,9 +1001,9 @@ public class MainController implements Initializable {
             } else if (direction.equals("UP_RIGHT")) {
                 position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 23;
-            } else if (direction.equals("DOWN_RIGHT")) {
                 position = 22;
+            } else if (direction.equals("DOWN_RIGHT")) {
+                position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
@@ -1006,13 +1035,13 @@ public class MainController implements Initializable {
             } else if (direction.equals("UP_RIGHT")) {
                 position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 14;
+                position = 22;
             } else if (direction.equals("DOWN_RIGHT")) {
                 position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 21;
+                position = 17;
             }
             else {
                 position = 14;
@@ -1023,11 +1052,11 @@ public class MainController implements Initializable {
             } else if (direction.equals("UP_RIGHT")) {
                 position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 25;
+                position = 22;
             } else if (direction.equals("DOWN_RIGHT")) {
                 position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
-                position = 22;
+                position = 14;
             } else if (direction.equals("LEFT")) {
                 position = 14;
             }
@@ -1040,13 +1069,13 @@ public class MainController implements Initializable {
             } else if (direction.equals("UP_RIGHT")) {
                 position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 14;
+                position = 22;
             } else if (direction.equals("DOWN_RIGHT")) {
                 position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 24;
+                position = 17;
             }
             else {
                 position = 14;
