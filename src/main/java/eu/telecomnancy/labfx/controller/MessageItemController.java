@@ -39,7 +39,7 @@ public class MessageItemController implements Initializable {
 
     public void setData(Conversation conversation) {
         this.conversation = conversation;
-        if (conversation.getUser1() == user) {
+        if (conversation.getUser1().getEmail().equals(user.getEmail())) {
             photo.setImage(conversation.getUser2().getProfilePicture());
             nomText.setText(conversation.getUser2().getPseudo());
             mailText.setText(conversation.getUser2().getEmail());
@@ -54,13 +54,13 @@ public class MessageItemController implements Initializable {
     public void openConvo(ActionEvent event) throws IOException {
         if (!delete) {
             SceneController sc = new SceneController();
-            sc.openConv(user, conversation, event);
+            sc.openConvHexa(user, conversation, event);
         }
         else{
             user.delConv(conversation);
             JsonUtil.delConv(conversation);
             SceneController sc = new SceneController();
-            sc.goBackMessagerie(user, event);
+            sc.goBackMessagerieHexa(user, event);
         }
     }
 }

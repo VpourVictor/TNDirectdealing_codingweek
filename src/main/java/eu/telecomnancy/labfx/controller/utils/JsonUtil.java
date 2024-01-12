@@ -91,10 +91,12 @@ public class JsonUtil {
                 json.put("type", "service");
                 json.put("descriptionService", post.getDescriptionService());
                 json.put("providers", providersToJson(post.getProviders()));
+                json.put("sensService", post.getSensService());
             }
             else if (post instanceof Tool) {
                 json.put("type", "tool");
                 json.put("stateTool", post.getStateTool());
+                json.put("sensTool", post.getSensTool());
             }
 
             return json;
@@ -110,7 +112,6 @@ public class JsonUtil {
         JSONObject postsJson = new JSONObject();
         try {
             if (!posts.isEmpty()){
-                System.out.println("In postsToJason, posts is not empty");
                 for (Post post : posts) {
                     JSONObject json = postToJson(post);
                     postsJson.put("post" + post.getIdPost(), json);
@@ -204,14 +205,29 @@ public class JsonUtil {
             Type_Date type_date = Type_Date.valueOf(jsonObject.getString("type_date"));
 
             if (type.equals("service")) {
-                return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId);
+                if (jsonObject.getString("sensService").equals("PROPOSITION")){
+                    return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId, SensService.PROPOSITION);
+                }
+                else {
+                    return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId, SensService.DEMANDE);
+
+                }
             }
             else if (type.equals("tool")) {
-                return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId);
+                if (jsonObject.getString("sensTool").equals("PRET")){
+                    return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId, SensTool.PRET);
+                }
+                else {
+                    return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
+                            jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                            jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId, SensTool.EMPRUNT);
+                }
             }
             else
                 return null;
@@ -343,9 +359,9 @@ public class JsonUtil {
 
             JSONObject json = new JSONObject(builder.toString());
 
-            if (User.getNbUsers() == 0)
+            if (User.getNbUsers() == 0) {//(json.length() == 0)         //TODO JAI CHANGE CA, A MODIF LE RESTE POUR QUE CA MARCHE
                 return users;
-
+            }
             for (int i = 1; i <= User.getNbUsers() ; i++){
                 JSONObject jsonObject = json.getJSONObject("user" + i);
                 users.add(jsonToUser(jsonObject));
@@ -374,23 +390,24 @@ public class JsonUtil {
 
     public static void saveMsgInJason(Message msg){
         String path = "src/main/resources/json/messages.json";
-        ArrayList<Message> list = recupMsgData(path);
+        ArrayList<Message> list = recupMsgData();
         list.add(msg);
         sendMsgInJason(list);
         Message.setNb_msgs(Message.getNb_msgs()+1);
     }
 
-    public static ArrayList<Message> recupMsgData(String path){
+    public static ArrayList<Message> recupMsgData(){
         try {
+            String path = "src/main/resources/json/messages.json";
             JSONObject json = readJsonFileFromPath(path);
             ArrayList<Message> list = new ArrayList<>();
 
             //int nb_msgs = Message.getNb_msgs();
-            if (Message.getNb_msgs() == 0){
+            if (json.length() == 0){
                 return list;
             }
             System.out.println("jusquici ca va");
-            for (int i = 1; i <= Message.getNb_msgs() ; i++){
+            for (int i = 1; i <= json.length() ; i++){
                 JSONObject jsonmsg = json.getJSONObject("message" + i);
                 System.out.println("ici?");
                 Message msg = jsonToMessage(jsonmsg);
@@ -450,6 +467,9 @@ public class JsonUtil {
             while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
                 i++;
             }
+            if(i == User.getNbUsers()){
+
+            }
             User user = users.get(i);
             return user;
         }
@@ -487,15 +507,16 @@ public class JsonUtil {
         }
     }
 
-    public static ArrayList<Conversation> recupConvFromJson(String path){
+    public static ArrayList<Conversation> recupConvFromJson(){
         try {
+            String path = "src/main/resources/json/conversations.json";
             JSONObject json = readJsonFileFromPath(path);
             ArrayList<Conversation> list = new ArrayList<>();
-
-            if (Conversation.getNb_convs() == 0){
+            int nb_users = json.length();
+            if (nb_users == 0 || json.has("conv0")){
                 return list;
             }
-            for (int i = 1; i <= Conversation.getNb_convs() ; i++){
+            for (int i = 1; i <= nb_users ; i++){
                 JSONObject jsonConv = json.getJSONObject("conv" + i);
                 Conversation conversation = jsonToConv(jsonConv);
                 list.add(conversation);
@@ -540,7 +561,7 @@ public class JsonUtil {
 
     public static ArrayList<Message> messageFromConvBetween(User user1, User user2){
         String path = "src/main/resources/json/messages.json";
-        ArrayList<Message> msgList = recupMsgData(path);
+        ArrayList<Message> msgList = recupMsgData();
         ArrayList<Message> listfinale = new ArrayList<Message>();
         for (Message msg : msgList){
             System.out.println("message contenu : " + msg.getContent());
@@ -555,8 +576,7 @@ public class JsonUtil {
     }
 
     public static void saveConvInJson(Conversation conversation){
-        String path = "src/main/resources/json/conversations.json";
-        ArrayList<Conversation> convs = recupConvFromJson(path);
+        ArrayList<Conversation> convs = recupConvFromJson();
         convs.add(conversation);
         sendConvLInJson(convs);
         Conversation.setNb_convs(Conversation.getNb_convs() + 1);
@@ -593,8 +613,7 @@ public class JsonUtil {
     }
 
     public static void actualiserConv(int id){
-        String path = "src/main/resources/json/conversations.json";
-        ArrayList<Conversation> convs = recupConvFromJson(path);
+        ArrayList<Conversation> convs = recupConvFromJson();
         int i = 0;
         while (i <convs.size() && convs.get(i).getId() != id){
             i++;
@@ -610,8 +629,7 @@ public class JsonUtil {
     }
 
     public static boolean conversationExiste(String mail, String user_email){
-        String path = "src/main/resources/json/conversations.json";
-        ArrayList<Conversation> convs = recupConvFromJson(path);
+        ArrayList<Conversation> convs = recupConvFromJson();
         for (Conversation conversation : convs){
             if (conversation.getUser1().getEmail().equals(mail) || conversation.getUser1().getEmail().equals(user_email)){
                 if (conversation.getUser2().getEmail().equals(mail) || conversation.getUser2().getEmail().equals(user_email)){
@@ -624,7 +642,7 @@ public class JsonUtil {
 
     public static void delConv(Conversation conv){
         String path = "src/main/resources/json/conversations.json";
-        ArrayList<Conversation> convs = recupConvFromJson(path);
+        ArrayList<Conversation> convs = recupConvFromJson();
         int i = 0;
         while (convs.get(i).getId() != conv.getId()) {
             i++;
@@ -731,6 +749,96 @@ public class JsonUtil {
         }
     }
 
+
+    public static ArrayList<Conversation> convsOfUser(User user){
+        ArrayList<Conversation> convs = recupConvFromJson();
+        System.out.println(Conversation.getNb_convs());
+        System.out.println(recupConvFromJson().size());
+        convs.removeIf(conversation -> (!(conversation.getUser1().getEmail().equals(user.getEmail())) && (!conversation.getUser2().getEmail().equals(user.getEmail()))));
+        return convs;
+    }
+    public static void getNbApplications(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/applications.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            ApplicationToPost.setNbAppli(json.length());
+            if (ApplicationToPost.getNbAppli() == 0)
+                return;
+
+            for (int i = 1; i <= json.length() ; i++){
+                ApplicationToPost.getListId().add(i);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getNbPosts(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/posts.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            Post.setNbPosts(json.length());
+            if (Post.getNbPosts() == 0)
+                return;
+
+            for (int i = 1; i <= json.length() ; i++){
+                Post.getListId().add(i);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // faire avec user
+    public static void getNbUsers(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/users.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            User.setNbUsers(json.length());
+            if (User.getNbUsers() == 0)
+                return;
+            for (int i = 1; i <= json.length() ; i++){
+                // récupérer les mails
+                User.getEmailList().add(json.getJSONObject("user" + i).getString("email"));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

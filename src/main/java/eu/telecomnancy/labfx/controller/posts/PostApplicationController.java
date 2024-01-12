@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller.posts;
 
+import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
 import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
@@ -9,15 +10,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostApplicationController {
+public class PostApplicationController extends HexaSuper {
     @FXML
     public Label emailApplicant;
     @FXML
@@ -52,6 +56,17 @@ public class PostApplicationController {
 
     @FXML
     private ArrayList<User> users;
+
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+
+
+    public Polygon getHexagon() {
+        return hexagon;
+    }
+
 
     public void initData(LocalDate date, ArrayList<LocalDate> checkedDates) {
         datesAppli = new ArrayList<>();
@@ -119,16 +134,16 @@ public class PostApplicationController {
 
     }
 
-    public void back(ActionEvent event) {
+    public void back(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void accept(ActionEvent event) {
+    public void accept(ActionEvent event) throws IOException {
         applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
         for (ApplicationToPost application : applications) {
 
@@ -140,13 +155,13 @@ public class PostApplicationController {
         JsonUtil.applicationsToJson(applications);
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void refuse(ActionEvent event) {
+    public void refuse(ActionEvent event) throws IOException {
         applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
         for (ApplicationToPost application : applications) {
             if (application.getIdAppli() == applicationToPost.getIdAppli()) {
@@ -173,13 +188,13 @@ public class PostApplicationController {
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void delete(ActionEvent event) {
+    public void delete(ActionEvent event) throws IOException {
         users = JsonUtil.jsonToUsers();
         for (User user : users) {
             if (user.isConnected()){
@@ -227,15 +242,15 @@ public class PostApplicationController {
         JsonUtil.applicationsToJson(applications);
         SceneController sceneController = new SceneController();
         if (post instanceof Service)
-            sceneController.goToOverviewServicePost(event, post);
+            sceneController.goToOverviewServicePostHexa(event, post);
 
         if (post instanceof Tool)
-            sceneController.goToOverviewToolPost(event, post);
+            sceneController.goToOverviewToolPostHexa(event, post);
 
     }
 
-    public void modify(ActionEvent event) {
+    public void modify(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToModifApplication(event, applicationToPost);
+        sceneController.goToModifApplicationHexa(event, applicationToPost);
     }
 }

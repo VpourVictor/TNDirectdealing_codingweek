@@ -273,7 +273,7 @@ public class AlgoUtil {
                 post.setState(State.TERMINE);
                 ArrayList<ApplicationToPost> allApplications = getApplicationsFromPost(post);
                 for(ApplicationToPost application : allApplications){
-                    if (application.getAccepted()){
+                    if (application.isAccepted()){
                         User helpingUser = getUserFromMail(application.getApplicantEmail());
                         User helpedUser = getUserFromMail(post.getAuthorEmail());
                         helpedUser.setCoins(helpedUser.getCoins()  - 25);

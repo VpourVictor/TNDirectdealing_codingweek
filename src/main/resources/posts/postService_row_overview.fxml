@@ -43,11 +43,12 @@
       <Button layoutX="14.0" layoutY="237.0" mnemonicParsing="false" onAction="#viewService" text="Voir" />
       <Label fx:id="email" layoutX="267.0" layoutY="169.0" prefHeight="18.0" prefWidth="175.0" />
       <ListView fx:id="listDate" layoutX="101.0" layoutY="517.0" prefHeight="148.0" prefWidth="288.0" />
-      <Label fx:id="type_date" layoutX="409.0" layoutY="517.0" prefHeight="18.0" prefWidth="142.0" />
       <Button fx:id="masquer" layoutX="8.0" layoutY="281.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false" />
       <Button fx:id="demasquer" layoutX="13.0" layoutY="312.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
       <Button fx:id="postuler" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
       <Button fx:id="candidatures" layoutX="14.0" layoutY="450.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
-      <Button fx:id="open_candidature" layoutX="712.0" layoutY="31.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false"/>
+      <Button fx:id="open_candidature" layoutX="712.0" layoutY="31.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false" />
+      <Label fx:id="sensService" layoutX="101.0" layoutY="123.0" prefHeight="18.0" prefWidth="110.0" />
+      <Label fx:id="city" layoutX="185.0" layoutY="172.0" prefHeight="18.0" prefWidth="134.0" />
    </children>
 </AnchorPane>

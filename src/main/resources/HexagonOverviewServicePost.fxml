@@ -16,45 +16,46 @@
    <children>
       <Group layoutX="57.0" layoutY="163.0">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <Label fx:id="title" alignment="CENTER" layoutX="24.0" layoutY="-79.0" prefHeight="46.0" prefWidth="566.0">
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-117.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+            <Label fx:id="title" alignment="CENTER" layoutX="161.0" layoutY="-27.0" prefHeight="46.0" prefWidth="292.0">
                <font>
-                  <Font size="30.0" />
+                  <Font size="15.0" />
                </font>
             </Label>
-            <Text fx:id="description" layoutX="35.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="544.8000244140626" />
-            <Label layoutX="-22.0" layoutY="72.0" prefHeight="18.0" prefWidth="118.0" text="Annonce postée par :" />
-            <Label fx:id="firstName" layoutX="114.0" layoutY="72.0" prefHeight="18.0" prefWidth="175.0" />
-            <Label fx:id="lastName" layoutX="324.0" layoutY="72.0" prefHeight="18.0" prefWidth="175.0" />
-            <Label layoutX="-11.0" layoutY="109.0" prefHeight="18.0" prefWidth="70.0" text="Date début : " />
-            <Label layoutX="-11.0" layoutY="135.0" prefHeight="18.0" prefWidth="70.0" text="Date fin : " />
-            <Label fx:id="dateStart" layoutX="63.0" layoutY="109.0" prefHeight="18.0" prefWidth="89.0" />
-            <Label fx:id="dateEnd" layoutX="63.0" layoutY="135.0" prefHeight="18.0" prefWidth="89.0" />
-            <Label layoutX="-5.0" layoutY="175.0" prefHeight="18.0" prefWidth="58.0" text="Adresse :" />
-            <Label fx:id="streetNumber" layoutX="59.0" layoutY="175.0" prefHeight="18.0" prefWidth="23.0" />
-            <Label fx:id="streetName" layoutX="114.0" layoutY="175.0" prefHeight="18.0" prefWidth="133.0" />
-            <Label fx:id="postalCode" layoutX="289.0" layoutY="175.0" prefHeight="18.0" prefWidth="134.0" />
-            <Label fx:id="country" layoutX="456.0" layoutY="175.0" prefHeight="18.0" prefWidth="134.0" />
-            <Label fx:id="region" layoutX="463.0" layoutY="184.0" prefHeight="18.0" prefWidth="134.0" />
-            <ImageView fx:id="image" fitHeight="179.0" fitWidth="356.0" layoutX="262.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true" />
-            <TableView fx:id="personTable" layoutX="96.0" layoutY="307.0" prefHeight="167.0" prefWidth="422.0">
+            <Text fx:id="description" layoutX="35.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="544.8000244140626" />
+            <Label layoutX="-17.0" layoutY="92.0" prefHeight="18.0" prefWidth="118.0" text="Annonce postée par :" />
+            <Label fx:id="firstName" layoutX="114.0" layoutY="110.0" prefHeight="18.0" prefWidth="175.0" />
+            <Label fx:id="lastName" layoutX="115.0" layoutY="83.0" prefHeight="18.0" prefWidth="175.0" />
+            <Label layoutX="-17.0" layoutY="145.0" prefHeight="18.0" prefWidth="58.0" text="Adresse :" />
+            <Label fx:id="streetNumber" layoutX="48.0" layoutY="145.0" prefHeight="18.0" prefWidth="23.0" />
+            <Label fx:id="streetName" layoutX="82.0" layoutY="145.0" prefHeight="18.0" prefWidth="133.0" />
+            <Label fx:id="postalCode" layoutX="40.0" layoutY="172.0" prefHeight="18.0" prefWidth="134.0" />
+            <Label fx:id="country" layoutX="185.0" layoutY="199.0" prefHeight="18.0" prefWidth="134.0" />
+            <Label fx:id="region" layoutX="40.0" layoutY="199.0" prefHeight="18.0" prefWidth="134.0" />
+            <ImageView fx:id="image" fitHeight="133.0" fitWidth="211.0" layoutX="338.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
+            <TableView fx:id="personTable" layoutX="-17.0" layoutY="348.0" prefHeight="79.0" prefWidth="423.0">
                <columns>
-                  <TableColumn fx:id="lastNameColumn" prefWidth="211.99998474121094" text="Nom" />
-                  <TableColumn fx:id="firstNameColumn" prefWidth="210.4000244140625" text="Prénom" />
+                  <TableColumn fx:id="lastNameColumn" prefWidth="135.1999740600586" text="Nom" />
+                  <TableColumn fx:id="firstNameColumn" prefWidth="132.0" text="Prénom" />
+                  <TableColumn fx:id="emailColumn" prefWidth="152.0" text="Email" />
                </columns>
             </TableView>
-            <Text fx:id="descriptionService" layoutX="202.0" layoutY="506.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="210.13671875" />
-            <Button fx:id="modifier" layoutX="-7.0" layoutY="353.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
-            <Button layoutX="-9.0" layoutY="390.0" mnemonicParsing="false" onAction="#viewAllHexa" text="Voir tous" />
-            <Button fx:id="supprimer" layoutX="-12.0" layoutY="312.0" mnemonicParsing="false" onAction="#deleteHexa" text="Supprimer" />
-            <Label fx:id="email" layoutX="376.0" layoutY="37.0" prefHeight="18.0" prefWidth="175.0" />
-            <ListView fx:id="listDate" layoutX="355.0" layoutY="157.0" prefHeight="200.0" prefWidth="288.0" />
-            <Label fx:id="type_date" layoutX="185.0" layoutY="265.0" prefHeight="18.0" prefWidth="154.0" />
-            <Button fx:id="masquer" layoutX="107.0" layoutY="481.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false" />
-            <Button fx:id="demasquer" layoutX="230.0" layoutY="481.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
-            <Button fx:id="postuler" layoutX="339.0" layoutY="481.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
-            <Button fx:id="candidatures" layoutX="421.0" layoutY="474.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
-            <Button fx:id="open_candidature" layoutX="215.0" layoutY="529.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false" />
+            <Text fx:id="descriptionService" layoutX="-17.0" layoutY="259.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="308.5367431640625" />
+            <Button fx:id="modifier" layoutX="125.0" layoutY="441.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
+            <Button layoutX="279.0" layoutY="531.0" mnemonicParsing="false" onAction="#viewAll" text="Voir tous" />
+            <Button fx:id="supprimer" layoutX="46.0" layoutY="441.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+            <Label fx:id="email" layoutX="311.0" layoutY="92.0" prefHeight="18.0" prefWidth="175.0" />
+            <ListView fx:id="listDate" layoutX="421.0" layoutY="321.0" prefHeight="106.0" prefWidth="190.0" />
+            <Button fx:id="masquer" layoutX="94.0" layoutY="474.0" mnemonicParsing="false" onAction="#hide" text="Masquer" visible="false" />
+            <Button fx:id="demasquer" layoutX="164.0" layoutY="474.0" mnemonicParsing="false" onAction="#show" text="Démasquer" visible="false" />
+            <Button fx:id="postuler" layoutX="289.0" layoutY="453.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
+            <Button fx:id="candidatures" layoutX="359.0" layoutY="453.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
+            <Button fx:id="open_candidature" layoutX="460.0" layoutY="453.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false" />
+            <Label fx:id="sensService" layoutX="252.0" layoutY="-71.0" prefHeight="18.0" prefWidth="110.0" />
+            <Label layoutX="-18.0" layoutY="218.0" text="Description" />
+            <Label layoutX="-17.0" layoutY="324.0" text="Prestataires" />
+            <Label layoutX="421.0" layoutY="296.0" text="Liste des dates" />
+            <Label fx:id="city" layoutX="185.0" layoutY="172.0" prefHeight="18.0" prefWidth="134.0" />
          </children>
       </Group>
    </children>

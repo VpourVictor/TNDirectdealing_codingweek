@@ -1,10 +1,14 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.posts.PostApplicationController;
+import eu.telecomnancy.labfx.controller.posts.PostApplyController;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
 import javafx.animation.*;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,7 +30,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-//TODO Voir passage param viewall
+@Setter
+    public ApplicationToPost applicationToPost;
     @Setter
     public Post post = null;
     @Setter
@@ -72,6 +77,10 @@ public class MainController implements Initializable {
     Polygon testPane2;
     @FXML
     Polygon testPane3;
+
+    @Setter
+    @Getter
+    ArrayList<String> select;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,7 +138,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveUpRight(MouseEvent event) throws InterruptedException, IOException {
+    public void moveUpRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             root.translateXProperty().set(offX+435);
             root.translateYProperty().set(offY-693);
@@ -189,7 +198,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveDownRight(MouseEvent event) throws InterruptedException, IOException {
+    public void moveDownRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
             root.translateXProperty().set(offX+435);
@@ -217,7 +226,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveLeft(MouseEvent event) throws InterruptedException, IOException {
+    public void moveLeft(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
             root.translateXProperty().set(offX-870);
@@ -245,7 +254,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void moveRight(MouseEvent event) throws InterruptedException, IOException {
+    public void moveRight(MouseEvent event) throws InterruptedException, IOException {
         if (!moving) {
             moving = true;
             root.translateXProperty().set(offX+870);
@@ -329,6 +338,58 @@ public class MainController implements Initializable {
     }
 
     public void handleMovement(int position){
+        paneUpLeft.setOnMouseClicked(event -> {
+            try {
+                moveUpLeft(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneUpRight.setOnMouseClicked(event -> {
+            try {
+                moveUpRight(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneDownLeft.setOnMouseClicked(event -> {
+            try {
+                moveDownLeft(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneDownRight.setOnMouseClicked(event -> {
+            try {
+                moveDownRight(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneLeft.setOnMouseClicked(event -> {
+            try {
+                moveLeft(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        paneRight.setOnMouseClicked(event -> {
+            try {
+                moveRight(event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
         switch (position) {
             case 7:
                 paneUpLeft.setOnMouseClicked(null);
@@ -354,6 +415,7 @@ public class MainController implements Initializable {
         //TODO bloquer les voies
 
     }
+
 
     public void loadPosition() throws IOException {
         String fxmlPath = "";
@@ -409,7 +471,7 @@ public class MainController implements Initializable {
                 controllerType = PostOverviewController.class;
                 break;
             case 17 :
-                fxmlPath = "/HexagonAllPost.fxml";
+                fxmlPath = "/HexagonAll.fxml";
                 controllerType = PostEditController.class;
                 break;
             case 22 :
@@ -428,11 +490,17 @@ public class MainController implements Initializable {
 
             colorizeHexagon(controller.getHexagon(), true);
 
+            if(position == 26){
+                ((ConversationController)controller).setConv(conversation);
+                ((ConversationController)controller).setAndLoad(userMain);
+
+            }
+
             if(position == 0){
                 currentPane = ((HomepageController) controller).getPaneTest();
             }
             if(position == 20) {
-                System.out.println(userMain.getEmail());
+                /*System.out.println(userMain.getEmail());
                 Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
                 Address adresse = new Address(5, "d", 6, "y", "h", "s");
                 User user = new User("test", "test", "test@test.com", "Rezko", "pas", adresse, image);
@@ -447,8 +515,10 @@ public class MainController implements Initializable {
                 users.add(user4);
 
                 JsonUtil.usersToJson(users);
-                User.setNbUsers(4);
+                User.setNbUsers(4);*/
                 ((MessagerieController) controller).setAndLoad(userMain);
+
+
             }
             if(position == 22){
                 if(old_position == 21 || old_position ==24){
@@ -534,9 +604,13 @@ public class MainController implements Initializable {
             case 21 -> loadFXML("/HexagonEditTool.fxml", PostEditController.class);
             case 25 -> loadFXML("/HexagonOverviewServicePost.fxml", PostOverviewController.class);
             case 23 -> loadFXML("/HexagonOverviewToolPost.fxml", PostOverviewController.class);
-            case 17 -> loadFXML("/HexagonAllPost.fxml", PostEditController.class);
+            case 17 -> loadFXML("/HexagonAll.fxml", PostEditController.class);
             case 22 -> loadFXML("/HexagonNew.fxml", PostEditController.class);
             case 26 -> loadFXML("/HexagonConv.fxml", ConversationController.class);
+            case 27 -> loadFXML("/HexagonAllApplication.fxml", PostApplicationController.class);
+            case 28 -> loadFXML("/HexagonApply.fxml", PostApplyController.class);
+            case 29 -> loadFXML("/HexagonMyApplication.fxml", PostApplicationController.class);
+
         }
     }
 
@@ -556,37 +630,43 @@ public class MainController implements Initializable {
                 ((PostEditController)controller).initData(post, null);
 
             }
-            if(position == 23){
-                ((PostOverviewController)controller).initData(post);
-            }
-            if(position == 25){
+            if(position == 23 || position ==25){
                 ((PostOverviewController)controller).initData(post);
             }
             if (position == 17){
-                ((PostEditController)controller).initData(null, null);
+                if (this.select == null)
+                    ((PostEditController)controller).initData(null, null);
+                else
+                    ((PostEditController)controller).initData(null, this.select);
+            }
+            if(position == 27){
+                ((PostApplicationController)controller).initData(post);
+            }
+            if(position == 22){
+                if(old_position == 17){
+                    ((PostEditController)controller).setPart2(false);
+                    ((PostEditController)controller).initData(post, null);
+                }
+                else {
+                    ((PostEditController) controller).setModify(modify);
+                    ((PostEditController) controller).initData(post, null);
+                }
+            }
+            if(position == 28){
+                ((PostApplyController)controller).initData(post);
+            }
+            if(position == 29){
+                ((PostApplicationController)controller).initData(applicationToPost);
             }
 
+
             if(position == 20){
-                /*System.out.println(userMain.getEmail());
-                Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
-                Address adresse = new Address(5,"d",6,"y","h", "s");
-                User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
-                User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, image);
-                User user3 = new User("test3", "test2","aaa", "Rezko3", "pas", adresse, image);
-                User user4 = new User("test4", "test2","bbb", "Rezko4", "pas", adresse, image);
-                User.setNbUsers(0);
-                ArrayList<User> users = JsonUtil.jsonToUsers();
-                users.add(user);
-                users.add(user2);
-                users.add(user3);
-                users.add(user4);
-                JsonUtil.usersToJson(users);
-                User.setNbUsers(4);*/
                 ((MessagerieController)controller).setAndLoad(userMain);
             }
             if(position == 26){
                 ((ConversationController)controller).setConv(conversation);
                 ((ConversationController)controller).setAndLoad(userMain);
+
             }
             controller.getHexagon().setFill(Color.web("#F08A26"));
 
@@ -1024,7 +1104,7 @@ public class MainController implements Initializable {
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 14;
+                position = 17;
             }
             else {
                 position = 14;

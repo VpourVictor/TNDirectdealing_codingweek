@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PostOverviewController extends HexaSuper {
     private Post post;
@@ -78,11 +79,11 @@ public class PostOverviewController extends HexaSuper {
     @FXML
     private Label title;
 
+    @FXML private Label city;
+
     private ArrayList<Post> posts;
 
     public ListView<LocalDate> listDate;
-
-    @FXML private  Label type_date;
     private final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
     @FXML
     Pane hexagonPane;
@@ -113,6 +114,9 @@ public class PostOverviewController extends HexaSuper {
     public Button open_candidature;
 
     private ApplicationToPost applicationToPost;
+
+    public Label sensService;
+    public Label sensTool;
 
     @FXML
     void initialize() {
@@ -229,74 +233,80 @@ public class PostOverviewController extends HexaSuper {
             }
         });
 
-        if (post.getType_date() == Type_Date.PONCTUELLES) {
-            type_date.setText("Ponctuelle");
-        } else if (post.getType_date() == Type_Date.PLAGE) {
-            type_date.setText("Plage");
-        } else if (post.getType_date() == Type_Date.PONCTUELLE_REC) {
-            type_date.setText("Ponctuelle récurrente");
+        if (post instanceof Service) {
+            sensService.setText(post.getSensService().toString());
+        } else if (post instanceof Tool) {
+            sensTool.setText(post.getSensTool().toString());
         }
+
         title.setText(post.getTitle());
+        streetNumber.setText(String.valueOf(post.getAddress().getStreetNumber()));
         country.setText(post.getAddress().getCountry());
         postalCode.setText(String.valueOf(post.getAddress().getPostalCode()));
+        city.setText(post.getAddress().getCity());
         region.setText(post.getAddress().getRegion());
         streetName.setText(post.getAddress().getStreetName());
         image.setImage(post.getImage());
     }
+    // tdoo
 
-    public void modify(ActionEvent event) {
+    public void modify(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToEditPost(event, post, true);
+        sceneController.goToEditPostHexa(event, post, true);
     }
 
-    public void viewAll(ActionEvent event) {
+    public void viewAll(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts, null);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
-    public void delete(ActionEvent event) {
+    public void delete(ActionEvent event) throws IOException {
+        users = JsonUtil.jsonToUsers();
         posts = JsonUtil.jsonToPosts();
+        applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
         for (int i = 0; i < posts.size(); i++){
             if (posts.get(i).getIdPost() == this.post.getIdPost()){
                 int id = posts.get(i).getIdPost();
+                ArrayList<Integer> myAppli = (ArrayList<Integer>) posts.get(i).getApplications();
+                for (Integer integer : myAppli) {
+                    for (int k = 0; k < Objects.requireNonNull(applications).size(); k++) {
+                        if (applications.get(k).getIdAppli() == integer) {
+                            ApplicationToPost.getListId().remove((Integer) applications.get(k).getIdAppli());
+                            ApplicationToPost.setNbAppli(ApplicationToPost.getNbAppli() - 1);
+                            applications.remove(applications.get(k));
+                        }
+                    }
+                }
+
+                for (User user : users){
+                    user.getAppliedToPosts().remove((Integer) id);
+                }
+
                 posts.remove(posts.get(i));
                 Post.getListId().remove((Integer) id);
+                Post.setNbPosts(Post.getNbPosts() - 1);
             }
         }
 
-        Post.setNbPosts(Post.getNbPosts() - 1);
+        JsonUtil.usersToJson(users);
         JsonUtil.postsToJson(posts);
+        JsonUtil.applicationsToJson(applications);
 
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts, null);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
-    public void viewService(ActionEvent event) {
+    public void viewService(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToOverviewServicePost(event, post);
+        sceneController.goToOverviewServicePostHexa(event, post);
     }
 
-    public void viewTool(ActionEvent event) {
+    public void viewTool(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToOverviewToolPost(event, post);
-    }
-    public void deleteHexa(ActionEvent event) throws IOException {
-        posts = JsonUtil.jsonToPosts();
-        posts.removeIf(postR -> postR.getIdPost() == this.post.getIdPost());
-        Post.setNbPosts(Post.getNbPosts() - 1);
-        JsonUtil.postsToJson(posts);
-
-        SceneController sceneController = new SceneController();
-        sceneController.goToMain(event,17);
-        //sceneController.goToAllPosts(event, posts);
-    }
-    public void viewAllHexa(ActionEvent event) throws IOException {
-        SceneController sceneController = new SceneController();
-        sceneController.goToMain(event,17);
-        //sceneController.goToAllPosts(event, posts);
+        sceneController.goToOverviewToolPostHexa(event, post);
     }
 
-    public void hide(ActionEvent event){
+    public void hide(ActionEvent event) throws IOException {
         for (Post value : posts) {
             if (value.getIdPost() == this.post.getIdPost()) {
                 if (value.getState().equals(State.EN_COURS) || value.getState().equals(State.FUTUR))
@@ -305,10 +315,10 @@ public class PostOverviewController extends HexaSuper {
         }
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts, null);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
-    public void show(ActionEvent event){
+    public void show(ActionEvent event) throws IOException {
         for (Post value : posts) {
             if (value.getIdPost() == this.post.getIdPost()) {
                 if (value.getState().equals(State.MASQUE)){
@@ -334,25 +344,21 @@ public class PostOverviewController extends HexaSuper {
 
         JsonUtil.postsToJson(posts);
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, posts, null);
+        sceneController.goToAllPostsHexa(event, posts, null);
     }
 
-    public void apply(ActionEvent event) {
+    public void apply(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToApplyPost(event, post);
+        sceneController.goToApplyPostHexa(event, post);
     }
 
-    // todo random
-    // si il fait supprimer voir ce que les candidatures deviennent
-
-
-    public void show_applications(ActionEvent event) {
+    public void show_applications(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToApplications(event, post);
+        sceneController.goToApplicationsHexa(event, post);
     }
 
-    public void open(ActionEvent event) {
+    public void open(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToMyApplication(event, applicationToPost);
+        sceneController.goToMyApplicationHexa(event, applicationToPost);
     }
 }

@@ -62,4 +62,8 @@ public abstract class Post {
     public static void setListId(List<Integer> listId) {
         Post.listId = listId;
     }
+
+    public abstract Enum<SensService> getSensService();
+
+    public abstract Enum<SensTool> getSensTool();
 }

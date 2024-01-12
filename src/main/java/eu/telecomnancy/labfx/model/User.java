@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.model;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import javafx.scene.image.Image;
@@ -25,6 +26,9 @@ public class User extends Person {
     @Getter
     @Setter
     private static int nbUsers = 0;
+    @Getter
+    @Setter
+    private static ArrayList<String> emailList = new ArrayList<>();
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {
@@ -52,7 +56,7 @@ public class User extends Person {
         this.password = password;
         this.address = address;
         this.profilePicture = profilePicture;
-        this.convs = new ArrayList<Conversation>();     //TODO recuperer les conversations dans le json
+        this.convs = new ArrayList<Conversation>();
         nbUsers++;
     }
 
@@ -73,6 +77,6 @@ public class User extends Person {
 
     public void addConv(Conversation conv){
         convs.add(conv);
-    }       //TODO mettre à jour dans le json
+    }
 
 }

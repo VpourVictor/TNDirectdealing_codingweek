@@ -3,39 +3,52 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="hexagonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.posts.PostEditController">
    <children>
       <Group layoutX="57.0" layoutY="163.0">
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <Label layoutX="285.0" layoutY="-70.0" text="SERVICE" />
-            <Label layoutX="21.0" layoutY="136.0" text="Description" />
-            <Label layoutX="24.0" layoutY="257.0" text="Prestataires" />
-            <TextArea fx:id="descriptionService" layoutX="139.0" layoutY="136.0" prefHeight="94.0" prefWidth="449.0" text="desc service default" />
-            <Label layoutX="41.0" layoutY="374.0" text="Nom" />
-            <Label layoutX="149.0" layoutY="374.0" text="Prénom" />
-            <TextField fx:id="lastNamePrest" layoutX="-20.0" layoutY="411.0" text="last name default" />
-            <TextField fx:id="firstNamePrest" layoutX="139.0" layoutY="411.0" text="first name default" />
-            <Button layoutX="307.0" layoutY="411.0" mnemonicParsing="false" onAction="#add" text="Ajouter" />
-            <Button layoutX="443.0" layoutY="467.0" mnemonicParsing="false" onAction="#validateServicePostHexa" text="Valider (2)" />
-            <Label fx:id="mode" layoutX="307.0" layoutY="33.0" prefHeight="18.0" prefWidth="189.0" />
-            <Button layoutX="113.0" layoutY="-2.0" mnemonicParsing="false" onAction="#back" text="Retour" />
-            <TableView fx:id="listPrest" layoutX="149.0" layoutY="257.0" prefHeight="103.0" prefWidth="450.0">
+            <Label layoutX="139.0" layoutY="83.0" text="Description" />
+            <Label layoutX="80.0" layoutY="219.0" text="Prestataires" />
+            <TextArea fx:id="descriptionService" layoutX="137.0" layoutY="106.0" prefHeight="94.0" prefWidth="335.0" text="desc service default" />
+            <Label layoutX="41.0" layoutY="366.0" text="Nom" />
+            <Label layoutX="32.0" layoutY="401.0" text="Prénom" />
+            <TextField fx:id="lastNamePrest" layoutX="80.0" layoutY="363.0" text="last name default" />
+            <TextField fx:id="firstNamePrest" layoutX="80.0" layoutY="397.0" text="first name default" />
+            <Button layoutX="255.0" layoutY="397.0" mnemonicParsing="false" onAction="#add" text="Ajouter" />
+            <Button layoutX="275.0" layoutY="496.0" mnemonicParsing="false" onAction="#validateServicePost" text="Valider (2)" />
+            <Label fx:id="mode" layoutX="210.0" layoutY="-43.0" prefHeight="18.0" prefWidth="189.0" />
+            <TableView fx:id="listPrest" layoutX="80.0" layoutY="243.0" prefHeight="103.0" prefWidth="462.0">
                <columns>
                   <TableColumn fx:id="lastNameColumn" prefWidth="141.60003662109375" text="Nom" />
                   <TableColumn fx:id="firstNameColumn" prefWidth="157.5999755859375" text="Prénom" />
-                  <TableColumn fx:id="emailColumn" prefWidth="157.5999755859375" text="Email" />
+                  <TableColumn fx:id="emailColumn" prefWidth="159.20004272460938" text="Email" />
                </columns>
             </TableView>
-            <Label layoutX="199.0" layoutY="459.0" text="Email" />
-            <TextField fx:id="emailPrest" layoutX="139.0" layoutY="487.0" text="email default" />
+            <Label layoutX="40.0" layoutY="434.0" text="Email" />
+            <TextField fx:id="emailPrest" layoutX="80.0" layoutY="430.0" text="email default" />
+            <RadioButton layoutX="384.0" layoutY="401.0" mnemonicParsing="false" selected="true" text="Demande">
+               <toggleGroup>
+                  <ToggleGroup fx:id="sensService" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton layoutX="478.0" layoutY="401.0" mnemonicParsing="false" text="Proposition" toggleGroup="$sensService" />
+            <Label layoutX="279.0" layoutY="-13.0" text="SERVICE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="384.0" layoutY="375.0" text="Type de l'annonce" />
          </children>
       </Group>
    </children>

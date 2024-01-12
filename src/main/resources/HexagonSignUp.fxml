@@ -39,7 +39,7 @@
                               </Pane>
                            </children>
                         </VBox>
-                        <Button fx:id="browseButton" maxWidth="115.0" mnemonicParsing="false" onAction="#browse" prefHeight="28.0" prefWidth="115.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Parcourir">
+                        <Button fx:id="browseButton" maxWidth="115.0" mnemonicParsing="false" onAction="#browse" prefHeight="28.0" prefWidth="115.0" styleClass="button_test" stylesheets="@styles.css" text="Parcourir">
                            <padding>
                               <Insets left="20.0" right="20.0" />
                            </padding>
@@ -75,7 +75,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <ComboBox fx:id="countryList" prefHeight="26.0" prefWidth="173.0" promptText="Sélectionnez votre pays" styleClass="combo-box-sobre" stylesheets="@styles.css" />
+                              <ComboBox fx:id="countryList" prefHeight="25.0" prefWidth="176.0" promptText="Sélectionnez votre pays" styleClass="button_test" stylesheets="@styles.css" />
                            </children>
                         </VBox>
                      </children>
@@ -99,7 +99,7 @@
                                     <PasswordField fx:id="passwordHidden" layoutY="1.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" text="a" />
                                  </children>
                               </Group>
-                              <CheckBox fx:id="passToggle" mnemonicParsing="false" onAction="#toggleVisiblePassword" styleClass="checkbox-sobre" stylesheets="@styles.css" text="Voir mon mot de passe">
+                              <CheckBox fx:id="passToggle" mnemonicParsing="false" onAction="#toggleVisiblePassword" stylesheets="@styles.css" text="Voir mon mot de passe">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
@@ -126,7 +126,7 @@
                   </HBox>
                </children>
             </VBox>
-            <Button layoutX="212.0" layoutY="516.0" mnemonicParsing="false" onAction="#validate" prefHeight="23.0" prefWidth="191.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Valider et créer mon compte" />
+            <Button layoutX="173.0" layoutY="512.0" mnemonicParsing="false" onAction="#validate" prefHeight="42.0" prefWidth="269.0" styleClass="button_test" stylesheets="@styles.css" text="Valider et créer mon compte" />
             <HBox alignment="CENTER" layoutX="-28.0" layoutY="161.0" prefHeight="68.0" prefWidth="668.0" spacing="30.0">
                <children>
                   <VBox prefHeight="100.0" prefWidth="99.0">

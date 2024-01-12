@@ -18,8 +18,6 @@ public class ApplicationToPost {
     private String applicantEmail;
     private ArrayList<LocalDate> dates;
     private String comment;
-    @Setter
-    @Getter
     private boolean accepted;
 
     @Getter
@@ -39,9 +37,5 @@ public class ApplicationToPost {
         this.comment = comment;
         this.idAppli = id;
         this.accepted = accepted;
-    }
-
-    public boolean getAccepted() {
-        return this.accepted;
     }
 }
