@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -16,10 +17,10 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.posts.PostEditController">
    <top>
-      <HBox BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#newPost" prefHeight="26.0" prefWidth="94.0" text="Ajouter" />
-            <VBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="368.0">
+            <VBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="209.0">
                <children>
                   <RadioButton fx:id="allPost" mnemonicParsing="false" onAction="#typeSelected" text="Toutes les annonces">
                      <font>
@@ -59,15 +60,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <RadioButton fx:id="sortedByCountry" mnemonicParsing="false" prefHeight="26.0" prefWidth="193.0" text="Pays" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="C" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" text="Région" GridPane.rowIndex="2">
+                        <RadioButton fx:id="sortedByCountry" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Pays" GridPane.rowIndex="1">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -75,7 +68,12 @@
                               <ToggleGroup fx:id="choiceLocation" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByCity" mnemonicParsing="false" text="Ville" toggleGroup="$choiceLocation" GridPane.rowIndex="3">
+                        <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" onAction="#typeSelected" text="Région" toggleGroup="$choiceLocation" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </RadioButton>
+                        <RadioButton fx:id="sortedByCity" mnemonicParsing="false" onAction="#typeSelected" text="Ville" toggleGroup="$choiceLocation" GridPane.rowIndex="3">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -103,7 +101,7 @@
                               <Font size="16.0" />
                            </font>
                         </RadioButton>
-                        <Label text="Voirles annonces :" GridPane.columnIndex="1">
+                        <Label text="Voir les annonces :" GridPane.columnIndex="1">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -121,7 +119,7 @@
                               <Font size="16.0" />
                            </font>
                         </RadioButton>
-                        <RadioButton fx:id="sortedByStateEnded" mnemonicParsing="false" onAction="#typeSelected" text="Terminées" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <RadioButton fx:id="sortedByStateEnded" mnemonicParsing="false" onAction="#typeSelected" text="Finies" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -134,6 +132,11 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </GridPane>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER">
+               <children>
+                  <TextField fx:id="localisationTF" promptText="Name of localisation" />
                </children>
             </VBox>
          </children>
@@ -166,6 +169,7 @@
                </padding>
             </RadioButton>
             <Button mnemonicParsing="false" onAction="#logout" text="Déco" />
+            <Button mnemonicParsing="false" onAction="#clearSearch" text="Réinitialiser les recherches" />
          </children>
       </VBox>
    </left>

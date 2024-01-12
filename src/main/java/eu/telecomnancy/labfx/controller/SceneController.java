@@ -33,7 +33,7 @@ public class SceneController {
 
     public void goToAllPosts(ActionEvent event, ArrayList<Post> posts, ArrayList<String> stateRadioBtn) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
-        System.out.println("Inside the go to all :" + stateRadioBtn);
+        //System.out.println("WE ARE INSIDE THE GOTOALL");
         try {
             root = loader.load();
             PostEditController controller = loader.getController();

@@ -154,7 +154,6 @@ public class JsonUtil {
 
             for (int i = 0; i < Post.getListId().size() ; i++){
                 int val = Post.getListId().get(i);
-                System.out.println(("In jsonToPosts val = " + val ));
                 JSONObject jsonObject = json.getJSONObject("post" + val);
                 posts.add(jsonToPost(jsonObject));
             }

@@ -59,9 +59,9 @@ public class AlgoUtil {
                 i++;
             }
         }
-        if (postFromMyRegion.isEmpty()){
-            return null;
-        }
+//        if (postFromMyRegion.isEmpty()){
+//            return postFromMyRegion;
+//        }
         return postFromMyRegion;
     }
 
@@ -90,9 +90,9 @@ public class AlgoUtil {
                 }
             }
         }
-        if (postFromMyType.isEmpty()){
-            return postFromMyType;
-        }
+//        if (postFromMyType.isEmpty()){
+//            return postFromMyType;
+//        }
         return postFromMyType;
     }
 
@@ -108,9 +108,9 @@ public class AlgoUtil {
                 i++;
             }
         }
-        if (postFromMyCity.isEmpty()){
-            return null;
-        }
+//        if (postFromMyCity.isEmpty()){
+//            return postFromMyCity;
+//        }
         return postFromMyCity;
     }
 
@@ -126,9 +126,9 @@ public class AlgoUtil {
                 i++;
             }
         }
-        if (postFromMyCountry.isEmpty()){
-            return null;
-        }
+//        if (postFromMyCountry.isEmpty()){
+//            return null;
+//        }
         return postFromMyCountry;
     }
 
@@ -140,9 +140,9 @@ public class AlgoUtil {
                 postsByUsers.addAll(postsFromUser);
             }
         }
-        if (postsByUsers.isEmpty()){
-            return null;
-        }
+//        if (postsByUsers.isEmpty()){
+//            return null;
+//        }
         return postsByUsers;
     }
 
@@ -169,9 +169,6 @@ public class AlgoUtil {
                 postIds.add(post);
             }
         }
-        if (postIds.isEmpty()){
-            return null;
-        }
         return postIds;
     }
 
@@ -195,9 +192,6 @@ public class AlgoUtil {
                 i++;
             }
         }
-        if (postWithState.isEmpty()){
-            return null;
-        }
         return postWithState;
     }
 
@@ -212,9 +206,6 @@ public class AlgoUtil {
             else {
                 i++;
             }
-        }
-        if (postWithState.isEmpty()){
-            return null;
         }
         return postWithState;
     }
