@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Screen;
 import javafx.scene.layout.VBox;
@@ -19,23 +20,23 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SceneController {
     private Stage stage;
     private Scene scene;
     private Parent root;
 
-    public void goToAccueil(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/homepage.fxml"));
-        load(event, loader);
+    public void goToAccueil(ActionEvent event) throws IOException {
+        goToMain(event, 7);
     }
 
-    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts) {
+    public void goToAllPosts(ActionEvent event, ArrayList<Post> posts, ArrayList<String> stateRadioBtn) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/all.fxml"));
         try {
             root = loader.load();
             PostEditController controller = loader.getController();
-            controller.initData(null);
+            controller.initData(null, stateRadioBtn);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -75,17 +76,7 @@ public class SceneController {
         }
     }
 
-    private void load(ActionEvent event, FXMLLoader loader) {
-        try {
-            root = loader.load();
-            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
     public void goToEditService(ActionEvent event, Post post, boolean modify) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/posts/edit_service.fxml"));
@@ -94,7 +85,7 @@ public class SceneController {
             PostEditController controller = loader.getController();
             controller.setPart2(true);
             controller.setModify(modify);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -111,7 +102,7 @@ public class SceneController {
             PostEditController controller = loader.getController();
             controller.setModify(modify);
             controller.setPart2(true);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -145,7 +136,7 @@ public class SceneController {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setModify(modify);
-            controller.initData(post);
+            controller.initData(post,null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -176,7 +167,7 @@ public class SceneController {
             root = loader.load();
             PostEditController controller = loader.getController();
             controller.setPart2(false);
-            controller.initData(null);
+            controller.initData(null, null);
             stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -246,7 +237,6 @@ public class SceneController {
         }
 
     }
-
     public void goToMainEdit(ActionEvent event, int position, Post post, boolean modify) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
         try {
@@ -281,7 +271,6 @@ public class SceneController {
         }
 
     }
-
     public void goToMainValidate(ActionEvent event, int position, Post post) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
         try {
@@ -315,6 +304,39 @@ public class SceneController {
         }
 
     }
+    /*public void goToMainTest(ActionEvent event, int position) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
+        try {
+            root = loader.load();
+            Screen screen = Screen.getPrimary();
+            int width = (int) screen.getBounds().getWidth();
+            int height = (int) screen.getBounds().getHeight();
+            MainController mainController = loader.getController();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            double[] coord = mainController.getLayout();
+            int offX = (int) -coord[0];
+            int offY = (int) -coord[1];
+            root.translateXProperty().set(offX);
+            root.translateYProperty().set(offY);
+            mainController.setOffX(offX);
+            mainController.setOffY(offY);
+            mainController.setPosition(position);
+            mainController.setRoot(root);
+            //mainController.getPaneTest().setVisible(false);
+            //mainController.teleportation(position);
+            mainController.moveLeft(event, position);
+            mainController.updateHexagon();
+            stage.setWidth(width);
+            stage.setHeight(height);
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }*/
 
     public void goToMainMessagerie(ActionEvent event, int position, User user, Conversation conversation) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaMain.fxml"));
@@ -438,8 +460,8 @@ public class SceneController {
         goToMainApplication(event, 28, applicationToPost);
     }
 
-    public void goToAllPostsHexa(ActionEvent event, ArrayList<Post> posts) throws IOException {
-        goToMain(event, 30);
+    public void goToAllPostsHexa(ActionEvent event, ArrayList<Post> posts, ArrayList<String> stateRadioBtn) throws IOException {
+        goToMain(event, 17);
     }
 
     public void goToOverviewToolPostHexa(ActionEvent event, Post post) throws IOException {
@@ -526,7 +548,9 @@ public class SceneController {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
     }

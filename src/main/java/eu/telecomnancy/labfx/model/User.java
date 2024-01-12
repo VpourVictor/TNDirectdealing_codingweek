@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -25,7 +26,10 @@ public class User extends Person {
     private ArrayList<Integer> appliedToPosts = new ArrayList<>();
     @Getter
     @Setter
-    private static int nbUsers = 4; //JsonUtil.jsonToUsers().size();
+    private static int nbUsers = 0;
+    @Getter
+    @Setter
+    private static ArrayList<String> emailList = new ArrayList<>();
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {
@@ -36,7 +40,7 @@ public class User extends Person {
     public User(String prenom, String nom, String email) {
         super(prenom, nom, email);
         this.convs = new ArrayList<Conversation>();
-        this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+        this.profilePicture = new Image("file:/C:/Users/ggran/Downloads/defaultpfp.png");
         nbUsers++;
     }
 
@@ -44,7 +48,7 @@ public class User extends Person {
         super(prenom, nom, mail);
         this.pseudo = pseudo;
         this.convs = new ArrayList<Conversation>();
-        this.profilePicture = new Image(getClass().getResourceAsStream("/pictures/defaultpfp.png"));
+        this.profilePicture = new Image("file:/C:/Users/ggran/Downloads/defaultpfp.png");
     }
 
     public User(String prenom, String nom, String email, String pseudo, String password, Address address, Image profilePicture) {
@@ -60,12 +64,17 @@ public class User extends Person {
     public int getNumberOfEvaluations(){
         return this.evaluationList.size();
     }
-    public double getEvaluation(){
-        double finalNote = 0;
-        for(Double note: this.evaluationList) {
-            finalNote = finalNote + note;
+    public long getEvaluation(){
+        if (!evaluationList.isEmpty()) {
+            Double finalNote = 0.;
+            for (Double note : this.evaluationList) {
+                finalNote = finalNote + note;
+            }
+            return Math.round(finalNote / (2*getNumberOfEvaluations()));
         }
-        return finalNote/getNumberOfEvaluations();
+        else{
+            return 5;
+        }
     }
 
     public void delConv(Conversation conv){

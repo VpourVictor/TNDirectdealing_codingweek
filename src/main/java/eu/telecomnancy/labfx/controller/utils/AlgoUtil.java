@@ -17,6 +17,11 @@ public class AlgoUtil {
     private ArrayList<Post> posts;
     private ArrayList<ApplicationToPost> applications;
 
+    public AlgoUtil() {
+        this.users = JsonUtil.jsonToUsers();
+        this.posts = JsonUtil.jsonToPosts();
+        this.applications = (ArrayList<ApplicationToPost>) JsonUtil.jsonToApplications();
+    }
 
     public AlgoUtil(ArrayList<?> list) {
         if (list.get(0) instanceof User) {
@@ -86,7 +91,7 @@ public class AlgoUtil {
             }
         }
         if (postFromMyType.isEmpty()){
-            return null;
+            return postFromMyType;
         }
         return postFromMyType;
     }
@@ -175,7 +180,6 @@ public class AlgoUtil {
     }
 
     public ArrayList<Post> postAppliedToByUser(User user){
-        System.out.println(user.getAppliedToPosts());
         return postsFromIds(user.getAppliedToPosts());
     }
 
@@ -236,6 +240,15 @@ public class AlgoUtil {
         return doubleArrayList;
     }
 
+    public User userConnected(ArrayList<User> users){
+        for(User user: users ){
+            if (user.isConnected()){
+                return user;
+            }
+        }
+        return users.get(0);
+    }
+
     // récupère une ApplicationToPost à partir de son id
     public ApplicationToPost getApplicationToPostFromId(int id){
         for (ApplicationToPost applicationToPost : applications){
@@ -246,4 +259,17 @@ public class AlgoUtil {
         return null;
     }
 
+
+    public ArrayList<ApplicationToPost> getApplicationsFromPost(Post post){
+        ArrayList<ApplicationToPost> applicationsFromPost = new ArrayList<>();
+        for (ApplicationToPost applicationToPost : applications){
+            if (post.getApplications().contains(applicationToPost.getIdAppli())){
+                applicationsFromPost.add(applicationToPost);
+            }
+        }
+        if (applicationsFromPost.isEmpty()){
+            return null;
+        }
+        return applicationsFromPost;
+    }
 }

@@ -21,6 +21,7 @@ import javafx.scene.shape.Polygon;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,13 +72,12 @@ public class PostApplyController extends HexaSuper {
                     dates.add(date);
                 }
             }
-
             PostApplyController.setModification(false);
             sceneController.goToChekcDate(dates, listDates, post, new ArrayList<>());
         }
     }
 
-    public void save_application(ActionEvent actionEvent) {
+    public void save_application(ActionEvent actionEvent) throws IOException {
         if (!isModification){
             applications = JsonUtil.jsonToApplications();
             ApplicationToPost applicationToPost = new ApplicationToPost(comment.getText());
@@ -102,7 +102,7 @@ public class PostApplyController extends HexaSuper {
             }
             SceneController sceneController = new SceneController();
             JsonUtil.postsToJson((ArrayList<Post>) posts);
-            sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
+            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts, null);
         }
         else {
             applications = JsonUtil.jsonToApplications();
@@ -124,13 +124,13 @@ public class PostApplyController extends HexaSuper {
             }
             JsonUtil.postsToJson((ArrayList<Post>) posts);
             SceneController sceneController = new SceneController();
-            sceneController.goToAllPosts(actionEvent, (ArrayList<Post>) posts);
+            sceneController.goToAllPostsHexa(actionEvent, (ArrayList<Post>) posts, null);
         }
     }
 
-    public void back(ActionEvent event) {
+    public void back(ActionEvent event) throws IOException {
         SceneController sceneController = new SceneController();
-        sceneController.goToAllPosts(event, (ArrayList<Post>) posts);
+        sceneController.goToAllPostsHexa(event, (ArrayList<Post>) posts, null);
     }
 
     public void initData(ApplicationToPost applicationToPost) {
@@ -144,7 +144,6 @@ public class PostApplyController extends HexaSuper {
                 checkedDates.add(date);
             }
         }
-
         PostApplyController.setModification(true);
         PostApplyController.setApplicationToPost(applicationToPost);
         sceneController.goToChekcDate(dates, listDates, post, checkedDates);

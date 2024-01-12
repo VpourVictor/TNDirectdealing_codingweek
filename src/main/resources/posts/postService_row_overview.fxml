@@ -49,5 +49,6 @@
       <Button fx:id="postuler" layoutX="14.0" layoutY="34.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
       <Button fx:id="candidatures" layoutX="14.0" layoutY="450.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
       <Button fx:id="open_candidature" layoutX="712.0" layoutY="31.0" mnemonicParsing="false" onAction="#open" text="Voir ma candidature" visible="false" />
+      <Label fx:id="sensService" layoutX="101.0" layoutY="123.0" prefHeight="18.0" prefWidth="110.0" />
    </children>
 </AnchorPane>

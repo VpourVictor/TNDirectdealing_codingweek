@@ -1,5 +1,6 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,6 +39,8 @@ public class ProfileController extends HexaSuper{
     @FXML
     private Text prenomText;
     @FXML
+    private Text argent;
+    @FXML
     private Text mdpText;
     @FXML
     private TextField pseudoEdit;
@@ -55,11 +58,23 @@ public class ProfileController extends HexaSuper{
     private Pane panePhoto = new Pane();
     @FXML
     private Button boutonParcours;
+    @FXML
+    private Circle cercle1 = new Circle();
+    @FXML
+    private Circle cercle2 = new Circle();
+    @FXML
+    private Circle cercle3 = new Circle();
+    @FXML
+    private Circle cercle4 = new Circle();
+    @FXML
+    private Circle cercle5 = new Circle();
+    @FXML
+    private Text nb_eval;
 
     @FXML
     private Circle photoprofil;
     @FXML
-    private TextField cheminPhoto;
+    private TextField cheminPhoto = new TextField();
     public void switchToRecompense(){};
 
     public void showMdp(){
@@ -75,12 +90,46 @@ public class ProfileController extends HexaSuper{
     public void load(){
         show = false;
         nomText.setText(user.getLastName());
+        argent.setText("" + user.getCoins());
         prenomText.setText(user.getFirstName());
         mdpText.setText("*".repeat(user.getPassword().length()));
         pseudoText.setText((user.getPseudo()));
         mailText.setText((user.getEmail()));
         photoprofil.setFill(new ImagePattern(user.getProfilePicture()));
         panePhoto.setVisible(false);
+        long note = user.getEvaluation();
+        int nb_notes = user.getNumberOfEvaluations();
+        nb_eval.setText("(" + nb_notes + ")");
+        if (note >= 1) {
+            cercle1.getStyleClass().add("valide");
+        }
+        else{
+            cercle1.getStyleClass().add("non-valide");
+        }
+        if (note >= 2) {
+            cercle2.getStyleClass().add("valide");
+        }
+        else{
+            cercle2.getStyleClass().add("non-valide");
+        }
+        if (note >= 3) {
+            cercle3.getStyleClass().add("valide");
+        }
+        else{
+            cercle3.getStyleClass().add("non-valide");
+        }
+        if (note >= 4) {
+            cercle4.getStyleClass().add("valide");
+        }
+        else{
+            cercle4.getStyleClass().add("non-valide");
+        }
+        if (note >= 5) {
+            cercle5.getStyleClass().add("valide");
+        }
+        else{
+            cercle5.getStyleClass().add("non-valide");
+        }
 
     }
     public void switchEditMode(){
@@ -108,7 +157,9 @@ public class ProfileController extends HexaSuper{
             pseudoText.textProperty().set(pseudoEdit.getText());
             nomText.textProperty().set(nomEdit.getText());
             prenomText.textProperty().set(prenomEdit.getText());
-            user.setProfilePicture(new Image(cheminPhoto.getText()));
+            if (!cheminPhoto.getText().isEmpty() || !cheminPhoto.getText().isBlank()) {
+                user.setProfilePicture(new Image(cheminPhoto.getText()));
+            }
 
             boutonEdit.textProperty().set("Editer");
             pseudoText.setVisible(true);
@@ -123,10 +174,10 @@ public class ProfileController extends HexaSuper{
             photoprofil.setFill(new ImagePattern(user.getProfilePicture()));
 
             user.setPassword(mdpEdit.getText());
-            System.out.println("password user :" + user.getPassword());
             user.setPseudo(pseudoEdit.getText());
             user.setFirstName(prenomEdit.getText());
             user.setLastName(nomEdit.getText());
+            JsonUtil.changeUserInJson(user);
         }
     };
 

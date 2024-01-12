@@ -52,7 +52,7 @@ public class SignInController extends HexaSuper implements Initializable {
 
     @FXML
     void connexion(ActionEvent event) throws IOException {
-        if (!RegexUtils.isValidMail(mailTextField.getText())) {
+         if (!RegexUtils.isValidMail(mailTextField.getText())){
             new Alert(Alert.AlertType.ERROR, "L'addresse mail n'est pas valide").showAndWait();
         } else if (passwordValue() == null) {
             new Alert(Alert.AlertType.ERROR, "Le mot de passe ne peut pas être vide").showAndWait();
@@ -75,7 +75,8 @@ public class SignInController extends HexaSuper implements Initializable {
                     new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
 
                     SceneController sceneController = new SceneController();
-                    sceneController.goToAllPosts(event, JsonUtil.jsonToPosts());
+                    sceneController.goToAllPostsHexa(event, JsonUtil.jsonToPosts(), null);
+
                 }
             }
 

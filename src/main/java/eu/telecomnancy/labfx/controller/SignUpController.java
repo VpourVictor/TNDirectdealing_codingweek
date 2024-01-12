@@ -201,7 +201,7 @@ public class SignUpController extends HexaSuper{
                 user.setCoins(50);
                 user.setProfilePicture(imageProfile.getImage());
                 user.setPassword(passwordValue());
-                user.setConnected(false);
+                user.setConnected(true);
                 users.add(user);
                 JsonUtil.usersToJson(users);
                 SceneController sceneController = new SceneController();
@@ -284,14 +284,12 @@ public class SignUpController extends HexaSuper{
             new Alert(Alert.AlertType.ERROR, "Le mot de passe n'est pas le même").showAndWait();
         }
         else {
-
             users = JsonUtil.jsonToUsers();
 
             if (emailAlreadyUsed(mailTextField.getText())) {
                 new Alert(Alert.AlertType.ERROR, "Cet email est déjà associé à un compte existant").showAndWait();
             } else {
                 User user = new User(firstnameTextField.getText(), nameTextField.getText(), mailTextField.getText());
-
                 Address address = new Address(Integer.parseInt(streetNumberTF.getText()),
                         streetNameTF.getText(),
                         Integer.parseInt(postalCodeTF.getText()),
@@ -301,8 +299,10 @@ public class SignUpController extends HexaSuper{
                 user.setAddress(address);
 
                 user.setPseudo(pseudoTextField.getText());
-                user.setCoins(50);
-                user.setProfilePicture(imageProfile.getImage());
+                user.setCoins(45);
+                if (!(imageProfile.getImage() == null)){
+                    user.setProfilePicture(imageProfile.getImage());
+                }
                 user.setPassword(passwordValue());
                 user.setConnected(true);
                 users.add(user);
