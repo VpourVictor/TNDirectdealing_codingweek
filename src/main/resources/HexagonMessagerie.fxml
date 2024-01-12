@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -18,6 +19,19 @@
       <Group layoutX="57.0" layoutY="163.0">
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+            <ScrollPane fx:id="scroll" layoutX="-28.0" layoutY="63.0" prefHeight="385.0" prefWidth="671.0" stylesheets="@styles.css">
+               <content>
+                  <VBox fx:id="listcontacts" prefHeight="384.0" prefWidth="654.0" spacing="20.0" stylesheets="@styles.css">
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+               <styleClass>
+                  <String fx:value="background" />
+                  <String fx:value="background" />
+               </styleClass>
+            </ScrollPane>
             <HBox alignment="CENTER_LEFT" layoutX="62.0" layoutY="-22.0" prefHeight="85.0" prefWidth="491.0">
                <children>
                   <Label alignment="CENTER" prefHeight="38.0" prefWidth="82.0" text="A" textAlignment="CENTER">
@@ -43,21 +57,57 @@
                   <Bloom />
                </effect>
             </HBox>
-            <ScrollPane layoutX="-28.0" layoutY="63.0" prefHeight="386.0" prefWidth="671.0" stylesheets="@styles.css">
-               <content>
-                  <VBox fx:id="listcontacts" prefHeight="384.0" prefWidth="654.0" spacing="20.0" stylesheets="@styles.css" visible="false">
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
-                  </VBox>
-               </content>
-               <styleClass>
-                  <String fx:value="background" />
-                  <String fx:value="background" />
-               </styleClass>
-            </ScrollPane>
-            <Button layoutX="229.0" layoutY="461.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Nouvelle Conversation" />
-            <Button layoutX="229.0" layoutY="510.0" mnemonicParsing="false" onAction="#supprMessage" prefHeight="25.0" prefWidth="157.0" styleClass="button-style" stylesheets="@styles.css" text="Supprimer Conversation" />
+            <Button fx:id="boutonConv" layoutX="229.0" layoutY="461.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Nouvelle Conversation" />
+            <Button fx:id="boutonMessage" layoutX="229.0" layoutY="510.0" mnemonicParsing="false" onAction="#supprMessage" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Supprimer Conversation" />
+            <Pane fx:id="panecontact" layoutX="54.0" layoutY="74.0" prefHeight="378.0" prefWidth="503.0" visible="false">
+               <children>
+                  <Polygon fx:id="polygon" fill="#f89886" layoutX="-496.0" layoutY="-207.0" points="866.0, 585.0, 993.0, 385.0, 866.0, 185.0, 619.0, 185.0, 500.0, 385.0, 619.0, 585.0" stroke="BLACK" strokeType="INSIDE" />
+                  <TextField fx:id="mailChose" layoutX="117.0" layoutY="166.0" prefHeight="25.0" prefWidth="274.0" promptText="email">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </TextField>
+                  <Button fx:id="boutonContact" layoutX="202.0" layoutY="215.0" mnemonicParsing="false" onAction="#contactHexa" prefHeight="25.0" prefWidth="99.0" text="Contacter" />
+                  <Label fx:id="prompt1" layoutX="76.0" layoutY="89.0" text="Qui souhaitez vous contacter?">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prompt2" layoutX="142.0" layoutY="312.0" text="ERREUR : Utilisateur introuvable" textFill="#c30000">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="boutonAnnuler" layoutX="202.0" layoutY="254.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="99.0" text="Annuler" />
+                  <Label fx:id="prompt3" layoutX="117.0" layoutY="310.0" text="ERREUR : Conversation déjà existante" textFill="#c30000" visible="false">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="prompt4" layoutX="117.0" layoutY="310.0" prefHeight="54.0" prefWidth="282.0" text="ERREUR : Vous ne pouvez vous contacter vous même" textAlignment="CENTER" textFill="#c30000" wrapText="true">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Label fx:id="pseudoText" layoutX="386.0" layoutY="454.0" text="PSEUDO">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+               <padding>
+                  <Insets top="30.0" />
+               </padding>
+            </Label>
+            <Label fx:id="mailText" layoutX="386.0" layoutY="454.0" text="maifjfkerjfkerfjkhjerhfjrefl@gmail.com">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <padding>
+                  <Insets top="15.0" />
+               </padding>
+            </Label>
+            <Button fx:id="boutonInfo" layoutX="227.0" layoutY="-55.0" mnemonicParsing="false" onAction="#changeInfo" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Modifier mes informations" />
          </children>
       </Group>
    </children>

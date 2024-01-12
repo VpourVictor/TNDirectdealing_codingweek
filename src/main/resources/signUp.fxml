@@ -176,7 +176,7 @@
                               <AnchorPane prefHeight="100.0" prefWidth="231.0">
                                  <children>
                                     <PasswordField fx:id="passwordHidden" layoutX="2.0" layoutY="28.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" />
-                                    <TextField fx:id="passwordText" cache="true" layoutX="3.0" layoutY="28.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" />
+                                    <TextField fx:id="passwordText" cache="true" layoutX="3.0" layoutY="28.0" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" text="test" />
                                     <CheckBox fx:id="passToggle" layoutX="24.0" layoutY="59.0" mnemonicParsing="false" onAction="#toggleVisiblePassword" text="Voir mon mot de passe">
                                        <opaqueInsets>
                                           <Insets />
@@ -199,7 +199,7 @@
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
                               </Label>
-                              <PasswordField fx:id="passwordHiddenConfirmation" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" />
+                              <PasswordField fx:id="passwordHiddenConfirmation" prefHeight="31.0" prefWidth="200.0" promptText="Entrez votre mot de passe ici" text="test" />
                            </children>
                         </HBox>
                      </children>

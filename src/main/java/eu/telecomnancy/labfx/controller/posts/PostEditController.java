@@ -3,6 +3,7 @@ package eu.telecomnancy.labfx.controller.posts;
 
 import eu.telecomnancy.labfx.controller.HexaSuper;
 import eu.telecomnancy.labfx.controller.SceneController;
+import eu.telecomnancy.labfx.controller.utils.AlgoUtil;
 import eu.telecomnancy.labfx.controller.utils.DateUtil;
 import eu.telecomnancy.labfx.controller.utils.JsonUtil;
 import eu.telecomnancy.labfx.model.*;
@@ -36,106 +37,68 @@ import java.util.Locale;
 @Getter
 @Setter
 public class PostEditController extends HexaSuper {
-    private Post post;
-
-    private boolean part2 = false;
-    private boolean modify;
-
-    @FXML
-    Pane hexagonPane;
-    @FXML
-    Polygon hexagon;
-
-
-    public Polygon getHexagon() {
-        return hexagon;
-    }
-
-    @FXML
-    public ToggleGroup type_post;
-
-    @FXML
-    public Label name_page;
-
-    @FXML
-    public TextField title;
-
-    @FXML
-    public TextArea description;
-
-    @FXML
-    public TextField streetNumber;
-
-    @FXML
-    public TextField region;
-
-    @FXML
-    public TextField street;
-
-    @FXML
-    public TextField postalCode;
-
-    @FXML
-    public TextField city;
-
-    private final ObservableList<String> countries = FXCollections.observableArrayList();
-    @FXML
-    public ComboBox countryList;
-
-    @FXML
-    public ImageView image;
-    final FileChooser fileChooser = new FileChooser();
-
-    @FXML
-    public DatePicker datesPicker;
-
-    @FXML
-    private TextArea descriptionService;
-
-    @FXML
-    private TextField firstNamePrest;
-
-    @FXML
-    private TextField lastNamePrest;
-
-    @FXML
-    private TextField emailPrest;
-
-    @FXML
-    private TableView<Person> listPrest;
-
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
-
-    @FXML
-    private TableColumn<Person, String> firstNameColumn;
-    @FXML
-    private TableColumn<Person, String> lastNameColumn;
-    @FXML
-    private TableColumn<Person, String> emailColumn;
-
-    @FXML
-    public TextArea stateTool;
-
-    @FXML
-    public Label mode;
-
-    private ArrayList<Post> posts;
-
+    @FXML Pane hexagonPane;
+    @FXML Polygon hexagon;
+    @FXML public ToggleGroup type_post;
+    @FXML public Label name_page;
+    @FXML public TextField title;
+    @FXML public TextArea description;
+    @FXML public TextField streetNumber;
+    @FXML public TextField region;
+    @FXML public TextField street;
+    @FXML public TextField postalCode;
+    @FXML public TextField city;
+    @FXML public ComboBox countryList;
+    @FXML public ImageView image;
+    @FXML public DatePicker datesPicker;
+    @FXML private TextArea descriptionService;
+    @FXML private TextField firstNamePrest;
+    @FXML private TextField lastNamePrest;
+    @FXML private TextField emailPrest;
+    @FXML private TableView<Person> listPrest;
+    @FXML private TableColumn<Person, String> firstNameColumn;
+    @FXML private TableColumn<Person, String> lastNameColumn;
+    @FXML private TableColumn<Person, String> emailColumn;
+    @FXML public TextArea stateTool;
+    @FXML public Label mode;
     @FXML private VBox listPost;
-
-    @FXML private ToggleGroup type_date;
-
-    private MyDatePicker myDatePicker;
-
+    @FXML private ToggleGroup toggle_type_date;
     @FXML private RadioButton plage;
     @FXML private RadioButton ponctuelles;
+    @FXML private RadioButton seeMyAppliedPosts;
+    @FXML private RadioButton seeMyPosts;
+    @FXML private RadioButton sortedByCity;
+    @FXML private RadioButton sortedByCountry;
+    @FXML private RadioButton sortedByNote;
+    @FXML private RadioButton sortedByRegion;
+    @FXML private RadioButton sortedByStateCurrent;
+    @FXML private RadioButton sortedByStateEnded;
+    @FXML private RadioButton sortedByStateFuture;
+    @FXML private RadioButton sortedByUser;
+    @FXML private RadioButton onlyServices;
+    @FXML private RadioButton onlyTools;
+    @FXML private RadioButton allPost;
+    @FXML private ToggleGroup choiceLocation;
+    @FXML private ToggleGroup choiceMyPostedApplied;
+    @FXML private ToggleGroup choiceOthers;
+    @FXML private ToggleGroup choicePost;
+    @FXML private ToggleGroup choiceState;
 
+    private Post post;
+    private boolean part2 = false;
+    private boolean modify;
+    private final ObservableList<String> countries = FXCollections.observableArrayList();
+    final FileChooser fileChooser = new FileChooser();
+    private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private ArrayList<Post> posts;
+    private MyDatePicker myDatePicker;
     public final ObservableList<LocalDate> dates = FXCollections.observableArrayList();
     public ListView<LocalDate> listDate;
     private ArrayList<LocalDate> datesList = new ArrayList<>();
-
-    // todo voir tous -> problème
     private ArrayList<User> users = JsonUtil.jsonToUsers();
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     @FXML
     void initialize() {
@@ -163,7 +126,7 @@ public class PostEditController extends HexaSuper {
         if (posts == null)
             posts = new ArrayList<>();
 
-        if (type_date != null){
+        if (toggle_type_date != null){
             if (post != null){
                 dates.addAll(post.getDates());
             }
@@ -259,7 +222,6 @@ public class PostEditController extends HexaSuper {
             new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
         }
         else {
-            // todo créer le user en fonction de la personne connectée
             User author = null;
             for (User user : users){
                 if (user.isConnected()){
@@ -270,41 +232,39 @@ public class PostEditController extends HexaSuper {
 
             Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
             SceneController sceneController = new SceneController();
+                State state = State.EN_COURS;
+                if (myDatePicker.getStart().isAfter(LocalDate.now()))
+                    state = State.FUTUR;
 
-            State state = State.EN_COURS;
-            if (myDatePicker.getStart().isAfter(LocalDate.now()))
-                state = State.FUTUR;
+                if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+                    state = State.EN_COURS;
 
-            if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
-                state = State.EN_COURS;
+                RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
 
-            RadioButton date = (RadioButton) type_date.getSelectedToggle();
+                Type_Date type_date;
 
-            Type_Date type_date;
-
-            if (date.getId().equals("plage")){
-                type_date = Type_Date.PLAGE;
-                LocalDate boucle = myDatePicker.getStart();
-                dates.add(boucle);
-                datesList.add(boucle);
-                while (boucle.isBefore(myDatePicker.getEnd())){
-                    boucle = boucle.plusDays(1);
+                if (date.getId().equals("plage")) {
+                    type_date = Type_Date.PLAGE;
+                    LocalDate boucle = myDatePicker.getStart();
                     dates.add(boucle);
                     datesList.add(boucle);
+                    while (boucle.isBefore(myDatePicker.getEnd())) {
+                        boucle = boucle.plusDays(1);
+                        dates.add(boucle);
+                        datesList.add(boucle);
+                    }
+                } else if (date.getId().equals("ponctuelles")) {
+                    type_date = Type_Date.PONCTUELLES;
+                    dates.addAll(myDatePicker.getSelectedDates());
+                    datesList.addAll(myDatePicker.getSelectedDates());
+                } else {
+                    type_date = Type_Date.PONCTUELLE_REC;
                 }
-            } else if (date.getId().equals("ponctuelles")){
-                type_date = Type_Date.PONCTUELLES;
-                dates.addAll(myDatePicker.getSelectedDates());
-                datesList.addAll(myDatePicker.getSelectedDates());
-            }
-            else {
-                type_date = Type_Date.PONCTUELLE_REC;
-            }
 
             RadioButton selected = (RadioButton) type_post.getSelectedToggle();
             if (selected.getText().equals("Service")){
-                if (!modify){
-                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                if (!modify) {
+                    post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
@@ -314,7 +274,7 @@ public class PostEditController extends HexaSuper {
             }
             else {
                 if (!modify){
-                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, type_date, address, image.getImage(), state, null);
+                    post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
                     author.getPostedPosts().add(post.getIdPost());
                 }
                 else {
@@ -413,6 +373,8 @@ public class PostEditController extends HexaSuper {
             }
             posts.add(post);
             JsonUtil.postsToJson(posts);
+/*            System.out.println(post.getIdPost());
+            System.out.println(post.getAuthorEmail());*/
             sceneController.goToOverviewToolPost(event, post);
         }
     }
@@ -433,5 +395,172 @@ public class PostEditController extends HexaSuper {
     public void newPost(ActionEvent event) {
         SceneController sceneController = new SceneController();
         sceneController.goToCreatePost(event);
+    }
+
+    public void validateNew(ActionEvent event) throws IOException {if (title.getText().isEmpty()) {
+        new Alert(Alert.AlertType.ERROR, "Le titre ne peut pas être vide").showAndWait();
+    }
+    else if (description.getText().isEmpty()) {
+        new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
+    }
+    else if (dates.size() != 2 && !ponctuelles.isSelected()){
+        new Alert(Alert.AlertType.ERROR, "Pour une plage, il faut 2 dates").showAndWait();
+    }
+    else if (streetNumber.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "Le numéro de rue ne peut pas être vide").showAndWait();
+    }
+    else if (!RegexUtils.isNumeric(streetNumber.getText())){
+        new Alert(Alert.AlertType.ERROR, "Le numéro de rue doit être un nombre").showAndWait();
+    }
+    else if (street.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "Le nom de rue ne peut pas être vide").showAndWait();
+    }
+    else if (postalCode.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "Le code postal ne peut pas être vide").showAndWait();
+    }
+    else if (!RegexUtils.isNumeric(postalCode.getText())){
+        new Alert(Alert.AlertType.ERROR, "Le code postal doit être un nombre").showAndWait();
+    }
+    else if (city.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "La ville ne peut pas être vide").showAndWait();
+    }
+    else if (region.getText().isEmpty()){
+        new Alert(Alert.AlertType.ERROR, "La région ne peut pas être vide").showAndWait();
+    }
+    else if (countryList.getValue() == null){
+        new Alert(Alert.AlertType.ERROR, "Le pays ne peut pas être vide").showAndWait();
+    }
+    else {
+        User author = null;
+        for (User user : users){
+            if (user.isConnected()){
+                author = user;
+                break;
+            }
+        }
+
+        Address address = new Address(Integer.parseInt(streetNumber.getText()), street.getText(), Integer.parseInt(postalCode.getText()), city.getText(), region.getText(), countryList.getValue().toString());
+        SceneController sceneController = new SceneController();
+
+        State state = State.EN_COURS;
+        if (myDatePicker.getStart().isAfter(LocalDate.now()))
+            state = State.FUTUR;
+
+        if (myDatePicker.getStart().isAfter(LocalDate.now()) && myDatePicker.getEnd().isBefore(LocalDate.now()))
+            state = State.EN_COURS;
+
+        RadioButton date = (RadioButton) toggle_type_date.getSelectedToggle();
+
+        Type_Date type_date;
+
+        if (date.getId().equals("plage")){
+            type_date = Type_Date.PLAGE;
+            LocalDate boucle = myDatePicker.getStart();
+            dates.add(boucle);
+            datesList.add(boucle);
+            while (boucle.isBefore(myDatePicker.getEnd())){
+                boucle = boucle.plusDays(1);
+                dates.add(boucle);
+                datesList.add(boucle);
+            }
+        } else if (date.getId().equals("ponctuelles")){
+            type_date = Type_Date.PONCTUELLES;
+            dates.addAll(myDatePicker.getSelectedDates());
+            datesList.addAll(myDatePicker.getSelectedDates());
+        }
+        else {
+            type_date = Type_Date.PONCTUELLE_REC;
+        }
+
+        RadioButton selected = (RadioButton) type_post.getSelectedToggle();
+        if (selected.getText().equals("Service")){
+            if (!modify){
+                post = new Service(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
+                author.getPostedPosts().add(post.getIdPost());
+            }
+            else {
+                modifierPost(datesList, author, address, state);
+            }
+            sceneController.goToMainEdit(event,24, post, modify);
+
+        }
+        else {
+            if (!modify){
+                post = new Tool(description.getText(), title.getText(), author.getEmail(), datesList, new ArrayList<>(), type_date, address, image.getImage(), state, null, null);
+                author.getPostedPosts().add(post.getIdPost());
+            }
+            else {
+                modifierPost(datesList, author, address, state);
+            }
+            sceneController.goToMainEdit(event,21, post, modify);
+        }
+    }
+
+    }
+    public void validateToolPostHexa(ActionEvent event) throws IOException {
+        if (stateTool.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "L'état ne peut pas être vide").showAndWait();
+        }
+        else {
+            SceneController sceneController = new SceneController();
+            if (!modify)
+                post = new Tool(post, stateTool.getText());
+            else{
+                if (post.getClass().equals(Service.class)){
+                    post = new Tool(post, stateTool.getText());
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
+                }
+                else {
+                    post.setStateTool(stateTool.getText());
+                }
+            }
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
+            sceneController.goToMainValidate(event,23,post);
+            /*sceneController.goToOverviewToolPost(event, post);*/
+        }
+    }
+    public void validateServicePostHexa(ActionEvent event) throws IOException {
+        if (personData.isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Vous devez ajouter au moins un prestataire").showAndWait();
+        }
+        else if (descriptionService.getText().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "La description ne peut pas être vide").showAndWait();
+        }
+        else {
+            SceneController sceneController = new SceneController();
+            if (!modify){
+                post = new Service(post, descriptionService.getText(), personData);
+            }
+            else{
+                if (post.getClass().equals(Tool.class)){
+                    post = new Service(post, descriptionService.getText(), personData);
+                    post.setIdPost(post.getIdPost() - 1);
+                    Post.setNbPosts(Post.getNbPosts() - 1);
+                }
+                else {
+                    post.setDescriptionService(descriptionService.getText());
+                    post.setProviders(personData);
+                }
+            }
+            posts.add(post);
+            JsonUtil.postsToJson(posts);
+            sceneController.goToMainValidate(event,25,post);
+        }
+    }
+
+
+
+    public void logout(ActionEvent event) {
+        for (User user : users){
+            if (user.isConnected()){
+                user.setConnected(false);
+            }
+        }
+
+        JsonUtil.usersToJson(users);
+        SceneController sceneController = new SceneController();
+        sceneController.goToAccueil(event);
     }
 }

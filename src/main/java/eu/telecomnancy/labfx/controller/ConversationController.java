@@ -15,7 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 @Setter
-public class ConversationController implements Initializable {
+public class ConversationController extends HexaSuper implements Initializable {
     private User user;
     private Conversation conv;
     @FXML
@@ -43,6 +45,15 @@ public class ConversationController implements Initializable {
     private Label ratingText;
     @FXML
     private ScrollPane scroll;
+    @FXML
+    Pane hexagonPane;
+    @FXML
+    Polygon hexagon;
+
+
+    public Polygon getHexagon() {
+        return hexagon;
+    }
 
     @Override
     public void initialize(URL Location, ResourceBundle resources){
@@ -94,14 +105,14 @@ public class ConversationController implements Initializable {
 
     public void goMenu(ActionEvent event) throws IOException {
         SceneController sc = new SceneController();
-        sc.goBackMessagerie(user, event);
+        sc.goBackMessagerieHexa(user, event);
     }
 
     public void delConv(ActionEvent event) throws IOException {
         user.delConv(conv);
         JsonUtil.delConv(conv);
         SceneController sc = new SceneController();
-        sc.goBackMessagerie(user, event);
+        sc.goBackMessagerieHexa(user, event);
     }
 
     public void sendMsg(ActionEvent event) throws IOException {
@@ -123,5 +134,16 @@ public class ConversationController implements Initializable {
         listMessages.getChildren().clear();
         load();
         scroll.setVvalue(scroll.getVmax());
+    }
+    public void delConvHexa(ActionEvent event) throws IOException {
+        user.delConv(conv);
+        JsonUtil.delConv(conv);
+        SceneController sc = new SceneController();
+        sc.goToMainUser(event, 20, user);
+        //sc.goBackMessagerie(user, event);
+    }
+    public void goMenuHexa(ActionEvent event) throws IOException {
+        SceneController sc = new SceneController();
+        sc.goToMainUser(event, 20, user);
     }
 }

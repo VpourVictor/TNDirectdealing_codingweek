@@ -13,42 +13,42 @@
 
 <Pane fx:id="hexagonPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="840.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.ProfileController">
    <children>
-      <Group layoutX="57.0" layoutY="163.0">
+      <Group layoutX="57.0" layoutY="163.0" styleClass="background" stylesheets="@styles.css">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <Pane layoutX="-28.0" layoutY="116.0" prefHeight="254.0" prefWidth="669.0">
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" style="-fx-fill: #f58a5d;" />
+            <Pane layoutX="-28.0" layoutY="116.0" prefHeight="254.0" prefWidth="669.0" stylesheets="@styles.css">
                <children>
-                  <Text layoutX="14.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom :">
+                  <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom :">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text layoutX="14.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
+                  <Text layoutX="16.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom :">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text fx:id="prenomText" layoutX="105.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gabin" wrappingWidth="437.2484130859375">
+                  <Text fx:id="prenomText" layoutX="105.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gabin" wrappingWidth="437.2484130859375">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text fx:id="nomText" layoutX="82.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Granjon" wrappingWidth="530.6484375">
+                  <Text fx:id="nomText" layoutX="82.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Granjon" wrappingWidth="530.6484375">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text layoutX="14.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe :">
+                  <Text layoutX="14.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe :">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text layoutX="14.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mail : g.granjon42570@gmail.com" wrappingWidth="460.9830722808838">
+                  <Text fx:id="mailText" layoutX="73.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="g.granjon42570@gmail.com" wrappingWidth="460.9830722808838">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Text>
-                  <Text fx:id="mdpText" layoutX="158.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dzhdjahdjazhdkazjhfezfezfzefzeff" wrappingWidth="324.9830722808838">
+                  <Text fx:id="mdpText" layoutX="157.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="dzhdjahdjazhdkazjhfezfezfzefzeff" wrappingWidth="324.9830722808838">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
@@ -68,13 +68,13 @@
                         <Font size="18.0" />
                      </font>
                   </TextField>
+                  <Text layoutX="16.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mail :">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Text>
                </children>
             </Pane>
-            <Text fx:id="pseudoText" layoutX="243.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="REZKO" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="40.0" />
-               </font>
-            </Text>
             <Pane layoutX="206.0" layoutY="-73.0" prefHeight="146.0" prefWidth="203.0">
                <children>
                   <Circle fx:id="photoprofil" fill="#4490d7" layoutX="102.0" layoutY="66.0" radius="68.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
@@ -112,13 +112,28 @@
                   </HBox>
                </children>
             </VBox>
-            <Button fx:id="boutonTheme" layoutX="560.0" layoutY="58.0" mnemonicParsing="false" onAction="#switchThemeMode" prefHeight="30.0" prefWidth="68.0" text="Thème" />
-            <Button fx:id="boutonEdit" layoutX="571.0" layoutY="101.0" mnemonicParsing="false" onAction="#switchEditMode" text="Editer" />
-            <TextField fx:id="pseudoEdit" alignment="CENTER" layoutX="117.0" layoutY="69.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="38.0" prefWidth="380.0" promptText="Pseudo" visible="false">
+            <TextField fx:id="pseudoEdit" alignment="CENTER" layoutX="115.0" layoutY="77.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="380.0" promptText="Pseudo" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </TextField>
+            <Text fx:id="pseudoText" layoutX="63.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="REZKO" textAlignment="CENTER" wrappingWidth="490.0">
+               <font>
+                  <Font name="System Bold" size="40.0" />
+               </font>
+            </Text>
+            <VBox alignment="CENTER" layoutX="500.0" layoutY="50.0" prefHeight="200.0" prefWidth="130.0" spacing="30.0">
+               <children>
+                  <Button fx:id="boutonEdit" mnemonicParsing="false" onAction="#switchEditMode" prefHeight="34.0" prefWidth="117.0" styleClass="button_test2" stylesheets="@styles.css" text="Editer" />
+                  <Button fx:id="boutonShowMdp" mnemonicParsing="false" onAction="#showMdp" prefHeight="33.0" prefWidth="117.0" styleClass="button_test2" stylesheets="@styles.css" text="Voir mot de passe" />
+               </children>
+            </VBox>
+            <Pane fx:id="panePhoto" layoutX="369.0" layoutY="27.0" prefHeight="46.0" prefWidth="220.0">
+               <children>
+                  <Button fx:id="boutonParcours" layoutX="128.0" layoutY="11.0" mnemonicParsing="false" onAction="#uploadPhoto" prefHeight="29.0" prefWidth="85.0" styleClass="button_test2" stylesheets="@styles.css" text="Parcourir..." />
+                  <TextField fx:id="cheminPhoto" layoutY="11.0" prefHeight="25.0" prefWidth="128.0" />
+               </children>
+            </Pane>
          </children>
       </Group>
    </children>

@@ -77,6 +77,8 @@ public class JsonUtil {
             json.put("description", post.getDescription());
             json.put("author_email", post.getAuthorEmail());
             json.put("dates", post.getDates());
+            json.put("datesOccupied", post.getDatesOccupied());
+            json.put("applications", post.getApplications());
             json.put("address", adressToJson(post.getAddress()));
             if (post.getImage() != null)
                 json.put("path", post.getImage().getUrl());
@@ -84,16 +86,6 @@ public class JsonUtil {
                 json.put("path", "");
             json.put("state", post.getState());
             json.put("type_date", post.getType_date());
-
-            if (post instanceof Service) {
-                json.put("type", "service");
-                json.put("descriptionService", post.getDescriptionService());
-                json.put("providers", providersToJson(post.getProviders()));
-            }
-            else if (post instanceof Tool) {
-                json.put("type", "tool");
-                json.put("stateTool", post.getStateTool());
-            }
 
             if (post instanceof Service) {
                 json.put("type", "service");
@@ -159,8 +151,9 @@ public class JsonUtil {
             if (Post.getNbPosts() == 0)
                 return posts;
 
-            for (int i = 1; i <= Post.getNbPosts() ; i++){
-                JSONObject jsonObject = json.getJSONObject("post" + i);
+            for (int i = 0; i < Post.getListId().size() ; i++){
+                int val = Post.getListId().get(i);
+                JSONObject jsonObject = json.getJSONObject("post" + val);
                 posts.add(jsonToPost(jsonObject));
             }
             return posts;
@@ -176,6 +169,18 @@ public class JsonUtil {
             JSONArray jsonDates = jsonObject.getJSONArray("dates");
             for (int j = 0; j < jsonDates.length(); j++) {
                 dates.add(LocalDate.parse(jsonDates.getString(j)));
+            }
+
+            JSONArray jsonDatesOccupied = jsonObject.getJSONArray("datesOccupied");
+            ArrayList<LocalDate> datesOccupied = new ArrayList<>();
+            for (int j = 0; j < jsonDatesOccupied.length(); j++) {
+                datesOccupied.add(LocalDate.parse(jsonDatesOccupied.getString(j)));
+            }
+
+            List<ApplicationToPost> applicationsToPost = jsonToApplications();
+            ArrayList<Integer> applicationsId = new ArrayList<>();
+            for (ApplicationToPost applicationToPost : applicationsToPost) {
+                applicationsId.add(applicationToPost.getIdAppli());
             }
 
             State state = State.valueOf(jsonObject.getString("state"));
@@ -199,13 +204,13 @@ public class JsonUtil {
 
             if (type.equals("service")) {
                 return new Service(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers);
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("descriptionService"), providers, applicationsId);
             }
             else if (type.equals("tool")) {
                 return new Tool(Integer.parseInt(jsonObject.get("id").toString()), jsonObject.getString("description"),
-                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, type_date,
-                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"));
+                        jsonObject.getString("title"), jsonObject.getString("author_email"), dates, datesOccupied, type_date,
+                        jsonToAdress(jsonObject.getJSONObject("address")), image, state, jsonObject.getString("stateTool"), applicationsId);
             }
             else
                 return null;
@@ -300,6 +305,13 @@ public class JsonUtil {
         User.setNbUsers(User.getNbUsers() - 1);
         user.setCoins(author.getInt("coins"));
         user.setConnected("true".equals(author.getString("isConnected")));
+
+        ArrayList<Integer> appliedPosts = new ArrayList<>();
+        JSONArray jsonAppliedPosts = author.getJSONArray("appliedToPosts");
+        for (int j = 0; j < jsonAppliedPosts.length(); j++) {
+            appliedPosts.add(jsonAppliedPosts.getInt(j));
+        }
+        user.setAppliedToPosts(appliedPosts);
 
         return user;
     }
@@ -427,8 +439,13 @@ public class JsonUtil {
         try {
             ArrayList<User> users = jsonToUsers();
             int i = 0;
+            System.out.println(mail);
             while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
+                System.out.println(users.get(i).getEmail());
                 i++;
+            }
+            if(i == User.getNbUsers()){
+
             }
             User user = users.get(i);
             return user;
@@ -617,6 +634,98 @@ public class JsonUtil {
         JSONObject listConvJson = listConvToJsonObj(convs);
         writeJsonInJsonFile(path, listConvJson);
     }
+
+    public static List<ApplicationToPost> jsonToApplications() {
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/applications.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            List<ApplicationToPost> applications = new ArrayList<>();
+
+            JSONObject json = new JSONObject(builder.toString());
+
+            if (ApplicationToPost.getNbAppli() == 0)
+                return applications;
+
+            for (int i = 0; i < ApplicationToPost.getListId().size() ; i++){
+                int val = ApplicationToPost.getListId().get(i);
+                JSONObject jsonObject = json.getJSONObject("application" + val);
+                applications.add(jsonToApplication(jsonObject));
+
+            }
+            return applications;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static ApplicationToPost jsonToApplication(JSONObject jsonObject) {
+        String applicantEmail = jsonObject.getString("applicant");
+        String comment = jsonObject.getString("comment");
+
+        ArrayList<LocalDate> dates = new ArrayList<>();
+        JSONArray jsonDates = jsonObject.getJSONArray("dates");
+        for (int j = 0; j < jsonDates.length(); j++) {
+            dates.add(LocalDate.parse(jsonDates.getString(j)));
+        }
+
+        int id = jsonObject.getInt("id");
+        boolean isAccepted = jsonObject.getBoolean("isAccepted");
+
+        return new ApplicationToPost(id, isAccepted, applicantEmail, dates, comment);
+    }
+
+    public static JSONObject applicationToJson(ApplicationToPost application) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id", application.getIdAppli());
+            json.put("applicant", application.getApplicantEmail());
+            json.put("comment", application.getComment());
+            json.put("dates", application.getDates());
+            json.put("isAccepted", application.isAccepted());
+            return json;
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void applicationsToJson(List<ApplicationToPost> applications) {
+        String path = "src/main/resources/json/applications.json";
+
+        JSONObject applicationsJson = new JSONObject();
+        try {
+            if (!applications.isEmpty()){
+                int i = 1;
+                for (ApplicationToPost application : applications) {
+                    JSONObject json = applicationToJson(application);
+                    applicationsJson.put("application" + i++, json);
+                }
+            }
+            else {
+                applicationsJson.put("application0", "");
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
+            out.write(applicationsJson.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public static ArrayList<Conversation> convsOfUser(User user){
         ArrayList<Conversation> convs = recupConvFromJson();

@@ -54,13 +54,13 @@ public class MessageItemController implements Initializable {
     public void openConvo(ActionEvent event) throws IOException {
         if (!delete) {
             SceneController sc = new SceneController();
-            sc.openConv(user, conversation, event);
+            sc.openConvHexa(user, conversation, event);
         }
         else{
             user.delConv(conversation);
             JsonUtil.delConv(conversation);
             SceneController sc = new SceneController();
-            sc.goBackMessagerie(user, event);
+            sc.goBackMessagerieHexa(user, event);
         }
     }
 }

@@ -28,12 +28,17 @@
       <Label fx:id="country" layoutX="578.0" layoutY="264.0" prefHeight="18.0" prefWidth="134.0" />
       <Label fx:id="region" layoutX="751.0" layoutY="264.0" prefHeight="18.0" prefWidth="134.0" />
       <ImageView fx:id="image" fitHeight="179.0" fitWidth="356.0" layoutX="98.0" layoutY="319.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="9.0" layoutY="143.0" mnemonicParsing="false" onAction="#modify" text="Modifier" />
-      <Button layoutX="4.0" layoutY="187.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+      <Button fx:id="modifier" layoutX="9.0" layoutY="143.0" mnemonicParsing="false" onAction="#modify" text="Modifier" visible="false" />
+      <Button fx:id="supprimer" layoutX="4.0" layoutY="187.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" visible="false" />
       <Text fx:id="stateTool" layoutX="483.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="332.53668212890625" />
-      <Button layoutX="14.0" layoutY="237.0" mnemonicParsing="false" onAction="#viewTool" text="Voir" />
+      <Button layoutX="14.0" layoutY="237.0" mnemonicParsing="false" onAction="#viewToolHexa" text="Voir" />
       <Label fx:id="email" layoutX="318.0" layoutY="169.0" prefHeight="18.0" prefWidth="175.0" />
       <ListView fx:id="listDate" layoutX="483.0" layoutY="364.0" prefHeight="148.0" prefWidth="288.0" />
       <Label fx:id="type_date" layoutX="786.0" layoutY="364.0" prefHeight="18.0" prefWidth="142.0" />
+      <Button fx:id="masquer" layoutX="8.0" layoutY="269.0" mnemonicParsing="false" onAction="#hideHexa" text="Masquer" visible="false" />
+      <Button fx:id="demasquer" layoutX="13.0" layoutY="300.0" mnemonicParsing="false" onAction="#showHexa" text="Démasquer" visible="false" />
+      <Button fx:id="postuler" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#apply" text="Postuler" visible="false" />
+      <Button fx:id="candidatures" layoutX="14.0" layoutY="426.0" mnemonicParsing="false" onAction="#show_applications" text="Candidatures" visible="false" />
+      <Button fx:id="open_candidature" layoutX="836.0" layoutY="21.0" mnemonicParsing="false" onAction="#openHexa" text="Voir ma candidature" visible="false" />
    </children>
 </AnchorPane>

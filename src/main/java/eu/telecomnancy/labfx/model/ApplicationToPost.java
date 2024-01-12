@@ -4,24 +4,42 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 public class ApplicationToPost {
-    private Post post;
+    @Getter
+    @Setter
+    protected static int nbAppli;
+
+    private int idAppli;
+
     private String applicantEmail;
 
-    private LocalDate start;
+    private ArrayList<LocalDate> dates;
 
-    private int duration;
+    private String comment;
 
     private boolean accepted;
 
-    public ApplicationToPost(Post post, String applicantEmail, LocalDate start, int duration) {
-        this.post = post;
-        this.applicantEmail = applicantEmail;
-        this.start = start;
-        this.duration = duration;
+    @Getter
+    protected static List<Integer> listId = new ArrayList<>();
+
+    public ApplicationToPost(String comment) {
+        this.comment = comment;
         this.accepted = false;
+        ApplicationToPost.nbAppli++;
+        this.idAppli = nbAppli;
+        ApplicationToPost.listId.add(this.idAppli);
+    }
+
+    public ApplicationToPost(int id, boolean accepted, String applicantEmail, ArrayList<LocalDate> dates, String comment) {
+        this.applicantEmail = applicantEmail;
+        this.dates = dates;
+        this.comment = comment;
+        this.idAppli = id;
+        this.accepted = accepted;
     }
 }

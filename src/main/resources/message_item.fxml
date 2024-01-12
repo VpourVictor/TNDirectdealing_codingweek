@@ -7,17 +7,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<Button mnemonicParsing="false" onAction="#openConvo" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.MessageItemController">
+<Button mnemonicParsing="false" onAction="#openConvo" prefHeight="62.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.telecomnancy.labfx.controller.MessageItemController">
    <graphic>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="963.0">
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="640.0">
          <children>
             <ImageView fx:id="photo" fitHeight="56.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets left="15.0" />
                </HBox.margin>
             </ImageView>
-            <Label fx:id="nomText" prefHeight="54.0" prefWidth="200.0" text="GRANJON">
+            <Label fx:id="nomText" prefHeight="54.0" prefWidth="386.0" text="GRANJON">
                <padding>
                   <Insets left="50.0" />
                </padding>

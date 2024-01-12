@@ -77,6 +77,7 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     public void setAndLoad(User user){
         this.user = user;
+        System.out.println(user.getEmail());
         pseudoText.setText(user.getPseudo());
         mailText.setText(user.getEmail());
         Image image = user.getProfilePicture();
@@ -91,7 +92,7 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     }
 
-    private void load(){
+    public void load(){
         if (user != null) {
             List<Conversation> convs = JsonUtil.convsOfUser(user);     //TODO les recups dans le json à la place
             System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa   " + convs.size());
@@ -117,6 +118,8 @@ public class MessagerieController extends HexaSuper implements Initializable {
             }
         }
     }
+
+
 
     public void supprMessage(ActionEvent event){
         if (!listcontacts.getChildren().isEmpty()) {
@@ -162,7 +165,6 @@ public class MessagerieController extends HexaSuper implements Initializable {
                 while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
                     i++;
                 }
-                System.out.println(i);
                 if (i == User.getNbUsers()) {
                     prompt2.setVisible(true);
                     prompt3.setVisible(false);
@@ -175,6 +177,42 @@ public class MessagerieController extends HexaSuper implements Initializable {
                     receiver.addConv(conversation);
                     SceneController sc = new SceneController();
                     sc.openConv(user, conversation, event);
+                }
+            }
+        }
+    }
+    public void contactHexa(ActionEvent event) throws IOException {
+        String mail = mailChose.getText();
+        users = JsonUtil.jsonToUsers();
+        int i = 0;
+        String user_email = user.getEmail();
+
+        if (mail.equals(user_email)){
+            prompt4.setVisible(true);
+            prompt3.setVisible(false);
+            prompt2.setVisible(false);
+        }
+        else {
+            if (JsonUtil.conversationExiste(mail, user_email)) {
+                prompt3.setVisible(true);
+                prompt2.setVisible(false);
+                prompt4.setVisible(false);
+            } else {
+                while ((i < User.getNbUsers()) && (!users.get(i).getEmail().equals(mail))) {
+                    i++;
+                }
+                if (i == User.getNbUsers()) {
+                    prompt2.setVisible(true);
+                    prompt3.setVisible(false);
+                    prompt4.setVisible(false);
+                } else {
+                    User receiver = users.get(i);
+                    Conversation conversation = new Conversation(user, receiver);
+                    JsonUtil.saveConvInJson(conversation);
+                    user.addConv(conversation);
+                    receiver.addConv(conversation);
+                    SceneController sc = new SceneController();
+                    sc.goToMainMessagerie(event,26, user, conversation);
                 }
             }
         }

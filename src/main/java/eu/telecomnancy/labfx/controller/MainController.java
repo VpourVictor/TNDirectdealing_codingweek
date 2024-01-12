@@ -1,27 +1,40 @@
 package eu.telecomnancy.labfx.controller;
 
+import eu.telecomnancy.labfx.controller.posts.PostApplicationController;
+import eu.telecomnancy.labfx.controller.posts.PostApplyController;
 import eu.telecomnancy.labfx.controller.posts.PostEditController;
 import eu.telecomnancy.labfx.controller.posts.PostOverviewController;
+import eu.telecomnancy.labfx.controller.utils.JsonUtil;
+import eu.telecomnancy.labfx.model.*;
 import javafx.animation.*;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
-
-
-
+@Setter
+    public ApplicationToPost applicationToPost;
+    @Setter
+    public Post post = null;
+    @Setter
+    public boolean modify;
     public  static Parent root;
 
     public static int offX;
@@ -30,8 +43,14 @@ public class MainController implements Initializable {
 
     private boolean moving;
 
+    @Setter
     private int position;
-
+    @Setter
+    private int old_position;
+    @Setter
+    private User userMain;
+    @Setter
+    private Conversation conversation;
     @FXML
     Pane centerHexagon;
 
@@ -61,13 +80,11 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         moving = false;
-        //position = 0;
         try {
-            //loadHexagon();
+
             updateNewHexa(paneCenter);
             updateHexagon();
             loadPosition();
-            System.out.println(position);
 
 
         } catch (IOException e) {
@@ -268,60 +285,6 @@ public class MainController implements Initializable {
         return tab;
     }
 
-    public void loadHexagon() throws IOException {
-        FXMLLoader loaderL = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-        FXMLLoader loaderR = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-        FXMLLoader loaderUL = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-        FXMLLoader loaderUR = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-        FXMLLoader loaderDL = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-        FXMLLoader loaderDR = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
-        Pane paneL = loaderL.load();
-        Pane paneR = loaderR.load();
-        Pane paneUL = loaderUL.load();
-        Pane paneUR = loaderUR.load();
-        Pane paneDL = loaderDL.load();
-        Pane paneDR = loaderDR.load();
-
-        HexagonController controllerUR = loaderUR.getController();
-        HexagonController controllerUL = loaderUL.getController();
-        HexagonController controllerDR = loaderDR.getController();
-        HexagonController controllerDL = loaderDL.getController();
-        HexagonController controllerR = loaderR.getController();
-        HexagonController controllerL = loaderL.getController();
-
-        controllerUR.updateLabel(position, "UR");
-        controllerUL.updateLabel(position,"UL");
-        controllerDR.updateLabel(position,"DR");
-        controllerDL.updateLabel(position,"DL");
-        controllerR.updateLabel(position,"R");
-        controllerL.updateLabel(position,"L");
-
-        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/HexagonHomepage.fxml"));
-        Pane paneC = loader2.load();
-        HomepageController controller = loader2.getController();
-        colorizeHexagon(controller.getHexagon(), true);
-
-
-        paneCenter.getChildren().setAll(paneC);
-        paneLeft.getChildren().setAll(paneL);
-        paneRight.getChildren().setAll(paneR);
-        paneUpLeft.getChildren().setAll(paneUL);
-        paneUpRight.getChildren().setAll(paneUR);
-        paneDownLeft.getChildren().setAll(paneDL);
-        paneDownRight.getChildren().setAll(paneDR);
-
-        updateHexagon();
-        currentHexagon = controller.getHexagon();
-
-        /*updateBorder(paneUpRight);
-        updateBorder(paneUpLeft);
-        updateBorder(paneDownRight);
-        updateBorder(paneDownLeft);
-        updateBorder(paneRight);
-        updateBorder(paneLeft);*/
-
-    }
-
     public void updateHexagon() throws IOException {
 
         FXMLLoader loaderL = new FXMLLoader(getClass().getResource("/Hexagon.fxml"));
@@ -344,12 +307,21 @@ public class MainController implements Initializable {
         HexagonController controllerR = loaderR.getController();
         HexagonController controllerL = loaderL.getController();
 
+/*        controllerUR.setOld_position(old_position);
+        controllerUL.setOld_position(old_position);
+        controllerDR.setOld_position(old_position);
+        controllerDL.setOld_position(old_position);
+        controllerR.setOld_position(old_position);
+        controllerL.setOld_position(old_position);*/
+
         controllerUR.updateLabel(position, "UR");
         controllerUL.updateLabel(position,"UL");
         controllerDR.updateLabel(position,"DR");
         controllerDL.updateLabel(position,"DL");
         controllerR.updateLabel(position,"R");
         controllerL.updateLabel(position,"L");
+
+        handleMovement(position);
 
         paneLeft.getChildren().setAll(paneL);
         paneRight.getChildren().setAll(paneR);
@@ -360,63 +332,33 @@ public class MainController implements Initializable {
 
     }
 
-
-/*    public void loadPosition() throws IOException {
-        if (position == 0){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonHomepage.fxml"));
-            Pane pane = loader.load();
-            HomepageController controller = loader.getController();
-            colorizeHexagon(controller.getHexagon(),true);
-            currentHexagon = controller.getHexagon();
-            currentPane = controller.getPaneTest();
-            paneCenter.getChildren().setAll(pane);
+    public void handleMovement(int position){
+        switch (position) {
+            case 7:
+                paneUpLeft.setOnMouseClicked(null);
+                paneUpRight.setOnMouseClicked(null);
+                paneDownLeft.setOnMouseClicked(null);
+                paneDownRight.setOnMouseClicked(null);
+                break;
+            case 13:
+                paneUpLeft.setOnMouseClicked(null);
+                paneUpRight.setOnMouseClicked(null);
+                paneDownLeft.setOnMouseClicked(null);
+                paneDownRight.setOnMouseClicked(null);
+                paneLeft.setOnMouseClicked(null);
+                break;
+            case 10:
+                paneUpLeft.setOnMouseClicked(null);
+                paneUpRight.setOnMouseClicked(null);
+                paneDownLeft.setOnMouseClicked(null);
+                paneDownRight.setOnMouseClicked(null);
+                paneRight.setOnMouseClicked(null);
+                break;
         }
-        else if (position == 1){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexaProfile.fxml"));
-            Pane pane = loader.load();
-            ProfileController controller = loader.getController();
-            colorizeHexagon(controller.getHexagon(),true);
-            currentHexagon = controller.getHexagon();
-            paneCenter.getChildren().setAll(pane);
-        }
-        else if(position == 14){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
-            Pane pane = loader.load();
-            HexagonBoardController controller = loader.getController();
-            colorizeHexagon(controller.getHexagon(),true);
-            currentHexagon = controller.getHexagon();
-            paneCenter.getChildren().setAll(pane);
+        //TODO bloquer les voies
 
+    }
 
-        }
-        if (position == 10){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonSignIn.fxml"));
-            Pane pane = loader.load();
-            SignInController controller = loader.getController();
-            colorizeHexagon(controller.getHexagon(),true);
-            currentHexagon = controller.getHexagon();
-            paneCenter.getChildren().setAll(pane);
-        }
-        else if (position == 13){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonSignUp.fxml"));
-            Pane pane = loader.load();
-            SignUpController controller = loader.getController();
-            colorizeHexagon(controller.getHexagon(),true);
-            currentHexagon = controller.getHexagon();
-            paneCenter.getChildren().setAll(pane);
-        }
-        else if (position == 7){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonDirectDealing.fxml"));
-            Pane pane = loader.load();
-            HexagonDirectDealingController controller = loader.getController();
-            colorizeHexagon(controller.getHexagon(),true);
-            currentHexagon = controller.getHexagon();
-            paneCenter.getChildren().setAll(pane);
-        }
-
-
-
-    }*/
     public void loadPosition() throws IOException {
         String fxmlPath = "";
         Class<?> controllerType = null;
@@ -454,7 +396,7 @@ public class MainController implements Initializable {
                 fxmlPath = "/HexagonMessagerie.fxml";
                 controllerType = MessagerieController.class;
                 break;
-            case 23:
+            case 24:
                 fxmlPath = "/HexagonEditService.fxml";
                 controllerType = PostEditController.class;
                 break;
@@ -466,11 +408,20 @@ public class MainController implements Initializable {
                 fxmlPath = "/HexagonOverviewServicePost.fxml";
                 controllerType = PostOverviewController.class;
                 break;
-            case 24:
+            case 23:
                 fxmlPath = "/HexagonOverviewToolPost.fxml";
                 controllerType = PostOverviewController.class;
                 break;
+            case 17 :
+                fxmlPath = "/HexagonAllPost.fxml";
+                controllerType = PostEditController.class;
+                break;
+            case 22 :
+                fxmlPath = "/HexagonNew.fxml";
+                controllerType = PostEditController.class;
+                break;
             default:
+
                 break;
         }
 
@@ -478,10 +429,62 @@ public class MainController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Pane pane = loader.load();
             HexaSuper controller = loader.getController();
+
             colorizeHexagon(controller.getHexagon(), true);
-            if(controller instanceof HomepageController){
+
+            if(position == 15){
+                ((ProfileController)controller).setUser(userMain);
+                ((ProfileController)controller).load();
+            }
+
+            if(position == 26){
+                ((ConversationController)controller).setConv(conversation);
+                ((ConversationController)controller).setAndLoad(userMain);
+
+            }
+
+            if(position == 0){
                 currentPane = ((HomepageController) controller).getPaneTest();
             }
+            if(position == 20) {
+                /*System.out.println(userMain.getEmail());
+                Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
+                Address adresse = new Address(5, "d", 6, "y", "h", "s");
+                User user = new User("test", "test", "test@test.com", "Rezko", "pas", adresse, image);
+                User user2 = new User("test2", "test2", "test2@gmail.com", "Rezko2", "pas", adresse, image);
+                User user3 = new User("test3", "test2", "aaa", "Rezko3", "pas", adresse, image);
+                User user4 = new User("test4", "test2", "bbb", "Rezko4", "pas", adresse, image);
+                User.setNbUsers(0);
+                ArrayList<User> users = JsonUtil.jsonToUsers();
+                users.add(user);
+                users.add(user2);
+                users.add(user3);
+                users.add(user4);
+
+                JsonUtil.usersToJson(users);
+                User.setNbUsers(4);*/
+                ((MessagerieController) controller).setAndLoad(userMain);
+
+
+            }
+            if(position == 22){
+                if(old_position == 21 || old_position ==24){
+                    ((PostEditController)controller).setModify(modify);
+                    ((PostEditController)controller).initData(post);
+                }
+                ((PostEditController)controller).setPart2(false);
+                if (post != null && (post.getDescriptionService() != null || post.getStateTool() != null)){
+                    ((PostEditController)controller).initData(post);
+                }
+                else {
+                    ((PostEditController)controller).initData(null);
+                }
+            }
+            if(position == 23){
+                ((PostEditController)controller).setModify(modify);
+                ((PostEditController)controller).initData(post);
+            }
+
             currentHexagon = controller.getHexagon();
             paneCenter.getChildren().setAll(pane);
         }
@@ -533,19 +536,8 @@ public class MainController implements Initializable {
     }
 
 
-
-
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-
     public void teleportation(int position) throws IOException {
+        this.position = position;
         switch (position) {
             case 0 -> loadFXML("/HexagonHomepage.fxml", HomepageController.class);
             case 15 -> loadFXML("/HexaProfile.fxml", ProfileController.class);
@@ -555,10 +547,18 @@ public class MainController implements Initializable {
             case 7 -> loadFXML("/HexagonDirectDealing.fxml", HexagonDirectDealingController.class);
             case 16 -> loadFXML("/HexaTemplate.fxml", HexaTemplateController.class);
             case 20 -> loadFXML("/HexagonMessagerie.fxml", MessagerieController.class);
-            case 23 -> loadFXML("/HexagonEditService.fxml", PostEditController.class);
+            case 24 -> loadFXML("/HexagonEditService.fxml", PostEditController.class);
             case 21 -> loadFXML("/HexagonEditTool.fxml", PostEditController.class);
             case 25 -> loadFXML("/HexagonOverviewServicePost.fxml", PostOverviewController.class);
-            case 24 -> loadFXML("/HexagonOverviewToolPost.fxml", PostOverviewController.class);
+            case 23 -> loadFXML("/HexagonOverviewToolPost.fxml", PostOverviewController.class);
+            case 17 -> loadFXML("/HexagonAllPost.fxml", PostEditController.class);
+            case 22 -> loadFXML("/HexagonNew.fxml", PostEditController.class);
+            case 26 -> loadFXML("/HexagonConv.fxml", ConversationController.class);
+            case 27 -> loadFXML("/HexagonAllApplication.fxml", PostApplicationController.class);
+            case 28 -> loadFXML("/HexagonApply.fxml", PostApplyController.class);
+            case 29 -> loadFXML("/HexagonMyApplication.fxml", PostApplicationController.class);
+            case 30 -> loadFXML("/HexagonAll.fxml", PostEditController.class);
+
         }
     }
 
@@ -569,8 +569,52 @@ public class MainController implements Initializable {
         Pane pane = loader.load();
         HexaSuper controller = loader.getController();
 
+
         if (controllerType.isInstance(controller)) {
+
+            if(position == 24 || position == 21){
+                ((PostEditController)controller).setPart2(true);
+                ((PostEditController)controller).setModify(modify);
+                ((PostEditController)controller).initData(post);
+
+            }
+            if(position == 23 || position ==25){
+                ((PostOverviewController)controller).initData(post);
+            }
+            if (position == 17 || position == 30){
+                ((PostEditController)controller).initData(null);
+            }
+            if(position == 27){
+                ((PostApplicationController)controller).initData(post);
+            }
+            if(position == 22){
+                if(old_position == 17){
+                    ((PostEditController)controller).setPart2(false);
+                    ((PostEditController)controller).initData(null);
+                }
+                else {
+                    ((PostEditController) controller).setModify(modify);
+                    ((PostEditController) controller).initData(post);
+                }
+            }
+            if(position == 28){
+                ((PostApplyController)controller).initData(post);
+            }
+            if(position == 29){
+                ((PostApplicationController)controller).initData(applicationToPost);
+            }
+
+
+            if(position == 20){
+                ((MessagerieController)controller).setAndLoad(userMain);
+            }
+            if(position == 26){
+                ((ConversationController)controller).setConv(conversation);
+                ((ConversationController)controller).setAndLoad(userMain);
+
+            }
             controller.getHexagon().setFill(Color.web("#F08A26"));
+
             colorizeHexagon(controller.getHexagon(),true);
 
             ParallelTransition pt = new ParallelTransition();
@@ -616,6 +660,7 @@ public class MainController implements Initializable {
     }
 
     private void updatePosition(String direction) {
+        old_position = position;
         if (position == 0) {
             if (direction.equals("UP_LEFT")) {
                 position = 1;
@@ -911,11 +956,11 @@ public class MainController implements Initializable {
             if (direction.equals("UP_LEFT")) {
                 position = 16;
             } else if (direction.equals("UP_RIGHT")) {
-                position = 21;
+                position = 14;
             } else if (direction.equals("RIGHT")) {
                 position = 22;
             } else if (direction.equals("DOWN_RIGHT")) {
-                position = 23;
+                position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
@@ -981,11 +1026,11 @@ public class MainController implements Initializable {
             } else if (direction.equals("UP_RIGHT")) {
                 position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 24;
-            } else if (direction.equals("DOWN_RIGHT")) {
                 position = 22;
+            } else if (direction.equals("DOWN_RIGHT")) {
+                position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
-                position = 17;
+                position = 14;
             } else if (direction.equals("LEFT")) {
                 position = 14;
             }
@@ -994,34 +1039,34 @@ public class MainController implements Initializable {
             }
         } else if (position == 22) {
             if (direction.equals("UP_LEFT")) {
-                position = 21;
+                position = 14;
             } else if (direction.equals("UP_RIGHT")) {
-                position = 24;
+                position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 26;
+                position = 14;
             } else if (direction.equals("DOWN_RIGHT")) {
-                position = 25;
+                position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
-                position = 23;
+                position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 17;
+                position = 14;
             }
             else {
                 position = 14;
             }
         } else if (position == 23) {
             if (direction.equals("UP_LEFT")) {
-                position = 17;
+                position = 14;
             } else if (direction.equals("UP_RIGHT")) {
-                position = 22;
+                position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 25;
+                position = 22;
             } else if (direction.equals("DOWN_RIGHT")) {
                 position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 18;
+                position = 17;
             }
             else {
                 position = 14;
@@ -1032,30 +1077,30 @@ public class MainController implements Initializable {
             } else if (direction.equals("UP_RIGHT")) {
                 position = 14;
             } else if (direction.equals("RIGHT")) {
-                position = 14;
-            } else if (direction.equals("DOWN_RIGHT")) {
-                position = 26;
-            } else if (direction.equals("DOWN_LEFT")) {
                 position = 22;
+            } else if (direction.equals("DOWN_RIGHT")) {
+                position = 14;
+            } else if (direction.equals("DOWN_LEFT")) {
+                position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 21;
+                position = 14;
             }
             else {
                 position = 14;
             }
         } else if (position == 25) {
             if (direction.equals("UP_LEFT")) {
-                position = 22;
-            } else if (direction.equals("UP_RIGHT")) {
-                position = 26;
-            } else if (direction.equals("RIGHT")) {
                 position = 14;
+            } else if (direction.equals("UP_RIGHT")) {
+                position = 14;
+            } else if (direction.equals("RIGHT")) {
+                position = 22;
             } else if (direction.equals("DOWN_RIGHT")) {
                 position = 14;
             } else if (direction.equals("DOWN_LEFT")) {
                 position = 14;
             } else if (direction.equals("LEFT")) {
-                position = 23;
+                position = 17;
             }
             else {
                 position = 14;
@@ -1080,5 +1125,6 @@ public class MainController implements Initializable {
 
         }
     }
+
 
 }
