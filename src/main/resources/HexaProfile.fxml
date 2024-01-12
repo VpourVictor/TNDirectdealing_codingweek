@@ -15,7 +15,7 @@
    <children>
       <Group layoutX="57.0" layoutY="163.0" styleClass="background" stylesheets="@styles.css">
          <children>
-            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" style="-fx-fill: #f58a5d;" />
+            <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.199951171875, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -340.7999267578125, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
             <Pane layoutX="-28.0" layoutY="116.0" prefHeight="254.0" prefWidth="669.0" stylesheets="@styles.css">
                <children>
                   <Text layoutX="14.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom :">
@@ -80,33 +80,42 @@
                   <Circle fx:id="photoprofil" fill="#4490d7" layoutX="102.0" layoutY="66.0" radius="68.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
                </children>
             </Pane>
-            <VBox alignment="TOP_CENTER" layoutX="344.0" layoutY="386.0" prefHeight="155.0" prefWidth="245.0" spacing="20.0">
+            <VBox alignment="TOP_CENTER" layoutX="301.0" layoutY="386.0" prefHeight="155.0" prefWidth="245.0" spacing="20.0">
                <children>
                   <Text fx:id="portefeuilleText" strokeType="OUTSIDE" strokeWidth="0.0" text="MON PORTEFEUILLE" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Text>
-                  <Text fx:id="argent" strokeType="OUTSIDE" strokeWidth="0.0" text="50 Florains">
-                     <font>
-                        <Font name="System Bold" size="25.0" />
-                     </font>
-                  </Text>
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="200.0" spacing="6.0">
+                     <children>
+                        <Text fx:id="argent" strokeType="OUTSIDE" strokeWidth="0.0" text="45">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Florains">
+                           <font>
+                              <Font name="System Bold" size="25.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" layoutX="48.0" layoutY="386.0" prefHeight="134.0" prefWidth="245.0" spacing="20.0">
+            <VBox alignment="TOP_CENTER" layoutX="25.0" layoutY="386.0" prefHeight="134.0" prefWidth="245.0" spacing="10.0">
                <children>
                   <Text fx:id="noteText" strokeType="OUTSIDE" strokeWidth="0.0" text="MA NOTE" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </Text>
-                  <HBox alignment="CENTER" prefHeight="58.0" prefWidth="251.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="58.0" prefWidth="251.0" spacing="15.0" stylesheets="@styles.css">
                      <children>
                         <Circle fx:id="cercle1" fill="#1fff34" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                         <Circle fx:id="cercle2" fill="#1fff34" layoutX="133.0" layoutY="39.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                         <Circle fx:id="cercle3" fill="#1fff34" layoutX="145.0" layoutY="39.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                        <Circle fx:id="cercle4" fill="#ff1f34" layoutX="109.0" layoutY="39.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Circle fx:id="cercle4" fill="#ff1f34" layoutX="109.0" layoutY="39.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="valide" />
                         <Circle fx:id="cercle5" fill="#ff1f34" layoutX="97.0" layoutY="39.0" radius="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
@@ -134,6 +143,7 @@
                   <TextField fx:id="cheminPhoto" layoutY="11.0" prefHeight="25.0" prefWidth="128.0" />
                </children>
             </Pane>
+            <Text fx:id="nb_eval" layoutX="140.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="(30)" wrappingWidth="22.13671875" />
          </children>
       </Group>
    </children>

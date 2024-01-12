@@ -126,3 +126,11 @@
     -fx-font-weight: 500;
     -fx-text-fill: #560bad;
 }
+
+.valide{
+    -fx-fill: #1fff34;
+}
+
+.non-valide{
+    -fx-fill: #ff1f34;
+}

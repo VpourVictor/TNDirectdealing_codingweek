@@ -72,7 +72,7 @@ public class MainController implements Initializable {
 
     Polygon currentHexagon;
 
-    Pane currentPane;
+    Pane currentPane = new Pane();
     @FXML
     Polygon testPane2;
     @FXML
@@ -82,7 +82,6 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         moving = false;
         try {
-
             updateNewHexa(paneCenter);
             updateHexagon();
             loadPosition();
