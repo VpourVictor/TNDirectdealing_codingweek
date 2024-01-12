@@ -8,12 +8,8 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
@@ -23,164 +19,93 @@
       <Group layoutX="57.0" layoutY="163.0">
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
-            <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="636.0">
-               <top>
-                  <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-                     <children>
-                        <VBox alignment="CENTER_LEFT" prefHeight="151.0" prefWidth="209.0">
-                           <children>
-                              <RadioButton fx:id="allPost" mnemonicParsing="false" onAction="#typeSelected" text="Toutes les annonces">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="choicePost" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="onlyServices" mnemonicParsing="false" onAction="#typeSelected" text="Services" toggleGroup="$choicePost">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </RadioButton>
-                              <RadioButton fx:id="onlyTools" mnemonicParsing="false" onAction="#typeSelected" text="Outils" toggleGroup="$choicePost">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </RadioButton>
-                           </children>
-                           <opaqueInsets>
-                              <Insets left="20.0" right="20.0" />
-                           </opaqueInsets>
-                        </VBox>
-                        <VBox>
-                           <children>
-                              <GridPane prefHeight="151.0" prefWidth="607.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.8667358398437" minWidth="10.0" prefWidth="282.133349609375" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.866650390625" minWidth="10.0" prefWidth="186.93331909179688" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.866650390625" minWidth="0.0" prefWidth="142.66668090820315" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <RadioButton fx:id="sortedByCountry" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Pays" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="choiceLocation" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton fx:id="sortedByRegion" mnemonicParsing="false" onAction="#typeSelected" text="Région" toggleGroup="$choiceLocation" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <RadioButton fx:id="sortedByCity" mnemonicParsing="false" onAction="#typeSelected" text="Ville" toggleGroup="$choiceLocation" GridPane.rowIndex="3">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <Label text="Trier par Localisation :">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <Label prefHeight="30.0" prefWidth="70.0" text="Autre :" GridPane.columnIndex="2">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <RadioButton fx:id="sortedByNote" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Note" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="choiceOthers" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton fx:id="sortedByUser" mnemonicParsing="false" onAction="#typeSelected" text="Utilisateur" toggleGroup="$choiceOthers" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <Label text="Voir les annonces :" GridPane.columnIndex="1">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Label>
-                                    <RadioButton fx:id="sortedByStateFuture" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Futures" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="choiceState" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton fx:id="sortedByStateCurrent" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="En cours" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </RadioButton>
-                                    <RadioButton fx:id="sortedByStateEnded" mnemonicParsing="false" onAction="#typeSelected" text="Finies" toggleGroup="$choiceState" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                       <font>
-                                          <Font size="16.0" />
-                                       </font>
-                                    </RadioButton>
-                                 </children>
-                                 <opaqueInsets>
-                                    <Insets bottom="20.0" />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                 </padding>
-                              </GridPane>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                           <children>
-                              <TextField fx:id="localisationTF" promptText="Name of localisation" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </top>
-               <left>
-                  <VBox alignment="CENTER" prefHeight="649.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <RadioButton fx:id="seeMyPosts" mnemonicParsing="false" onAction="#typeSelected" prefHeight="22.0" prefWidth="170.0" text="Voir mes annonces">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="choiceMyPostedApplied" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="seeMyAppliedPosts" mnemonicParsing="false" onAction="#typeSelected" text="Voir mes candidatures" toggleGroup="$choiceMyPostedApplied">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="20.0" />
-                           </padding>
-                        </RadioButton>
-                        <Button mnemonicParsing="false" onAction="#logout" text="Déco" />
-                        <Button mnemonicParsing="false" onAction="#clearSearch" text="Réinitialiser les recherches" />
-                     </children>
-                  </VBox>
-               </left>
-               <bottom>
-                  <ScrollPane fx:id="pane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane layoutX="-46.0" layoutY="-41.0" prefHeight="596.0" prefWidth="720.0">
+               <children>
+                  <RadioButton fx:id="seeMyPosts" layoutX="433.0" layoutY="65.0" mnemonicParsing="false" onAction="#typeSelected" prefHeight="22.0" prefWidth="170.0" text="Voir mes annonces">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="choiceMyPostedApplied" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="seeMyAppliedPosts" layoutX="433.0" layoutY="91.0" mnemonicParsing="false" onAction="#typeSelected" prefHeight="20.0" prefWidth="163.0" text="Voir mes candidatures" toggleGroup="$choiceMyPostedApplied">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="20.0" />
+                     </padding>
+                  </RadioButton>
+                  <Button layoutX="595.0" layoutY="484.0" mnemonicParsing="false" onAction="#logout" text="Déco" />
+                  <Button layoutX="425.0" layoutY="520.0" mnemonicParsing="false" onAction="#clearSearch" text="Réinitialiser les recherches" />
+                  <RadioButton fx:id="allPost" layoutX="41.0" layoutY="107.0" mnemonicParsing="false" onAction="#typeSelected" text="Toutes les annonces">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="choicePost" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="onlyServices" layoutX="288.0" layoutY="107.0" mnemonicParsing="false" onAction="#typeSelected" text="Services" toggleGroup="$choicePost">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="onlyTools" layoutX="206.0" layoutY="107.0" mnemonicParsing="false" onAction="#typeSelected" text="Outils" toggleGroup="$choicePost">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <TextField fx:id="localisationTF" layoutX="162.0" layoutY="533.0" promptText="Name of localisation" />
+                  <ScrollPane fx:id="pane" layoutX="14.0" layoutY="137.0" prefHeight="342.0" prefWidth="674.0">
                      <content>
-                        <VBox fx:id="listPost" prefHeight="200.0" prefWidth="1278.0" />
+                        <VBox fx:id="listPost" prefHeight="337.0" prefWidth="671.0" />
                      </content>
                   </ScrollPane>
-               </bottom>
-            </BorderPane>
+                  <Label layoutX="164.0" layoutY="503.0" text="Trier par Localisation :">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="sortedByCountry" layoutX="336.0" layoutY="546.0" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Pays">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="choiceLocation" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="sortedByRegion" layoutX="336.0" layoutY="497.0" mnemonicParsing="false" onAction="#typeSelected" text="Région" toggleGroup="$choiceLocation">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="sortedByCity" layoutX="336.0" layoutY="523.0" mnemonicParsing="false" onAction="#typeSelected" text="Ville" toggleGroup="$choiceLocation">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+                  <Label layoutX="140.0" layoutY="39.0" text="Trier par :">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="sortedByStateFuture" layoutX="218.0" layoutY="15.0" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="Futures">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="choiceState" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="sortedByStateCurrent" layoutX="218.0" layoutY="39.0" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="193.0" text="En cours" toggleGroup="$choiceState" />
+                  <RadioButton fx:id="sortedByStateEnded" layoutX="218.0" layoutY="67.0" mnemonicParsing="false" onAction="#typeSelected" text="Finies" toggleGroup="$choiceState" />
+                  <RadioButton fx:id="sortedByNote" layoutX="314.0" layoutY="47.0" mnemonicParsing="false" onAction="#typeSelected" prefHeight="26.0" prefWidth="75.0" text="Note">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="choiceOthers" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="sortedByUser" layoutX="314.0" layoutY="26.0" mnemonicParsing="false" onAction="#typeSelected" text="Utilisateur" toggleGroup="$choiceOthers" />
+               </children>
+            </AnchorPane>
             </children>
       </Group>
    </children>
