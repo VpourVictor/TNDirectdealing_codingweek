@@ -83,9 +83,9 @@ public class Main extends Application {
 //            System.out.println(algoUtil.getUserFromMail(post.getAuthorEmail()).getEvaluation());
 //        }
 
-
-
-
+        JsonUtil.getNbApplications();
+        JsonUtil.getNbPosts();
+        JsonUtil.getNbUsers();
 
         primaryStage.setTitle("JavaFx Demo");
 

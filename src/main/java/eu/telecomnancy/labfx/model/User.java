@@ -25,6 +25,9 @@ public class User extends Person {
     @Getter
     @Setter
     private static int nbUsers = 0;
+    @Getter
+    @Setter
+    private static ArrayList<String> emailList = new ArrayList<>();
     private List<Conversation> convs;
 
     public User(String prenom, String nom) {

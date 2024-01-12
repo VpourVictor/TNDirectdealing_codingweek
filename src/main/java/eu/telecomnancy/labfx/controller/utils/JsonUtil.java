@@ -747,6 +747,88 @@ public class JsonUtil {
         }
     }
 
+    public static void getNbApplications(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/applications.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            ApplicationToPost.setNbAppli(json.length());
+            if (ApplicationToPost.getNbAppli() == 0)
+                return;
+
+            for (int i = 1; i <= json.length() ; i++){
+                ApplicationToPost.getListId().add(i);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void getNbPosts(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/posts.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            Post.setNbPosts(json.length());
+            if (Post.getNbPosts() == 0)
+                return;
+
+            for (int i = 1; i <= json.length() ; i++){
+                Post.getListId().add(i);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // faire avec user
+    public static void getNbUsers(){
+        try {
+            InputStream is = new FileInputStream("src/main/resources/json/users.json");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader buffer = new BufferedReader(isr);
+
+            String line = buffer.readLine();
+            StringBuilder builder = new StringBuilder();
+
+            while(line != null){
+                builder.append(line).append("\n");
+                line = buffer.readLine();
+            }
+
+            JSONObject json = new JSONObject(builder.toString());
+            User.setNbUsers(json.length());
+            if (User.getNbUsers() == 0)
+                return;
+            for (int i = 1; i <= json.length() ; i++){
+                // récupérer les mails
+                User.getEmailList().add(json.getJSONObject("user" + i).getString("email"));
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 
