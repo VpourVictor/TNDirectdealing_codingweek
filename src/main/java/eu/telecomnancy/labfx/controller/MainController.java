@@ -432,11 +432,17 @@ public class MainController implements Initializable {
 
             colorizeHexagon(controller.getHexagon(), true);
 
+            if(position == 26){
+                ((ConversationController)controller).setConv(conversation);
+                ((ConversationController)controller).setAndLoad(userMain);
+
+            }
+
             if(position == 0){
                 currentPane = ((HomepageController) controller).getPaneTest();
             }
             if(position == 20) {
-                System.out.println(userMain.getEmail());
+                /*System.out.println(userMain.getEmail());
                 Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
                 Address adresse = new Address(5, "d", 6, "y", "h", "s");
                 User user = new User("test", "test", "test@test.com", "Rezko", "pas", adresse, image);
@@ -451,8 +457,10 @@ public class MainController implements Initializable {
                 users.add(user4);
 
                 JsonUtil.usersToJson(users);
-                User.setNbUsers(4);
+                User.setNbUsers(4);*/
                 ((MessagerieController) controller).setAndLoad(userMain);
+
+
             }
             if(position == 22){
                 if(old_position == 21 || old_position ==24){
@@ -593,26 +601,12 @@ public class MainController implements Initializable {
 
 
             if(position == 20){
-                /*System.out.println(userMain.getEmail());
-                Image image = new Image("file:/C:/Users/ggran/OneDrive/Bureau/Telecom%20Cours/2E%20ANNEE/PCD/PROJET/src/main/resources/pictures/defaultpfp.png");
-                Address adresse = new Address(5,"d",6,"y","h", "s");
-                User user = new User("test", "test", "test@gmail.com", "Rezko", "pas", adresse, image);
-                User user2 = new User("test2", "test2","test2@gmail.com", "Rezko2", "pas", adresse, image);
-                User user3 = new User("test3", "test2","aaa", "Rezko3", "pas", adresse, image);
-                User user4 = new User("test4", "test2","bbb", "Rezko4", "pas", adresse, image);
-                User.setNbUsers(0);
-                ArrayList<User> users = JsonUtil.jsonToUsers();
-                users.add(user);
-                users.add(user2);
-                users.add(user3);
-                users.add(user4);
-                JsonUtil.usersToJson(users);
-                User.setNbUsers(4);*/
                 ((MessagerieController)controller).setAndLoad(userMain);
             }
             if(position == 26){
                 ((ConversationController)controller).setConv(conversation);
                 ((ConversationController)controller).setAndLoad(userMain);
+
             }
             controller.getHexagon().setFill(Color.web("#F08A26"));
 

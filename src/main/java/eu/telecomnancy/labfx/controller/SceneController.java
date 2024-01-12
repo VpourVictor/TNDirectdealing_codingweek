@@ -335,9 +335,8 @@ public class SceneController {
             mainController.setPosition(position);
             mainController.setRoot(root);
             mainController.setUserMain(user);
-            if (conversation != null) {
-                mainController.setConversation(conversation);
-            }
+            mainController.setConversation(conversation);
+
             mainController.teleportation(position);
             mainController.updateHexagon();
             stage.setWidth(width);

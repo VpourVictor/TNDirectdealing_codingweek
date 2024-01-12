@@ -77,6 +77,7 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     public void setAndLoad(User user){
         this.user = user;
+        System.out.println(user.getEmail());
         pseudoText.setText(user.getPseudo());
         mailText.setText(user.getEmail());
         Image image = user.getProfilePicture();
@@ -91,9 +92,11 @@ public class MessagerieController extends HexaSuper implements Initializable {
 
     }
 
-    private void load(){
+    public void load(){
         if (user != null) {
-            List<Conversation> convs = user.getConvs();     //TODO les recups dans le json à la place
+            List<Conversation> convs = JsonUtil.convsOfUser(user);     //TODO les recups dans le json à la place
+            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa   " + convs.size());
+            user.setConvs(convs);
             listcontacts.getChildren().clear();
             for (int i = 0; i < convs.size(); i++) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -115,6 +118,8 @@ public class MessagerieController extends HexaSuper implements Initializable {
             }
         }
     }
+
+
 
     public void supprMessage(ActionEvent event){
         if (!listcontacts.getChildren().isEmpty()) {

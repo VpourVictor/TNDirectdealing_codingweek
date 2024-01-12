@@ -13,7 +13,7 @@ public class Message {
     private String date;
     @Getter
     @Setter
-    private static int nb_msgs = 0;
+    private static int nb_msgs = JsonUtil.recupMsgData().size();
 
     public Message(User sender, User receiver, String content, String date){
         this.sender = sender;

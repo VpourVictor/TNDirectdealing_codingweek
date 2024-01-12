@@ -19,6 +19,19 @@
       <Group layoutX="57.0" layoutY="163.0">
          <children>
             <Polygon fx:id="hexagon" fill="WHITE" layoutX="285.0" layoutY="-123.0" points="20.0, 799.800048828125, 387.20001220703125, 588.5999755859375, 387.199951171875, 170.199951171875, 20.0, -40.39996337890625, -342.79998779296875, 168.800048828125, -342.79998779296875, 588.5999755859375" stroke="#6c2466" strokeType="INSIDE" strokeWidth="30.0" />
+            <ScrollPane fx:id="scroll" layoutX="-28.0" layoutY="63.0" prefHeight="385.0" prefWidth="671.0" stylesheets="@styles.css">
+               <content>
+                  <VBox fx:id="listcontacts" prefHeight="384.0" prefWidth="654.0" spacing="20.0" stylesheets="@styles.css">
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </VBox>
+               </content>
+               <styleClass>
+                  <String fx:value="background" />
+                  <String fx:value="background" />
+               </styleClass>
+            </ScrollPane>
             <HBox alignment="CENTER_LEFT" layoutX="62.0" layoutY="-22.0" prefHeight="85.0" prefWidth="491.0">
                <children>
                   <Label alignment="CENTER" prefHeight="38.0" prefWidth="82.0" text="A" textAlignment="CENTER">
@@ -44,19 +57,6 @@
                   <Bloom />
                </effect>
             </HBox>
-            <ScrollPane layoutX="-28.0" layoutY="63.0" prefHeight="386.0" prefWidth="769.0" stylesheets="@styles.css">
-               <content>
-                  <VBox fx:id="listcontacts" prefHeight="570.0" prefWidth="794.0" spacing="20.0" stylesheets="@styles.css" visible="false">
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
-                  </VBox>
-               </content>
-               <styleClass>
-                  <String fx:value="background" />
-                  <String fx:value="background" />
-               </styleClass>
-            </ScrollPane>
             <Button fx:id="boutonConv" layoutX="229.0" layoutY="461.0" mnemonicParsing="false" onAction="#newConvo" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Nouvelle Conversation" />
             <Button fx:id="boutonMessage" layoutX="229.0" layoutY="510.0" mnemonicParsing="false" onAction="#supprMessage" prefHeight="25.0" prefWidth="157.0" styleClass="combo-box-sobre" stylesheets="@styles.css" text="Supprimer Conversation" />
             <Pane fx:id="panecontact" layoutX="54.0" layoutY="74.0" prefHeight="378.0" prefWidth="503.0" visible="false">

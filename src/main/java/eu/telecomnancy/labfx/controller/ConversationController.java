@@ -105,14 +105,14 @@ public class ConversationController extends HexaSuper implements Initializable {
 
     public void goMenu(ActionEvent event) throws IOException {
         SceneController sc = new SceneController();
-        sc.goBackMessagerie(user, event);
+        sc.goBackMessagerieHexa(user, event);
     }
 
     public void delConv(ActionEvent event) throws IOException {
         user.delConv(conv);
         JsonUtil.delConv(conv);
         SceneController sc = new SceneController();
-        sc.goBackMessagerie(user, event);
+        sc.goBackMessagerieHexa(user, event);
     }
 
     public void sendMsg(ActionEvent event) throws IOException {
