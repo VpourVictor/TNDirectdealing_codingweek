@@ -457,4 +457,21 @@ public class SceneController {
             throw new RuntimeException(e);
         }
     }
+
+    public void goToTB(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/HexagonBoard.fxml"));
+        try {
+            root = loader.load();
+            stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+
+            stage.show();
+
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

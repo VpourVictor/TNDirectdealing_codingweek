@@ -75,7 +75,7 @@ public class SignInController extends HexaSuper implements Initializable {
                     new Alert(Alert.AlertType.CONFIRMATION, "Bon retour parmi nous").showAndWait();
 
                     SceneController sceneController = new SceneController();
-                    sceneController.goToAllPosts(event, JsonUtil.jsonToPosts());
+                    sceneController.goToTB(event);
                 }
             }
 

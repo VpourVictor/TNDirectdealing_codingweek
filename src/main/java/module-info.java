@@ -15,4 +15,6 @@ module eu.telecomnancy.labfx {
     exports eu.telecomnancy.labfx.controller.posts;
     exports eu.telecomnancy.labfx.controller.utils;
     opens eu.telecomnancy.labfx.controller.utils to javafx.fxml;
+    exports eu.telecomnancy.labfx.view;
+    opens eu.telecomnancy.labfx.view to javafx.fxml;
 }

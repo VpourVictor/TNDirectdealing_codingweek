@@ -311,7 +311,15 @@ public class JsonUtil {
         for (int j = 0; j < jsonAppliedPosts.length(); j++) {
             appliedPosts.add(jsonAppliedPosts.getInt(j));
         }
+
+        ArrayList<Integer> postedPosts = new ArrayList<>();
+        JSONArray jsonPostedPosts = author.getJSONArray("posts");
+        for (int j = 0; j < jsonPostedPosts.length(); j++) {
+            postedPosts.add(jsonPostedPosts.getInt(j));
+        }
+
         user.setAppliedToPosts(appliedPosts);
+        user.setPostedPosts(postedPosts);
 
         return user;
     }

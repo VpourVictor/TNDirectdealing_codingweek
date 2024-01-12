@@ -347,6 +347,12 @@ public class PostEditController extends HexaSuper {
                     post.setProviders(personData);
                 }
             }
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
             posts.add(post);
             JsonUtil.postsToJson(posts);
             sceneController.goToOverviewServicePost(event, post);
@@ -373,8 +379,12 @@ public class PostEditController extends HexaSuper {
             }
             posts.add(post);
             JsonUtil.postsToJson(posts);
-/*            System.out.println(post.getIdPost());
-            System.out.println(post.getAuthorEmail());*/
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
             sceneController.goToOverviewToolPost(event, post);
         }
     }
@@ -515,10 +525,15 @@ public class PostEditController extends HexaSuper {
                     post.setStateTool(stateTool.getText());
                 }
             }
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
             posts.add(post);
             JsonUtil.postsToJson(posts);
             sceneController.goToMainValidate(event,23,post);
-            /*sceneController.goToOverviewToolPost(event, post);*/
         }
     }
     public void validateServicePostHexa(ActionEvent event) throws IOException {
@@ -544,6 +559,12 @@ public class PostEditController extends HexaSuper {
                     post.setProviders(personData);
                 }
             }
+            users = JsonUtil.jsonToUsers();
+            for (User user : users){
+                if (user.isConnected())
+                    user.getPostedPosts().add(post.getIdPost());
+            }
+            JsonUtil.usersToJson(users);
             posts.add(post);
             JsonUtil.postsToJson(posts);
             sceneController.goToMainValidate(event,25,post);
