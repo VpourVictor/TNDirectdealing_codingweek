@@ -4,6 +4,9 @@ des personnes de prêter/emprunter du matériel (tondeuse, marteau-piqueur, épl
 etc.) et/ou de proposer/demander des services (réparation d’une fuite d’eau, leçon de piano,
 déménagement, etc.). 
 
+Lien vers la vidéo Youtube non répertoriée : https://youtu.be/zPMtXDyPQHc
+
+
 # Groupe 
 - Victor Levrel 
 - Gabin Granjon
